@@ -1,0 +1,11 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: tie-work.gc
+;; name in dgo: tie-work
+;; dgos: GAME
+
+(define-extern *instance-tie-work* instance-tie-work)
+
+;; DECOMP BEGINS
+

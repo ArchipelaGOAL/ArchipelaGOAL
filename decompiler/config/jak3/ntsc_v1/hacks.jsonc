@@ -1,0 +1,438 @@
+{
+  ////////////////////////////
+  // HACKS and ASM FUNCTIONS
+  ////////////////////////////
+
+  "types_with_bad_inspect_methods": [
+    "game-task-event",
+    "game-task-control",
+    "predator-edge",
+    "manipy"
+  ],
+
+  "no_type_analysis_functions_by_name": [],
+
+  // this limits the number of cases in a cond.  The first argument is the name of the function.
+  // the second argument is the name of the first condition in the cond. Use print_cfg to find it out.
+  // The third argument is the number of cases. If you set it too small it may fail to build the CFG.
+  "cond_with_else_max_lengths": [
+    ["(method 20 res-lump)", "b0", 2],
+    ["(method 11 res-lump)", "b0", 1],
+    ["(method 12 res-lump)", "b0", 1]
+  ],
+
+  // if a cond with an else case is being used a value in a place where it looks wrong
+  // you can add the function name to this list and it will more aggressively reject this rewrite.
+  "aggressively_reject_cond_to_value_rewrite": [
+    "(method 10 res-lump)",
+    "(method 11 res-lump)",
+    "(method 12 res-lump)"
+  ],
+
+  // this provides a hint to the decompiler that these functions will have a lot of inline assembly.
+  // currently it just leaves pcpyld as an asm op.
+  "hint_inline_assembly_functions": [],
+
+  "asm_functions_by_name": [
+    // checking boxed type is different now - these make the cfg stuff sad
+    "name=",
+    "(method 77 grenadier)",
+    "display-list-control",
+    "anim-test-anim-list-handler",
+    "anim-test-sequence-list-handler",
+    "anim-tester-get-playing-item",
+    "start-pilot-recorder",
+    "(anon-function 10 pilot-recorder)",
+    "(anon-function 10 sig-recorder)",
+    // actual asm
+    "quad-copy!",
+    "return-from-thread",
+    "return-from-thread-dead",
+    "reset-and-call",
+    "(method 10 cpu-thread)",
+    "(method 11 cpu-thread)",
+    "(method 0 catch-frame)",
+    "throw-dispatch",
+    "throw",
+    "run-function-in-process",
+    "set-to-run-bootstrap",
+    "return-from-exception",
+    "exp",
+    "(method 17 bounding-box)",
+    "(method 9 bounding-box)",
+    "(method 9 matrix)",
+    "quaternion->matrix-2",
+    "sin-rad",
+    "cos-rad",
+    "atan-series-rad",
+    "sign-float",
+    "dma-count-until-done",
+    "(method 11 collide-mesh-cache)",
+    "cpu-delay",
+    "qword-read-time",
+    "dma-test-func",
+    "move-test-func",
+
+    "symlink2",
+    "blerc-a-fragment",
+    "blerc-execute",
+    "foreground-check-longest-edge-asm",
+    "generic-light-proc",
+    "shadow-add-single-edges",
+    "shadow-add-facing-single-tris",
+    "shadow-add-double-tris",
+    "shadow-add-double-edges",
+    "(method 17 collide-edge-work)",
+    "(method 10 collide-cache-prim)",
+    "(method 17 collide-cache)",
+    "(method 16 ocean)",
+
+    // unknown instructions
+    // logand with #f arg
+    // "bugfix?",
+    // CFG failed
+    "draw-inline-array-instance-shrub",
+
+    "(method 9 editable-region)", // condition branch assert hit
+    "test-to-from-spr",
+    "test-from-spr",
+    "test-to-spr",
+    "test-seq-read",
+    "test-worst-read",
+    "test-seq-write",
+    "test-worst-write",
+    // texture
+    "adgif-shader<-texture!",
+
+    // jak 3
+    "command-get-process",
+    "(anon-function 4 gun-states)",
+    "(method 10 manipulator)",
+    "(method 46 ff-squad-control)",
+    "borrow-city-expansion",
+    "(method 26 level-group)",
+    "(anon-function 65 temple-obs)",
+    "(method 33 task-manager-nest-cocoons)",
+    "(method 33 rub-tower)",
+    "(method 261 crimson-guard)",
+    "(anon-function 25 volcanox-obs)",
+    "find-nearest-entity",
+    "foreground-draw-hud"
+  ],
+
+  // these functions use pairs and the decompiler
+  // will be less picky about types related to pairs.
+  "pair_functions_by_name": [
+    "ref",
+    "ref&",
+    "(method 4 pair)",
+    "last",
+    "member",
+    "nmember",
+    "assoc",
+    "assoce",
+    "nassoc",
+    "nassoce",
+    "append!",
+    "delete!",
+    "delete-car!",
+    "insert-cons!",
+    "sort",
+    "unload-package",
+    "display-loop-main",
+    "lookup-level-info",
+    "(method 24 level-group)",
+    "(method 19 level-group)",
+    // script
+    "command-get-time",
+    "command-get-param",
+    "command-get-quoted-param",
+    "command-get-entity",
+    "(method 9 script-context)",
+    "(anon-function 6 script)",
+    "(anon-function 49 script)",
+    "(anon-function 52 script)",
+    "(anon-function 72 script)",
+    "(anon-function 73 script)",
+    "(anon-function 74 script)",
+    "(anon-function 75 script)",
+    "(anon-function 76 script)",
+    "(anon-function 80 script)",
+    "(method 11 script-context)",
+    "(method 10 script-context)",
+    "command-get-trans",
+    "key-assoc",
+    "(anon-function 0 script)",
+    // default-menu
+    "dm-scene-load-pick-func",
+    "debug-menu-make-continue-sub-menu",
+    "debug-menu-make-from-template",
+    "debug-menu-context-make-default-menus",
+    "debug-menu-make-task-menu",
+    "(method 19 gui-control)",
+    // menu
+    "debug-menu-rebuild",
+    "debug-menu-find-from-template",
+    "debug-menu-render",
+    "debug-menu-context-select-next-or-prev-item",
+    "debug-menu-context-select-new-item",
+    "debug-menu-send-msg",
+    // airlock
+    "(method 24 com-airlock)",
+    "(method 19 gui-control)",
+    "(method 28 editable)",
+    "execute-select",
+    "(method 29 editable)",
+    "(method 25 editable)",
+    // game-info
+    "(method 20 game-info)",
+    "print-continues",
+    // task-control
+    "(anon-function 55 task-control)",
+    "(method 17 load-state)",
+    "(method 12 level)",
+    "bg",
+    "update-sound-banks",
+    "entity-remap-names",
+    "(method 8 process-tree)",
+    "(post play-anim scene-player)",
+    "(method 25 scene-player)",
+    "(method 25 scene-player)",
+    "scene-player-init",
+    "next-continue",
+    "(method 25 warp-gate)",
+    "(code use warp-gate)",
+    "cspace-inspect-tree",
+    "(method 11 mtn-step-plat-rocks-a)",
+    "(method 11 mtn-step-plat-rocks-b)",
+    "(method 11 mtn-step-plat-rocks-c)",
+    "(method 22 fort-floor-spike-b)",
+    "prototypes-game-visible-set!",
+    "(method 22 fort-floor-spike-a)",
+    "(method 22 fort-floor-spike-b)",
+    "(method 22 fort-floor-spike-c)",
+    "(method 11 sew-catwalk)",
+    "(method 11 mtn-aval-rocks)",
+    "(method 11 gar-curtain)"
+  ],
+
+  // If format is used with the wrong number of arguments,
+  // it will often mess up the decompilation, as the decompiler assumes
+  // that they used the correct number.  This will override the decompiler's
+  // automatic detection.
+  "bad_format_strings": {
+    "~170h~5d~220h~5d~280h~5,,2f": 3,
+    "~338h~5d~388h~5d~448h~5,,2f": 3,
+    "~30Htf: ~8D~134Hpr: ~8D~252Hsh: ~8D~370Hhd: ~8D~%": 4,
+    "~30Hal: ~8D~131Hwa: ~8D~252Hsp: ~8D~370Hwp: ~8D~%": 4,
+    "ERROR: <asg> ~A in spool anim loop for ~A ~D, but not loaded.~": 3,
+    // TODO - these should be automatic
+    "  tfrag ~192H~5DK ~280Htfragment~456H~5DK~%": 2,
+    "  tie-proto ~192H~5DK ~280Hsky~456H~5DK~%": 2,
+    "  tie-instance ~192H~5DK ~280Htie-fragment~456H~5DK~%": 2,
+    "  shrub-proto ~192H~5DK ~280Htie-scissor~456H~5DK~%": 2,
+    "  shrub-instance ~192H~5DK ~280Hshrubbery~456H~5DK~%": 2,
+    "  collision ~192H~5DK ~280Htie-generic~456H~5DK~%": 2,
+    "  pris-anim ~192H~5DK ~280Hpris-generic~456H~5DK~%": 2,
+    "  textures ~192H~5DK ~280Htextures~456H~5DK~%": 2,
+    "  misc ~192H~5DK ~280Hsprite~456H~5DK~%": 2,
+    "  entity ~192H~5DK~%": 1,
+    "  pris-geo ~192H~5DK ~280Hpris-fragment~456H~5DK~%": 2,
+    "~33L~S~32L ~S": 2,
+    "~32L~S ~33L~S~1L": 2,
+    "~35L~S~33L ~S": 2,
+    "~1L~S~35L ~S": 2,
+    "~35L~S ~1L~S~1L": 2,
+    "~33L~S~35L ~S": 2,
+    "~33L~C~34L~S~33L~C": 3,
+    "~35L~S ~33L~S~1L": 2,
+    "~33L~S ~35L~S~1L": 2,
+    "~33L~C": 1
+  },
+
+  "blocks_ending_in_asm_branch": {
+    "light-merge!": [1, 2, 3, 5, 7],
+    "bsp-camera-asm": [1, 2, 3, 4, 6, 7],
+    "level-remap-texture": [2, 3, 4, 5, 6],
+    "start-perf-stat-collection": [26],
+    "end-perf-stat-collection": [0],
+
+    "(method 23 gui-control)": [10, 46, 50, 58, 81, 90, 101],
+
+    "find-offending-process-focusable": [16, 19],
+    "(method 19 process-drawable)": [0, 2, 3, 7, 10, 11, 30],
+    "(anon-function 11 game-save)": [0, 3, 4, 5],
+    "(anon-function 3 game-save)": [15, 16],
+    "(anon-function 12 lightjak-wings)": [2, 3],
+    "target-standard-event-handler": [
+      5, 6, 7, 20, 64, 65, 66, 67, 72, 73, 83, 84, 85, 86, 87, 88, 96, 97, 109,
+      264, 265, 282, 283, 284, 290, 291, 306, 336, 350, 351, 412, 415, 427
+    ],
+    "(method 9 curve-color-fast)": [0, 1],
+    "evaluate-color-curve-fast": [0, 1],
+    "(anon-function 0 target-death)": [71, 131, 132, 137],
+    "target-board-handler": [15, 16, 20],
+    "sprite-draw-distorters": [4, 5],
+    "(method 10 simple-sprite-system)": [0],
+    "add-debug-box-with-transform": [0, 3],
+    "add-debug-line-sphere": [0],
+    "bones-mtx-calc-execute": [19, 7],
+    "foreground-draw": [0, 1, 126]
+  },
+
+  // Sometimes the game might use format strings that are fetched dynamically,
+  // for example using the game text lookup method
+  // Add information about those format instructions here.
+  // e.g. "function-name":[[op, argc], [op, argc], ...]
+  // where "op" is the op number for the call to format.
+  "dynamic_format_arg_counts": {
+    "auto-save-post": [[182, 1]]
+  },
+
+  "mips2c_functions_by_name": [
+    "collide-do-primitives",
+    "moving-sphere-triangle-intersect",
+    "calc-animation-from-spr",
+    "draw-string-asm",
+    "draw-string",
+    "get-string-length",
+    "adgif-shader<-texture-with-update!",
+    "init-boundary-regs",
+    "draw-boundary-polygon",
+    "render-boundary-quad",
+    "render-boundary-tri",
+    "clip-polygon-against-negative-hyperplane",
+    "clip-polygon-against-positive-hyperplane",
+    "sp-init-fields!",
+    "particle-adgif",
+    "sp-launch-particles-var",
+    "sparticle-motion-blur",
+    "sp-process-block-2d",
+    "sp-process-block-3d",
+    "set-tex-offset",
+    "draw-large-polygon",
+    "render-sky-quad",
+    "render-sky-tri",
+    "(method 16 sky-work)",
+    "(method 17 sky-work)",
+    "(method 32 sky-work)",
+    "(method 33 sky-work)",
+    // "(method 28 sky-work)",
+    "(method 29 sky-work)",
+    "(method 30 sky-work)",
+    "(method 11 collide-hash)",
+    "(method 12 collide-hash)",
+    "fill-bg-using-box-new",
+    "fill-bg-using-line-sphere-new",
+    "(method 12 collide-mesh)",
+    "(method 11 collide-mesh)",
+    "(method 14 collide-mesh)",
+    "(method 15 collide-mesh)",
+    "(method 10 collide-edge-hold-list)",
+    "(method 19 collide-edge-work)",
+    "(method 9 edge-grab-info)",
+    "(method 16 collide-edge-work)",
+    "(method 17 collide-edge-work)",
+    "(method 18 collide-edge-work)",
+    "draw-large-polygon-ocean",
+    "render-ocean-quad",
+    "init-ocean-far-regs",
+    "(method 14 ocean)",
+    "(method 15 ocean)",
+    "(method 16 ocean)",
+    "(method 18 grid-hash)",
+    "(method 19 grid-hash)",
+    "(method 20 grid-hash)",
+    "(method 22 grid-hash)",
+    "(method 28 sphere-hash)",
+    "(method 33 sphere-hash)",
+    "(method 29 sphere-hash)",
+    "(method 30 sphere-hash)",
+    "(method 31 sphere-hash)",
+    "(method 32 sphere-hash)",
+    "(method 33 spatial-hash)",
+    "(method 39 spatial-hash)",
+    "(method 36 spatial-hash)",
+    "(method 37 spatial-hash)",
+    "(method 35 spatial-hash)",
+    "(method 10 collide-shape-prim-mesh)",
+    "(method 10 collide-shape-prim-sphere)",
+    "(method 10 collide-shape-prim-group)",
+    "(method 11 collide-shape-prim-mesh)",
+    "(method 11 collide-shape-prim-sphere)",
+    "(method 11 collide-shape-prim-group)",
+    "(method 9 collide-cache-prim)",
+    "(method 10 collide-cache-prim)",
+    "(method 17 collide-cache)",
+    "(method 9 collide-puss-work)",
+    "(method 10 collide-puss-work)",
+    "bones-mtx-calc",
+    "foreground-check-longest-edge-asm",
+    "foreground-merc",
+    "add-light-sphere-to-light-group",
+    "light-hash-add-items",
+    "light-hash-count-items",
+    "light-hash-get-bucket-index",
+    // nav-mesh / nav-control related
+    // TODO - it would be nice to eventually figure out the asm blocks for the majority of these
+    "nav-state-patch-pointers",
+    "(method 20 nav-engine)",
+    // "find-closest-circle-ray-intersection",
+    // "(method 18 nav-control)",
+    "nav-dma-send-to-spr-no-flush",
+    "nav-dma-send-from-spr-no-flush",
+    "(method 17 nav-engine)",
+    "(method 18 nav-engine)",
+    "(method 21 nav-engine)",
+    "(method 39 nav-state)",
+    "setup-blerc-chains-for-one-fragment",
+    "blerc-execute",
+    "ripple-create-wave-table",
+    "ripple-execute-init",
+    "ripple-apply-wave-table",
+    "ripple-matrix-scale",
+    "(method 53 squid)",
+    "init-vortex-regs",
+    "render-vortex-quad",
+    "draw-large-polygon-vortex",
+    "foreground-generic-merc",
+    "generic-merc-init-asm",
+    "mercneric-convert",
+    "high-speed-reject",
+    "generic-translucent",
+    "generic-merc-query",
+    "generic-merc-death",
+    "generic-merc-execute-asm",
+    "generic-merc-do-chain",
+    "generic-light-proc",
+    "generic-envmap-proc",
+    "generic-prepare-dma-double",
+    "generic-prepare-dma-single",
+    "generic-warp-source-proc",
+    "generic-warp-dest-proc",
+    "generic-warp-dest",
+    "generic-warp-envmap-dest",
+    "generic-no-light-proc",
+    "(method 21 cloth-system)",
+    "debug-line-clip?"
+  ],
+
+  "mips2c_jump_table_functions": {},
+
+  // there are some missing textures. I don't know what the game actually does here.
+  // the format for entries is [level, tpage, index]
+  "missing_textures": [
+    ["lfac", 0, 0],
+    ["ltow", 0, 0],
+    ["lcit", 0, 0],
+    ["pow", 0, 0],
+    ["wasintro", 0, 0],
+    ["lfacctyb", 0, 0],
+    ["intpfall", 0, 0]
+  ],
+
+  // some object files have garbage pad data at the end which makes the decompiler
+  // assume they must be different files, such as the art group for orb-cache-top.
+  // this just suppresses a message.
+  "expected_merged_objs": []
+}

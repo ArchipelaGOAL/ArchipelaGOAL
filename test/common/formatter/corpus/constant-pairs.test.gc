@@ -1,0 +1,102 @@
+===
+One Pair
+===
+
+(:hello
+
+"world")
+
+---
+
+(:hello "world")
+
+===
+Three Pairs
+===
+
+(:hello
+
+"world" :world 123
+:test 456)
+
+---
+
+(:hello "world" :world 123 :test 456)
+
+===
+Four Pairs
+===
+
+(:hello
+
+"world" :world 123
+:test 456
+:doit 789)
+
+---
+
+(:hello "world"
+ :world 123
+ :test 456
+ :doit 789)
+
+===
+Function Call Pair - Inlinable
+===
+
+(:hello
+
+"world" :world 123
+:test 456
+:not (println "hello world")
+:doit 789)
+
+---
+
+(:hello "world"
+ :world 123
+ :test 456
+ :not (println "hello world")
+ :doit 789)
+
+===
+Function Call Pair - Too Long and Multiline
+===
+
+(:hello
+
+"world" :world 123
+:test 456
+:not (println "hello world" "hello world" "hello world" (println "hello world hello world hello world hello world hello world hello world hello world hello world"))
+:doit 789)
+
+---
+
+(:hello "world"
+ :world 123
+ :test 456
+ :not
+   (println "hello world"
+            "hello world"
+            "hello world"
+            (println "hello world hello world hello world hello world hello world hello world hello world hello world"))
+ :doit 789)
+
+===
+Amibiguous List
+===
+
+(:hello
+
+"world" :world 123
+:test 456
+:not-paired
+:doit 789)
+
+---
+
+(:hello "world"
+ :world 123
+ :test 456
+ :not-paired
+ :doit 789)

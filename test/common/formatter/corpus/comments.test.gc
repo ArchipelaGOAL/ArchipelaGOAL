@@ -1,0 +1,171 @@
+===
+Comment - Top-Level
+===
+
+;; test
+(println "test")
+
+---
+
+;; test
+(println "test")
+
+===
+Comment - Within Form
+===
+
+(println
+    ;; test
+  "test")
+
+---
+
+(println
+  ;; test
+  "test")
+
+
+===
+Comment - Inline
+===
+
+(println "test") ;; test
+
+---
+
+(println "test") ;; test
+
+===
+Block Comment
+===
+
+#|
+  block comment
+  test|#
+
+(println "test")
+
+---
+
+#|
+  block comment
+  test
+|#
+
+(println "test")
+
+===
+Block Comment - Single Line
+===
+
+#|block comment|#
+
+---
+
+#|
+block comment
+|#
+
+===
+Block Comment - Don't Allow Content on Opening Brace
+===
+
+#| block comment
+ test
+|#
+
+(println "test")
+
+---
+
+#|
+ block comment
+ test
+|#
+
+(println "test")
+
+===
+Block Comment - Allow Annotations
+===
+
+#|@file block comment
+ test
+|#
+
+(println "test")
+
+---
+
+#|@file
+ block comment
+ test
+|#
+
+(println "test")
+
+===
+Block Comment - In Form - TODO Improve
+===
+
+(println
+  #| block comment
+ test
+|#
+"test")
+
+---
+
+(println
+  #|
+ block comment
+ test
+|#
+  "test")
+
+===
+At the end of a form
+===
+
+(println
+  "hello world"
+  ;; this is a comment, don't forget the paren!
+  )
+
+---
+
+(println "hello world"
+         ;; this is a comment, don't forget the paren!
+         )
+
+===
+Block at the end of a form - TODO Improve
+===
+
+(println
+  "hello world"
+  #| wow look at that block comment |#
+  )
+
+---
+
+(println "hello world"
+         #|
+ wow look at that block comment
+|#
+         )
+
+===
+Inline at the end of a form - TODO-A handle hanging in this instance better
+===
+
+(println
+  "hello world" ;; this is a comment
+  )
+
+---
+
+(println
+         "hello world" ;; this is a comment
+         )
+

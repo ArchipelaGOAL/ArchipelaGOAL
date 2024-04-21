@@ -1,0 +1,14 @@
+===
+Separate Top Level
+===
+
+(println "test")
+(println "test") (println "test")
+
+---
+
+(println "test")
+
+(println "test")
+
+(println "test")
