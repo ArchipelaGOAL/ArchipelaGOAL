@@ -39,6 +39,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     message(STATUS "Clang Detected - Setting Defaults")
     set(CMAKE_CXX_FLAGS
         "${CMAKE_CXX_FLAGS} \
+        -fmsc-version=1939 \
         -fcxx-exceptions \
         -fexceptions \
         -fdiagnostics-color=always \
@@ -261,11 +262,11 @@ add_subdirectory(third-party/SFML EXCLUDE_FROM_ALL)
 
 # archipelago client dependencies
 include_directories(third-party/json/include)
-include_directories(third-party/valijson/include)
 include_directories(third-party/wswrap/include)
-# include_directories(third-party/openssl/include)
+include_directories(third-party/openssl/include)
 include_directories(third-party/asio/asio/include)
 include_directories(third-party/websocketpp)
+add_compile_definitions(AP_NO_SCHEMA)
 include_directories(third-party/apclientpp)
 
 
@@ -287,6 +288,11 @@ build_third_party_lib(imgui imgui)
 
 # build the game code in C++
 add_subdirectory(game)
+
+# openssl dependency (openssl < asio < apclientpp)
+add_custom_target(openssl COMMAND ./Configure no-apps no-docs && make WORKING_DIRECTORY third-party/openssl)
+add_dependencies(gk openssl)
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LDFLAGS} -L${CMAKE_CURRENT_SOURCE_DIR}/third-party/openssl -lssl -lcrypto")
 
 # build the compiler
 add_subdirectory(goalc)
