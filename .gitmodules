@@ -1,12 +1,10 @@
 [submodule "third-party/apclientpp"]
 	path = third-party/apclientpp
 	url = https://github.com/black-sliver/apclientpp.git
+	branch = next
 [submodule "third-party/json"]
 	path = third-party/json
 	url = https://github.com/nlohmann/json.git
-[submodule "third-party/valijson"]
-	path = third-party/valijson
-	url = https://github.com/tristanpenman/valijson.git
 [submodule "third-party/wswrap"]
 	path = third-party/wswrap
 	url = https://github.com/black-sliver/wswrap.git
@@ -16,3 +14,7 @@
 [submodule "third-party/asio"]
 	path = third-party/asio
 	url = https://github.com/chriskohlhoff/asio.git
+[submodule "third-party/openssl"]
+	path = third-party/openssl
+	url = https://github.com/openssl/openssl.git
+	shallow = true
