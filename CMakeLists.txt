@@ -1,6 +1,8 @@
 # Top Level CMakeLists.txt
 cmake_minimum_required(VERSION 3.12)
 
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
 set(CMAKE_CXX_STANDARD 20)
 project(jak)
 include(CTest)
@@ -305,6 +307,10 @@ build_third_party_lib(xdelta3 xdelta3)
 # discord rich presence
 include_directories(third-party/discord-rpc/include)
 build_third_party_lib(discord-rpc discord-rpc)
+
+# archipelago client dependencies
+add_subdirectory(third-party/json EXCLUDE_FROM_ALL)
+include_directories(third-party/json/include/nlohmann)
 
 # build zydis third party library for disassembling x86
 # TODO - Once under CMake 3.13's policy CMP0077, override with `set()` instead

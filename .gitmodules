@@ -1,0 +1,15 @@
+[submodule "third-party/apclientpp"]
+	path = third-party/apclientpp
+	url = https://github.com/black-sliver/apclientpp.git
+[submodule "third-party/json"]
+	path = third-party/json
+	url = https://github.com/nlohmann/json.git
+[submodule "third-party/valijson"]
+	path = third-party/valijson
+	url = https://github.com/tristanpenman/valijson.git
+[submodule "third-party/wswrap"]
+	path = third-party/wswrap
+	url = https://github.com/black-sliver/wswrap.git
+[submodule "third-party/websocketpp"]
+	path = third-party/websocketpp
+	url = https://github.com/zaphoyd/websocketpp.git
