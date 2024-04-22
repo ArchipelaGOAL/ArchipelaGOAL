@@ -2,4 +2,5 @@
 
 #include "common/versions/versions.h"
 
-#include "third-party/json/include/nlohmann/json.hpp"
+#include "third-party/apclientpp/apclient.hpp"
+#include "third-party/apclientpp/apuuid.hpp"
