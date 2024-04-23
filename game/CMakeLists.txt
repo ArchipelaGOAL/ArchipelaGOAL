@@ -23,6 +23,7 @@ else()
 endif()
 
 set(RUNTIME_SOURCE
+        apclient/apclient.cpp
         external/discord_jak1.cpp
         external/discord_jak2.cpp
         external/discord.cpp
@@ -258,7 +259,7 @@ set(RUNTIME_SOURCE
 add_subdirectory(sound)
 
 # we build the runtime as a static library.
-add_library(runtime STATIC ${RUNTIME_SOURCE} "../third-party/glad/src/glad.c" "apclient/apclient.h" "apclient/apclient.cpp")
+add_library(runtime STATIC ${RUNTIME_SOURCE} "../third-party/glad/src/glad.c")
 
 
 target_link_libraries(runtime common fmt SDL2::SDL2 imgui discord-rpc sound stb_image libco libcurl SFML::Audio)
@@ -269,5 +270,5 @@ else()
     target_link_libraries(runtime pthread dl)
 endif()
 
-add_executable(gk main.cpp "apclient/apclient.h" "apclient/apclient.cpp")
+add_executable(gk main.cpp)
 target_link_libraries(gk runtime)

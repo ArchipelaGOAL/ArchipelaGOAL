@@ -1,5 +1,5 @@
 # Top Level CMakeLists.txt
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.15.0 FATAL_ERROR)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -54,7 +54,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     if(WIN32)
         # Increase the reserved stack size for all threads to 16MB
         # Note: this is only _reserved_ memory, not necessarily _committed_ memory
-        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LDFLAGS} -Xlinker /STACK:16000000")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LDFLAGS} -v -Xlinker /STACK:16000000")
     else()
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -g -Wextra")
     endif()
@@ -261,15 +261,39 @@ add_subdirectory(third-party/SFML EXCLUDE_FROM_ALL)
 #include_directories(third-party/SFML/lib)
 
 # archipelago client dependencies
+add_library(apclientpp INTERFACE)
+
+# openssl dependency (openssl < asio < apclientpp)
+# set(BUILD_OPENSSL ON)
+include(FetchContent)
+FetchContent_Declare(openssl
+    GIT_REPOSITORY https://github.com/viaduck/openssl-cmake.git
+    GIT_TAG v3
+    GIT_PROGRESS TRUE
+)
+FetchContent_MakeAvailable(openssl)
+target_link_libraries(apclientpp INTERFACE -static ssl crypto ssl_lib crypto_lib)
+include_directories(${openssl_BINARY_DIR}/openssl-prefix/src/openssl/usr/local/include)
+target_include_directories(apclientpp INTERFACE ${openssl_BINARY_DIR}/openssl-prefix/src/openssl/usr/local/include)
+add_dependencies(apclientpp openssl)
+
 include_directories(third-party/json/include)
+target_include_directories(apclientpp INTERFACE third-party/json/include)
+
 include_directories(third-party/wswrap/include)
-include_directories(third-party/openssl/include)
-include_directories(third-party/asio/asio/include)
+target_include_directories(apclientpp INTERFACE third-party/wswrap/include)
+
 include_directories(third-party/websocketpp)
-add_compile_definitions(AP_NO_SCHEMA)
+target_include_directories(apclientpp INTERFACE third-party/websocketpp)
+
+add_compile_definitions(ASIO_HAS_STD_INVOKE_RESULT) # Required for asio C++20 compatibility with clang
+add_compile_definitions(ASIO_STANDALONE) # Don't use the boost library version.
+include_directories(third-party/asio/asio/include)
+target_include_directories(apclientpp INTERFACE third-party/asio/asio/include)
+
+add_compile_definitions(AP_NO_SCHEMA) # Avoids dependency on valijson, removes bloat
 include_directories(third-party/apclientpp)
-
-
+target_include_directories(apclientpp INTERFACE third-party/apclientpp)
 
 
 
@@ -288,11 +312,6 @@ build_third_party_lib(imgui imgui)
 
 # build the game code in C++
 add_subdirectory(game)
-
-# openssl dependency (openssl < asio < apclientpp)
-add_custom_target(openssl COMMAND ./Configure no-apps no-docs && make WORKING_DIRECTORY third-party/openssl)
-add_dependencies(gk openssl)
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LDFLAGS} -L${CMAKE_CURRENT_SOURCE_DIR}/third-party/openssl -lssl -lcrypto")
 
 # build the compiler
 add_subdirectory(goalc)
