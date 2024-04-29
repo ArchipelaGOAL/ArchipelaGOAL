@@ -1,0 +1,19 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+(define *ap-info-jak1* (new 'static 'ap-info-jak1))
+;; Init arrays
+(set! (-> *ap-info-jak1* cells) (new 'static 'boxed-array :type uint32 :length 101))
+(set! (-> *ap-info-jak1* buzzers) (new 'static 'boxed-array :type uint32 :length 112))
+;; Setup markers
+(charp<-string (-> *ap-info-jak1* end-marker) "end")
+
+(defun ap-flag-cell-checked! ((cell-id uint))
+  (set! (-> *ap-info-jak1* cells (-> *ap-info-jak1* next-cell-index)) cell-id)
+  (+! (-> *ap-info-jak1* next-cell-index) 1.0)
+  )
+
+(defun ap-flag-buzzer-checked! ((buzzer-id uint))
+  (set! (-> *ap-info-jak1* buzzers (-> *ap-info-jak1* next-buzzer-index)) buzzer-id)
+  (+! (-> *ap-info-jak1* next-buzzer-index) 1.0)
+  )

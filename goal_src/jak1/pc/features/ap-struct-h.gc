@@ -1,0 +1,17 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; This is a copy of the ap struct, with mostly the same info,
+;; but with additonal fields for the unique objects we need to track.
+(deftype ap-info-jak1 (structure)
+  (
+    (next-cell-index uint)
+    (next-buzzer-index uint)
+    (cells (array uint32))
+    (buzzers (array uint32))
+    (end-marker uint8 4) ;; end marker just to make things look nice in a memory view
+  )) 
+
+(define-extern *ap-info-jak1* ap-info-jak1)
+(define-extern ap-flag-cell-checked! (function uint uint))
+(define-extern ap-flag-buzzer-checked! (function uint uint))
