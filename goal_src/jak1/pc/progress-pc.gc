@@ -113,6 +113,7 @@
     (new 'static 'game-option :option-type (game-option-type menu) :name (text-id load-game) :scale #t :param3 (game-option-menu load-game))
     (new 'static 'game-option :option-type (game-option-type menu) :name (text-id save-game) :scale #t :param3 (game-option-menu save-game))
     (new 'static 'game-option :option-type (game-option-type menu) :name (text-id disable-auto-save) :scale #t :param3 (game-option-menu memcard-disable-auto-save))
+    (new 'static 'game-option :option-type (game-option-type menu) :name (text-id warp-to-home) :scale #t :param3 (game-option-menu warp-to-home))
     (new 'static 'game-option :option-type (game-option-type menu) :name (text-id quit-game) :scale #t :param3 (game-option-menu quit))
     (new 'static 'game-option :option-type (game-option-type button) :name (text-id back) :scale #t)
     )
@@ -126,6 +127,7 @@
     (new 'static 'game-option :option-type (game-option-type menu) :name (text-id save-game) :scale #t :param3 (game-option-menu save-game))
     (new 'static 'game-option :option-type (game-option-type menu) :name (text-id disable-auto-save) :scale #t :param3 (game-option-menu memcard-disable-auto-save))
     (new 'static 'game-option :option-type (game-option-type menu) :name (text-id secrets) :scale #t :param3 (game-option-menu secrets))
+    (new 'static 'game-option :option-type (game-option-type menu) :name (text-id warp-to-home) :scale #t :param3 (game-option-menu warp-to-home))
     (new 'static 'game-option :option-type (game-option-type menu) :name (text-id quit-game) :scale #t :param3 (game-option-menu quit))
     (new 'static 'game-option :option-type (game-option-type button) :name (text-id back) :scale #t)
     )
@@ -927,6 +929,7 @@
   (set! (-> *options-remap* (progress-screen speedrun-options))           *speedrun-options*)
   (set! (-> *options-remap* (progress-screen speedrun-il-options))        *speedrun-il-options*)
   (set! (-> *options-remap* (progress-screen speedrun-cat-ext-options))   *speedrun-cat-ext-options*)
+  (set! (-> *options-remap* (progress-screen warp-to-home))               *yes-no-options*)
 
   ;; set default params
   (set! (-> *progress-state* aspect-ratio-choice) (get-aspect-ratio))
@@ -2041,6 +2044,20 @@
              (set! (-> obj next-display-state) (progress-screen invalid))
              )
            )
+          (((progress-screen warp-to-home))
+           (cond
+             ((-> *progress-state* yes-no-choice)
+              (sound-play "menu-close")
+              (set! (-> *game-info* mode) 'play)
+              (set! (-> *game-info* current-continue) (get-continue-by-name *game-info* "game-start"))
+              (initialize! *game-info* 'die (the-as game-save #f) "game-start")
+              )
+             (else
+               (sound-play "cursor-options")
+               (set! (-> obj next-display-state) (progress-screen invalid))
+               )
+             )
+           )
           (((progress-screen quit))
            (cond
              ((-> *progress-state* yes-no-choice)
@@ -2115,6 +2132,28 @@
   (none)
   )
 
+(defmethod draw-warp-to-home ((this progress) (arg0 font-context))
+  (set! (-> arg0 origin x) (the float (- 50 (-> this left-x-offset))))
+  (set! (-> arg0 origin y) 70.0)
+  (let ((v1-2 arg0))
+    (set! (-> v1-2 scale) 0.6)
+    )
+  (let ((v1-3 arg0))
+    (set! (-> v1-3 width) (the float 300))
+    )
+  (let ((v1-4 arg0))
+    (set! (-> v1-4 height) (the float 40))
+    )
+  (set! (-> arg0 flags) (font-flags shadow kerning middle middle-vert large))
+  (print-game-text-scaled
+    (lookup-text! *common-text* (text-id warp-to-home-confirm) #f)
+    (-> this transition-percentage-invert)
+    arg0
+    128
+    )
+  0
+  (none)
+  )
 
 (defmethod draw-options progress ((obj progress) (arg0 int) (arg1 int) (arg2 float))
   "common logic for drawing options menus."
@@ -2687,6 +2726,9 @@
         (((progress-screen bad-disc))
          (draw-bad-disc obj a1-1)
          )
+        (((progress-screen warp-to-home))
+         (draw-warp-to-home obj a1-1)
+         )
         (((progress-screen quit) (progress-screen quit-title))
          (draw-quit obj a1-1)
          )
@@ -2831,6 +2873,10 @@
          (if (is-cd-in?)
              (draw-options self 170 0 0.82)
              )
+         )
+        (((progress-screen warp-to-home))
+         (draw-notice-screen self)
+         (draw-options self 110 0 0.82)
          )
         (((progress-screen quit)
           (progress-screen quit-title)
@@ -3058,6 +3104,7 @@
                (= v1-74 (progress-screen quit-title))
                (= v1-74 (progress-screen memcard-auto-save-disabled))
                (= v1-74 (progress-screen memcard-disable-auto-save))
+               (= v1-74 (progress-screen warp-to-home))
                )
            (respond-memcard self)
            )

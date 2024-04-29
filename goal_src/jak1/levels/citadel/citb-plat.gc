@@ -332,9 +332,9 @@
   )
 
 (defmethod citb-base-plat-method-24 ((this citb-stair-plat))
-  (if (and (task-complete? *game-info* (game-task citadel-sage-blue))
-           (task-complete? *game-info* (game-task citadel-sage-red))
-           (task-complete? *game-info* (game-task citadel-sage-yellow))
+  (if (and (ap-special-received? (the-as uint (game-task citadel-sage-blue)))
+           (ap-special-received? (the-as uint (game-task citadel-sage-red)))
+           (ap-special-received? (the-as uint (game-task citadel-sage-yellow)))
            )
       (go (method-of-object this citb-base-plat-active))
       (go (method-of-object this citb-base-plat-idle))

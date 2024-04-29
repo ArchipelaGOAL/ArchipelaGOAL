@@ -87,6 +87,8 @@
   "shadow-cpu-h.o"
   "shadow-vu1-h.o"
   "memcard-h.o"
+  "ap-struct-h.o" ;; added
+  "ap-struct.o" ;; added
   "game-info-h.o"
   "wind-h.o"
   "prototype-h.o"

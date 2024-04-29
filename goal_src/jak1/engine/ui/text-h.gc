@@ -833,6 +833,8 @@
   (pad-circle #x2001)
   (pad-x #x2002)
   (pad-square #x2003)
+  (warp-to-home #x2004)
+  (warp-to-home-confirm #x2005)
 ;; GAME-TEXT-ID ENUM ENDS
   )
 

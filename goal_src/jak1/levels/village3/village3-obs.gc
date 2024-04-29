@@ -155,10 +155,20 @@
           (cond
             ((not (or s4-1 (task-closed? (game-task village3-button) (task-status need-hint))))
              )
-            ((and (< (the int (-> *game-info* fuel)) (+ s3-0 2)) (< (the int (-> *game-info* fuel)) 71) (not s4-1))
-             (level-hint-spawn (text-id gondola-need-cells) "asstvb75" (the-as entity #f) *entity-pool* (game-task none))
+            ;; make the gondola a location check with a corresponding item required for unlock.
+            ;; reuse village3-button for this purpose.
+            ((and (not (ap-special-received? (the-as uint (game-task village3-button)))) (not s4-1))
+              (if (not (ap-special-checked? (the-as uint (game-task village3-button))))
+                  (ap-special-checked! (the-as uint (game-task village3-button)))
+                  )
+              ;; keira tells you the gondola is broken, come back later.
+              (level-hint-spawn (text-id gondola-need-cells) "asstvb75" (the-as entity #f) *entity-pool* (game-task none))
              )
             (else
+              (if (not (ap-special-checked? (the-as uint (game-task village3-button))))
+                  (ap-special-checked! (the-as uint (game-task village3-button)))
+                  )
+              ;; keira tells you the gondola is working again.
               (level-hint-spawn (text-id gondola-enough-cells) "asstvb76" (the-as entity #f) *entity-pool* (game-task none))
               (let ((s4-3 (new 'stack-no-clear 'event-message-block)))
                 (set! (-> s4-3 from) self)
