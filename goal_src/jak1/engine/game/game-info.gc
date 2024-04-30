@@ -396,15 +396,9 @@
          (set! (-> this fuel-cell-deaths) 0)
          (set-time! (-> this fuel-cell-pickup-time))
          (set-time! (-> this fuel-cell-time s5-1))
-         ;; increment power cells!
-         ;; (+! (-> this fuel) 1.0)
-         ;; mark as completed
-         ;; (logior! (-> this task-perm-list data s5-1 status) (entity-perm-status real-complete))
          ;; unused.
          (get-task-control (the-as game-task s5-1))
-         ;; close the task!
-         ;; (close-specific-task! (the-as game-task s5-1) (task-status need-resolution))
-         ;; update the ap struct!
+         ;; only update the ap struct!
          (ap-flag-cell-checked! (the-as uint s5-1))
          )
        )
@@ -413,7 +407,8 @@
     (('buzzer)
      ;; got a scout fly. In this case, the amount is actually two 16 bit numbers
      ;; the lower 16 bits are the task, and the upper is which buzzer
-     (let ((buzz-task (logand (the int amount) #xffff))
+     (let ((buzzer-id (the int amount))
+           (buzz-task (logand (the int amount) #xffff))
            (buzz-index (sar (the int amount) 16))
            (buzz-count 0.0)
            )
@@ -425,23 +420,26 @@
            (when (and (>= buzz-index 0) (< buzz-index (the int (-> *FACT-bank* buzzer-max-default))))
              ;; valid fly index
 
+             ;; only update the ap struct!
+             (ap-flag-buzzer-checked! (the-as uint buzzer-id))
+
              ;; increment total if we haven't collected it before
-             (if (not (logtest? buzz-bits (ash 1 buzz-index)))
-                 (+! (-> this buzzer-total) 1.0)
-                 )
+             ;;(if (not (logtest? buzz-bits (ash 1 buzz-index)))
+             ;;    (+! (-> this buzzer-total) 1.0)
+             ;;    )
 
              ;; set the updated bits
-             (let ((t9-10 (method-of-object ctrl save-reminder)))
-               (set! buzz-bits (logior buzz-bits (ash 1 buzz-index)))
-               (t9-10 ctrl buzz-bits 0)
-               )
-             )
+             ;;(let ((t9-10 (method-of-object ctrl save-reminder)))
+             ;;     (set! buzz-bits (logior buzz-bits (ash 1 buzz-index)))
+             ;;     (t9-10 ctrl buzz-bits 0)
+             ;;     )
+             ;;)
 
            ;; recompute the total count
-           (countdown (v1-58 (the int (-> *FACT-bank* buzzer-max-default)))
-             (if (logtest? buzz-bits (ash 1 v1-58))
-                 (set! buzz-count (+ 1.0 buzz-count))
-                 )
+           ;;(countdown (v1-58 (the int (-> *FACT-bank* buzzer-max-default)))
+           ;;  (if (logtest? buzz-bits (ash 1 v1-58))
+           ;;      (set! buzz-count (+ 1.0 buzz-count))
+           ;;      )
              )
            )
          )

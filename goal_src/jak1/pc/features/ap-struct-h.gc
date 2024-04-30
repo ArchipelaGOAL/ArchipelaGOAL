@@ -7,8 +7,8 @@
   (
     (next-cell-index uint)
     (next-buzzer-index uint)
-    (cells (array uint32))
-    (buzzers (array uint32))
+    (cells uint32 101)
+    (buzzers uint32 112)
     (end-marker uint8 4) ;; end marker just to make things look nice in a memory view
   )) 
 
