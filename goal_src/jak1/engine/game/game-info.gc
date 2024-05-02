@@ -396,10 +396,16 @@
          (set! (-> this fuel-cell-deaths) 0)
          (set-time! (-> this fuel-cell-pickup-time))
          (set-time! (-> this fuel-cell-time s5-1))
+         ;; DO NOT increment power cells!
+         ;;(+! (-> this fuel) 1.0)
+         ;; mark as completed
+         (logior! (-> this task-perm-list data s5-1 status) (entity-perm-status real-complete))
          ;; unused.
          (get-task-control (the-as game-task s5-1))
-         ;; only update the ap struct!
-         (ap-flag-cell-checked! (the-as uint s5-1))
+         ;; close the task!
+         (close-specific-task! (the-as game-task s5-1) (task-status need-resolution))
+         ;; update the ap struct!
+         (ap-cell-checked! (the-as uint s5-1))
          )
        )
      (-> this fuel)
@@ -421,7 +427,7 @@
              ;; valid fly index
 
              ;; only update the ap struct!
-             (ap-flag-buzzer-checked! (the-as uint buzzer-id))
+             (ap-buzzer-checked! (the-as uint buzzer-id))
 
              ;; increment total if we haven't collected it before
              ;;(if (not (logtest? buzz-bits (ash 1 buzz-index)))
@@ -501,7 +507,7 @@
      ;; got a power cell!
      ;; in this case, the amount is actually the index of the power cell's task
      (let ((s5-1 (the int amount)))
-       (when (not (or (task-complete? this (the-as game-task s5-1)) (>= (the-as uint 1) (the-as uint s5-1))))
+       (when (not (or (ap-cell-received? (the-as uint s5-1)) (>= (the-as uint 1) (the-as uint s5-1))))
          ;; the cell corresponds to a valid and previously incomplete task.
          ;; update our stats
          (set! (-> this fuel-cell-deaths) 0)
@@ -509,12 +515,14 @@
          (set-time! (-> this fuel-cell-time s5-1))
          ;; increment power cells!
          (+! (-> this fuel) 1.0)
-         ;; mark as completed
-         (logior! (-> this task-perm-list data s5-1 status) (entity-perm-status real-complete))
+         ;; DO NOT mark as completed
+         ;;(logior! (-> this task-perm-list data s5-1 status) (entity-perm-status real-complete))
          ;; unused.
          (get-task-control (the-as game-task s5-1))
-         ;; close the task!
-         (close-specific-task! (the-as game-task s5-1) (task-status need-resolution))
+         ;; DO NOT close the task!
+         ;;(close-specific-task! (the-as game-task s5-1) (task-status need-resolution))
+         ;; update the ap struct!
+         (ap-cell-received! (the-as uint s5-1))
          )
        )
      (-> this fuel)

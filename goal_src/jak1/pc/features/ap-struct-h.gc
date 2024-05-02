@@ -7,11 +7,14 @@
   (
     (next-cell-index uint)
     (next-buzzer-index uint)
-    (cells uint32 101)
-    (buzzers uint32 112)
+    (cells-checked uint32 101)
+    (buzzers-checked uint32 112)
+    (cells-received uint8 116)
     (end-marker uint8 4) ;; end marker just to make things look nice in a memory view
   )) 
 
 (define-extern *ap-info-jak1* ap-info-jak1)
-(define-extern ap-flag-cell-checked! (function uint uint))
-(define-extern ap-flag-buzzer-checked! (function uint uint))
+(define-extern ap-cell-checked! (function uint uint))
+(define-extern ap-buzzer-checked! (function uint uint))
+(define-extern ap-cell-received! (function uint uint))
+(define-extern ap-cell-received? (function uint symbol))
