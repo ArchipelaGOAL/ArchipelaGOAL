@@ -1121,7 +1121,7 @@
       (set! (-> this sound)
             (new 'process 'ambient-sound (static-sound-spec "chamber-move" :fo-min 300 :fo-max 400) (-> this root trans))
             )
-      (when (not (task-complete? *game-info* (game-task sunken-room)))
+      (when (not (ap-cell-received? (the-as uint (game-task sunken-room))))
         (let ((a0-40 (new 'stack-no-clear 'vector)))
           (if s2-0
               (set! (-> a0-40 quad) (-> (&+ s3-1 64) vector 0 quad))

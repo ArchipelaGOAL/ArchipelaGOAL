@@ -16,7 +16,7 @@
 
 
 (defmethod can-activate? ((this jungle-elevator))
-  (and ((method-of-type plat-button can-activate?) this) (task-complete? *game-info* (game-task jungle-tower)))
+  (and ((method-of-type plat-button can-activate?) this) (ap-cell-received? (the-as uint (game-task jungle-tower))))
   )
 
 (defstate plat-button-move-downward (jungle-elevator)
