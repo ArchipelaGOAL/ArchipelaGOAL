@@ -194,7 +194,7 @@
 
 (defstate helix-button-startup (helix-button)
   :code (behavior ()
-    (when (not (ap-cell-received? (the-as uint (game-task sunken-slide))))
+    (when (not (task-complete? *game-info* (game-task sunken-slide)))
       (let ((a0-1 (new 'stack-no-clear 'vector)))
         (set! (-> a0-1 quad) (-> self root trans quad))
         (+! (-> a0-1 y) 30720.0)

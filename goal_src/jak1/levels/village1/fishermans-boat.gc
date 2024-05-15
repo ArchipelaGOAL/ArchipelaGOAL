@@ -815,7 +815,7 @@
 (defbehavior fishermans-boat-leave-dock? fishermans-boat ()
   (let ((gp-0 #f))
     (when (and (< (vector-vector-distance (target-pos 0) (-> self rbody position)) 6144.0)
-               (or (ap-cell-received? (the-as uint (game-task jungle-fishgame))) (and *cheat-mode* (cpad-hold? 0 l3)))
+               (or (ap-special-received? (the-as uint (game-task jungle-fishgame))) (and *cheat-mode* (cpad-hold? 0 l3)))
                (not (level-hint-displayed?))
                (time-elapsed? (-> self state-time) (seconds 3))
                (file-status *art-control* (-> self anim name) 0)

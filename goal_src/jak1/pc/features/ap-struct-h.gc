@@ -7,14 +7,35 @@
   (
     (next-cell-index uint)
     (next-buzzer-index uint)
+    (next-special-index uint)
+
     (cells-checked uint32 101)
     (buzzers-checked uint32 112)
-    (cells-received uint8 116)
-    (end-marker uint8 4) ;; end marker just to make things look nice in a memory view
+    (specials-checked uint32 32) ;; we don't use all 32, but they are there for future use.
+
+    (buzzers-received uint8 16)
+    (specials-received uint8 32) ;; we don't use all 32, but they are there for future use.
+    
+    (end-marker uint8 4) ;; end marker just to make things look nice in a memory view.
   )) 
 
 (define-extern *ap-info-jak1* ap-info-jak1)
+
+;; These functions add the entity's ID to the corresponding array
+;; so that AP knows what we checked in-game.
 (define-extern ap-cell-checked! (function uint uint))
 (define-extern ap-buzzer-checked! (function uint uint))
-(define-extern ap-cell-received! (function uint uint))
-(define-extern ap-cell-received? (function uint symbol))
+(define-extern ap-special-checked! (function uint uint))
+
+;; There's no ap-cell-received functions becuse we would just be tracking
+;; the count of a single number. *game-info* is doing that already.
+
+;; These functions handle buzzers, receiving them, counting them, etc.
+(define-extern ap-buzzer-received! (function uint uint uint))
+(define-extern ap-buzzer-specific-7? (function uint symbol))
+(define-extern ap-buzzer-progressive-7? (function symbol))
+
+;; These functions handle the specific game-tasks that unlock parts of the game.
+;; Fisherman's boat, flut flut, etc. Receiving them, checking them, etc.
+(define-extern ap-special-received! (function uint uint))
+(define-extern ap-special-received? (function uint symbol))

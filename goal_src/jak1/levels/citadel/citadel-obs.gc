@@ -1330,9 +1330,9 @@
   :event (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
     (case message
       (('trigger)
-       (when (and (ap-cell-received? (the-as uint (game-task citadel-sage-blue)))
-                  (ap-cell-received? (the-as uint (game-task citadel-sage-red)))
-                  (ap-cell-received? (the-as uint (game-task citadel-sage-yellow)))
+       (when (and (ap-special-received? (the-as uint (game-task citadel-sage-blue)))
+                  (ap-special-received? (the-as uint (game-task citadel-sage-red)))
+                  (ap-special-received? (the-as uint (game-task citadel-sage-yellow)))
                   )
          (logclear! (-> self mask) (process-mask actor-pause))
          (go citadelcam-stair-plats)

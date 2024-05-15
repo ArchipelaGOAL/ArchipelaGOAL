@@ -59,6 +59,7 @@
   (fuel-cell)
   (eco-pill)
   (buzzer)
+  (ap-special)
   (eco-pill-random)
   )
 

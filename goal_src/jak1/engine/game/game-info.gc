@@ -392,20 +392,40 @@
      (let ((s5-1 (the int amount)))
        (when (not (or (task-complete? this (the-as game-task s5-1)) (>= (the-as uint 1) (the-as uint s5-1))))
          ;; the cell corresponds to a valid and previously incomplete task.
+
          ;; update our stats
          (set! (-> this fuel-cell-deaths) 0)
          (set-time! (-> this fuel-cell-pickup-time))
          (set-time! (-> this fuel-cell-time s5-1))
+
          ;; DO NOT increment power cells!
          ;;(+! (-> this fuel) 1.0)
+
          ;; mark as completed
          (logior! (-> this task-perm-list data s5-1 status) (entity-perm-status real-complete))
+
          ;; unused.
-         (get-task-control (the-as game-task s5-1))
-         ;; close the task!
+         ;;(get-task-control (the-as game-task s5-1))
+
+         ;; close the task
          (close-specific-task! (the-as game-task s5-1) (task-status need-resolution))
-         ;; update the ap struct!
+
+         ;; update the ap struct
          (ap-cell-checked! (the-as uint s5-1))
+
+         ;; Did we get one of the special power cells? Don't need a separate event, just update the struct.
+         ;;(cond
+         ;;   ((= (the-as uint s5-1) 5)  (ap-special-checked! (the-as uint s5-1)))
+         ;;   ((= (the-as uint s5-1) 4)  (ap-special-checked! (the-as uint s5-1)))
+         ;;   ((= (the-as uint s5-1) 2)  (ap-special-checked! (the-as uint s5-1)))
+         ;;   ((= (the-as uint s5-1) 17) (ap-special-checked! (the-as uint s5-1)))
+         ;;   ((= (the-as uint s5-1) 60) (ap-special-checked! (the-as uint s5-1)))
+         ;;   ((= (the-as uint s5-1) 63) (ap-special-checked! (the-as uint s5-1)))
+         ;;   ((= (the-as uint s5-1) 71) (ap-special-checked! (the-as uint s5-1)))
+         ;;   ((= (the-as uint s5-1) 72) (ap-special-checked! (the-as uint s5-1)))
+         ;;   ((= (the-as uint s5-1) 73) (ap-special-checked! (the-as uint s5-1)))
+         ;;   ((= (the-as uint s5-1) 70) (ap-special-checked! (the-as uint s5-1)))
+         ;;   )
          )
        )
      (-> this fuel)
@@ -426,26 +446,14 @@
            (when (and (>= buzz-index 0) (< buzz-index (the int (-> *FACT-bank* buzzer-max-default))))
              ;; valid fly index
 
-             ;; only update the ap struct!
+             ;; update the ap struct
              (ap-buzzer-checked! (the-as uint buzzer-id))
 
-             ;; increment total if we haven't collected it before
-             ;;(if (not (logtest? buzz-bits (ash 1 buzz-index)))
-             ;;    (+! (-> this buzzer-total) 1.0)
-             ;;    )
-
              ;; set the updated bits
-             ;;(let ((t9-10 (method-of-object ctrl save-reminder)))
-             ;;     (set! buzz-bits (logior buzz-bits (ash 1 buzz-index)))
-             ;;     (t9-10 ctrl buzz-bits 0)
-             ;;     )
-             ;;)
-
-           ;; recompute the total count
-           ;;(countdown (v1-58 (the int (-> *FACT-bank* buzzer-max-default)))
-           ;;  (if (logtest? buzz-bits (ash 1 v1-58))
-           ;;      (set! buzz-count (+ 1.0 buzz-count))
-           ;;      )
+             (let ((t9-10 (method-of-object ctrl save-reminder)))
+                  (set! buzz-bits (logior buzz-bits (ash 1 buzz-index)))
+                  (t9-10 ctrl buzz-bits 0)
+                  )
              )
            )
          )
@@ -459,7 +467,7 @@
   "Adjust the number of items by amount."
   (case item
     (('life)
-     ;; get/lose a life, just modify the life field
+     ;; get/lose a life, just modify the life field, may be useful for deathlink in the future
      (if (>= amount 0.0)
          (seek! (-> this life) (-> this life-max) amount)
          (seek! (-> this life) 0.0 (- amount))
@@ -467,6 +475,7 @@
      (-> this life)
      )
     (('money)
+    ;; got a precursor orb, vanilla logic for now.
      (if (and (< 0.0 amount) (= (+ (-> this money) amount) (-> *GAME-bank* money-task-inc)))
          ;; got enough orbs to trade, display a hint
          (level-hint-spawn
@@ -505,32 +514,18 @@
      )
     (('fuel-cell)
      ;; got a power cell!
-     ;; in this case, the amount is actually the index of the power cell's task
+     ;; in this case, the amount is NOT the index of the power cell. it's just a generic, id-less, game-task-less cell.
      (let ((s5-1 (the int amount)))
-       (when (not (or (ap-cell-received? (the-as uint s5-1)) (>= (the-as uint 1) (the-as uint s5-1))))
-         ;; the cell corresponds to a valid and previously incomplete task.
-         ;; update our stats
-         (set! (-> this fuel-cell-deaths) 0)
-         (set-time! (-> this fuel-cell-pickup-time))
-         (set-time! (-> this fuel-cell-time s5-1))
-         ;; increment power cells!
-         (+! (-> this fuel) 1.0)
-         ;; DO NOT mark as completed
-         ;;(logior! (-> this task-perm-list data s5-1 status) (entity-perm-status real-complete))
-         ;; unused.
-         (get-task-control (the-as game-task s5-1))
-         ;; DO NOT close the task!
-         ;;(close-specific-task! (the-as game-task s5-1) (task-status need-resolution))
-         ;; update the ap struct!
-         (ap-cell-received! (the-as uint s5-1))
-         )
-       )
+        ;; The ony thing we need to do is increment power cells by 1.
+        (+! (-> this fuel) 1.0)
+        )
      (-> this fuel)
      )
     (('buzzer)
      ;; got a scout fly. In this case, the amount is actually two 16 bit numbers
      ;; the lower 16 bits are the task, and the upper is which buzzer
-     (let ((buzz-task (logand (the int amount) #xffff))
+     (let ((buzzer-id (the int amount))
+           (buzz-task (logand (the int amount) #xffff))
            (buzz-index (sar (the int amount) 16))
            (buzz-count 0.0)
            )
@@ -539,31 +534,37 @@
          (let* ((ctrl (get-task-control (the-as game-task buzz-task)))
                 (buzz-bits (get-reminder ctrl 0)) ;; the currently collected flies
                 )
-           (when (and (>= buzz-index 0) (< buzz-index (the int (-> *FACT-bank* buzzer-max-default))))
-             ;; valid fly index
+            ;; valid fly index, update the global count
+            (+! (-> this buzzer-total) 1.0)
 
-             ;; increment total if we haven't collected it before
-             (if (not (logtest? buzz-bits (ash 1 buzz-index)))
-                 (+! (-> this buzzer-total) 1.0)
-                 )
+            ;; need to update the struct so we can check whether we have enough for a power cell.
+            (ap-buzzer-received! (the-as uint buzz-task) (the-as uint buzz-index))
 
-             ;; set the updated bits
-             (let ((t9-10 (method-of-object ctrl save-reminder)))
-               (set! buzz-bits (logior buzz-bits (ash 1 buzz-index)))
-               (t9-10 ctrl buzz-bits 0)
-               )
-             )
+            ;; count to 7
+            (if (and (nonzero? buzz-task)
+                     (ap-buzzer-specific-7? (the-as uint buzz-task)))
 
-           ;; recompute the total count
-           (countdown (v1-58 (the int (-> *FACT-bank* buzzer-max-default)))
-             (if (logtest? buzz-bits (ash 1 v1-58))
-                 (set! buzz-count (+ 1.0 buzz-count))
-                 )
-             )
-           )
+                ;; this will trigger another archipelago check!
+                (close-specific-task! (the-as game-task buzz-task) (task-status need-resolution))
+                (send-event *target* 'get-pickup (pickup-type fuel-cell) (the-as float buzz-task))
+                )
+            
+            ;; recompute the local count
+            (set! buzz-count (+ 1.0 buzz-count))
+            )
          )
        buzz-count
        )
+     )
+    (('ap-special)
+     ;; got a unique, specific unlock!
+     ;; in this case, the amount is actually the index of the power cell's task
+     (let ((s5-1 (the int amount)))
+          ;; The ony thing we need to do is to update the ap-info-jak1 struct
+          ;; so that logic elsewhere can check that we received a special unlock.
+          (ap-special-received! (the-as uint s5-1))
+       )
+     (-> this fuel)
      )
     )
   )
@@ -931,20 +932,8 @@
      (ap-adjust (-> (the-as target (-> this process)) game) 'money amount source-handle)
      )
     (((pickup-type fuel-cell))
+     ;; power cell
      ;; the amount is actually the index of the task.
-     (let ((s4-2 (the int amount)))
-       (when (not (or (task-complete? (-> (the-as target (-> this process)) game) (the-as game-task s4-2))
-                    (>= (the-as uint 1) (the-as uint s4-2))
-                    )
-                )
-           ;; og:preserve-this
-           (#when PC_PORT
-            ;; make sure any speedrun display is hidden
-            (hide-speedrun-display)
-            )
-           (set-time! (-> this fuel-cell-pickup-time))
-           )
-       )
      (ap-adjust (-> (the-as target (-> this process)) game) 'fuel-cell amount source-handle)
      )
     (((pickup-type buzzer))
@@ -962,8 +951,13 @@
        )
      (-> this buzzer)
      )
+    (((pickup-type ap-special))
+     ;; special check for archipelago
+     ;; the amount is actually the index of the task.
+     (ap-adjust (-> (the-as target (-> this process)) game) 'ap-special amount source-handle)
+     )
     (else
-      ((method-of-type fact-info ap-pickup-collectable!) this kind amount source-handle)
+      0.0 ;; don't call ap-pickup-collectable! on any other item type, just return 0.
       )
     )
   )
