@@ -32,6 +32,7 @@
 
 ;; These functions handle buzzers, receiving them, counting them, etc.
 (define-extern ap-buzzer-received! (function uint uint uint))
+(define-extern ap-buzzer-count (function uint uint))
 (define-extern ap-buzzer-specific-7? (function uint symbol))
 (define-extern ap-buzzer-progressive-7? (function symbol))
 

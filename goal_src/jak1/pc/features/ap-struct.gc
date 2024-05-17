@@ -59,7 +59,7 @@
 ;; These will be indexed like game-tasks, so make sure we check the right index!
 ;; These are the levels' buzz-tasks in the same order as defined by the archipelago
 ;; locations lists.
-(defun ap-buzzer-specific-7? ((buzz-task uint))
+(defun ap-buzzer-count ((buzz-task uint))
   (let* ((level-index (cond
                         ((= buzz-task 95) 0)
                         ((= buzz-task 75) 1)
@@ -79,8 +79,15 @@
                         ((= buzz-task 91) 15)
                       ))
         )
-        (= (-> *ap-info-jak1* buzzers-received level-index) 7)
+        (-> *ap-info-jak1* buzzers-received level-index)
         )
+  )
+
+;; These will be indexed like game-tasks, so make sure we check the right index!
+;; These are the levels' buzz-tasks in the same order as defined by the archipelago
+;; locations lists.
+(defun ap-buzzer-specific-7? ((buzz-task uint))
+  (= (ap-buzzer-count buzz-task) 7)
   )
 
 ;; Whereas specific-7 checks that you received all 7 buzzers for a single level,

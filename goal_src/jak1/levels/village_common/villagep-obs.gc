@@ -492,12 +492,11 @@
        )
       ((= v1-2 (game-task training-door))
        (cond
-         (;;(and (task-complete? *game-info* (game-task training-door))
-          ;;     (task-complete? *game-info* (game-task training-gimmie))
-          ;;     (task-complete? *game-info* (game-task training-climb))
-          ;;     (task-complete? *game-info* (game-task training-buzzer))
-          ;;     )
-          (>= (the int (the float (send-event *target* 'query 'pickup (pickup-type fuel-cell)))) 4)
+         ((and (task-complete? *game-info* (game-task training-door))
+               (task-complete? *game-info* (game-task training-gimmie))
+               (task-complete? *game-info* (game-task training-climb))
+               ;; (task-complete? *game-info* (game-task training-buzzer)) ;; handled separately.
+               )
           #t
           )
          (else
@@ -661,12 +660,11 @@
     (when (time-elapsed? (-> self state-time) (seconds 60))
       (case (-> self entity extra perm task)
         (((game-task training-door))
-         (when ;;(and (task-complete? *game-info* (game-task training-door))
-               ;;     (task-complete? *game-info* (game-task training-gimmie))
-               ;;     (task-complete? *game-info* (game-task training-climb))
-               ;;     (task-complete? *game-info* (game-task training-buzzer))
-               ;;     )
-               (>= (the int (the float (send-event *target* 'query 'pickup (pickup-type fuel-cell)))) 4)
+         (when (and (task-complete? *game-info* (game-task training-door))
+                    (task-complete? *game-info* (game-task training-gimmie))
+                    (task-complete? *game-info* (game-task training-climb))
+                    ;; (task-complete? *game-info* (game-task training-buzzer)) ;; handled separately.
+                    )
            (level-hint-spawn
              (text-id training-warp-gate-reminder)
              "sagevb39"

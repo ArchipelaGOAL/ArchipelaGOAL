@@ -414,18 +414,18 @@
          (ap-cell-checked! (the-as uint s5-1))
 
          ;; Did we get one of the special power cells? Don't need a separate event, just update the struct.
-         ;;(cond
-         ;;   ((= (the-as uint s5-1) 5)  (ap-special-checked! (the-as uint s5-1)))
-         ;;   ((= (the-as uint s5-1) 4)  (ap-special-checked! (the-as uint s5-1)))
-         ;;   ((= (the-as uint s5-1) 2)  (ap-special-checked! (the-as uint s5-1)))
-         ;;   ((= (the-as uint s5-1) 17) (ap-special-checked! (the-as uint s5-1)))
-         ;;   ((= (the-as uint s5-1) 60) (ap-special-checked! (the-as uint s5-1)))
-         ;;   ((= (the-as uint s5-1) 63) (ap-special-checked! (the-as uint s5-1)))
-         ;;   ((= (the-as uint s5-1) 71) (ap-special-checked! (the-as uint s5-1)))
-         ;;   ((= (the-as uint s5-1) 72) (ap-special-checked! (the-as uint s5-1)))
-         ;;   ((= (the-as uint s5-1) 73) (ap-special-checked! (the-as uint s5-1)))
-         ;;   ((= (the-as uint s5-1) 70) (ap-special-checked! (the-as uint s5-1)))
-         ;;   )
+         (cond
+            ((= (the-as uint s5-1) 5)  (ap-special-checked! (the-as uint s5-1)))
+            ((= (the-as uint s5-1) 4)  (ap-special-checked! (the-as uint s5-1)))
+            ((= (the-as uint s5-1) 2)  (ap-special-checked! (the-as uint s5-1)))
+            ((= (the-as uint s5-1) 17) (ap-special-checked! (the-as uint s5-1)))
+            ((= (the-as uint s5-1) 60) (ap-special-checked! (the-as uint s5-1)))
+            ((= (the-as uint s5-1) 63) (ap-special-checked! (the-as uint s5-1)))
+            ((= (the-as uint s5-1) 71) (ap-special-checked! (the-as uint s5-1)))
+            ((= (the-as uint s5-1) 72) (ap-special-checked! (the-as uint s5-1)))
+            ((= (the-as uint s5-1) 73) (ap-special-checked! (the-as uint s5-1)))
+            ((= (the-as uint s5-1) 70) (ap-special-checked! (the-as uint s5-1)))
+            )
          )
        )
      (-> this fuel)
@@ -541,16 +541,16 @@
             (ap-buzzer-received! (the-as uint buzz-task) (the-as uint buzz-index))
 
             ;; count to 7
-            (if (and (nonzero? buzz-task)
-                     (ap-buzzer-specific-7? (the-as uint buzz-task)))
+            (when (and (> (the-as uint buzz-task) 0)
+                       (ap-buzzer-specific-7? (the-as uint buzz-task)))
 
                 ;; this will trigger another archipelago check!
                 (close-specific-task! (the-as game-task buzz-task) (task-status need-resolution))
-                (send-event *target* 'get-pickup (pickup-type fuel-cell) (the-as float buzz-task))
+                (ap-cell-checked! (the-as uint buzz-task))
                 )
             
             ;; recompute the local count
-            (set! buzz-count (+ 1.0 buzz-count))
+            (set! buzz-count (the-as float (ap-buzzer-count (the-as uint buzz-task))))
             )
          )
        buzz-count
