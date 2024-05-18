@@ -1398,7 +1398,7 @@
     )
   (transform-post)
   (set! (-> this orig-trans quad) (-> this root trans quad))
-  (let ((s5-2 (ap-special-received? (the-as uint (game-task snow-ball)))))
+  (let ((s5-2 (task-complete? *game-info* (game-task snow-ball))))
     (set! (-> this pressed?) s5-2)
     (when (not s5-2)
       (let ((a0-17 (new 'stack-no-clear 'vector)))
