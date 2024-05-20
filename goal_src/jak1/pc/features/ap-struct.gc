@@ -10,82 +10,63 @@
 
 ;; These don't need to be indexed like they are game-tasks.
 ;; We can just take them first-come-first-serve.
+
 (defun ap-cell-checked! ((cell-id uint))
   (set! (-> *ap-info-jak1* cells-checked (-> *ap-info-jak1* next-cell-index)) cell-id)
   (+! (-> *ap-info-jak1* next-cell-index) 1.0)
   )
 
-;; These don't need to be indexed like they are game-tasks.
-;; We can just take them first-come-first-serve.
 (defun ap-buzzer-checked! ((buzzer-id uint))
   (set! (-> *ap-info-jak1* buzzers-checked (-> *ap-info-jak1* next-buzzer-index)) buzzer-id)
   (+! (-> *ap-info-jak1* next-buzzer-index) 1.0)
   )
 
-;; These don't need to be indexed like they are game-tasks.
-;; We can just take them first-come-first-serve.
 (defun ap-special-checked! ((special-id uint))
   (set! (-> *ap-info-jak1* specials-checked (-> *ap-info-jak1* next-special-index)) special-id)
   (+! (-> *ap-info-jak1* next-special-index) 1.0)
   )
 
+(defun ap-special-checked? ((special-id uint))
+  (dotimes (i (-> *ap-info-jak1* next-special-index))
+    (when (= special-id (-> *ap-info-jak1* specials-checked i))
+      ;;???
+      )
+    )
+  )
+
 ;; These will be indexed like game-tasks, so make sure we set the right index!
+
 ;; These are the levels' buzz-tasks in the same order as defined by the archipelago
 ;; locations lists.
+(defun ap-buzzer-task-to-index ((buzz-task uint))
+  (cond
+    ((= buzz-task 95) (the-as uint  0))
+    ((= buzz-task 75) (the-as uint  1))
+    ((= buzz-task 7)  (the-as uint  2))
+    ((= buzz-task 20) (the-as uint  3))
+    ((= buzz-task 28) (the-as uint  4))
+    ((= buzz-task 68) (the-as uint  5))
+    ((= buzz-task 76) (the-as uint  6))
+    ((= buzz-task 57) (the-as uint  7))
+    ((= buzz-task 49) (the-as uint  8))
+    ((= buzz-task 43) (the-as uint  9))
+    ((= buzz-task 88) (the-as uint 10))
+    ((= buzz-task 77) (the-as uint 11))
+    ((= buzz-task 85) (the-as uint 12))
+    ((= buzz-task 65) (the-as uint 13))
+    ((= buzz-task 90) (the-as uint 14))
+    ((= buzz-task 91) (the-as uint 15))
+    )
+  )
+
 (defun ap-buzzer-received! ((buzz-task uint) (buzz-index uint))
-  (let* ((level-index (cond
-                        ((= buzz-task 95) 0)
-                        ((= buzz-task 75) 1)
-                        ((= buzz-task 7)  2)
-                        ((= buzz-task 20) 3)
-                        ((= buzz-task 28) 4)
-                        ((= buzz-task 68) 5)
-                        ((= buzz-task 76) 6)
-                        ((= buzz-task 57) 7)
-                        ((= buzz-task 49) 8)
-                        ((= buzz-task 43) 9)
-                        ((= buzz-task 88) 10)
-                        ((= buzz-task 77) 11)
-                        ((= buzz-task 85) 12)
-                        ((= buzz-task 65) 13)
-                        ((= buzz-task 90) 14)
-                        ((= buzz-task 91) 15)
-                      ))
-        )
-        (+! (-> *ap-info-jak1* buzzers-received level-index) 1.0)
-        )
+  (+! (-> *ap-info-jak1* buzzers-received (ap-buzzer-task-to-index buzz-task)) 1.0)
   )
 
-;; These will be indexed like game-tasks, so make sure we check the right index!
-;; These are the levels' buzz-tasks in the same order as defined by the archipelago
-;; locations lists.
 (defun ap-buzzer-count ((buzz-task uint))
-  (let* ((level-index (cond
-                        ((= buzz-task 95) 0)
-                        ((= buzz-task 75) 1)
-                        ((= buzz-task 7)  2)
-                        ((= buzz-task 20) 3)
-                        ((= buzz-task 28) 4)
-                        ((= buzz-task 68) 5)
-                        ((= buzz-task 76) 6)
-                        ((= buzz-task 57) 7)
-                        ((= buzz-task 49) 8)
-                        ((= buzz-task 43) 9)
-                        ((= buzz-task 88) 10)
-                        ((= buzz-task 77) 11)
-                        ((= buzz-task 85) 12)
-                        ((= buzz-task 65) 13)
-                        ((= buzz-task 90) 14)
-                        ((= buzz-task 91) 15)
-                      ))
-        )
-        (-> *ap-info-jak1* buzzers-received level-index)
-        )
+  (-> *ap-info-jak1* buzzers-received (ap-buzzer-task-to-index buzz-task))
   )
 
-;; These will be indexed like game-tasks, so make sure we check the right index!
-;; These are the levels' buzz-tasks in the same order as defined by the archipelago
-;; locations lists.
 (defun ap-buzzer-specific-7? ((buzz-task uint))
   (= (ap-buzzer-count buzz-task) 7)
   )
@@ -105,40 +86,27 @@
 
 ;; These are the game-tasks in the same order as defined by the archipelago
 ;; special location list.
-(defun ap-special-received! ((special-id uint))
-  (let* ((special-index (cond
-                          ((= special-id 5)  0)
-                          ((= special-id 4)  1)
-                          ((= special-id 2)  2)
-                          ((= special-id 17) 3)
-                          ((= special-id 60) 4)
-                          ((= special-id 63) 5)
-                          ((= special-id 71) 6)
-                          ((= special-id 72) 7)
-                          ((= special-id 73) 8)
-                          ((= special-id 70) 9)
-                        ))
-        )
-        (+! (-> *ap-info-jak1* specials-received special-index) 1)
-        )
+(defun ap-special-task-to-index ((special-id uint))
+  (cond
+    ((= special-id 5)   (the-as uint  0))
+    ((= special-id 4)   (the-as uint  1))
+    ((= special-id 2)   (the-as uint  2))
+    ((= special-id 17)  (the-as uint  3))
+    ((= special-id 33)  (the-as uint  4))
+    ((= special-id 105) (the-as uint  5)) ;; Reusing village3-button for the gondola.
+    ((= special-id 60)  (the-as uint  6))
+    ((= special-id 63)  (the-as uint  7))
+    ((= special-id 71)  (the-as uint  8))
+    ((= special-id 72)  (the-as uint  9))
+    ((= special-id 73)  (the-as uint 10))
+    ((= special-id 70)  (the-as uint 11))
+    )
   )
 
-;; These are the game-tasks in the same order as defined by the archipelago
-;; special location list.
+(defun ap-special-received! ((special-id uint))
+  (+! (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) 1.0)
+  )
+
 (defun ap-special-received? ((special-id uint))
-  (let* ((special-index (cond
-                          ((= special-id 5)  0)
-                          ((= special-id 4)  1)
-                          ((= special-id 2)  2)
-                          ((= special-id 17) 3)
-                          ((= special-id 60) 4)
-                          ((= special-id 63) 5)
-                          ((= special-id 71) 6)
-                          ((= special-id 72) 7)
-                          ((= special-id 73) 8)
-                          ((= special-id 70) 9)
-                        ))
-        )
-        (= (-> *ap-info-jak1* specials-received special-index) 1)
-        )
+  (= (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) 1)
   )

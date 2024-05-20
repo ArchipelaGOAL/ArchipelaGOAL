@@ -100,7 +100,8 @@
     (restore-collide-with-as (-> self root-overlay))
     )
   :trans (behavior ()
-    (if (task-closed? (the-as game-task (-> self task)) (task-status need-resolution))
+    ;; the "finished" pontoons are the only hidden ones, and we should make them "rigid."
+    (if (ap-special-received? (the-as uint (game-task village2-warrior-money)))
         (go-virtual rigid-body-platform-idle)
         )
     )
@@ -131,6 +132,17 @@
         )
       )
     )
+  :code (behavior ()
+    ;; added code hook to handle the "unfinished" pontoons, and we should make them "die."
+    (loop
+      (if (and (nonzero? (-> self alt-task))
+               (ap-special-received? (the-as uint (game-task village2-warrior-money)))
+               )
+          (go pontoon-die)
+          )
+      (suspend)
+      )
+    )
   )
 
 (defstate rigid-body-platform-idle (pontoon)
@@ -143,8 +155,21 @@
        )
       )
     )
+  :code (behavior ()
+    ;; added code hook to handle the "unfinished" pontoons, and we should make them "die."
+    (loop
+      (if (and (nonzero? (-> self alt-task))
+               (ap-special-received? (the-as uint (game-task village2-warrior-money)))
+               )
+          (go pontoon-die)
+          )
+      (suspend)
+      )
+    )
   )
 
+;; redo the pontoon bridge to act more like 
+;; the fisherman's boat and the snowy mountain gondola.
 (defmethod init-from-entity! ((this pontoon) (arg0 entity-actor))
   (logior! (-> this mask) (process-mask platform))
   (rigid-body-platform-method-30 this)
@@ -156,14 +181,14 @@
   (set! (-> this alt-task) (res-lump-value arg0 'alt-task uint))
   (cond
     ((and (nonzero? (-> this alt-task))
-          (task-closed? (the-as game-task (-> this alt-task)) (task-status need-resolution))
+          (ap-special-received? (the-as uint (game-task village2-warrior-money)))
           )
      (go pontoon-die)
      )
     ((zero? (-> this task))
      (go (method-of-object this rigid-body-platform-idle))
      )
-    ((task-closed? (the-as game-task (-> this task)) (task-status need-resolution))
+    ((ap-special-received? (the-as uint (game-task village2-warrior-money)))
      (go (method-of-object this rigid-body-platform-idle))
      )
     (else

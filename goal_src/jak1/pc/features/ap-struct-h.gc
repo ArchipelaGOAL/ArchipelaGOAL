@@ -26,17 +26,20 @@
 (define-extern ap-cell-checked! (function uint uint))
 (define-extern ap-buzzer-checked! (function uint uint))
 (define-extern ap-special-checked! (function uint uint))
+(define-extern ap-special-checked? (function uint symbol))
 
 ;; There's no ap-cell-received functions becuse we would just be tracking
 ;; the count of a single number. *game-info* is doing that already.
 
 ;; These functions handle buzzers, receiving them, counting them, etc.
-(define-extern ap-buzzer-received! (function uint uint uint))
+(define-extern ap-buzzer-task-to-index (function uint uint))
 (define-extern ap-buzzer-count (function uint uint))
+(define-extern ap-buzzer-received! (function uint uint uint))
 (define-extern ap-buzzer-specific-7? (function uint symbol))
 (define-extern ap-buzzer-progressive-7? (function symbol))
 
 ;; These functions handle the specific game-tasks that unlock parts of the game.
 ;; Fisherman's boat, flut flut, etc. Receiving them, checking them, etc.
+(define-extern ap-special-task-to-index (function uint uint))
 (define-extern ap-special-received! (function uint uint))
 (define-extern ap-special-received? (function uint symbol))

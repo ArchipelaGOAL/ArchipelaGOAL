@@ -63,6 +63,8 @@
     (case (current-status (-> this tasks))
       (((task-status need-hint) (task-status need-introduction))
        (if arg0
+           ;; on first contact with warrior, check pontoon bridge.
+           (ap-special-checked! (the-as uint (game-task village2-warrior-money))) 
            (close-status! (-> this tasks) (task-status need-introduction))
            )
        (new 'static 'spool-anim
