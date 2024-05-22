@@ -1,0 +1,45 @@
+# Github Actions script used to build ArchipelaGOAL on Linux
+# LICENSE: MIT
+name: ArchipelaGOAL build
+
+on: [push]
+
+jobs:
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event"
+      - run: echo "Checkout the branch ${{ github.ref }} of the repository ${{ github.repository }}..."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: git submodule update --init
+      - run: echo "Checkout done."
+      - run: echo "Instaling development package..."
+      - run: sudo apt-get update
+      - run: sudo apt-get install build-essential cmake curl g++ nasm clang-format libxrandr-dev libxinerama-dev libxcursor-dev libpulse-dev libxi-dev python libgl1-mesa-dev libssl-dev
+      - run: echo "Developpement package installed..."
+      - run: echo "Compiling..."
+      - run: |
+          mkdir ${{ github.workspace }}/build
+          cd ${{ github.workspace }}/build
+          cmake -DCMAKE_BUILD_TYPE=Release ..
+          make
+      - run: echo "Compiling done."
+      - run: echo "Build standard packaging."
+      - run: |
+          cd ${{ github.workspace }}
+          mkdir Releases
+          cp -p game/gk Releases/
+          cp -p decompiler/decompiler Releases/
+          cp -p decompiler/extractor Releases/
+          cp -p goalc/goalc Releases/
+          cp -p lsp/lsp Releases/
+          cd Releases
+          tar cfz archipelagoal_linux.tar.gz gk decompiler extractor goalc lsp
+          rm gk decompiler extractor goalc lsp
+      - name: 'Upload artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Release-Linux-artefact
+          path: ${{ github.workspace }}/Releases
+          retention-days: 1
