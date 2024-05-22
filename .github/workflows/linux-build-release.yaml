@@ -29,6 +29,7 @@ jobs:
       - run: |
           cd ${{ github.workspace }}
           mkdir Releases
+          ls
           cp -p game/gk Releases/
           cp -p decompiler/decompiler Releases/
           cp -p decompiler/extractor Releases/
