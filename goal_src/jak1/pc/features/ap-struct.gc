@@ -27,10 +27,13 @@
   )
 
 (defun ap-special-checked? ((special-id uint))
-  (dotimes (i (-> *ap-info-jak1* next-special-index))
-    (when (= special-id (-> *ap-info-jak1* specials-checked i))
-      ;;???
+  (let ((checked #f))
+    (dotimes (i (-> *ap-info-jak1* next-special-index))
+      (when (= special-id (-> *ap-info-jak1* specials-checked i))
+        (set! checked #t)
+        )
       )
+    checked
     )
   )
 
