@@ -34,6 +34,7 @@ jobs:
           cp -p build/decompiler/decompiler Releases/
           cp -p build/decompiler/extractor Releases/
           cp -p build/goalc/goalc Releases/
+          cp -p build/goalc/goalc-simple Releases/
           cp -p build/lsp/lsp Releases/
           cd Releases
           tar cfz archipelagoal_linux.tar.gz gk decompiler extractor goalc lsp
