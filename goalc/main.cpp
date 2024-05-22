@@ -157,6 +157,7 @@ int main(int argc, char** argv) {
             status = compiler->handle_repl_string(resp.value());
             // Print out the prompt, just for better UX
             compiler->print_to_repl(compiler->get_prompt());
+            repl_server.reply_all_ack();
           }
           std::this_thread::sleep_for(std::chrono::microseconds(50000));
         }

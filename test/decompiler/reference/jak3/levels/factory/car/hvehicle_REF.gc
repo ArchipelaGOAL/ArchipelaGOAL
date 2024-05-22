@@ -296,7 +296,6 @@
       )
     )
   ((method-of-type vehicle rigid-body-object-method-30) this)
-  (none)
   )
 
 ;; definition for method 54 of type hvehicle
@@ -518,7 +517,7 @@
 
 ;; definition for method 91 of type hvehicle
 ;; WARN: Return type mismatch int vs none.
-(defmethod control-hook-player ((this hvehicle) (arg0 vehicle-controls))
+(defmethod control-hook-player ((this hvehicle))
   (let ((gp-0 (new 'stack-no-clear 'vehicle-controls)))
     (mem-set32! (&-> gp-0 steering) 6 0)
     (cond
@@ -1098,7 +1097,7 @@
                                                                         (damage f0-11)
                                                                         (vehicle-damage-factor 1.0)
                                                                         (vehicle-impulse-factor 1.0)
-                                                                        (attacker (process->handle (vehicle-method-68 this)))
+                                                                        (attacker (process->handle (find-rider this)))
                                                                         (mode 'vehicle)
                                                                         (vector (-> s5-0 force))
                                                                         (penetrate-using (penetrate vehicle))
@@ -1334,7 +1333,3 @@
       )
     )
   )
-
-
-
-

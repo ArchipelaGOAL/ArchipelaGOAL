@@ -46,11 +46,13 @@
 (declare-type editable-player process)
 (define-extern *editable* (pointer editable-player))
 
-;; temporarily forward declared as symbols
-(define-extern *cty-faction-manager* symbol)
-(define-extern *cty-attack-controller* symbol)
-(set! *cty-faction-manager* #f)
-(set! *cty-attack-controller* #f)
+(declare-type mission-squad-control basic)
+(declare-type cty-attack-controller mission-squad-control)
+(declare-type cty-faction-manager basic)
+(define-extern *cty-faction-manager* cty-faction-manager)
+(define-extern *cty-attack-controller* cty-attack-controller)
+(set! *cty-faction-manager* (the cty-faction-manager #f))
+(set! *cty-attack-controller* (the cty-attack-controller #f))
 
 (define-extern cty-attack-reset (function symbol symbol symbol none))
 (define-extern setup-city-task-faction (function object))
@@ -78,7 +80,8 @@
 
 ;; DECOMP BEGINS
 
-(defun-debug game-task->string ((task game-task))
+;; og:preserve-this removed from debug segment
+(defun game-task->string ((task game-task))
   (case task
     (((game-task sewer-hum-kg))
      "sewer-hum-kg"
@@ -1458,7 +1461,7 @@
    (text-name            text-id)
    (pre-play-node        game-task-node)
    (kiosk-play-node      game-task-node)
-   (pre-play-continue    object)
+   (pre-play-continue    string)
    (play-node            game-task-node)
    (play-continue        string)
    (kiosk-play-continue  object)

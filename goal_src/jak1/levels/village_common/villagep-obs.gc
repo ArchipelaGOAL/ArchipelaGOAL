@@ -495,7 +495,7 @@
          ((and (task-complete? *game-info* (game-task training-door))
                (task-complete? *game-info* (game-task training-gimmie))
                (task-complete? *game-info* (game-task training-climb))
-               (task-complete? *game-info* (game-task training-buzzer))
+               ;; (task-complete? *game-info* (game-task training-buzzer)) ;; handled separately.
                )
           #t
           )
@@ -663,7 +663,7 @@
          (when (and (task-complete? *game-info* (game-task training-door))
                     (task-complete? *game-info* (game-task training-gimmie))
                     (task-complete? *game-info* (game-task training-climb))
-                    (task-complete? *game-info* (game-task training-buzzer))
+                    ;; (task-complete? *game-info* (game-task training-buzzer)) ;; handled separately.
                     )
            (level-hint-spawn
              (text-id training-warp-gate-reminder)

@@ -90,6 +90,8 @@
    (fast-progress? symbol)
    (minimap-force-north   symbol)
 
+   (fix-projectile-focus  symbol)
+
    ;(stats   statistics)
 
    ;; gfx
@@ -122,7 +124,8 @@
    (cutscene? symbol)
    (time-of-day float)
    (percent-complete float)
-   (focus-status uint32)
+   (focus-status uint64)
+   (current-vehicle int32)
    (task string) ;; currenly active game-task used for mission specific images
    )
   )
@@ -140,6 +143,7 @@
   (true! (-> obj fast-airlock?))
   (true! (-> obj fast-elevator?))
   (false! (-> obj fast-progress?))
+  (true! (-> obj fix-projectile-focus))
   (true! (-> obj smooth-minimap?))
   (false! (-> obj minimap-force-north))
   (false! (-> obj hires-clouds?))

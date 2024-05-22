@@ -4,6 +4,7 @@
 ;; definition of type target
 (deftype target (process-focusable)
   ((self                         target           :override)
+   (ppointer                     (pointer target) :override)
    (fact                         fact-info-target :override)
    (control                      control-info      :overlay-at root)
    (skel2                        joint-control)
@@ -291,7 +292,7 @@
     target-swim-stance
     target-swim-up
     target-swim-walk
-    target-title
+    (target-title symbol)
     target-tube
     (target-tube-death symbol)
     (target-tube-hit symbol attack-info)

@@ -358,7 +358,7 @@ int InitMachine() {
   // TODO - better place to put this?
   // TODO - yes, see jak2's code!
   g_auto_splitter_block_jak1.pointer_to_symbol =
-      (u64)g_ee_main_mem + intern_from_c("*autosplit-info-jak1*")->value;
+      (u64)g_ee_main_mem + intern_from_c("*ap-info-jak1*")->value;
 
   lg::info("InitListenerConnect");
   InitListenerConnect();

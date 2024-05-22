@@ -186,6 +186,7 @@
   (:methods
     (initialize! (_type_ symbol game-save string) _type_)
     (adjust (_type_ symbol float handle) float)
+    (ap-adjust (_type_ symbol float handle) float)
     (task-complete? (_type_ game-task) symbol)
     (lookup-entity-perm-by-aid (_type_ actor-id) entity-perm)
     (get-entity-task-perm (_type_ game-task) entity-perm)

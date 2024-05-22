@@ -1737,13 +1737,18 @@
 
 (goal-src "pc/features/speedruns-h.gc")
 
+(goal-src "pc/features/ap-struct-h.gc")
+(goal-src "pc/features/ap-struct.gc" "ap-struct-h")
+
 (goal-src-sequence
  ;; prefix
  "engine/"
 
  :deps
  ("$OUT/obj/settings-h.o"
-  "$OUT/obj/speedruns-h.o")
+  "$OUT/obj/speedruns-h.o"
+  "$OUT/obj/ap-struct-h.o"
+  )
 
  "util/capture.gc"
  "debug/memory-usage-h.gc"

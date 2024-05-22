@@ -1021,7 +1021,7 @@
     (set! (-> s5-1 frame-num) 0.0)
     )
   (cond
-    ((task-complete? *game-info* (game-task snow-ball))
+    ((ap-special-received? (the-as uint (game-task snow-ball)))
      (set! (-> this root trans quad) (-> this open-trans quad))
      (transform-post)
      (go snow-fort-gate-idle-open)

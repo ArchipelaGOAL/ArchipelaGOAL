@@ -59,6 +59,7 @@
   (fuel-cell)
   (eco-pill)
   (buzzer)
+  (ap-special)
   (eco-pill-random)
   )
 
@@ -110,6 +111,7 @@
     (drop-pickup (_type_ symbol process-tree fact-info int) (pointer process))
     (reset! (_type_ symbol) none)
     (pickup-collectable! (_type_ pickup-type float handle) float)
+    (ap-pickup-collectable! (_type_ pickup-type float handle) float)
     )
   )
 
