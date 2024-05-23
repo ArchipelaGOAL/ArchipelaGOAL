@@ -36,8 +36,14 @@ jobs:
           cp -p build/goalc/goalc Releases/
           cp -p build/goalc/goalc-simple Releases/
           cp -p build/lsp/lsp Releases/
+          mkdir -p Releases/data/decompiler
+          cp -rp goal_src Releases/data/
+          cp -rp custom_levels Releases/data/
+          cp -rp decompiler/config  Releases/data/decompiler
+          cp -rp game Releases/data/
+          cp -rp graphics Releases/data/
           cd Releases
-          tar cfz archipelagoal_linux.tar.gz gk decompiler extractor goalc lsp
+          tar cfz archipelagoal_linux.tar.gz gk decompiler extractor goalc lsp data
           rm gk decompiler extractor goalc lsp
       - name: 'Upload artifact'
         uses: actions/upload-artifact@v4
