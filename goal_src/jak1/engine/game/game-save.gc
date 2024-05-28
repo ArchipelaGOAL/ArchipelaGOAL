@@ -890,7 +890,7 @@
          (set! (-> this buzzer-total) (-> data user-float0))
          )
         (((game-save-elt fuel-cell))
-         (set! (-> this fuel) (-> data user-float0))
+         (set! (-> this fuel) 0.0)
          )
         (((game-save-elt death-movie-tick))
          (set! (-> this death-movie-tick) (the-as int (-> data user-uint64)))

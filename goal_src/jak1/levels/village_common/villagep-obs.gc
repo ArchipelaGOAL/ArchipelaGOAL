@@ -492,10 +492,11 @@
        )
       ((= v1-2 (game-task training-door))
        (cond
-         ((and (task-complete? *game-info* (game-task training-door))
-               (task-complete? *game-info* (game-task training-gimmie))
-               (task-complete? *game-info* (game-task training-climb))
-               ;; (task-complete? *game-info* (game-task training-buzzer)) ;; handled separately.
+         ((and #t #t ;; make available immediately.
+               ;; (task-complete? *game-info* (game-task training-door))
+               ;; (task-complete? *game-info* (game-task training-gimmie))
+               ;; (task-complete? *game-info* (game-task training-climb))
+               ;; (task-complete? *game-info* (game-task training-buzzer)) 
                )
           #t
           )
@@ -660,10 +661,11 @@
     (when (time-elapsed? (-> self state-time) (seconds 60))
       (case (-> self entity extra perm task)
         (((game-task training-door))
-         (when (and (task-complete? *game-info* (game-task training-door))
-                    (task-complete? *game-info* (game-task training-gimmie))
-                    (task-complete? *game-info* (game-task training-climb))
-                    ;; (task-complete? *game-info* (game-task training-buzzer)) ;; handled separately.
+         (when (and #t #t ;; make available immediately.
+                    ;; (task-complete? *game-info* (game-task training-door))
+                    ;; (task-complete? *game-info* (game-task training-gimmie))
+                    ;; (task-complete? *game-info* (game-task training-climb))
+                    ;; (task-complete? *game-info* (game-task training-buzzer))
                     )
            (level-hint-spawn
              (text-id training-warp-gate-reminder)
