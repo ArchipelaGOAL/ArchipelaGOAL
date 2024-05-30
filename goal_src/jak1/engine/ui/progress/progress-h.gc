@@ -138,6 +138,7 @@
   (speedrun-il-options)
   (speedrun-cat-ext-options)
   (warp-to-home)
+  (archipelago-options)
 
   ;; the last one!
   (max)

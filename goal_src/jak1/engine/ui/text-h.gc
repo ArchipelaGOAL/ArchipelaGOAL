@@ -835,6 +835,7 @@
   (pad-square #x2003)
   (warp-to-home #x2004)
   (warp-to-home-confirm #x2005)
+  (archipelago-options #x2006)
 ;; GAME-TEXT-ID ENUM ENDS
   )
 
