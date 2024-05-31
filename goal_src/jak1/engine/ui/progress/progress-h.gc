@@ -321,6 +321,7 @@
     (draw-notice-screen (_type_) none)
     (draw-options (_type_ int int float) none)
     (draw-warp-to-home (_type_ font-context) none)
+    (draw-item-tracker (_type_ font-context) none)
     (respond-common (_type_) none)
     (respond-progress (_type_) none)
     (respond-memcard (_type_) none)
