@@ -139,6 +139,7 @@
   (speedrun-cat-ext-options)
   (warp-to-home)
   (archipelago-options)
+  (item-tracker)
 
   ;; the last one! update *options-remap* in progress-static.gc if you add more enums here!
   (max)

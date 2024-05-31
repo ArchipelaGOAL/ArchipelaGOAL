@@ -186,31 +186,33 @@
   ;; go through EVERY LEVEL'S TASKS
   (dotimes (i (length *level-task-data*))
     ;; level tasks
-    (let ((tasks (-> *level-task-data* i)))
-      ;; unless there's no tasks or the level is already open...
-      (unless (or (= tasks #f) (= (-> *game-info* level-opened i) 1))
-        (cond
-          ((!= *kernel-boot-message* 'play)
-           (if (= (-> tasks level-name-id) (text-id misty-level-name))
-               (set! (-> *game-info* level-opened i) (the-as uint 1))
-               )
-           )
-          (*cheat-mode*
-            (set! (-> *game-info* level-opened i) (the-as uint 1))
-            )
-          (else
-            (dotimes (ii (-> tasks nb-of-tasks))
-              (if (and (zero? (-> *game-info* level-opened ii))
-                       (!= ii (-> tasks buzzer-task-index))
-                       (task-known? (-> tasks task-info ii task-id))
-                       )
-                  (set! (-> *game-info* level-opened ii) (the-as uint 1))
-                  )
-              )
-            )
-          )
-        )
-      )
+    ;; for archipelago, just allow all levels to be available at all times.
+    (set! (-> *game-info* level-opened i) (the-as uint 1))
+    ;; (let ((tasks (-> *level-task-data* i)))
+    ;;   ;; unless there's no tasks or the level is already open...
+    ;;   (unless (or (= tasks #f) (= (-> *game-info* level-opened i) 1))
+    ;;     (cond
+    ;;       ((!= *kernel-boot-message* 'play)
+    ;;        (if (= (-> tasks level-name-id) (text-id misty-level-name))
+    ;;            (set! (-> *game-info* level-opened i) (the-as uint 1))
+    ;;            )
+    ;;        )
+    ;;       (*cheat-mode*
+    ;;         (set! (-> *game-info* level-opened i) (the-as uint 1))
+    ;;         )
+    ;;       (else
+    ;;         (dotimes (ii (-> tasks nb-of-tasks))
+    ;;           (if (and (zero? (-> *game-info* level-opened ii))
+    ;;                    (!= ii (-> tasks buzzer-task-index))
+    ;;                    (task-known? (-> tasks task-info ii task-id))
+    ;;                    )
+    ;;               (set! (-> *game-info* level-opened ii) (the-as uint 1))
+    ;;               )
+    ;;           )
+    ;;         )
+    ;;       )
+    ;;     )
+    ;;   )
     )
   0
   (none)
@@ -856,6 +858,7 @@
                         (= v1-2 (progress-screen reassign-binds-options))
                         (= v1-2 (progress-screen warp-to-home))
                         (= v1-2 (progress-screen archipelago-options))
+                        (= v1-2 (progress-screen item-tracker))
                         )
                     )
                   )
