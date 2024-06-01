@@ -835,6 +835,21 @@
   (pad-square #x2003)
   (warp-to-home #x2004)
   (warp-to-home-confirm #x2005)
+  (archipelago-options #x2006)
+  (ap-fishermans-boat #x2007) ;; prefix the items themselves with `ap-` to separate from similar text-ids.
+  (ap-jungle-elevator #x2008)
+  (ap-blue-eco-switch #x2009)
+  (ap-flut-flut #x2010)
+  (ap-warriors-pontoons #x2011)
+  (ap-snowy-mountain-gondola #x2012)
+  (ap-yellow-eco-switch #x2013)
+  (ap-snowy-fort-gate #x2014)
+  (ap-freed-the-blue-sage #x2015)
+  (ap-freed-the-red-sage #x2016)
+  (ap-freed-the-yellow-sage #x2017)
+  (ap-freed-the-green-sage #x2018)
+  (item-tracker #x2019)
+
 ;; GAME-TEXT-ID ENUM ENDS
   )
 
