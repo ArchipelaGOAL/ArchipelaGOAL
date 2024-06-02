@@ -34,6 +34,7 @@
   (angle)
   (rotate-to)
   (atki13)
+  (deathlink-death)
   )
 
 ;; These flags are a bit of a hack and are mostly only meaningful on *target*
@@ -214,6 +215,7 @@
    (angle         symbol)
    (rotate-to     degrees)
    (prev-state    state)
+   (deathlink-death symbol)
    )
   (:methods
     (combine! (_type_ attack-info) none)
