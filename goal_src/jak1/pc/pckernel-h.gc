@@ -292,6 +292,30 @@
 ;;;; resets
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(deftype ap-settings (basic)
+  (
+    (version uint64)
+    (deathlink? symbol)
+    )
+  (:methods
+    (new (symbol type) _type_)
+    (reset (_type_) none)
+    (read-from-file (_type_ string) symbol)
+    (commit-to-file (_type_) none)
+    (write-to-file (_type_ string) symbol)
+    (load-settings (_type_) int)
+    )
+  )
+
+(defmethod reset ap-settings ((obj ap-settings))
+  "Set the default settings for archipelago"
+
+  (format 0 "Resetting archipelago settings~%")
+
+  (set! (-> obj version) 0)
+  (set! (-> obj deathlink?) #f)
+  (none)
+  )
 
 (defmethod reset pc-settings ((obj pc-settings) (call-handlers symbol))
   "Reset everything back to default settings

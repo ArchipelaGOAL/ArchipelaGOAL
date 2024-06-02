@@ -611,6 +611,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+(define-once *ap-settings* (new 'global 'ap-settings))
 (define-once *pc-settings* (new 'global 'pc-settings-jak1))
 
 

@@ -15,6 +15,9 @@
 
     (buzzers-received uint8 16)
     (specials-received uint8 32) ;; we don't use all 32, but they are there for future use.
+
+    ;; options
+    (deathlink? symbol)
     
     (end-marker uint8 4) ;; end marker just to make things look nice in a memory view.
   )) 

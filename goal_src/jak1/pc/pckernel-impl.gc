@@ -116,6 +116,7 @@
 	 )
   )
 
+(define *ap-settings* (the ap-settings #f))
 (define *pc-settings* (the pc-settings-jak1 #f))
 
 
