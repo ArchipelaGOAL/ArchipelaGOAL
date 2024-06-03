@@ -2465,9 +2465,9 @@
     (cond
       ((and (= (-> self game mode) 'play) (>= 0.0 (-> self fact health)))
        (set! (-> self attack-info attacker) (the-as handle #f))
-       (when (!= (-> self attack-info deathlink-death) #t)
-             (set! (-> *ap-info-jak1* died) (the-as uint 1))
-             )
+       (if (zero? (-> self attack-info deathlink-death))
+           (set! (-> *ap-info-jak1* died) (the-as uint 1))
+           )
        (go target-death 'target-hit-ground-hard)
        )
       (else
