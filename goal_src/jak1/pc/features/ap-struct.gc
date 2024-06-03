@@ -113,3 +113,9 @@
 (defun ap-special-received? ((special-id uint))
   (= (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) 1)
   )
+
+(defun ap-settings-update ()
+  "A per frame update for settings related stuff"
+  (set! (-> *ap-info-jak1* deathlink-enabled) (if (-> *ap-settings* deathlink?) 1 0))
+  (none)
+  )

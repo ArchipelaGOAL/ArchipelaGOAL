@@ -16,7 +16,10 @@
     (buzzers-received uint8 16)
     (specials-received uint8 32) ;; we don't use all 32, but they are there for future use.
 
-    (died uint8)
+    (died uint8) ;; this is a number so we can track how you died. 0 == not dead, >0 == dead.
+
+    ;; settings
+    (deathlink-enabled uint8)
     
     (end-marker uint8 4) ;; end marker just to make things look nice in a memory view.
   )) 
@@ -45,3 +48,6 @@
 (define-extern ap-special-task-to-index (function uint uint))
 (define-extern ap-special-received! (function uint uint))
 (define-extern ap-special-received? (function uint symbol))
+
+;; Handles options changes.
+(define-extern ap-settings-update (function none))
