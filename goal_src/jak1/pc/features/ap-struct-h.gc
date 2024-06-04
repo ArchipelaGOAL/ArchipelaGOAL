@@ -49,5 +49,8 @@
 (define-extern ap-special-received! (function uint uint))
 (define-extern ap-special-received? (function uint symbol))
 
+;; Slightly more complicated than a single send-event.
+(define-extern ap-deathlink-received! (function symbol symbol))
+
 ;; Handles options changes.
 (define-extern ap-settings-update (function none))

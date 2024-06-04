@@ -114,6 +114,23 @@
   (= (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) 1)
   )
 
+(defun ap-deathlink-received! ((chosen-death symbol))
+  (if (= (-> *target* state) target-fishing)
+      (send-event (process-by-ename "fisher-1") 'deathlink) ;; quickhack for fishgame. 
+      (send-event *target* 'attack #f ;; everything else.
+        (static-attack-info 
+          ((deathlink-death #t) 
+           (mode chosen-death) 
+           (vector (new 'static 'vector :y (meters 1) :w 1.0)) 
+           (angle 'up) 
+           (control 1.0)
+           )
+          )
+        )
+      )
+  #t
+  )
+
 (defun ap-settings-update ()
   "A per frame update for settings related stuff"
   (set! (-> *ap-info-jak1* deathlink-enabled) (if (-> *ap-settings* deathlink?) 1 0))
