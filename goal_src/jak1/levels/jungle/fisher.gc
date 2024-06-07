@@ -1488,6 +1488,10 @@
        v0-2
        )
       (('deadly)
+       (set! (-> *ap-info-jak1* died) (the-as uint 18)) ;; only set this for "natural" deaths by poison eel.
+       (go fisher-done)
+       )
+      (('deathlink) ;; otherwise act like you caught a poison eel.
        (go fisher-done)
        )
       (('bad)

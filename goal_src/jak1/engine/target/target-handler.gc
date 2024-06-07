@@ -342,7 +342,7 @@
           )
         )
       )
-    (mem-copy! (the-as pointer (-> self attack-info-rec)) (the-as pointer arg1) 104)
+    (mem-copy! (the-as pointer (-> self attack-info-rec)) (the-as pointer arg1) (size-of attack-info))
     (when arg3
       (let ((a1-2 (prims-touching? arg3 (-> self control) (the-as uint -1))))
         (when a1-2

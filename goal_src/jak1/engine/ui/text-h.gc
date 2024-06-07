@@ -849,6 +849,7 @@
   (ap-freed-the-yellow-sage #x2017)
   (ap-freed-the-green-sage #x2018)
   (item-tracker #x2019)
+  (deathlink #x2020)
 
 ;; GAME-TEXT-ID ENUM ENDS
   )

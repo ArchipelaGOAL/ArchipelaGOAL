@@ -754,7 +754,18 @@
     (set! (-> self attack-info trans quad) (the-as uint128 0))
     (combine! (-> self attack-info) arg1)
     (case (-> self attack-info mode)
-      (('endlessfall 'death 'explode 'water-vol 'heat 'melt 'instant-death)
+      (('endlessfall 'death 'explode 'water-vol 'heat 'melt 'instant-death 'drown-death 'dark-eco-pool) ;; Add states to handle randomized deathlink modes.
+       (if (zero? (-> arg1 deathlink-death))
+           (case (-> arg1 mode)
+             (('endlessfall)    (set! (-> *ap-info-jak1* died) (the-as uint 5))) ;; Also handle these deaths to trigger a deathlink.
+             (('death)          (set! (-> *ap-info-jak1* died) (the-as uint 16)))
+             (('explode)        (set! (-> *ap-info-jak1* died) (the-as uint 8)))
+             (('heat)           (set! (-> *ap-info-jak1* died) (the-as uint 14)))
+             (('melt)           (set! (-> *ap-info-jak1* died) (the-as uint 11)))
+             (('instant-death)  (set! (-> *ap-info-jak1* died) (the-as uint 12)))
+             (else              (set! (-> *ap-info-jak1* died) (the-as uint 1)))
+             )
+           )
        (pickup-collectable! (-> self fact) (pickup-type eco-green) -1000.0 (the-as handle #f))
        )
       (else
@@ -854,7 +865,7 @@
     (target-timed-invulnerable-off self)
     (logior! (-> self state-flags) (state-flags dying))
     (case (-> self attack-info mode)
-      (('explode 'darkeco 'heat 'death 'deadly 'balloonlurker)
+      (('explode 'darkeco 'heat 'death 'deadly 'balloonlurker 'drown-death 'dark-eco-pool) ;; Add states to handle randomized deathlink modes.
        ((-> target-racing-start exit))
        (send-event (ppointer->process (-> self manipy)) 'anim-mode 'loop)
        (send-event (ppointer->process (-> self manipy)) 'draw #f)

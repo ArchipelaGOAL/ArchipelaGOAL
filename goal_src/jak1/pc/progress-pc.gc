@@ -149,6 +149,7 @@
 
 (define *archipelago-options* (new 'static 'boxed-array :type game-option
     (new 'static 'game-option :option-type (game-option-type menu) :name (text-id item-tracker) :scale #t :param3 (game-option-menu item-tracker))
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (text-id deathlink) :scale #t)
     (new 'static 'game-option :option-type (game-option-type menu) :name (text-id warp-to-home) :scale #t :param3 (game-option-menu warp-to-home))
     (new 'static 'game-option :option-type (game-option-type button) :name (text-id back) :scale #t)
     )
@@ -987,6 +988,9 @@
   (set! (-> *camera-options* 1 value-to-modify) (&-> *pc-settings* first-camera-v-inverted?))
   (set! (-> *camera-options* 2 value-to-modify) (&-> *pc-settings* third-camera-h-inverted?))
   (set! (-> *camera-options* 3 value-to-modify) (&-> *pc-settings* third-camera-v-inverted?))
+
+  ;; archipelago options
+  (set! (-> *archipelago-options* 1 value-to-modify) (&-> *ap-settings* deathlink?))
 
   ;; input options
   (set! (-> *controller-options* 1 value-to-modify) (&-> *setting-control* default vibration))
@@ -3029,6 +3033,7 @@
     (remove-setting! 'music)
     (apply-settings *setting-control*)
     (progress-reset-music-parms)
+    (commit-to-file *ap-settings*)
     (commit-to-file *pc-settings*)
     (set! (-> self particles 3 init-pos x) -320.0)
     (set! (-> self particles 4 init-pos x) -320.0)

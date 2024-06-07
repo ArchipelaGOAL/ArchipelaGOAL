@@ -296,7 +296,9 @@
 (defmethod update-speedrun pc-settings-jak1 ((obj pc-settings-jak1))
   "update speedrun module"
   (with-profiler "speedrun-update"
-    (speedrun-mode-update))
+    (speedrun-mode-update)
+    (ap-settings-update)
+    )
   (none))
 
 (defmethod update-video-hacks pc-settings-jak1 ((obj pc-settings-jak1))
@@ -611,6 +613,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+(define-once *ap-settings* (new 'global 'ap-settings))
 (define-once *pc-settings* (new 'global 'pc-settings-jak1))
 
 
