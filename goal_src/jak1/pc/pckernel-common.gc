@@ -855,6 +855,7 @@
 
     ;; file contents
     (format file "  (deathlink? ~A)~%" (-> obj deathlink?))
+    (format file "  (moverando? ~A)~%" (-> obj moverando?))
 
     ;; file trailer
     (format file "  )~%")
@@ -898,6 +899,7 @@
             (dosettings (file)
               (case-str *pc-temp-string*
                 (("deathlink?") (set! (-> obj deathlink?) (file-stream-read-symbol file)))
+                (("moverando?") (set! (-> obj moverando?) (file-stream-read-symbol file)))
                 )
               )
             )

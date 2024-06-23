@@ -16,10 +16,11 @@
     (buzzers-received uint8 16)
     (specials-received uint8 32) ;; we don't use all 32, but they are there for future use.
 
-    (died uint8) ;; this is a number so we can track how you died. 0 == not dead, >0 == dead.
+    (died uint8)              ;; this number indicates how you died. 0 == not dead, >0 == dead.
+    (deathlink-enabled uint8) ;; this enables/disabled the setting.
 
-    ;; settings
-    (deathlink-enabled uint8)
+    (moves-received uint8 16) ;; we don't use all 16, but they are there for future use.
+    (moverando-enabled uint8) ;; this enables/disabled the setting.
     
     (end-marker uint8 4) ;; end marker just to make things look nice in a memory view.
   )) 
@@ -48,6 +49,12 @@
 (define-extern ap-special-task-to-index (function uint uint))
 (define-extern ap-special-received! (function uint uint))
 (define-extern ap-special-received? (function uint symbol))
+
+;; These functions handle Jak's moveset.
+;; Double Jump, Punch, Kick, etc. Receiving them, checking them, etc.
+(define-extern ap-move-id-to-index (function uint uint))
+(define-extern ap-move-received! (function uint uint))
+(define-extern ap-move-received? (function uint symbol))
 
 ;; Slightly more complicated than a single send-event.
 (define-extern ap-deathlink-received! (function symbol symbol))

@@ -114,6 +114,32 @@
   (= (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) 1)
   )
 
+;; These are the move ID's in the same order as defined by the archipelago
+;; orb cache location list/move item table.
+(defun ap-move-id-to-index ((move-id uint))
+  (cond
+    ((= move-id 10344) (the-as uint  0))
+    ((= move-id 10369) (the-as uint  1))
+    ((= move-id 11072) (the-as uint  2))
+    ((= move-id 12634) (the-as uint  3))
+    ((= move-id 12635) (the-as uint  4))
+    ((= move-id 10945) (the-as uint  5))
+    ((= move-id 14507) (the-as uint  6))
+    ((= move-id 14838) (the-as uint  7))
+    ((= move-id 23348) (the-as uint  8))
+    ((= move-id 23349) (the-as uint  9))
+    ((= move-id 23350) (the-as uint 10))
+    )
+  )
+
+(defun ap-move-received! ((move-id uint))
+  (+! (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) 1.0)
+  )
+
+(defun ap-move-received? ((move-id uint))
+  (= (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) 1)
+  )
+
 (defun ap-deathlink-received! ((chosen-death symbol))
   (if (= (-> *target* state) target-fishing)
       (send-event (process-by-ename "fisher-1") 'deathlink) ;; quickhack for fishgame. 
@@ -134,5 +160,6 @@
 (defun ap-settings-update ()
   "A per frame update for settings related stuff"
   (set! (-> *ap-info-jak1* deathlink-enabled) (if (-> *ap-settings* deathlink?) 1 0))
+  (set! (-> *ap-info-jak1* moverando-enabled) (if (-> *ap-settings* moverando?) 1 0))
   (none)
   )
