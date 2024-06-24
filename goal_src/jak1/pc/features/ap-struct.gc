@@ -123,17 +123,17 @@
 ;; orb cache location list/move item table.
 (defun ap-move-id-to-index ((move-id uint))
   (cond
-    ((= move-id 10344) (the-as uint  0))
-    ((= move-id 10369) (the-as uint  1))
-    ((= move-id 11072) (the-as uint  2))
-    ((= move-id 12634) (the-as uint  3))
-    ((= move-id 12635) (the-as uint  4))
-    ((= move-id 10945) (the-as uint  5))
-    ((= move-id 14507) (the-as uint  6))
-    ((= move-id 14838) (the-as uint  7))
-    ((= move-id 23348) (the-as uint  8))
-    ((= move-id 23349) (the-as uint  9))
-    ((= move-id 23350) (the-as uint 10))
+    ((= move-id 10344) (the-as uint  0)) ;; Crouch
+    ((= move-id 10369) (the-as uint  1)) ;; Crouch Jump
+    ((= move-id 11072) (the-as uint  2)) ;; Crouch Uppercut
+    ((= move-id 12634) (the-as uint  3)) ;; Roll
+    ((= move-id 12635) (the-as uint  4)) ;; Roll Jump
+    ((= move-id 10945) (the-as uint  5)) ;; Double Jump
+    ((= move-id 14507) (the-as uint  6)) ;; Jump Dive
+    ((= move-id 14838) (the-as uint  7)) ;; Jump Kick
+    ((= move-id 23348) (the-as uint  8)) ;; Punch
+    ((= move-id 23349) (the-as uint  9)) ;; Punch Uppercut
+    ((= move-id 23350) (the-as uint 10)) ;; Kick
     )
   )
 

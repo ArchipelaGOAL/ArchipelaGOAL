@@ -60,6 +60,7 @@
   (eco-pill)
   (buzzer)
   (ap-special)
+  (ap-move)
   (eco-pill-random)
   )
 

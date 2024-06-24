@@ -566,6 +566,16 @@
        )
      (-> this fuel)
      )
+    (('ap-move)
+     ;; got a piece of movement tech!
+     ;; in this case, the amount is actually the ID of the move
+     (let ((s5-1 (the int amount)))
+          ;; The ony thing we need to do is to update the ap-info-jak1 struct
+          ;; so that logic elsewhere can check that we received a move.
+          (ap-move-received! (the-as uint s5-1))
+       )
+     (-> this fuel)
+     )
     )
   )
 
@@ -955,6 +965,11 @@
      ;; special check for archipelago
      ;; the amount is actually the index of the task.
      (ap-adjust (-> (the-as target (-> this process)) game) 'ap-special amount source-handle)
+     )
+    (((pickup-type ap-move))
+     ;; special check for archipelago - move rando
+     ;; the amount is actually the ID of the move.
+     (ap-adjust (-> (the-as target (-> this process)) game) 'ap-move amount source-handle)
      )
     (else
       0.0 ;; don't call ap-pickup-collectable! on any other item type, just return 0.
