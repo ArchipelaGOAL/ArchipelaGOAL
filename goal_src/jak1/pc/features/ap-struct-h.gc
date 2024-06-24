@@ -3,26 +3,34 @@
 
 ;; This is a copy of the ap struct, with mostly the same info,
 ;; but with additonal fields for the unique objects we need to track.
+;; Don't change the order of these variables, just append new ones 
+;; to the end before the END marker.
 (deftype ap-info-jak1 (structure)
   (
+    ;; Cell, Buzzer, and Special information.
     (next-cell-index uint)
     (next-buzzer-index uint)
     (next-special-index uint)
 
     (cells-checked uint32 101)
     (buzzers-checked uint32 112)
-    (specials-checked uint32 32) ;; we don't use all 32, but they are there for future use.
+    (specials-checked uint32 32)   ;; we don't use all 32, but they are there for future use.
 
     (buzzers-received uint8 16)
-    (specials-received uint8 32) ;; we don't use all 32, but they are there for future use.
+    (specials-received uint8 32)   ;; we don't use all 32, but they are there for future use.
 
-    (died uint8)              ;; this number indicates how you died. 0 == not dead, >0 == dead.
-    (deathlink-enabled uint8) ;; this enables/disabled the setting.
+    ;; Deathlink information.
+    (died uint8)                   ;; this number indicates how you died. 0 == not dead, >0 == dead.
+    (deathlink-enabled uint8)      ;; this enables/disabled the setting.
 
-    (moves-received uint8 16) ;; we don't use all 16, but they are there for future use.
-    (moverando-enabled uint8) ;; this enables/disabled the setting.
+    ;; Move Rando information.
+    (next-orb-cache-index uint)
+    (orb-caches-checked uint32 16) ;; we don't use all 16, but they are there for future use.
+    (moves-received uint8 16)      ;; we don't use all 16, but they are there for future use.
+    (moverando-enabled uint8)      ;; this enables/disabled the setting.
     
-    (end-marker uint8 4) ;; end marker just to make things look nice in a memory view.
+    ;; End marker just to make things look nice in a memory view.
+    (end-marker uint8 4)           
   )) 
 
 (define-extern *ap-info-jak1* ap-info-jak1)
@@ -33,6 +41,7 @@
 (define-extern ap-buzzer-checked! (function uint uint))
 (define-extern ap-special-checked! (function uint uint))
 (define-extern ap-special-checked? (function uint symbol))
+(define-extern ap-orb-cache-checked! (function uint uint))
 
 ;; There's no ap-cell-received functions becuse we would just be tracking
 ;; the count of a single number. *game-info* is doing that already.
