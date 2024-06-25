@@ -48,22 +48,22 @@
 ;; locations lists.
 (defun ap-buzzer-task-to-index ((buzz-task uint))
   (cond
-    ((= buzz-task 95) (the-as uint  0))
-    ((= buzz-task 75) (the-as uint  1))
-    ((= buzz-task 7)  (the-as uint  2))
-    ((= buzz-task 20) (the-as uint  3))
-    ((= buzz-task 28) (the-as uint  4))
-    ((= buzz-task 68) (the-as uint  5))
-    ((= buzz-task 76) (the-as uint  6))
-    ((= buzz-task 57) (the-as uint  7))
-    ((= buzz-task 49) (the-as uint  8))
-    ((= buzz-task 43) (the-as uint  9))
-    ((= buzz-task 88) (the-as uint 10))
-    ((= buzz-task 77) (the-as uint 11))
-    ((= buzz-task 85) (the-as uint 12))
-    ((= buzz-task 65) (the-as uint 13))
-    ((= buzz-task 90) (the-as uint 14))
-    ((= buzz-task 91) (the-as uint 15))
+    ((= buzz-task 95) (the-as uint  0)) ;; GR
+    ((= buzz-task 75) (the-as uint  1)) ;; SV
+    ((= buzz-task 7)  (the-as uint  2)) ;; FJ
+    ((= buzz-task 20) (the-as uint  3)) ;; SB
+    ((= buzz-task 28) (the-as uint  4)) ;; MI
+    ((= buzz-task 68) (the-as uint  5)) ;; FC
+    ((= buzz-task 76) (the-as uint  6)) ;; RV
+    ((= buzz-task 57) (the-as uint  7)) ;; PB
+    ((= buzz-task 49) (the-as uint  8)) ;; LPC
+    ((= buzz-task 43) (the-as uint  9)) ;; BS
+    ((= buzz-task 88) (the-as uint 10)) ;; MP
+    ((= buzz-task 77) (the-as uint 11)) ;; VC
+    ((= buzz-task 85) (the-as uint 12)) ;; SC
+    ((= buzz-task 65) (the-as uint 13)) ;; SM
+    ((= buzz-task 90) (the-as uint 14)) ;; LT
+    ((= buzz-task 91) (the-as uint 15)) ;; GMC
     )
   )
 
@@ -96,18 +96,18 @@
 ;; special location list.
 (defun ap-special-task-to-index ((special-id uint))
   (cond
-    ((= special-id 5)   (the-as uint  0))
-    ((= special-id 4)   (the-as uint  1))
-    ((= special-id 2)   (the-as uint  2))
-    ((= special-id 17)  (the-as uint  3))
-    ((= special-id 33)  (the-as uint  4))
-    ((= special-id 105) (the-as uint  5)) ;; Reusing village3-button for the gondola.
-    ((= special-id 60)  (the-as uint  6))
-    ((= special-id 63)  (the-as uint  7))
-    ((= special-id 71)  (the-as uint  8))
-    ((= special-id 72)  (the-as uint  9))
-    ((= special-id 73)  (the-as uint 10))
-    ((= special-id 70)  (the-as uint 11))
+    ((= special-id 5)   (the-as uint  0)) ;; Fisherman's Boat
+    ((= special-id 4)   (the-as uint  1)) ;; Jungle Elevator
+    ((= special-id 2)   (the-as uint  2)) ;; Blue Eco Switch
+    ((= special-id 17)  (the-as uint  3)) ;; Flut Flut
+    ((= special-id 33)  (the-as uint  4)) ;; Warrior's Pontoons
+    ((= special-id 105) (the-as uint  5)) ;; Snowy Mountain Gondola (village3-button)
+    ((= special-id 60)  (the-as uint  6)) ;; Yellow Eco Switch
+    ((= special-id 63)  (the-as uint  7)) ;; Snowy Fort Gate
+    ((= special-id 71)  (the-as uint  8)) ;; Freed The Blue Sage
+    ((= special-id 72)  (the-as uint  9)) ;; Freed The Red Sage
+    ((= special-id 73)  (the-as uint 10)) ;; Freed The Yellow Sage
+    ((= special-id 70)  (the-as uint 11)) ;; Freed The Green Sage
     )
   )
 
