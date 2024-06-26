@@ -258,20 +258,28 @@
   :event (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
     (case message
       (('trigger)
-       (logclear! (-> self mask) (process-mask actor-pause))
-       (let ((v0-0 #t))
-         (set! (-> self rise) v0-0)
-         v0-0
-         )
+        #t ;; Do nothing when you free the sages.
        )
       )
     )
   :trans #f
   :code (behavior ()
     (logior! (-> self draw status) (draw-status hidden))
-    (while (not (-> self rise))
+    ;; Instead of checking self rise, check the ap-specials.
+    (while (not (and (ap-special-received? (the-as uint (game-task citadel-sage-blue)))
+                     (ap-special-received? (the-as uint (game-task citadel-sage-red)))
+                     (ap-special-received? (the-as uint (game-task citadel-sage-yellow)))
+                     )
+                )
       (suspend)
       )
+    ;; Once out of the while loop, do what the 'trigger event would have done. 
+    (logclear! (-> self mask) (process-mask actor-pause))
+    (let ((v0-0 #t))
+      (set! (-> self rise) v0-0)
+      v0-0
+      )
+    ;; Continue as normal.
     (logclear! (-> self draw status) (draw-status hidden))
     (set-vector! (-> self draw color-mult) 0.0 0.0 0.0 1.0)
     (set-time! (-> self state-time))
@@ -923,11 +931,7 @@
   :event (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
     (case message
       (('trigger)
-       (let ((v1-3 (-> self entity extra perm)))
-         (logior! (-> v1-3 status) (entity-perm-status user-set-from-cstage))
-         (set! (-> v1-3 user-int8 0) 1)
-         )
-       (go citb-exit-plat-rise)
+       #t ;; Do nothing when you break Samos's cage.
        )
       )
     )
@@ -935,7 +939,19 @@
     (logior! (-> self draw status) (draw-status hidden))
     (clear-collide-with-as (-> self root))
     (loop
-      (suspend)
+      ;; Do what the 'trigger event would have done if you receive the ap-special.
+      (cond 
+        ((ap-special-received? (the-as uint (game-task citadel-sage-green)))
+          (let ((v1-3 (-> self entity extra perm)))
+            (logior! (-> v1-3 status) (entity-perm-status user-set-from-cstage))
+            (set! (-> v1-3 user-int8 0) 1)
+            )
+          (go citb-exit-plat-rise)
+          )
+        (else
+          (suspend)
+          )
+        )
       )
     )
   )
