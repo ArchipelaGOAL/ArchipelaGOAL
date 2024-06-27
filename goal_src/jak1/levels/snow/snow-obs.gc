@@ -888,10 +888,17 @@
     (ja :group! snow-fort-gate-idle-ja :num! min)
     (set! (-> self root trans quad) (-> self closed-trans quad))
     (transform-post)
-    (suspend)
+    ;;(suspend)
     (loop
-      (logior! (-> self mask) (process-mask sleep-code))
-      (suspend)
+      (cond 
+        ((ap-special-received? (the-as uint (game-task snow-ball)))
+          (go snow-fort-gate-activate)
+          )
+        (else
+          ;;(logior! (-> self mask) (process-mask sleep-code))
+          (suspend)
+          )
+        )
       )
     )
   )
@@ -1021,7 +1028,7 @@
     (set! (-> s5-1 frame-num) 0.0)
     )
   (cond
-    ((ap-special-received? (the-as uint (game-task snow-ball)))
+    ((ap-special-received? (the-as uint (game-task snow-ball))) ;; Set initial state based on posession of ap-special.
      (set! (-> this root trans quad) (-> this open-trans quad))
      (transform-post)
      (go snow-fort-gate-idle-open)
@@ -1141,8 +1148,17 @@
     (ja :group! snow-gears-idle-ja :num! min)
     (ja-post)
     (loop
-      (logior! (-> self mask) (process-mask sleep-code))
-      (suspend)
+      (cond 
+        ((ap-special-received? (the-as uint (game-task snow-ball)))
+          (logclear! (-> self mask) (process-mask actor-pause))
+          (process-entity-status! self (entity-perm-status bit-3) #t)
+          (go snow-gears-activate)
+          )
+        (else 
+          ;;(logior! (-> self mask) (process-mask sleep-code))
+          (suspend)
+          )
+        )
       )
     )
   )
@@ -1203,6 +1219,8 @@
 
 (defstate snow-gears-stopped (snow-gears)
   :code (behavior ()
+    (ja :group! snow-gears-idle-ja :num! min)
+    (ja-post)
     (logior! (-> self mask) (process-mask actor-pause))
     (process-entity-status! self (entity-perm-status bit-3) #f)
     (loop
@@ -1220,7 +1238,11 @@
   (set! (-> this sound)
         (new 'process 'ambient-sound (static-sound-spec "snow-engine" :fo-max 300) (-> this root trans))
         )
-  (go snow-gears-idle)
+  ;; Set initial state based on posession of ap-special.
+  (if (ap-special-received? (the-as uint (game-task snow-ball)))
+      (go snow-gears-stopped)
+      (go snow-gears-idle)
+      )
   (none)
   )
 
@@ -1330,7 +1352,8 @@
             ((= (-> s5-1 y) f0-1)
              (when (not gp-2)
                (set! gp-2 #t)
-               (send-to-all (-> self link) 'notice)
+               ;; Don't tell the gears or gate to open, the ap-special is handling that now.
+               ;; (send-to-all (-> self link) 'notice) 
                )
              )
             (else
