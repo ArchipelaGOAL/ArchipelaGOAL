@@ -315,7 +315,7 @@
 
   (set! (-> obj version) 0)
   (set! (-> obj deathlink?) #f)
-  (set! (-> obj moverando?) #f)
+  (set! (-> obj moverando?) #t)
   (none)
   )
 
