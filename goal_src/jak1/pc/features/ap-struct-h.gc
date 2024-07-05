@@ -32,7 +32,7 @@
     ;; Orbsanity information.
     (orbsanity-option uint8)        ;; this enables/disabled the setting.
     (orbsanity-bundle uint32)       ;; bundle size.
-    (collected-bundle-level uint8)  ;; indicates level index you found a bundle in. 0 == global.
+    (collected-bundle-level uint8)  ;; indicates level index you found a bundle in. See level-task-data-index.
     (collected-bundle-count uint32) ;; indicates total number of orbs you found to trigger the check.
     
     ;; End marker just to make things look nice in a memory view.

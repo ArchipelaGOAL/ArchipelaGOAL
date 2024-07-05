@@ -397,7 +397,7 @@
                              (nonzero? money-in-total)
                              (zero? (mod money-in-total bundle-size))
                              )
-                        (set! (-> *ap-info-jak1* collected-bundle-level) 0) ;; 0 == global
+                        (set! (-> *ap-info-jak1* collected-bundle-level) 16) ;; Global
                         (set! (-> *ap-info-jak1* collected-bundle-count) money-in-total)
                         )
                   )
