@@ -1010,7 +1010,7 @@
   ;; archipelago options
   (set! (-> *archipelago-options* 2 value-to-modify) (&-> *ap-settings* deathlink?))
   (set! (-> *archipelago-options* 3 value-to-modify) (&-> *ap-settings* moverando?))
-  (set! (-> *archipelago-options* 4 value-to-modify) (&-> *ap-settings* orbsanity-option))
+  (set! (-> *archipelago-options* 4 value-to-modify) (&-> *progress-carousell* int-backup)) ;; remember, carousell menus map to this backup variable, not directly to the setting variable. 
   (set! (-> *archipelago-options* 5 value-to-modify) (&-> *ap-settings* orbsanity-bundle))
 
   ;; input options
@@ -1916,14 +1916,14 @@
                   )
                 (set-video-mode (-> *setting-control* default video-mode))
                 )
-                (((game-option-type orbsanity))
-                 ;; same thing.
-                 (case (-> *progress-carousell* int-backup)
-                   ((0) (set! (-> *ap-settings* orbsanity-option) 0))
-                   ((1) (set! (-> *ap-settings* orbsanity-option) 1))
-                   ((2) (set! (-> *ap-settings* orbsanity-option) 2))
-                   )
-                 )
+               (((game-option-type orbsanity))
+                ;; same thing.
+                (case (-> *progress-carousell* int-backup)
+                  ((0) (set! (-> *ap-settings* orbsanity-option) 0))
+                  ((1) (set! (-> *ap-settings* orbsanity-option) 1))
+                  ((2) (set! (-> *ap-settings* orbsanity-option) 2))
+                  )
+                )
                )
               ;; if the option has a `on-confirm` function, run it
               (when (nonzero? (-> options (-> obj option-index) on-confirm))
