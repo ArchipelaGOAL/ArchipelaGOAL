@@ -863,6 +863,10 @@
   (ap-kick #x2031)
   (move-tracker #x2032)
   (moverando #x2033)
+  (orbsanity #x2034)
+  (per-level #x2035)
+  (global #x2036)
+  (orb-bundle-size #x2037)
 
 ;; GAME-TEXT-ID ENUM ENDS
   )

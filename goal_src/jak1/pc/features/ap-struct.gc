@@ -166,5 +166,7 @@
   "A per frame update for settings related stuff"
   (set! (-> *ap-info-jak1* deathlink-enabled) (if (-> *ap-settings* deathlink?) 1 0))
   (set! (-> *ap-info-jak1* moverando-enabled) (if (-> *ap-settings* moverando?) 1 0))
+  (set! (-> *ap-info-jak1* orbsanity-option) (-> *ap-settings* orbsanity-option))
+  (set! (-> *ap-info-jak1* orbsanity-bundle) (-> *ap-settings* orbsanity-bundle))
   (none)
   )

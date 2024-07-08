@@ -297,6 +297,8 @@
     (version uint64)
     (deathlink? symbol)
     (moverando? symbol)
+    (orbsanity-option uint8) 
+    (orbsanity-bundle uint32)
     )
   (:methods
     (new (symbol type) _type_)
@@ -316,6 +318,8 @@
   (set! (-> obj version) 0)
   (set! (-> obj deathlink?) #f)
   (set! (-> obj moverando?) #t)
+  (set! (-> obj orbsanity-option) 0)
+  (set! (-> obj orbsanity-bundle) 1)
   (none)
   )
 

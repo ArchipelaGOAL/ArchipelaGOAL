@@ -96,6 +96,7 @@
 (def-progress-carousell *carousell-speaker* (speaker-always speaker-never speaker-auto))
 (def-progress-carousell *carousell-frame-rate-150fps* (60fps 100fps 150fps))
 (def-progress-carousell *carousell-frame-rate-100fps* (60fps 100fps))
+(def-progress-carousell *carousell-orbsanity* (off per-level global))
 (define *carousell-frame-rate* *carousell-frame-rate-150fps*)
 
 ;; pad remap stuff
@@ -152,6 +153,8 @@
     (new 'static 'game-option :option-type (game-option-type menu) :name (text-id move-tracker) :scale #t :param3 (game-option-menu move-tracker))
     (new 'static 'game-option :option-type (game-option-type on-off) :name (text-id deathlink) :scale #t)
     (new 'static 'game-option :option-type (game-option-type on-off) :name (text-id moverando) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type orbsanity) :name (text-id orbsanity) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type slider) :name (text-id orb-bundle-size) :scale #t :param1 1.0 :param2 2000.0 :slider-step-size 1.0)
     (new 'static 'game-option :option-type (game-option-type menu) :name (text-id warp-to-home) :scale #t :param3 (game-option-menu warp-to-home))
     (new 'static 'game-option :option-type (game-option-type button) :name (text-id back) :scale #t)
     )
@@ -776,6 +779,13 @@
   (text-id zero)
   )
 
+(defun get-orbsanity-option ((option uint))
+  (cond
+    ((= option (the-as uint 0)) (text-id off))
+    ((= option (the-as uint 1)) (text-id per-level))
+    ((= option (the-as uint 2)) (text-id global))
+    )
+  )
 
 (defun print-string-in-carousell ((arg0 text-id) (arg1 font-context) (arg2 int) (arg3 symbol))
   (let ((s5-0 (if arg3
@@ -1000,6 +1010,8 @@
   ;; archipelago options
   (set! (-> *archipelago-options* 2 value-to-modify) (&-> *ap-settings* deathlink?))
   (set! (-> *archipelago-options* 3 value-to-modify) (&-> *ap-settings* moverando?))
+  (set! (-> *archipelago-options* 4 value-to-modify) (&-> *ap-settings* orbsanity-option))
+  (set! (-> *archipelago-options* 5 value-to-modify) (&-> *ap-settings* orbsanity-bundle))
 
   ;; input options
   (set! (-> *controller-options* 1 value-to-modify) (&-> *setting-control* default vibration))
@@ -1180,6 +1192,7 @@
                     (game-option-type frame-rate)
                     (game-option-type language-subtitles)
                     (game-option-type language-text)
+                    (game-option-type orbsanity)
                     )
                    ;; a carousell like language
                    (if (> (-> (the-as (pointer int) (-> options (-> obj option-index) value-to-modify))) 0)
@@ -1290,6 +1303,7 @@
                     (game-option-type frame-rate)
                     (game-option-type language-subtitles)
                     (game-option-type language-text)
+                    (game-option-type orbsanity)
                     )
                    ;; same thing as before. if at last, go to first. otherwise, keep going forward.
                    (if (< (-> (the-as (pointer int) (-> options (-> obj option-index) value-to-modify))) (1- (length (-> *progress-carousell* current-carousell))))
@@ -1773,6 +1787,14 @@
                             (set! (-> *progress-carousell* int-backup) i))
                         ))
                   )
+                 (((game-option-type orbsanity))
+                  ;; orbsanity reuses language, display-mode, and other carousell code.
+                  (case (-> *ap-settings* orbsanity-option)
+                    ((0) (set! (-> *progress-carousell* int-backup) 0))
+                    ((1) (set! (-> *progress-carousell* int-backup) 1))
+                    ((2) (set! (-> *progress-carousell* int-backup) 2))
+                    )
+                  )
                  )
                (sound-play "select-option")
                (cpad-clear! 0 x)
@@ -1799,6 +1821,7 @@
                      (((game-option-type frame-rate)) (set! (-> *progress-carousell* current-carousell) *carousell-frame-rate*))
                      (((game-option-type language-subtitles)) (set! (-> *progress-carousell* current-carousell) *subtitle-languages*))
                      (((game-option-type language-text)) (set! (-> *progress-carousell* current-carousell) *text-languages*))
+                     (((game-option-type orbsanity)) (set! (-> *progress-carousell* current-carousell) *carousell-orbsanity*))
                      )
                    )
                  )
@@ -1893,11 +1916,20 @@
                   )
                 (set-video-mode (-> *setting-control* default video-mode))
                 )
+                (((game-option-type orbsanity))
+                 ;; same thing.
+                 (case (-> *progress-carousell* int-backup)
+                   ((0) (set! (-> *ap-settings* orbsanity-option) 0))
+                   ((1) (set! (-> *ap-settings* orbsanity-option) 1))
+                   ((2) (set! (-> *ap-settings* orbsanity-option) 2))
+                   )
+                 )
                )
               ;; if the option has a `on-confirm` function, run it
               (when (nonzero? (-> options (-> obj option-index) on-confirm))
                 ((-> options (-> obj option-index) on-confirm)))
               (commit-to-file *pc-settings*)
+              (commit-to-file *ap-settings*)
              )
            )
          )
@@ -2557,6 +2589,7 @@
                     (game-option-type frame-rate)
                     (game-option-type language-subtitles)
                     (game-option-type language-text)
+                    (game-option-type orbsanity)
                     )
                     ;; crunched down to one generic function.
                     (progress-draw-carousell-from-string-list (-> *progress-carousell* current-carousell) font y-off (-> (the-as (pointer int) (-> options index value-to-modify))))
@@ -2649,6 +2682,7 @@
                       (game-option-type frame-rate)
                       (game-option-type normal-inverted)
                       (game-option-type confirmation)
+                      ;;(game-option-type orbsanity)
                       )
                     ;; slider and aspect ratio options just show their text
                     (set! option-str (lookup-text! *common-text* (-> options index name) #f))
@@ -2727,6 +2761,11 @@
                     (((game-option-type language-text))
                     (set! option-str (string-format "~S: ~S" (lookup-text! *common-text* (-> options index name) #f)
                                                               (lookup-text! *common-text* (get-language-name (-> *pc-settings* text-language)) #f)))
+                    )
+                    ;; orbsanity settings, like language, should show their current values.
+                    (((game-option-type orbsanity))
+                    (set! option-str (string-format "~S: ~S" (lookup-text! *common-text* (-> options index name) #f)
+                                                              (lookup-text! *common-text* (get-orbsanity-option (-> *ap-settings* orbsanity-option)) #f)))
                     )
                     )
                   )
