@@ -857,7 +857,7 @@
     (format file "  (deathlink? ~A)~%" (-> obj deathlink?))
     (format file "  (moverando? ~A)~%" (-> obj moverando?))
     (format file "  (orbsanity-option ~D)~%" (the-as int (-> obj orbsanity-option)))
-    (format file "  (orbsanity-bundle ~F)~%" (the-as float (-> obj orbsanity-bundle)))
+    (format file "  (orbsanity-bundle ~D)~%" (the-as int (-> obj orbsanity-bundle)))
 
     ;; file trailer
     (format file "  )~%")
@@ -903,7 +903,7 @@
                 (("deathlink?") (set! (-> obj deathlink?) (file-stream-read-symbol file)))
                 (("moverando?") (set! (-> obj moverando?) (file-stream-read-symbol file)))
                 (("orbsanity-option") (set! (-> obj orbsanity-option) (the-as uint8 (file-stream-read-int file))))
-                (("orbsanity-bundle") (set! (-> obj orbsanity-bundle) (the-as uint32 (file-stream-read-float file))))
+                (("orbsanity-bundle") (set! (-> obj orbsanity-bundle) (the-as uint32 (file-stream-read-int file))))
                 )
               )
             )
