@@ -1123,19 +1123,30 @@
             )
       (case *hud-collectable-view*
         (((hud-collectable-view game-totals))
-          ;; show cells collected/total across entire game
-          (draw-string-xy-scaled
-            (string-format
-              "~D~%/~D"
-              (the int (-> *game-info* fuel))
-              101  ;;(-> (the progress (-> *progress-process* 0)) total-nb-of-power-cells)
+          (let ((completed-task-count 0))
+            ;; determine number of cells collected in ALL levels
+            (dotimes (lvl-idx (length *level-task-data*))
+              (dotimes (task-idx (-> *level-task-data* lvl-idx nb-of-tasks))
+                (if (= (get-task-status (-> *level-task-data* lvl-idx task-info task-idx task-id)) (task-status invalid))
+                  (+! completed-task-count 1)
+                  )
               )
-            buf
-            string-x
-            (- string-y 5)
-            (font-color yellow)
-            (font-flags shadow kerning large)
-            0.8
+            )
+
+            ;; show cells collected/total across entire game
+            (draw-string-xy-scaled
+              (string-format
+                "~D~%/~D"
+                completed-task-count
+                101  ;;(-> (the progress (-> *progress-process* 0)) total-nb-of-power-cells)
+                )
+              buf
+              string-x
+              (- string-y 5)
+              (font-color yellow)
+              (font-flags shadow kerning large)
+              0.8
+              )
             )
           )
         (((hud-collectable-view level-totals))

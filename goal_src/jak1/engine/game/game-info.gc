@@ -471,7 +471,8 @@
                 (buzz-bits (get-reminder ctrl 0)) ;; the currently collected flies
                 )
            (when (and (>= buzz-index 0) (< buzz-index (the int (-> *FACT-bank* buzzer-max-default))))
-             ;; valid fly index
+            ;; valid fly index, update the global count
+             (+! (-> this buzzer-total) 1.0)
 
              ;; update the ap struct
              (ap-buzzer-checked! (the-as uint buzzer-id))
@@ -539,9 +540,6 @@
          (let* ((ctrl (get-task-control (the-as game-task buzz-task)))
                 (buzz-bits (get-reminder ctrl 0)) ;; the currently collected flies
                 )
-            ;; valid fly index, update the global count
-            (+! (-> this buzzer-total) 1.0)
-
             ;; need to update the struct so we can check whether we have enough for a power cell.
             (ap-buzzer-received! (the-as uint buzz-task) (the-as uint buzz-index))
 
@@ -555,7 +553,7 @@
                 )
             
             ;; recompute the local count
-            (set! buzz-count (the-as float (ap-buzzer-count (the-as uint buzz-task))))
+            (set! buzz-count (the float (ap-buzzer-count (the-as uint buzz-task))))
             )
          )
        buzz-count

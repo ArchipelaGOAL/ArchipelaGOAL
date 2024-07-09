@@ -887,6 +887,7 @@
   (500orbs #x2055)
   (1000orbs #x2056)
   (2000orbs #x2057)
+  (total-checked #x2058)
 
 ;; GAME-TEXT-ID ENUM ENDS
   )
