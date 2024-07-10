@@ -425,14 +425,8 @@
          (set-time! (-> this fuel-cell-pickup-time))
          (set-time! (-> this fuel-cell-time s5-1))
 
-         ;; DO NOT increment power cells!
-         ;;(+! (-> this fuel) 1.0)
-
          ;; mark as completed
          (logior! (-> this task-perm-list data s5-1 status) (entity-perm-status real-complete))
-
-         ;; unused.
-         ;;(get-task-control (the-as game-task s5-1))
 
          ;; close the task
          (close-specific-task! (the-as game-task s5-1) (task-status need-resolution))

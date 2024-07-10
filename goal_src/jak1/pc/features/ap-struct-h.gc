@@ -73,6 +73,7 @@
 
 ;; Slightly more complicated than a single send-event.
 (define-extern ap-deathlink-received! (function symbol symbol))
+(define-extern ap-setup-orbs! (function uint uint symbol))
 
 ;; Handles options changes.
 (define-extern ap-settings-update (function none))
