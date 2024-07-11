@@ -178,6 +178,8 @@
   (controller)
   (binding-assignment)
   (confirmation)
+  (orbsanity-option)
+  (orbsanity-bundle)
   )
 
     ) ;; end of PC_PORT = #t branch for enum initialization

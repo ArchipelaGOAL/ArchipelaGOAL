@@ -257,7 +257,7 @@
       (+! (-> s4-1 origin y) 40.0)
       (set! (-> s4-1 flags) (font-flags shadow kerning middle large))
       (print-game-text-scaled
-        (lookup-text! *common-text* (text-id total-collected) #f)
+        (lookup-text! *common-text* (text-id total-checked) #f)
         (* 0.7 f30-0)
         s4-1
         (the int (* 128.0 f30-0))
@@ -339,7 +339,7 @@
         (+! (-> s4-1 origin y) 40.0)
         (set! (-> s4-1 flags) (font-flags shadow kerning middle large))
         (print-game-text-scaled
-          (lookup-text! *common-text* (text-id total-collected) #f)
+          (lookup-text! *common-text* (text-id total-checked) #f)
           (* 0.7 f30-0)
           s4-1
           (the int (* 128.0 f30-0))

@@ -28,6 +28,12 @@
     (orb-caches-checked uint32 16) ;; we don't use all 16, but they are there for future use.
     (moves-received uint8 16)      ;; we don't use all 16, but they are there for future use.
     (moverando-enabled uint8)      ;; this enables/disabled the setting.
+
+    ;; Orbsanity information.
+    (orbsanity-option uint8)        ;; this enables/disabled the setting.
+    (orbsanity-bundle uint32)       ;; bundle size.
+    (collected-bundle-level uint8)  ;; indicates level index you found a bundle in. See level-task-data-index.
+    (collected-bundle-count uint32) ;; indicates total number of orbs you found to trigger the check.
     
     ;; End marker just to make things look nice in a memory view.
     (end-marker uint8 4)           
@@ -67,6 +73,7 @@
 
 ;; Slightly more complicated than a single send-event.
 (define-extern ap-deathlink-received! (function symbol symbol))
+(define-extern ap-setup-orbs! (function uint uint symbol))
 
 ;; Handles options changes.
 (define-extern ap-settings-update (function none))

@@ -3051,7 +3051,12 @@
             (none)
             )
           )
-    (go target-duck-stance)
+    ;; Only go to duck-stance if you have the Crouch move. Otherwise force Jak to stand up.
+    (if (or (zero? (-> *ap-info-jak1* moverando-enabled))
+            (ap-move-received? (the-as uint 10344)))
+        (go target-duck-stance)
+        (go target-stance)
+        )
     )
   :post target-post
   )
