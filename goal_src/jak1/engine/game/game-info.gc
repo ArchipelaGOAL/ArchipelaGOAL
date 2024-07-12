@@ -361,6 +361,11 @@
            )
          )
 
+     ;; handle trades - they use send-event to give us negative money.
+     (when (> 0.0 amount)
+           (+! (-> this money) amount)
+           )
+
      ;; need to update the various orb counters
      (when (< 0.0 amount)
        (let ((proc (handle->process source)))
