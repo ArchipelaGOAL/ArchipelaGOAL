@@ -361,12 +361,13 @@
            )
          )
 
-     ;; handle trades - they use send-event to give us negative money.
+     ;; negative amount means we are trading. they use send-event to give us negative money.
+     ;; this runs irrespective of orbsanity options.
      (when (> 0.0 amount)
            (+! (-> this money) amount)
            )
 
-     ;; need to update the various orb counters
+     ;; positive amount means we found orbs. need to update the various orb counters.
      (when (< 0.0 amount)
        (let ((proc (handle->process source)))
          (when (and proc (-> proc entity))
@@ -405,18 +406,17 @@
                         (set! (-> *ap-info-jak1* collected-bundle-level) 16) ;; Global
                         (set! (-> *ap-info-jak1* collected-bundle-count) money-in-total)
                         )
+                  ;; If Orbsanity is off, just increment current money.
+                  (when (zero? (-> *ap-info-jak1* orbsanity-option))
+                        (+! (-> this money) amount)
+                        )
                   )
-               )
-             )
-           )
-         )
-       )
-
-     ;; ONLY increment our current money count IF Orbsanity is off altogether.
-     (if (zero? (-> *ap-info-jak1* orbsanity-option))
-         (+! (-> this money) amount)
-         (-> this money)
-         )
+                )
+              )
+          )
+        )
+      )
+     (-> this money)
      )
     (('fuel-cell)
      ;; got a power cell!
