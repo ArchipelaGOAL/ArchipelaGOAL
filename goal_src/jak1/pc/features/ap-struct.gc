@@ -2,6 +2,8 @@
 (in-package goal)
 
 (define *ap-info-jak1* (new 'static 'ap-info-jak1))
+(define *ap-string1* (new 'global 'string 256 (the string #f)))
+(define *ap-string2* (new 'global 'string 256 (the string #f)))
 ;; Init arrays
 ;;(set! (-> *ap-info-jak1* cells) (new 'static 'boxed-array :type uint32 :length 101 :allocated-length 101))
 ;;(set! (-> *ap-info-jak1* buzzers) (new 'static 'boxed-array :type uint32 :length 112 :allocated-length 112))
@@ -112,11 +114,11 @@
   )
 
 (defun ap-special-received! ((special-id uint))
-  (+! (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) 1.0)
+  (set! (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) (the uint 1))
   )
 
 (defun ap-special-received? ((special-id uint))
-  (= (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) 1)
+  (> (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) 0)
   )
 
 ;; These are the move ID's in the same order as defined by the archipelago
@@ -138,11 +140,11 @@
   )
 
 (defun ap-move-received! ((move-id uint))
-  (+! (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) 1.0)
+  (set! (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) (the uint 1))
   )
 
 (defun ap-move-received? ((move-id uint))
-  (= (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) 1)
+  (> (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) 0)
   )
 
 (defun ap-deathlink-received! ((chosen-death symbol))
@@ -196,5 +198,9 @@
   (set! (-> *ap-info-jak1* moverando-enabled) (if (-> *ap-settings* moverando?) 1 0))
   (set! (-> *ap-info-jak1* orbsanity-option) (-> *ap-settings* orbsanity-option))
   (set! (-> *ap-info-jak1* orbsanity-bundle) (-> *ap-settings* orbsanity-bundle))
+  (set! (-> *ap-info-jak1* fire-canyon-unlock) (-> *ap-settings* fire-canyon-unlock))
+  (set! (-> *ap-info-jak1* mountain-pass-unlock) (-> *ap-settings* mountain-pass-unlock))
+  (set! (-> *ap-info-jak1* lava-tube-unlock) (-> *ap-settings* lava-tube-unlock))
+  (set! (-> *ap-info-jak1* completion-goal) (-> *ap-settings* completion-goal))
   (none)
   )

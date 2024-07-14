@@ -34,12 +34,27 @@
     (orbsanity-bundle uint32)       ;; bundle size.
     (collected-bundle-level uint8)  ;; indicates level index you found a bundle in. See level-task-data-index.
     (collected-bundle-count uint32) ;; indicates total number of orbs you found to trigger the check.
+
+    ;; Progression/Completion information.
+    (fire-canyon-unlock float)
+    (mountain-pass-unlock float)
+    (lava-tube-unlock float)
+    (completion-goal uint8)
+    (completed uint8)
+
+    ;; HUD information.
+    (their-item-name uint8 32)
+    (their-item-owner uint8 32)
+    (my-item-name uint8 32)
+    (my-item-finder uint8 32)
     
     ;; End marker just to make things look nice in a memory view.
     (end-marker uint8 4)           
   )) 
 
 (define-extern *ap-info-jak1* ap-info-jak1)
+(define-extern *ap-string1* string)
+(define-extern *ap-string2* string)
 
 ;; These functions add the entity's ID to the corresponding array
 ;; so that AP knows what we checked in-game.

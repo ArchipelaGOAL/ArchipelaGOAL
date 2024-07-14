@@ -180,6 +180,7 @@
   (confirmation)
   (orbsanity-option)
   (orbsanity-bundle)
+  (completion-goal)
   )
 
     ) ;; end of PC_PORT = #t branch for enum initialization

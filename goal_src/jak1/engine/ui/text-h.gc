@@ -888,6 +888,15 @@
   (1000orbs #x2056)
   (2000orbs #x2057)
   (total-checked #x2058)
+  (completion-goal #x2059)
+  (cross-fire-canyon #x2060)
+  (cross-mountain-pass #x2061)
+  (cross-lava-tube #x2062)
+  (defeat-gol-and-maia #x2063)
+  (100-power-cell-door #x2064) 
+  (fire-canyon-unlock #x2065) 
+  (mountain-pass-unlock #x2066) 
+  (lava-tube-unlock #x2067) 
 
 ;; GAME-TEXT-ID ENUM ENDS
   )
