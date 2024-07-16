@@ -190,7 +190,15 @@
   (if (task-complete? *game-info* (game-task village3-oracle-money1)) (-! (-> *game-info* money) (-> *GAME-bank* money-oracle-inc)))
   (if (task-complete? *game-info* (game-task village3-oracle-money2)) (-! (-> *game-info* money) (-> *GAME-bank* money-oracle-inc)))
   #t
-)
+  )
+
+(defun ap-setup-goals! ((fc float) (mp float) (lt float) (goal uint))
+  (set! (-> *ap-settings* fire-canyon-unlock) fc)
+  (set! (-> *ap-settings* mountain-pass-unlock) mp)
+  (set! (-> *ap-settings* lava-tube-unlock) lt)
+  (set! (-> *ap-settings* completion-goal) goal)
+  #t
+  )
 
 (defun ap-settings-update ()
   "A per frame update for settings related stuff"

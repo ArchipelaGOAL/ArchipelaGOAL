@@ -452,6 +452,11 @@
             ((= (the-as uint s5-1) 73) (ap-special-checked! (the-as uint s5-1)))
             ((= (the-as uint s5-1) 70) (ap-special-checked! (the-as uint s5-1)))
             )
+
+         ;; Did we collect the power cell that matches our completion goal? Check that now.
+         (if (= (the-as uint s5-1) (the-as uint (-> *ap-info-jak1* completion-goal)))
+             (set! (-> *ap-info-jak1* completed) (the uint 1)) ;; (one of) our victory condition(s)!
+             )
          )
        )
      (-> this fuel)

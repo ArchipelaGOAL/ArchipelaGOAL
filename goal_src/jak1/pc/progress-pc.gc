@@ -102,8 +102,9 @@
                                                       25orbs 40orbs 50orbs 80orbs 
                                                       100orbs 125orbs 200orbs 250orbs 
                                                       400orbs 500orbs 1000orbs 2000orbs))
-(def-progress-carousell *carousell-completion-goal* (cross-fire-canyon cross-mountain-pass cross-lava-tube 
-                                                     jungle-plant ogre-boss defeat-gol-and-maia 100-power-cell-door))
+(def-progress-carousell *carousell-completion-goal* (ap-cross-fc ap-cross-mp ap-cross-lt 
+                                                     ap-plant-boss ogre-boss ap-final-boss 
+                                                     ap-final-door))
 (define *carousell-frame-rate* *carousell-frame-rate-150fps*)
 
 ;; pad remap stuff
