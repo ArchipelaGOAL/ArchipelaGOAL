@@ -1868,13 +1868,13 @@
                  (((game-option-type completion-goal))
                   ;; orbsanity reuses language, display-mode, and other carousell code.
                   (case (-> *ap-settings* completion-goal)
-                    ((69)  (set! (-> *progress-carousell* int-backup) 0))
-                    ((87)  (set! (-> *progress-carousell* int-backup) 1))
-                    ((89)  (set! (-> *progress-carousell* int-backup) 2))
-                    ((6)   (set! (-> *progress-carousell* int-backup) 3))
-                    ((86)  (set! (-> *progress-carousell* int-backup) 4))
-                    ((112) (set! (-> *progress-carousell* int-backup) 5))
-                    ((106) (set! (-> *progress-carousell* int-backup) 6))
+                    ((69)  (set! (-> *progress-carousell* int-backup) 0)) ;; game-task firecanyon-end
+                    ((87)  (set! (-> *progress-carousell* int-backup) 1)) ;; game-task ogre-end
+                    ((89)  (set! (-> *progress-carousell* int-backup) 2)) ;; game-task lavatube-end
+                    ((6)   (set! (-> *progress-carousell* int-backup) 3)) ;; game-task jungle-plant
+                    ((86)  (set! (-> *progress-carousell* int-backup) 4)) ;; game-task ogre-boss
+                    ((112) (set! (-> *progress-carousell* int-backup) 5)) ;; game-task finalboss-movies
+                    ((116) (set! (-> *progress-carousell* int-backup) 6)) ;; game-task max
                     )
                   )
                  )
@@ -2036,13 +2036,13 @@
                (((game-option-type completion-goal))
                 ;; orbsanity reuses language, display-mode, and other carousell code.
                 (case (-> *progress-carousell* int-backup)
-                  ((0) (set! (-> *ap-settings* completion-goal) 69))
-                  ((1) (set! (-> *ap-settings* completion-goal) 87))
-                  ((2) (set! (-> *ap-settings* completion-goal) 89))
-                  ((3) (set! (-> *ap-settings* completion-goal) 6))
-                  ((4) (set! (-> *ap-settings* completion-goal) 86))
-                  ((5) (set! (-> *ap-settings* completion-goal) 112))
-                  ((6) (set! (-> *ap-settings* completion-goal) 106))
+                  ((0) (set! (-> *ap-settings* completion-goal) 69))  ;; game-task firecanyon-end
+                  ((1) (set! (-> *ap-settings* completion-goal) 87))  ;; game-task ogre-end
+                  ((2) (set! (-> *ap-settings* completion-goal) 89))  ;; game-task lavatube-end
+                  ((3) (set! (-> *ap-settings* completion-goal) 6))   ;; game-task jungle-plant
+                  ((4) (set! (-> *ap-settings* completion-goal) 86))  ;; game-task ogre-boss
+                  ((5) (set! (-> *ap-settings* completion-goal) 112)) ;; game-task finalboss-movies
+                  ((6) (set! (-> *ap-settings* completion-goal) 116)) ;; game-task max
                   )
                 )
                )

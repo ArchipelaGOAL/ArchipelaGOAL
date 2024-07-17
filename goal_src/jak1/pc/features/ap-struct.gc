@@ -114,6 +114,8 @@
   )
 
 (defun ap-special-received! ((special-id uint))
+  (send-event (ppointer->process (-> *hud-parts* fuel-cell)) 'show)
+  (sound-play "buzzer-pickup" :pitch 0.166)
   (set! (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) (the uint 1))
   )
 
@@ -140,6 +142,8 @@
   )
 
 (defun ap-move-received! ((move-id uint))
+  (send-event (ppointer->process (-> *hud-parts* fuel-cell)) 'show)
+  (sound-play "buzzer-pickup" :pitch 0.166)
   (set! (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) (the uint 1))
   )
 

@@ -889,15 +889,15 @@
         (((game-save-elt buzzer-total))
          (set! (-> this buzzer-total) (-> data user-float0))
          )
-        (((game-save-elt fuel-cell))
-         (set! (-> this fuel) 0.0) ;; Set to 0 since AP server will give us correct amount.
-         )
+        ;;(((game-save-elt fuel-cell))
+        ;; (set! (-> this fuel) 0.0) ;; Allow AP server to be source of truth of cell count.
+        ;; )
         (((game-save-elt death-movie-tick))
          (set! (-> this death-movie-tick) (the-as int (-> data user-uint64)))
          )
-        (((game-save-elt money))
-         (set! (-> this money) 0.0) ;; Set to 0 since AP server will give us correct amount.
-         )
+        ;;(((game-save-elt money))
+        ;; (set! (-> this fuel) 0.0) ;; Allow AP server to be source of truth of money count.
+        ;; )
         (((game-save-elt money-total))
          (set! (-> this money-total) (-> data user-float0))
          )

@@ -162,8 +162,8 @@
                )
           (process-entity-status! self (entity-perm-status complete) #t)
 
-          ;; Not a power cell, so we need to handle this specially. Reusing red-eggtop for no reason.
-          (if (= (-> *ap-info-jak1* completion-goal) (the-as uint (game-task red-eggtop)))
+          ;; Not a power cell, so we need to handle this specially. Reusing max for no reason.
+          (if (= (-> *ap-info-jak1* completion-goal) (the-as uint (game-task max)))
               (set! (-> *ap-info-jak1* completed) (the uint 1)) ;; (one of) our victory condition(s)!
               )
           )
