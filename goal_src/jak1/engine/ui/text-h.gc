@@ -898,6 +898,7 @@
   (mountain-pass-unlock #x2066) 
   (lava-tube-unlock #x2067) 
   (ap-plant-boss #x2068)
+  (ap-connect-and-start #x2069)
 
 ;; GAME-TEXT-ID ENUM ENDS
   )

@@ -86,10 +86,9 @@
 (define-extern ap-move-received! (function uint uint))
 (define-extern ap-move-received? (function uint symbol))
 
-;; Slightly more complicated than a single send-event.
+;; Slightly more complicated functions.
 (define-extern ap-deathlink-received! (function symbol symbol))
-(define-extern ap-setup-orbs! (function uint uint symbol))
-(define-extern ap-setup-goals! (function float float float uint symbol))
+(define-extern ap-setup-options! (function uint uint float float float uint symbol))
 
 ;; Handles options changes.
 (define-extern ap-settings-update (function none))

@@ -889,15 +889,20 @@
         (((game-save-elt buzzer-total))
          (set! (-> this buzzer-total) (-> data user-float0))
          )
+        ;; Always allow AP server to be the source of truth of cell count.
         ;;(((game-save-elt fuel-cell))
-        ;; (set! (-> this fuel) 0.0) ;; Allow AP server to be source of truth of cell count.
+        ;; (set! (-> this fuel) 0.0) 
         ;; )
         (((game-save-elt death-movie-tick))
          (set! (-> this death-movie-tick) (the-as int (-> data user-uint64)))
          )
-        ;;(((game-save-elt money))
-        ;; (set! (-> this fuel) 0.0) ;; Allow AP server to be source of truth of money count.
-        ;; )
+        ;; Only allow AP server to be the source of truth of money if Orbsanity is ON.
+        ;; Otherwise, AP server does not care about orbs, so the save file is the source of truth.
+        (((game-save-elt money))
+         (if (zero? (-> *ap-settings* orbsanity-option))
+             (set! (-> this money) (-> data user-float0))
+             )
+         )
         (((game-save-elt money-total))
          (set! (-> this money-total) (-> data user-float0))
          )

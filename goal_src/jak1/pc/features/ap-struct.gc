@@ -168,35 +168,9 @@
   #t
   )
 
-(defun ap-setup-orbs! ((option uint) (bundle uint))
+(defun ap-setup-options! ((option uint) (bundle uint) (fc float) (mp float) (lt float) (goal uint))
   (set! (-> *ap-settings* orbsanity-option) option)
   (set! (-> *ap-settings* orbsanity-bundle) bundle)
-
-  ;; Archipelago server won't give you your money back if Orbsanity is off, 
-  ;; we have to do that here. money-total convienently tells us all the orbs we found.
-  (if (zero? option) (set! (-> *game-info* money) (-> *game-info* money-total)))
-
-  ;; No matter which Orbsanity option is chosen, we need to subtract the trades, if we made any.
-  (if (task-complete? *game-info* (game-task village1-mayor-money)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village1-uncle-money)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village2-gambler-money)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village2-geologist-money)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village2-warrior-money)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village3-miner-money1)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village3-miner-money2)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village3-miner-money3)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village3-miner-money4)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-
-  (if (task-complete? *game-info* (game-task village1-oracle-money1)) (-! (-> *game-info* money) (-> *GAME-bank* money-oracle-inc)))
-  (if (task-complete? *game-info* (game-task village1-oracle-money2)) (-! (-> *game-info* money) (-> *GAME-bank* money-oracle-inc)))
-  (if (task-complete? *game-info* (game-task village2-oracle-money1)) (-! (-> *game-info* money) (-> *GAME-bank* money-oracle-inc)))
-  (if (task-complete? *game-info* (game-task village2-oracle-money2)) (-! (-> *game-info* money) (-> *GAME-bank* money-oracle-inc)))
-  (if (task-complete? *game-info* (game-task village3-oracle-money1)) (-! (-> *game-info* money) (-> *GAME-bank* money-oracle-inc)))
-  (if (task-complete? *game-info* (game-task village3-oracle-money2)) (-! (-> *game-info* money) (-> *GAME-bank* money-oracle-inc)))
-  #t
-  )
-
-(defun ap-setup-goals! ((fc float) (mp float) (lt float) (goal uint))
   (set! (-> *ap-settings* fire-canyon-unlock) fc)
   (set! (-> *ap-settings* mountain-pass-unlock) mp)
   (set! (-> *ap-settings* lava-tube-unlock) lt)
