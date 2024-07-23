@@ -299,6 +299,10 @@
     (moverando? symbol)
     (orbsanity-option uint8) 
     (orbsanity-bundle uint32)
+    (fire-canyon-unlock float)
+    (mountain-pass-unlock float)
+    (lava-tube-unlock float)
+    (completion-goal uint8)
     )
   (:methods
     (new (symbol type) _type_)
@@ -320,6 +324,10 @@
   (set! (-> obj moverando?) #t)
   (set! (-> obj orbsanity-option) 0)
   (set! (-> obj orbsanity-bundle) 1)
+  (set! (-> obj fire-canyon-unlock) (the float 20))
+  (set! (-> obj mountain-pass-unlock) (the float 45))
+  (set! (-> obj lava-tube-unlock) (the float 72))
+  (set! (-> obj completion-goal) 112)
   (none)
   )
 

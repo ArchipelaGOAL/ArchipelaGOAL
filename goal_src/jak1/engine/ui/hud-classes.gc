@@ -1147,6 +1147,28 @@
               (font-flags shadow kerning large)
               0.8
               )
+            (string<-charp (clear *ap-string1*) (-> *ap-info-jak1* their-item-name))
+            (string<-charp (clear *ap-string2*) (-> *ap-info-jak1* their-item-owner))
+            (if (string= *ap-string2* "MYSELF")
+                (draw-string-xy-scaled
+                  (string-format "FOUND ~8L~S~0L" *ap-string1*)
+                  buf
+                  256
+                  (+ string-y 30)
+                  (font-color default)
+                  (font-flags shadow kerning middle large)
+                  0.5
+                  )
+                (draw-string-xy-scaled
+                  (string-format "SENT ~6L~S~0L~%TO ~3L~S~0L" *ap-string1* *ap-string2*)
+                  buf
+                  256
+                  (+ string-y 30)
+                  (font-color default)
+                  (font-flags shadow kerning middle large)
+                  0.5
+                  )
+                )
             )
           )
         (((hud-collectable-view level-totals))
@@ -1173,6 +1195,28 @@
               (font-flags shadow kerning large)
               0.8
               )
+            (string<-charp (clear *ap-string1*) (-> *ap-info-jak1* their-item-name))
+            (string<-charp (clear *ap-string2*) (-> *ap-info-jak1* their-item-owner))
+            (if (string= *ap-string2* "MYSELF")
+                (draw-string-xy-scaled
+                  (string-format "FOUND ~8L~S~0L" *ap-string1*)
+                  buf
+                  256
+                  (+ string-y 30)
+                  (font-color default)
+                  (font-flags shadow kerning middle large)
+                  0.5
+                  )
+                (draw-string-xy-scaled
+                  (string-format "SENT ~6L~S~0L~%TO ~3L~S~0L" *ap-string1* *ap-string2*)
+                  buf
+                  256
+                  (+ string-y 30)
+                  (font-color default)
+                  (font-flags shadow kerning middle large)
+                  0.5
+                  )
+                )
             )
           )
         (((hud-collectable-view original))
@@ -1185,6 +1229,28 @@
             (font-color yellow)
             (font-flags shadow kerning large)
             )
+          (string<-charp (clear *ap-string1*) (-> *ap-info-jak1* my-item-name))
+          (string<-charp (clear *ap-string2*) (-> *ap-info-jak1* my-item-finder))
+          (if (string= *ap-string2* "MYSELF")
+              (draw-string-xy-scaled
+                (string-format "FOUND ~8L~S~0L" *ap-string1*)
+                buf
+                256
+                (+ string-y 30)
+                (font-color default)
+                (font-flags shadow kerning middle large)
+                0.5
+                )
+              (draw-string-xy-scaled
+                (string-format "GOT ~6L~S~0L~%FROM ~3L~S~0L" *ap-string1* *ap-string2*)
+                buf
+                256
+                (+ string-y 30)
+                (font-color default)
+                (font-flags shadow kerning middle large)
+                0.5
+                )
+              )
           )
         )
       )

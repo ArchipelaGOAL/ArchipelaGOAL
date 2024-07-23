@@ -145,7 +145,7 @@
   :code (behavior ()
     (ja-post)
     (loop
-      (if (and (and *target* (>= 61440.0 (vector-vector-distance (-> self root trans) (-> *target* control trans))))
+      (when (and (and *target* (>= 61440.0 (vector-vector-distance (-> self root trans) (-> *target* control trans))))
                (and (not (logtest? (-> *target* state-flags) (state-flags grabbed)))
                     (and (>= (-> *game-info* fuel) 100.0)
                          (not (and (-> self entity) (logtest? (-> self entity extra perm status) (entity-perm-status complete))))
@@ -161,6 +161,11 @@
                     )
                )
           (process-entity-status! self (entity-perm-status complete) #t)
+
+          ;; Not a power cell, so we need to handle this specially. Reusing max for no reason.
+          (if (= (-> *ap-info-jak1* completion-goal) (the-as uint (game-task max)))
+              (set! (-> *ap-info-jak1* completed) (the uint 1)) ;; (one of) our victory condition(s)!
+              )
           )
       (suspend)
       )

@@ -417,7 +417,12 @@
     (case message
       (('white-eco-picked-up)
        (close-specific-task! (game-task finalboss-movies) (task-status unknown))
-       (ap-special-checked! (the-as uint (game-task finalboss-movies))) ;; this is our victory condition!
+
+       ;; Not a power cell, so we need to handle this specially. 
+       (if (= (-> *ap-info-jak1* completion-goal) (the-as uint (game-task finalboss-movies)))
+           (set! (-> *ap-info-jak1* completed) (the uint 1)) ;; (one of) our victory condition(s)!
+           )
+       
        (entity-birth-no-kill (-> self alts 5))
        (let ((a1-2 (new 'stack-no-clear 'event-message-block)))
          (set! (-> a1-2 from) self)

@@ -858,6 +858,10 @@
     (format file "  (moverando? ~A)~%" (-> obj moverando?))
     (format file "  (orbsanity-option ~D)~%" (the-as int (-> obj orbsanity-option)))
     (format file "  (orbsanity-bundle ~D)~%" (the-as int (-> obj orbsanity-bundle)))
+    (format file "  (fire-canyon-unlock ~F)~%" (the-as float (-> obj fire-canyon-unlock)))
+    (format file "  (mountain-pass-unlock ~F)~%" (the-as float (-> obj mountain-pass-unlock)))
+    (format file "  (lava-tube-unlock ~F)~%" (the-as float (-> obj lava-tube-unlock)))
+    (format file "  (completion-goal ~D)~%" (the-as int (-> obj completion-goal)))
 
     ;; file trailer
     (format file "  )~%")
@@ -904,6 +908,10 @@
                 (("moverando?") (set! (-> obj moverando?) (file-stream-read-symbol file)))
                 (("orbsanity-option") (set! (-> obj orbsanity-option) (the-as uint8 (file-stream-read-int file))))
                 (("orbsanity-bundle") (set! (-> obj orbsanity-bundle) (the-as uint32 (file-stream-read-int file))))
+                (("fire-canyon-unlock") (set! (-> obj fire-canyon-unlock) (the-as float (file-stream-read-float file))))
+                (("mountain-pass-unlock") (set! (-> obj mountain-pass-unlock) (the-as float (file-stream-read-float file))))
+                (("lava-tube-unlock") (set! (-> obj lava-tube-unlock) (the-as float (file-stream-read-float file))))
+                (("completion-goal") (set! (-> obj completion-goal) (the-as uint8 (file-stream-read-int file))))
                 )
               )
             )

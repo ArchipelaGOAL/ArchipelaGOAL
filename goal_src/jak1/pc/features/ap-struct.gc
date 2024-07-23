@@ -2,6 +2,8 @@
 (in-package goal)
 
 (define *ap-info-jak1* (new 'static 'ap-info-jak1))
+(define *ap-string1* (new 'global 'string 256 (the string #f)))
+(define *ap-string2* (new 'global 'string 256 (the string #f)))
 ;; Init arrays
 ;;(set! (-> *ap-info-jak1* cells) (new 'static 'boxed-array :type uint32 :length 101 :allocated-length 101))
 ;;(set! (-> *ap-info-jak1* buzzers) (new 'static 'boxed-array :type uint32 :length 112 :allocated-length 112))
@@ -112,11 +114,13 @@
   )
 
 (defun ap-special-received! ((special-id uint))
-  (+! (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) 1.0)
+  (send-event (ppointer->process (-> *hud-parts* fuel-cell)) 'show)
+  (sound-play "buzzer-pickup" :pitch 0.166)
+  (set! (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) (the uint 1))
   )
 
 (defun ap-special-received? ((special-id uint))
-  (= (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) 1)
+  (> (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) 0)
   )
 
 ;; These are the move ID's in the same order as defined by the archipelago
@@ -138,11 +142,13 @@
   )
 
 (defun ap-move-received! ((move-id uint))
-  (+! (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) 1.0)
+  (send-event (ppointer->process (-> *hud-parts* fuel-cell)) 'show)
+  (sound-play "buzzer-pickup" :pitch 0.166)
+  (set! (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) (the uint 1))
   )
 
 (defun ap-move-received? ((move-id uint))
-  (= (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) 1)
+  (> (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) 0)
   )
 
 (defun ap-deathlink-received! ((chosen-death symbol))
@@ -162,33 +168,15 @@
   #t
   )
 
-(defun ap-setup-orbs! ((option uint) (bundle uint))
+(defun ap-setup-options! ((option uint) (bundle uint) (fc float) (mp float) (lt float) (goal uint))
   (set! (-> *ap-settings* orbsanity-option) option)
   (set! (-> *ap-settings* orbsanity-bundle) bundle)
-
-  ;; Archipelago server won't give you your money back if Orbsanity is off, 
-  ;; we have to do that here. money-total convienently tells us all the orbs we found.
-  (if (zero? option) (set! (-> *game-info* money) (-> *game-info* money-total)))
-
-  ;; No matter which Orbsanity option is chosen, we need to subtract the trades, if we made any.
-  (if (task-complete? *game-info* (game-task village1-mayor-money)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village1-uncle-money)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village2-gambler-money)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village2-geologist-money)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village2-warrior-money)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village3-miner-money1)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village3-miner-money2)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village3-miner-money3)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-  (if (task-complete? *game-info* (game-task village3-miner-money4)) (-! (-> *game-info* money) (-> *GAME-bank* money-task-inc)))
-
-  (if (task-complete? *game-info* (game-task village1-oracle-money1)) (-! (-> *game-info* money) (-> *GAME-bank* money-oracle-inc)))
-  (if (task-complete? *game-info* (game-task village1-oracle-money2)) (-! (-> *game-info* money) (-> *GAME-bank* money-oracle-inc)))
-  (if (task-complete? *game-info* (game-task village2-oracle-money1)) (-! (-> *game-info* money) (-> *GAME-bank* money-oracle-inc)))
-  (if (task-complete? *game-info* (game-task village2-oracle-money2)) (-! (-> *game-info* money) (-> *GAME-bank* money-oracle-inc)))
-  (if (task-complete? *game-info* (game-task village3-oracle-money1)) (-! (-> *game-info* money) (-> *GAME-bank* money-oracle-inc)))
-  (if (task-complete? *game-info* (game-task village3-oracle-money2)) (-! (-> *game-info* money) (-> *GAME-bank* money-oracle-inc)))
+  (set! (-> *ap-settings* fire-canyon-unlock) fc)
+  (set! (-> *ap-settings* mountain-pass-unlock) mp)
+  (set! (-> *ap-settings* lava-tube-unlock) lt)
+  (set! (-> *ap-settings* completion-goal) goal)
   #t
-)
+  )
 
 (defun ap-settings-update ()
   "A per frame update for settings related stuff"
@@ -196,5 +184,9 @@
   (set! (-> *ap-info-jak1* moverando-enabled) (if (-> *ap-settings* moverando?) 1 0))
   (set! (-> *ap-info-jak1* orbsanity-option) (-> *ap-settings* orbsanity-option))
   (set! (-> *ap-info-jak1* orbsanity-bundle) (-> *ap-settings* orbsanity-bundle))
+  (set! (-> *ap-info-jak1* fire-canyon-unlock) (-> *ap-settings* fire-canyon-unlock))
+  (set! (-> *ap-info-jak1* mountain-pass-unlock) (-> *ap-settings* mountain-pass-unlock))
+  (set! (-> *ap-info-jak1* lava-tube-unlock) (-> *ap-settings* lava-tube-unlock))
+  (set! (-> *ap-info-jak1* completion-goal) (-> *ap-settings* completion-goal))
   (none)
   )

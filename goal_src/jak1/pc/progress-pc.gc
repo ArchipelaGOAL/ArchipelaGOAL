@@ -102,6 +102,9 @@
                                                       25orbs 40orbs 50orbs 80orbs 
                                                       100orbs 125orbs 200orbs 250orbs 
                                                       400orbs 500orbs 1000orbs 2000orbs))
+(def-progress-carousell *carousell-completion-goal* (ap-cross-fc ap-cross-mp ap-cross-lt 
+                                                     ap-plant-boss ogre-boss ap-final-boss 
+                                                     ap-final-door))
 (define *carousell-frame-rate* *carousell-frame-rate-150fps*)
 
 ;; pad remap stuff
@@ -160,6 +163,10 @@
     (new 'static 'game-option :option-type (game-option-type on-off) :name (text-id moverando) :scale #t)
     (new 'static 'game-option :option-type (game-option-type orbsanity-option) :name (text-id orbsanity) :scale #t)
     (new 'static 'game-option :option-type (game-option-type orbsanity-bundle) :name (text-id orb-bundle-size) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type slider) :name (text-id fire-canyon-unlock) :scale #t :param1 0.0 :param2 100.0 :slider-step-size 1.0)
+    (new 'static 'game-option :option-type (game-option-type slider) :name (text-id mountain-pass-unlock) :scale #t :param1 0.0 :param2 100.0 :slider-step-size 1.0)
+    (new 'static 'game-option :option-type (game-option-type slider) :name (text-id lava-tube-unlock) :scale #t :param1 0.0 :param2 100.0 :slider-step-size 1.0)
+    (new 'static 'game-option :option-type (game-option-type completion-goal) :name (text-id completion-goal) :scale #t)
     (new 'static 'game-option :option-type (game-option-type menu) :name (text-id warp-to-home) :scale #t :param3 (game-option-menu warp-to-home))
     (new 'static 'game-option :option-type (game-option-type button) :name (text-id back) :scale #t)
     )
@@ -1042,6 +1049,10 @@
   (set! (-> *archipelago-options* 3 value-to-modify) (&-> *ap-settings* moverando?))
   (set! (-> *archipelago-options* 4 value-to-modify) (&-> *progress-carousell* int-backup)) ;; remember, carousell menus map to this backup variable, not directly to the setting variable. 
   (set! (-> *archipelago-options* 5 value-to-modify) (&-> *progress-carousell* int-backup))
+  (set! (-> *archipelago-options* 6 value-to-modify) (&-> *ap-settings* fire-canyon-unlock))
+  (set! (-> *archipelago-options* 7 value-to-modify) (&-> *ap-settings* mountain-pass-unlock))
+  (set! (-> *archipelago-options* 8 value-to-modify) (&-> *ap-settings* lava-tube-unlock))
+  (set! (-> *archipelago-options* 9 value-to-modify) (&-> *progress-carousell* int-backup))
 
   ;; input options
   (set! (-> *controller-options* 1 value-to-modify) (&-> *setting-control* default vibration))
@@ -1224,6 +1235,7 @@
                     (game-option-type language-text)
                     (game-option-type orbsanity-option)
                     (game-option-type orbsanity-bundle)
+                    (game-option-type completion-goal)
                     )
                    ;; a carousell like language
                    (if (> (-> (the-as (pointer int) (-> options (-> obj option-index) value-to-modify))) 0)
@@ -1336,6 +1348,7 @@
                     (game-option-type language-text)
                     (game-option-type orbsanity-option)
                     (game-option-type orbsanity-bundle)
+                    (game-option-type completion-goal)
                     )
                    ;; same thing as before. if at last, go to first. otherwise, keep going forward.
                    (if (< (-> (the-as (pointer int) (-> options (-> obj option-index) value-to-modify))) (1- (length (-> *progress-carousell* current-carousell))))
@@ -1852,6 +1865,18 @@
                     ((2000) (set! (-> *progress-carousell* int-backup) 19))
                     )
                   )
+                 (((game-option-type completion-goal))
+                  ;; orbsanity reuses language, display-mode, and other carousell code.
+                  (case (-> *ap-settings* completion-goal)
+                    ((69)  (set! (-> *progress-carousell* int-backup) 0)) ;; game-task firecanyon-end
+                    ((87)  (set! (-> *progress-carousell* int-backup) 1)) ;; game-task ogre-end
+                    ((89)  (set! (-> *progress-carousell* int-backup) 2)) ;; game-task lavatube-end
+                    ((6)   (set! (-> *progress-carousell* int-backup) 3)) ;; game-task jungle-plant
+                    ((86)  (set! (-> *progress-carousell* int-backup) 4)) ;; game-task ogre-boss
+                    ((112) (set! (-> *progress-carousell* int-backup) 5)) ;; game-task finalboss-movies
+                    ((116) (set! (-> *progress-carousell* int-backup) 6)) ;; game-task max
+                    )
+                  )
                  )
                (sound-play "select-option")
                (cpad-clear! 0 x)
@@ -1880,6 +1905,7 @@
                      (((game-option-type language-text)) (set! (-> *progress-carousell* current-carousell) *text-languages*))
                      (((game-option-type orbsanity-option)) (set! (-> *progress-carousell* current-carousell) *carousell-orbsanity-option*))
                      (((game-option-type orbsanity-bundle)) (set! (-> *progress-carousell* current-carousell) *carousell-orbsanity-bundle*))
+                     (((game-option-type completion-goal)) (set! (-> *progress-carousell* current-carousell) *carousell-completion-goal*))
                      )
                    )
                  )
@@ -2005,6 +2031,18 @@
                   ((17) (set! (-> *ap-settings* orbsanity-bundle) 500))
                   ((18) (set! (-> *ap-settings* orbsanity-bundle) 1000))
                   ((19) (set! (-> *ap-settings* orbsanity-bundle) 2000))
+                  )
+                )
+               (((game-option-type completion-goal))
+                ;; orbsanity reuses language, display-mode, and other carousell code.
+                (case (-> *progress-carousell* int-backup)
+                  ((0) (set! (-> *ap-settings* completion-goal) 69))  ;; game-task firecanyon-end
+                  ((1) (set! (-> *ap-settings* completion-goal) 87))  ;; game-task ogre-end
+                  ((2) (set! (-> *ap-settings* completion-goal) 89))  ;; game-task lavatube-end
+                  ((3) (set! (-> *ap-settings* completion-goal) 6))   ;; game-task jungle-plant
+                  ((4) (set! (-> *ap-settings* completion-goal) 86))  ;; game-task ogre-boss
+                  ((5) (set! (-> *ap-settings* completion-goal) 112)) ;; game-task finalboss-movies
+                  ((6) (set! (-> *ap-settings* completion-goal) 116)) ;; game-task max
                   )
                 )
                )
@@ -2674,6 +2712,7 @@
                     (game-option-type language-text)
                     (game-option-type orbsanity-option)
                     (game-option-type orbsanity-bundle)
+                    (game-option-type completion-goal)
                     )
                     ;; crunched down to one generic function.
                     (progress-draw-carousell-from-string-list (-> *progress-carousell* current-carousell) font y-off (-> (the-as (pointer int) (-> options index value-to-modify))))
@@ -2766,6 +2805,7 @@
                       (game-option-type frame-rate)
                       (game-option-type normal-inverted)
                       (game-option-type confirmation)
+                      (game-option-type completion-goal)
                       )
                     ;; slider and aspect ratio options just show their text
                     (set! option-str (lookup-text! *common-text* (-> options index name) #f))

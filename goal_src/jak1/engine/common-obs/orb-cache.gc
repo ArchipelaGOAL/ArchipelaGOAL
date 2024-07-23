@@ -96,7 +96,7 @@
 (defmethod calculate-pos ((this orb-cache-top) (arg0 symbol))
   (let ((f0-0 0.0))
     (when arg0
-      (set! f0-0 (+ 10240.0 (* 6144.0 (the float (+ (-> this money) -1)))))
+      (set! f0-0 (+ 14336.0 (* 6144.0 (the float (+ (-> this money) -1)))))
       (if (< f0-0 2048.0)
           (set! f0-0 2048.0)
           )

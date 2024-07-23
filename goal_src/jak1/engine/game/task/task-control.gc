@@ -423,7 +423,9 @@
         :flags (task-flags has-entity)
         :condition (lambda :behavior process-taskable
           ((arg0 task-control))
-          (>= (the int (the float (send-event *target* 'query 'pickup (pickup-type fuel-cell)))) 45)
+          (>= (the int (the float (send-event *target* 'query 'pickup (pickup-type fuel-cell))))
+              (the int (-> *ap-info-jak1* mountain-pass-unlock))
+              )
           )
         )
       (new 'static 'task-cstage
@@ -3839,7 +3841,9 @@
             :flags (task-flags has-entity)
             :condition (lambda :behavior process-taskable
               ((arg0 task-control))
-              (>= (the int (the float (send-event *target* 'query 'pickup (pickup-type fuel-cell)))) 20)
+              (>= (the int (the float (send-event *target* 'query 'pickup (pickup-type fuel-cell))))
+                  (the int (-> *ap-info-jak1* fire-canyon-unlock))
+                  )
               )
             )
           (new 'static 'task-cstage
@@ -3919,7 +3923,9 @@
             :flags (task-flags has-entity)
             :condition (lambda :behavior process-taskable
               ((arg0 task-control))
-              (>= (the int (the float (send-event *target* 'query 'pickup (pickup-type fuel-cell)))) 72)
+              (>= (the int (the float (send-event *target* 'query 'pickup (pickup-type fuel-cell))))
+                  (the int (-> *ap-info-jak1* lava-tube-unlock))
+                  )
               )
             )
           (new 'static 'task-cstage

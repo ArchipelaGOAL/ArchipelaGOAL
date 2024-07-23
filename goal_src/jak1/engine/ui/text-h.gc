@@ -888,6 +888,17 @@
   (1000orbs #x2056)
   (2000orbs #x2057)
   (total-checked #x2058)
+  (completion-goal #x2059)
+  (ap-cross-fc #x2060)
+  (ap-cross-mp #x2061)
+  (ap-cross-lt #x2062)
+  (ap-final-boss #x2063)
+  (ap-final-door #x2064) 
+  (fire-canyon-unlock #x2065) 
+  (mountain-pass-unlock #x2066) 
+  (lava-tube-unlock #x2067) 
+  (ap-plant-boss #x2068)
+  (ap-connect-and-start #x2069)
 
 ;; GAME-TEXT-ID ENUM ENDS
   )

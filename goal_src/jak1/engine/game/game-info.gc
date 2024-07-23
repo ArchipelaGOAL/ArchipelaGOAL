@@ -241,8 +241,8 @@
                     )
      (set! (-> this auto-save-count) 0)
      (set! (-> *setting-control* default auto-save) #f)
-     (set! (-> this money) 0.0)
-     (set! (-> this fuel) 0.0)
+     ;; (set! (-> this money) 0.0) ;; Allow AP server to give us items even in the title screen.
+     ;; (set! (-> this fuel) 0.0)  ;; These items will persist, allowing user to load save/connect to AP in any order. 
      (set! (-> this money-total) 0.0)
      (set! (-> this buzzer-total) 0.0)
      (set! (-> this perm-list length) 0)
@@ -452,6 +452,11 @@
             ((= (the-as uint s5-1) 73) (ap-special-checked! (the-as uint s5-1)))
             ((= (the-as uint s5-1) 70) (ap-special-checked! (the-as uint s5-1)))
             )
+
+         ;; Did we collect the power cell that matches our completion goal? Check that now.
+         (if (= (the-as uint s5-1) (the-as uint (-> *ap-info-jak1* completion-goal)))
+             (set! (-> *ap-info-jak1* completed) (the uint 1)) ;; (one of) our victory condition(s)!
+             )
          )
        )
      (-> this fuel)
@@ -935,11 +940,6 @@
         ;; make sure any speedrun display is hidden
         (hide-speedrun-display)
         )
-       ;; play sound.
-       (if (time-elapsed? (-> this money-pickup-time) (seconds 0.05))
-           (sound-play "money-pickup")
-           )
-       (set-time! (-> this money-pickup-time))
        )
      (ap-adjust (-> (the-as target (-> this process)) game) 'money amount source-handle)
      )
