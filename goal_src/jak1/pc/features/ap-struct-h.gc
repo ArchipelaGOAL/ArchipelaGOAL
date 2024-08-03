@@ -30,10 +30,9 @@
     (moverando-enabled uint8)      ;; this enables/disabled the setting.
 
     ;; Orbsanity information.
-    (orbsanity-option uint8)        ;; this enables/disabled the setting.
-    (orbsanity-bundle uint32)       ;; bundle size.
-    (collected-bundle-level uint8)  ;; indicates level index you found a bundle in. See level-task-data-index.
-    (collected-bundle-count uint32) ;; indicates total number of orbs you found to trigger the check.
+    (orbsanity-option uint8)       ;; this enables/disabled the setting.
+    (orbsanity-bundle uint32)      ;; bundle size.
+    (collected-bundle uint32 17)   ;; indicates total number of orbs you found in each level. Follows level-task-data-index.
 
     ;; Progression/Completion information.
     (fire-canyon-unlock float)
