@@ -13,104 +13,104 @@
   :bounds (static-bspherem 0 0 0 2)
   :parts
   ((sp-item 303 :flags (launch-asap) :binding 304)
-    (sp-item 304 :flags (start-dead launch-asap) :binding 305)
-    (sp-item 305 :flags (start-dead launch-asap) :binding 306)
-    (sp-item 306 :flags (start-dead launch-asap) :binding 307)
-    (sp-item 306 :flags (start-dead launch-asap) :binding 307)
-    (sp-item 306 :flags (start-dead launch-asap) :binding 307)
-    (sp-item 306 :flags (start-dead launch-asap) :binding 307)
-    (sp-item 307 :fade-after (meters 40) :flags (start-dead))
-    (sp-item 307 :fade-after (meters 40) :flags (start-dead))
-    (sp-item 307 :fade-after (meters 40) :flags (start-dead))
+   (sp-item 304 :flags (start-dead launch-asap) :binding 305)
+   (sp-item 305 :flags (start-dead launch-asap) :binding 306)
+   (sp-item 306 :flags (start-dead launch-asap) :binding 307)
+   (sp-item 306 :flags (start-dead launch-asap) :binding 307)
+   (sp-item 306 :flags (start-dead launch-asap) :binding 307)
+   (sp-item 306 :flags (start-dead launch-asap) :binding 307)
+   (sp-item 307 :fade-after (meters 40) :flags (start-dead))
+   (sp-item 307 :fade-after (meters 40) :flags (start-dead))
+   (sp-item 307 :fade-after (meters 40) :flags (start-dead))
    (sp-item 307 :fade-after (meters 40) :flags (start-dead))))
 
 (defpart 303
   :init-specs
   ((:texture (new 'static 'texture-id :index #x12 :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 0.5))
-    (:scale-y :copy scale-x)
-    (:r 32.0 92.0)
-    (:g 128.0 128.0)
-    (:a 0.0)
-    (:timer (seconds -0.005))
+   (:num 1.0)
+   (:scale-x (meters 0.5))
+   (:scale-y :copy scale-x)
+   (:r 32.0 92.0)
+   (:g 128.0 128.0)
+   (:a 0.0)
+   (:timer (seconds -0.005))
    (:flags (bit3 bit9))))
 
 (defpart 304
   :init-specs
   ((:texture (new 'static 'texture-id :page #x2))
-    (:num 1.0)
-    (:y (meters 0) (meters 16))
-    (:z (meters 0.03))
-    (:scale-x (meters 2.5))
-    (:rot-z (degrees 0) (degrees 360))
-    (:scale-y :copy scale-x)
-    (:r 32.0 92.0)
-    (:g 128.0 128.0)
-    (:a 24.0)
-    (:omega 0.0 65536.0)
-    (:vel-x (meters 0.026666667) (meters 0.026666667))
-    (:vel-y (meters 0.0014814815))
-    (:vel-z (meters 0))
-    (:rotvel-z (degrees 0.2))
-    (:timer (seconds -0.005))
+   (:num 1.0)
+   (:y (meters 0) (meters 16))
+   (:z (meters 0.03))
+   (:scale-x (meters 2.5))
+   (:rot-z (degrees 0) (degrees 360))
+   (:scale-y :copy scale-x)
+   (:r 32.0 92.0)
+   (:g 128.0 128.0)
+   (:a 24.0)
+   (:omega 0.0 65536.0)
+   (:vel-x (meters 0.026666667) (meters 0.026666667))
+   (:vel-y (meters 0.0014814815))
+   (:vel-z (meters 0))
+   (:rotvel-z (degrees 0.2))
+   (:timer (seconds -0.005))
    (:flags (bit7 bit9))))
 
 (defpart 305
   :init-specs
   ((:texture (new 'static 'texture-id :page #x2))
-    (:num 3.0)
-    (:y (meters 0) (meters 16))
-    (:z (meters 0.065))
-    (:scale-x (meters 1.5) (meters 0.4))
-    (:rot-z (degrees 0) (degrees 360))
-    (:scale-y :copy scale-x)
-    (:r 32.0 92.0)
-    (:g 128.0 128.0)
-    (:a 24.0)
-    (:omega 0.0 65536.0)
-    (:vel-x (meters 0.017777778) (meters 0.017777778))
-    (:vel-y (meters 0))
-    (:vel-z (meters 0))
-    (:rotvel-z (degrees -0.4) 1 (degrees 0.8))
-    (:timer (seconds -0.005))
+   (:num 3.0)
+   (:y (meters 0) (meters 16))
+   (:z (meters 0.065))
+   (:scale-x (meters 1.5) (meters 0.4))
+   (:rot-z (degrees 0) (degrees 360))
+   (:scale-y :copy scale-x)
+   (:r 32.0 92.0)
+   (:g 128.0 128.0)
+   (:a 24.0)
+   (:omega 0.0 65536.0)
+   (:vel-x (meters 0.017777778) (meters 0.017777778))
+   (:vel-y (meters 0))
+   (:vel-z (meters 0))
+   (:rotvel-z (degrees -0.4) 1 (degrees 0.8))
+   (:timer (seconds -0.005))
    (:flags (bit3 bit7 bit9))))
 
 (defpart 306
   :init-specs
   ((:texture (new 'static 'texture-id :index #xf :page #x2))
-    (:num 1.0)
-    (:y (meters 0) (meters 16))
-    (:z (meters 0.12))
-    (:scale-x (meters 0.4))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 255.0)
-    (:a 24.0)
-    (:omega 0.0 65536.0)
-    (:vel-x (meters 0.053333335) (meters 0.053333335))
-    (:vel-y (meters 0))
-    (:vel-z (meters 0))
-    (:timer (seconds -0.005))
+   (:num 1.0)
+   (:y (meters 0) (meters 16))
+   (:z (meters 0.12))
+   (:scale-x (meters 0.4))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 255.0)
+   (:a 24.0)
+   (:omega 0.0 65536.0)
+   (:vel-x (meters 0.053333335) (meters 0.053333335))
+   (:vel-y (meters 0))
+   (:vel-z (meters 0))
+   (:timer (seconds -0.005))
    (:flags (bit2 bit3 bit7 bit9))))
 
 (defpart 307
   :init-specs
   ((:texture (new 'static 'texture-id :index #xf :page #x2))
-    (:num 0.25)
-    (:scale-x (meters 0.35))
-    (:scale-y :copy scale-x)
-    (:r 255.0)
-    (:g 255.0)
-    (:b 0.0)
-    (:a 96.0)
-    (:scalevel-x (meters -0.0012500001))
-    (:scalevel-y :copy scalevel-x)
-    (:fade-r -2.125)
-    (:accel-y (meters -0.00002))
-    (:timer (seconds 0.1) (seconds 0.797))
-    (:flags (bit2 bit9))
-    (:next-time (seconds 0.4))
+   (:num 0.25)
+   (:scale-x (meters 0.35))
+   (:scale-y :copy scale-x)
+   (:r 255.0)
+   (:g 255.0)
+   (:b 0.0)
+   (:a 96.0)
+   (:scalevel-x (meters -0.0012500001))
+   (:scalevel-y :copy scalevel-x)
+   (:fade-r -2.125)
+   (:accel-y (meters -0.00002))
+   (:timer (seconds 0.1) (seconds 0.797))
+   (:flags (bit2 bit9))
+   (:next-time (seconds 0.4))
    (:next-launcher 308)))
 
 (defpart 308
@@ -125,12 +125,12 @@
     (let ((s4-0 draw-string-xy))
       (format (clear *temp-string*) "~D" (-> this value))
       (s4-0 *temp-string*
-        s5-0
-        (+ (-> this text-x) (* (-> this x-sgn) (-> this offset)))
-        (/ (* (+ (-> this text-y) (* (-> this y-sgn) (-> this offset)) (-> this y-offset))
+            s5-0
+            (+ (-> this text-x) (* (-> this x-sgn) (-> this offset)))
+            (/ (* (+ (-> this text-y) (* (-> this y-sgn) (-> this offset)) (-> this y-offset))
                   (the int (-> *video-parms* relative-y-scale)))
                2)
-        (font-color green)
+            (font-color green)
             (font-flags shadow kerning large)))
     (let ((a3-7 (-> s5-0 base)))
       (let ((v1-8 (the-as object (-> s5-0 base))))
@@ -139,8 +139,8 @@
         (set! (-> (the-as dma-packet v1-8) vif1) (new 'static 'vif-tag))
         (set! (-> s5-0 base) (&+ (the-as pointer v1-8) 16)))
       (dma-bucket-insert-tag (-> *display* frames (-> *display* on-screen) frame bucket-group)
-        (bucket-id debug)
-        gp-0
+                             (bucket-id debug)
+                             gp-0
                              (the-as (pointer dma-tag) a3-7))))
   0
   (none))
@@ -191,43 +191,43 @@
 (defpart 309
   :init-specs
   ((:texture (new 'static 'texture-id :index #x2d :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 1.7))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:timer (seconds -0.005))
-    (:flags (bit2 bit9))
+   (:num 1.0)
+   (:scale-x (meters 1.7))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:timer (seconds -0.005))
+   (:flags (bit2 bit9))
    (:func 'part-hud-health-01-func)))
 
 (defpart 310
   :init-specs
   ((:texture (new 'static 'texture-id :index #x2e :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 1.7))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:timer (seconds -0.005))
-    (:flags (bit2 bit9))
+   (:num 1.0)
+   (:scale-x (meters 1.7))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:timer (seconds -0.005))
+   (:flags (bit2 bit9))
    (:func 'part-hud-health-03-func)))
 
 (defpart 311
   :init-specs
   ((:texture (new 'static 'texture-id :index #x2f :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 1.7))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:timer (seconds -0.005))
-    (:flags (bit2 bit9))
+   (:num 1.0)
+   (:scale-x (meters 1.7))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:timer (seconds -0.005))
+   (:flags (bit2 bit9))
    (:func 'part-hud-health-02-func)))
 
 (deftype hud-health (hud)
@@ -238,15 +238,15 @@
   (cond
     ((and *target* (< (-> *target* fact health) 1.0)) (set! (-> arg2 vector 2 w) 32.0))
     (else
-      (let ((f0-3 128.0))
-        ;; low health flashing
-        ;; og:preserve-this modified to support high fps
-        (when (and *target* (= (-> *target* fact health) 1.0))
-          (let* ((scaled-frame-counter (the int (* DISPLAY_FPS_RATIO (-> *display* integral-frame-counter))))
-                 (v1-16 (logand scaled-frame-counter 7)))
+     (let ((f0-3 128.0))
+       ;; low health flashing
+       ;; og:preserve-this modified to support high fps
+       (when (and *target* (= (-> *target* fact health) 1.0))
+         (let* ((scaled-frame-counter (the int (* DISPLAY_FPS_RATIO (-> *display* integral-frame-counter))))
+                (v1-16 (logand scaled-frame-counter 7)))
            (set! f0-3
                  (if (not (logtest? scaled-frame-counter 8))
-                           (+ 128.0 (* 18.142857 (the float v1-16)))
+                   (+ 128.0 (* 18.142857 (the float v1-16)))
                    (- 255.0 (* 18.142857 (the float v1-16)))))))
        (set! (-> arg2 vector 2 x) f0-3)
        (set! (-> arg2 vector 2 y) f0-3)
@@ -317,24 +317,24 @@
 (defmethod set-pos-and-scale ((this hud-health) (arg0 symbol) (arg1 symbol))
   (cond
     (arg0
-      (set! (-> this particles 0 init-pos x) 65.0)
-      (set! (-> this particles 0 init-pos y) 55.0)
-      (set! (-> this particles 1 init-pos x) 98.0)
-      (set! (-> this particles 1 init-pos y) 55.0)
-      (set! (-> this particles 2 init-pos x) 73.0)
-      (set! (-> this particles 2 init-pos y) 80.0)
+     (set! (-> this particles 0 init-pos x) 65.0)
+     (set! (-> this particles 0 init-pos y) 55.0)
+     (set! (-> this particles 1 init-pos x) 98.0)
+     (set! (-> this particles 1 init-pos y) 55.0)
+     (set! (-> this particles 2 init-pos x) 73.0)
+     (set! (-> this particles 2 init-pos y) 80.0)
      (set! (-> this scale) 6144.0))
     (else
-      (set! (-> this particles 0 init-pos x) 61.0)
-      (set! (-> this particles 0 init-pos y) 55.0)
-      (set! (-> this particles 1 init-pos x) 98.0)
-      (set! (-> this particles 1 init-pos y) 55.0)
-      (set! (-> this particles 2 init-pos x) 70.0)
-      (set! (-> this particles 2 init-pos y) 76.0)
-      (set! (-> this scale) 6963.2)
-      (with-pc
-        (when (not (-> *pc-settings* use-vis?))
-            (let ((base-x (-> this particles 0 init-pos x)))
+     (set! (-> this particles 0 init-pos x) 61.0)
+     (set! (-> this particles 0 init-pos y) 55.0)
+     (set! (-> this particles 1 init-pos x) 98.0)
+     (set! (-> this particles 1 init-pos y) 55.0)
+     (set! (-> this particles 2 init-pos x) 70.0)
+     (set! (-> this particles 2 init-pos y) 76.0)
+     (set! (-> this scale) 6963.2)
+     (with-pc
+       (when (not (-> *pc-settings* use-vis?))
+         (let ((base-x (-> this particles 0 init-pos x)))
            (set! (-> this particles 1 init-pos x)
                  (+ base-x (* (-> *pc-settings* aspect-ratio-reciprocal) (- (-> this particles 1 init-pos x) base-x))))
            (set! (-> this particles 2 init-pos x)
@@ -351,22 +351,22 @@
 (defpart 2964
   :init-specs
   ((:texture (new 'static 'texture-id :index #x2c :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 2.4))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:timer (seconds -0.005))
+   (:num 1.0)
+   (:scale-x (meters 2.4))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:timer (seconds -0.005))
    (:flags (bit2 bit9))))
 
 (deftype hud-money-all (hud)
-  ((x-scale      float)
-   (y-scale      float)
-   (y-pos        int32)
-   (total-orbs   int32)
-   (level-index  int32)
+  ((x-scale     float)
+   (y-scale     float)
+   (y-pos       int32)
+   (total-orbs  int32)
+   (level-index int32)
    (start-time  time-frame)))
 
 (defmethod draw-hud ((this hud-money-all))
@@ -375,24 +375,24 @@
   (let ((s5-0 0))
     (when (>= (-> this level-index) 0)
       (let ((s5-1 (new 'stack
-                'font-context
-                *font-default-matrix*
-                (+ (* (-> this x-sgn) (-> this offset)) -60 (-> this text-x))
-                (+ (/ (* (+ (-> this text-y) (* (-> this y-sgn) (-> this offset)) (-> this y-offset))
+                       'font-context
+                       *font-default-matrix*
+                       (+ (* (-> this x-sgn) (-> this offset)) -60 (-> this text-x))
+                       (+ (/ (* (+ (-> this text-y) (* (-> this y-sgn) (-> this offset)) (-> this y-offset))
                                 (the int (-> *video-parms* relative-y-scale)))
                              2)
                           -17)
-                0.0
-                (font-color red)
+                       0.0
+                       (font-color red)
                        (font-flags shadow kerning))))
         (let ((v1-12 s5-1)) (set! (-> v1-12 width) (the float 228)))
         (let ((v1-13 s5-1)) (set! (-> v1-13 height) (the float 45)))
         (let ((v1-14 s5-1)) (set! (-> v1-14 scale) 0.6))
         (set! (-> s5-1 flags) (font-flags shadow kerning middle middle-vert large))
         (print-game-text (lookup-text! *common-text* (-> *level-task-data* (-> this level-index) level-name-id) #f)
-          s5-1
-          #f
-          128
+                         s5-1
+                         #f
+                         128
                          18))
       (set! s5-0 13))
     (let* ((s1-0 50)
@@ -401,13 +401,13 @@
       (let ((s2-0 draw-string-xy))
         (format (clear *temp-string*) "~D/~D" (-> this total-orbs) (-> this total-orbs))
         (s2-0 *temp-string*
-          s3-0
-          (+ (-> this text-x) (* (-> this x-sgn) (-> this offset)) s1-0)
-          (+ (/ (* (+ (-> this text-y) (* (-> this y-sgn) (-> this offset)) (-> this y-offset))
+              s3-0
+              (+ (-> this text-x) (* (-> this x-sgn) (-> this offset)) s1-0)
+              (+ (/ (* (+ (-> this text-y) (* (-> this y-sgn) (-> this offset)) (-> this y-offset))
                        (the int (-> *video-parms* relative-y-scale)))
                     2)
                  s5-0)
-          (font-color yellow)
+              (font-color yellow)
               (font-flags shadow kerning middle large)))
       (let ((a3-12 (-> s3-0 base)))
         (let ((v1-32 (the-as dma-packet (-> s3-0 base))))
@@ -416,8 +416,8 @@
           (set! (-> v1-32 vif1) (new 'static 'vif-tag))
           (set! (-> s3-0 base) (&+ (the-as pointer v1-32) 16)))
         (dma-bucket-insert-tag (-> *display* frames (-> *display* on-screen) frame bucket-group)
-          (bucket-id debug)
-          s4-1
+                               (bucket-id debug)
+                               s4-1
                                (the-as (pointer dma-tag) a3-12)))))
   0
   (none))
@@ -433,7 +433,7 @@
         (let ((a0-6 (-> this icons 0 icon 0 root)))
           (set-yaw-angle-clear-roll-pitch! a0-6 (- (y-angle a0-6) (* 182.04445 (* 4.0 (-> *display* time-adjust-ratio))))))))
     (if (>= (+ (current-time) (seconds -5)) (-> this start-time))
-        (set! (-> this deactivate-when-hidden) #t)
+      (set! (-> this deactivate-when-hidden) #t)
       (tally-value this (the-as int (current-time)) 0)))
   0
   (none))
@@ -515,19 +515,19 @@
 (defpart 312
   :init-specs
   ((:texture (new 'static 'texture-id :index #x2c :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 1.6))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:timer (seconds -0.005))
+   (:num 1.0)
+   (:scale-x (meters 1.6))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:timer (seconds -0.005))
    (:flags (bit2 bit9))))
 
 (deftype hud-money (hud)
-  ((x-scale  float)
-   (y-scale  float)
+  ((x-scale float)
+   (y-scale float)
    (y-pos   int32)))
 
 (define-extern *game-counts* game-count-info)
@@ -541,34 +541,34 @@
                         2)))
       (case *hud-collectable-view*
         (((hud-collectable-view game-totals))
-          ;; show orbs collected/total across entire game
+         ;; show orbs collected/total across entire game
          (draw-string-xy-scaled (string-format "~D~%/~D"
-              (the int (-> *game-info* money-total))
-              2000  ;;(-> (the progress (-> *progress-process* 0)) total-nb-of-orbs)
-              )
-            buf
-            string-x
-            (- string-y 5)
-            (font-color yellow)
-            (font-flags shadow kerning large)
+                                               (the int (-> *game-info* money-total))
+                                               2000 ;;(-> (the progress (-> *progress-process* 0)) total-nb-of-orbs)
+                                               )
+                                buf
+                                string-x
+                                (- string-y 5)
+                                (font-color yellow)
+                                (font-flags shadow kerning large)
                                 0.8))
         (((hud-collectable-view level-totals))
-          (let ((lvl-idx (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1))))
-            ;; show orbs collected/total this level
+         (let ((lvl-idx (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1))))
+           ;; show orbs collected/total this level
            (draw-string-xy-scaled (string-format "~D~%/~D" (-> *game-info* money-per-level lvl-idx) (-> *game-counts* data lvl-idx money-count))
-              buf
-              string-x
-              (- string-y 5)
-              (font-color yellow)
-              (font-flags shadow kerning large)
+                                  buf
+                                  string-x
+                                  (- string-y 5)
+                                  (font-color yellow)
+                                  (font-flags shadow kerning large)
                                   0.8)))
         (((hud-collectable-view original))
-          ;; show original (total collected, unspent orbs)
+         ;; show original (total collected, unspent orbs)
          (draw-string-xy (string-format "~D" (-> this value))
-            buf
-            string-x
-            string-y
-            (font-color yellow)
+                         buf
+                         string-x
+                         string-y
+                         (font-color yellow)
                          (font-flags shadow kerning large))))))
   0
   (none))
@@ -654,97 +654,97 @@
   fuelcell-naked
   fuelcell-naked-lod0-jg
   fuelcell-naked-idle-ja
-              ((fuelcell-naked-lod0-mg (meters 999999)))
-              :bounds (static-spherem 0 1 0 1.6)
+  ((fuelcell-naked-lod0-mg (meters 999999)))
+  :bounds (static-spherem 0 1 0 1.6)
   :texture-level 2)
 
 (defpart 313
   :init-specs
   ((:texture (new 'static 'texture-id :index #x31 :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 0.4))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:timer (seconds -0.005))
-    (:flags (bit9))
-    (:userdata 4.0)
+   (:num 1.0)
+   (:scale-x (meters 0.4))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:timer (seconds -0.005))
+   (:flags (bit9))
+   (:userdata 4.0)
    (:func 'fuel-cell-hud-orbit-callback)))
 
 (defpart 314
   :init-specs
   ((:texture (new 'static 'texture-id :index #x31 :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 0.4))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:timer (seconds -0.005))
-    (:flags (bit9))
-    (:userdata 5.0)
+   (:num 1.0)
+   (:scale-x (meters 0.4))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:timer (seconds -0.005))
+   (:flags (bit9))
+   (:userdata 5.0)
    (:func 'fuel-cell-hud-orbit-callback)))
 
 (defpart 315
   :init-specs
   ((:texture (new 'static 'texture-id :index #x31 :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 0.4))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:timer (seconds -0.005))
-    (:flags (bit9))
-    (:userdata 6.0)
+   (:num 1.0)
+   (:scale-x (meters 0.4))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:timer (seconds -0.005))
+   (:flags (bit9))
+   (:userdata 6.0)
    (:func 'fuel-cell-hud-orbit-callback)))
 
 (defpart 316
   :init-specs
   ((:texture (new 'static 'texture-id :index #x31 :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 0.4))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:timer (seconds -0.005))
-    (:flags (bit9))
-    (:userdata 7.0)
+   (:num 1.0)
+   (:scale-x (meters 0.4))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:timer (seconds -0.005))
+   (:flags (bit9))
+   (:userdata 7.0)
    (:func 'fuel-cell-hud-orbit-callback)))
 
 (defpart 317
   :init-specs
   ((:texture (new 'static 'texture-id :index #x31 :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 0.2))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:timer (seconds -0.005))
-    (:flags (bit9))
-    (:userdata 9.0)
+   (:num 1.0)
+   (:scale-x (meters 0.2))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:timer (seconds -0.005))
+   (:flags (bit9))
+   (:userdata 9.0)
    (:func 'fuel-cell-hud-orbit-callback)))
 
 (defpart 318
   :init-specs
   ((:texture (new 'static 'texture-id :index #x30 :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 1.8))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:timer (seconds -0.005))
-    (:flags (bit2 bit9))
+   (:num 1.0)
+   (:scale-x (meters 1.8))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:timer (seconds -0.005))
+   (:flags (bit2 bit9))
    (:func 'fuel-cell-hud-center-callback)))
 
 (defpartgroup group-part-hud-power-cell-whole
@@ -753,14 +753,14 @@
   :bounds (static-bspherem 0 0 0 100)
   :parts
   ((sp-item 318 :flags (launch-asap))
-    (sp-item 319 :fade-after (meters 35))
-    (sp-item 320 :fade-after (meters 20))
-    (sp-item 321 :flags (launch-asap) :period (seconds 12) :length (seconds 0.017))
-    (sp-item 322 :flags (launch-asap) :period (seconds 12) :length (seconds 0.017))
-    (sp-item 317 :flags (launch-asap))
-    (sp-item 313 :flags (launch-asap))
-    (sp-item 314 :flags (launch-asap))
-    (sp-item 315 :flags (launch-asap))
+   (sp-item 319 :fade-after (meters 35))
+   (sp-item 320 :fade-after (meters 20))
+   (sp-item 321 :flags (launch-asap) :period (seconds 12) :length (seconds 0.017))
+   (sp-item 322 :flags (launch-asap) :period (seconds 12) :length (seconds 0.017))
+   (sp-item 317 :flags (launch-asap))
+   (sp-item 313 :flags (launch-asap))
+   (sp-item 314 :flags (launch-asap))
+   (sp-item 315 :flags (launch-asap))
    (sp-item 316 :flags (launch-asap))))
 
 (defpart 323
@@ -769,87 +769,87 @@
 (defpart 319
   :init-specs
   ((:texture (new 'static 'texture-id :index #x2 :page #x2))
-    (:num 0.5)
-    (:z (meters 22.5))
-    (:scale-x (meters 0.3) (meters 0.5))
-    (:rot-x 4)
-    (:rot-z (degrees 0) (degrees 360))
-    (:scale-y (meters 0.1) (meters 0.8))
-    (:r 0.0 1 255.0)
-    (:g 0.0 1 255.0)
-    (:b 0.0 1 255.0)
-    (:a 0.0)
-    (:scalevel-x (meters 0.009765625))
-    (:rotvel-z (degrees -0.15) (degrees 0.3))
-    (:scalevel-y (meters 0.009765625))
-    (:fade-a 0.35555556)
-    (:timer (seconds -0.005))
-    (:flags (bit2 bit3))
-    (:next-time (seconds 0.3))
+   (:num 0.5)
+   (:z (meters 22.5))
+   (:scale-x (meters 0.3) (meters 0.5))
+   (:rot-x 4)
+   (:rot-z (degrees 0) (degrees 360))
+   (:scale-y (meters 0.1) (meters 0.8))
+   (:r 0.0 1 255.0)
+   (:g 0.0 1 255.0)
+   (:b 0.0 1 255.0)
+   (:a 0.0)
+   (:scalevel-x (meters 0.009765625))
+   (:rotvel-z (degrees -0.15) (degrees 0.3))
+   (:scalevel-y (meters 0.009765625))
+   (:fade-a 0.35555556)
+   (:timer (seconds -0.005))
+   (:flags (bit2 bit3))
+   (:next-time (seconds 0.3))
    (:next-launcher 232)))
 
 (defpart 320
   :init-specs
   ((:texture (new 'static 'texture-id :index #x2 :page #x2))
-    (:num 0.06)
-    (:z (meters 22.5))
-    (:scale-x (meters 1.5) (meters 0.5))
-    (:rot-x 4)
-    (:rot-z (degrees 0) (degrees 360))
-    (:scale-y (meters 0.2))
-    (:r 0.0 1 255.0)
-    (:g 0.0 1 255.0)
-    (:b 0.0 1 255.0)
-    (:a 0.0)
-    (:scalevel-x (meters 0.009765625))
-    (:rotvel-z (degrees -0.15) (degrees 0.3))
-    (:fade-a 0.32)
-    (:timer (seconds -0.005))
-    (:flags (bit2 bit3))
-    (:next-time (seconds 0.25))
+   (:num 0.06)
+   (:z (meters 22.5))
+   (:scale-x (meters 1.5) (meters 0.5))
+   (:rot-x 4)
+   (:rot-z (degrees 0) (degrees 360))
+   (:scale-y (meters 0.2))
+   (:r 0.0 1 255.0)
+   (:g 0.0 1 255.0)
+   (:b 0.0 1 255.0)
+   (:a 0.0)
+   (:scalevel-x (meters 0.009765625))
+   (:rotvel-z (degrees -0.15) (degrees 0.3))
+   (:fade-a 0.32)
+   (:timer (seconds -0.005))
+   (:flags (bit2 bit3))
+   (:next-time (seconds 0.25))
    (:next-launcher 232)))
 
 (defpart 321
   :init-specs
   ((:texture (new 'static 'texture-id :index #x12 :page #x2))
-    (:num 1.0)
-    (:z (meters 22.5))
-    (:scale-x (meters 3.3))
-    (:rot-z (degrees 0))
-    (:scale-y (meters 2.8))
-    (:r 192.0)
-    (:g 192.0)
-    (:b 0.0 128.0)
-    (:a 64.0)
-    (:rotvel-z (degrees -0.4))
-    (:timer (seconds -0.005))
-    (:flags (bit2 bit3))
+   (:num 1.0)
+   (:z (meters 22.5))
+   (:scale-x (meters 3.3))
+   (:rot-z (degrees 0))
+   (:scale-y (meters 2.8))
+   (:r 192.0)
+   (:g 192.0)
+   (:b 0.0 128.0)
+   (:a 64.0)
+   (:rotvel-z (degrees -0.4))
+   (:timer (seconds -0.005))
+   (:flags (bit2 bit3))
    (:func 'fuel-cell-hud-starburst-3-callback)))
 
 (defpart 322
   :init-specs
   ((:texture (new 'static 'texture-id :index #x12 :page #x2))
-    (:num 1.0)
-    (:z (meters 22.5))
-    (:scale-x (meters 3.8))
-    (:rot-z (degrees 0))
-    (:scale-y (meters 3.3))
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 64.0)
-    (:rotvel-z (degrees 0.3))
-    (:timer (seconds -0.005))
-    (:flags (bit2 bit3))
+   (:num 1.0)
+   (:z (meters 22.5))
+   (:scale-x (meters 3.8))
+   (:rot-z (degrees 0))
+   (:scale-y (meters 3.3))
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 64.0)
+   (:rotvel-z (degrees 0.3))
+   (:timer (seconds -0.005))
+   (:flags (bit2 bit3))
    (:func 'fuel-cell-hud-starburst-4-callback)))
 
 (deftype hud-fuel-cell (hud)
-  ((scale-starburst-3-x  float)
-   (scale-starburst-3-y  float)
-   (scale-starburst-4-x  float)
-   (scale-starburst-4-y  float)
-   (scale-icon           float)
-   (scale-center         float)
+  ((scale-starburst-3-x float)
+   (scale-starburst-3-y float)
+   (scale-starburst-4-x float)
+   (scale-starburst-4-y float)
+   (scale-icon          float)
+   (scale-center        float)
    (icon-pos-y          int32)))
 
 (defmethod draw-hud ((this hud-fuel-cell))
@@ -861,155 +861,100 @@
                         2)))
       (case *hud-collectable-view*
         (((hud-collectable-view game-totals))
-          (let ((completed-task-count 0))
-            ;; determine number of cells collected in ALL levels
-            (dotimes (lvl-idx (length *level-task-data*))
-              (dotimes (task-idx (-> *level-task-data* lvl-idx nb-of-tasks))
-                (if (= (get-task-status (-> *level-task-data* lvl-idx task-info task-idx task-id)) (task-status invalid))
-                  (+! completed-task-count 1)
-                  )
-              )
-            )
-
-            ;; show cells collected/total across entire game
-            (draw-string-xy-scaled
-              (string-format
-                "~D~%/~D"
-              (the int (-> *game-info* fuel))
-                completed-task-count
-                101  ;;(-> (the progress (-> *progress-process* 0)) total-nb-of-power-cells)
-                )
-              buf
-              string-x
-              (- string-y 5)
-              (font-color yellow)
-              (font-flags shadow kerning large)
-            0.8
-            )
-          )
-              0.8
-              )
-            (string<-charp (clear *ap-string1*) (-> *ap-info-jak1* their-item-name))
-            (string<-charp (clear *ap-string2*) (-> *ap-info-jak1* their-item-owner))
-            (if (string= *ap-string2* "MYSELF")
-                (draw-string-xy-scaled
-                  (string-format "FOUND ~8L~S~0L" *ap-string1*)
-                  buf
-                  256
-                  (+ string-y 30)
-                  (font-color default)
-                  (font-flags shadow kerning middle large)
-                  0.5
-                  )
-                (draw-string-xy-scaled
-                  (string-format "SENT ~6L~S~0L~%TO ~3L~S~0L" *ap-string1* *ap-string2*)
-                  buf
-                  256
-                  (+ string-y 30)
-                  (font-color default)
-                  (font-flags shadow kerning middle large)
-                  0.5
-                  )
-                )
-            )
-          )
+         (let ((completed-task-count 0))
+           ;; determine number of cells collected in ALL levels
+           (dotimes (lvl-idx (length *level-task-data*))
+             (dotimes (task-idx (-> *level-task-data* lvl-idx nb-of-tasks))
+               (if (= (get-task-status (-> *level-task-data* lvl-idx task-info task-idx task-id)) (task-status invalid))
+                 (+! completed-task-count 1))))
+           ;; show cells collected/total across entire game
+           (draw-string-xy-scaled (string-format "~D~%/~D"
+                                                 (the int (-> *game-info* fuel))
+                                                 completed-task-count
+                                                 101 ;;(-> (the progress (-> *progress-process* 0)) total-nb-of-power-cells)
+                                                 )
+                                  buf
+                                  string-x
+                                  (- string-y 5)
+                                  (font-color yellow)
+                                  (font-flags shadow kerning large)
+                                  0.8)
+           (string<-charp (clear *ap-string1*) (-> *ap-info-jak1* their-item-name))
+           (string<-charp (clear *ap-string2*) (-> *ap-info-jak1* their-item-owner))
+           (if (string= *ap-string2* "MYSELF")
+             (draw-string-xy-scaled (string-format "FOUND ~8L~S~0L" *ap-string1*)
+                                    buf
+                                    256
+                                    (+ string-y 30)
+                                    (font-color default)
+                                    (font-flags shadow kerning middle large)
+                                    0.5)
+             (draw-string-xy-scaled (string-format "SENT ~6L~S~0L~%TO ~3L~S~0L" *ap-string1* *ap-string2*)
+                                    buf
+                                    256
+                                    (+ string-y 30)
+                                    (font-color default)
+                                    (font-flags shadow kerning middle large)
+                                    0.5))))
         (((hud-collectable-view level-totals))
-          (let ((lvl-idx (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)))
-                (completed-task-count 0))
-            ;; determine number of cells collected in this level
-            (dotimes (task-idx (-> *level-task-data* lvl-idx nb-of-tasks))
-              (if (= (get-task-status (-> *level-task-data* lvl-idx task-info task-idx task-id)) (task-status invalid))
-                (+! completed-task-count 1)
-                )
-            )
-
-            ;; show cells/total collected this level
-            (draw-string-xy-scaled
-              (string-format
-                "~D~%/~D"
-                completed-task-count
-                (-> *level-task-data* lvl-idx nb-of-tasks)
-                )
-              buf
-              string-x
-              (- string-y 5)
-              (font-color yellow)
-              (font-flags shadow kerning large)
-              0.8
-              )
-            )
-          )
-              0.8
-              )
-            (string<-charp (clear *ap-string1*) (-> *ap-info-jak1* their-item-name))
-            (string<-charp (clear *ap-string2*) (-> *ap-info-jak1* their-item-owner))
-            (if (string= *ap-string2* "MYSELF")
-                (draw-string-xy-scaled
-                  (string-format "FOUND ~8L~S~0L" *ap-string1*)
-                  buf
-                  256
-                  (+ string-y 30)
-                  (font-color default)
-                  (font-flags shadow kerning middle large)
-                  0.5
-                  )
-                (draw-string-xy-scaled
-                  (string-format "SENT ~6L~S~0L~%TO ~3L~S~0L" *ap-string1* *ap-string2*)
-                  buf
-                  256
-                  (+ string-y 30)
-                  (font-color default)
-                  (font-flags shadow kerning middle large)
-                  0.5
-                  )
-                )
-            )
-          )
+         (let ((lvl-idx (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)))
+               (completed-task-count 0))
+           ;; determine number of cells collected in this level
+           (dotimes (task-idx (-> *level-task-data* lvl-idx nb-of-tasks))
+             (if (= (get-task-status (-> *level-task-data* lvl-idx task-info task-idx task-id)) (task-status invalid))
+               (+! completed-task-count 1)))
+           ;; show cells/total collected this level
+           (draw-string-xy-scaled (string-format "~D~%/~D" completed-task-count (-> *level-task-data* lvl-idx nb-of-tasks))
+                                  buf
+                                  string-x
+                                  (- string-y 5)
+                                  (font-color yellow)
+                                  (font-flags shadow kerning large)
+                                  0.8)
+           (string<-charp (clear *ap-string1*) (-> *ap-info-jak1* their-item-name))
+           (string<-charp (clear *ap-string2*) (-> *ap-info-jak1* their-item-owner))
+           (if (string= *ap-string2* "MYSELF")
+             (draw-string-xy-scaled (string-format "FOUND ~8L~S~0L" *ap-string1*)
+                                    buf
+                                    256
+                                    (+ string-y 30)
+                                    (font-color default)
+                                    (font-flags shadow kerning middle large)
+                                    0.5)
+             (draw-string-xy-scaled (string-format "SENT ~6L~S~0L~%TO ~3L~S~0L" *ap-string1* *ap-string2*)
+                                    buf
+                                    256
+                                    (+ string-y 30)
+                                    (font-color default)
+                                    (font-flags shadow kerning middle large)
+                                    0.5))))
         (((hud-collectable-view original))
-          ;; show original (cells collected across entire game)
-          (draw-string-xy
-            (string-format "~D" (-> this value))
-            buf
-            string-x
-            string-y
-            (font-color yellow)
-            (font-flags shadow kerning large)
-            )
-          )
-        )
-      )
-    )
-            (font-flags shadow kerning large)
-            )
-          (string<-charp (clear *ap-string1*) (-> *ap-info-jak1* my-item-name))
-          (string<-charp (clear *ap-string2*) (-> *ap-info-jak1* my-item-finder))
-          (if (string= *ap-string2* "MYSELF")
-              (draw-string-xy-scaled
-                (string-format "FOUND ~8L~S~0L" *ap-string1*)
-                buf
-                256
-                (+ string-y 30)
-                (font-color default)
-                (font-flags shadow kerning middle large)
-                0.5
-                )
-              (draw-string-xy-scaled
-                (string-format "GOT ~6L~S~0L~%FROM ~3L~S~0L" *ap-string1* *ap-string2*)
-                buf
-                256
-                (+ string-y 30)
-                (font-color default)
-                (font-flags shadow kerning middle large)
-                0.5
-                )
-              )
-          )
-        )
-      )
-    )
+         ;; show original (cells collected across entire game)
+         (draw-string-xy (string-format "~D" (-> this value))
+                         buf
+                         string-x
+                         string-y
+                         (font-color yellow)
+                         (font-flags shadow kerning large))
+         (string<-charp (clear *ap-string1*) (-> *ap-info-jak1* my-item-name))
+         (string<-charp (clear *ap-string2*) (-> *ap-info-jak1* my-item-finder))
+         (if (string= *ap-string2* "MYSELF")
+           (draw-string-xy-scaled (string-format "FOUND ~8L~S~0L" *ap-string1*)
+                                  buf
+                                  256
+                                  (+ string-y 30)
+                                  (font-color default)
+                                  (font-flags shadow kerning middle large)
+                                  0.5)
+           (draw-string-xy-scaled (string-format "GOT ~6L~S~0L~%FROM ~3L~S~0L" *ap-string1* *ap-string2*)
+                                  buf
+                                  256
+                                  (+ string-y 30)
+                                  (font-color default)
+                                  (font-flags shadow kerning middle large)
+                                  0.5))))))
   0
-  (none)
-  )
+  (none))
 
 (defun fuel-cell-hud-orbit-callback ((arg0 sparticle-system) (arg1 sparticle-cpuinfo) (arg2 matrix))
   (let ((s3-0 (-> arg1 key proc))
@@ -1109,20 +1054,20 @@
 (defmethod set-pos-and-scale ((this hud-fuel-cell) (arg0 symbol) (arg1 symbol))
   (cond
     (arg0
-      (set! (-> this scale-starburst-3-x) 10240.0)
-      (set! (-> this scale-starburst-3-y) 9420.8)
-      (set! (-> this scale-starburst-4-x) 9420.8)
-      (set! (-> this scale-starburst-4-y) 8192.0)
-      (set! (-> this scale-icon) 0.007)
-      (set! (-> this scale-center) 6144.0)
+     (set! (-> this scale-starburst-3-x) 10240.0)
+     (set! (-> this scale-starburst-3-y) 9420.8)
+     (set! (-> this scale-starburst-4-x) 9420.8)
+     (set! (-> this scale-starburst-4-y) 8192.0)
+     (set! (-> this scale-icon) 0.007)
+     (set! (-> this scale-center) 6144.0)
      (set! (-> this icon-pos-y) 62))
     (else
-      (set! (-> this scale-starburst-3-x) 12288.0)
-      (set! (-> this scale-starburst-3-y) 10240.0)
-      (set! (-> this scale-starburst-4-x) 12288.0)
-      (set! (-> this scale-starburst-4-y) 10240.0)
-      (set! (-> this scale-icon) 0.009)
-      (set! (-> this scale-center) 7372.8)
+     (set! (-> this scale-starburst-3-x) 12288.0)
+     (set! (-> this scale-starburst-3-y) 10240.0)
+     (set! (-> this scale-starburst-4-x) 12288.0)
+     (set! (-> this scale-starburst-4-y) 10240.0)
+     (set! (-> this scale-icon) 0.009)
+     (set! (-> this scale-center) 7372.8)
      (set! (-> this icon-pos-y) 62)))
   (if arg1 (set! (-> this icon-pos-y) (the int (* (the float (-> this icon-pos-y)) (if arg0 1.1 1.14)))))
   0
@@ -1137,38 +1082,38 @@
 (defpart 324
   :init-specs
   ((:texture (new 'static 'texture-id :index #x2a :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 2.2))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 0.0)
-    (:timer (seconds -0.005))
+   (:num 1.0)
+   (:scale-x (meters 2.2))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 0.0)
+   (:timer (seconds -0.005))
    (:flags (bit9))))
 
 (defpart 325
   :init-specs
   ((:texture (new 'static 'texture-id :index #x2a :page #x2))
-    (:num 1.0)
-    (:x (meters 0))
-    (:y (meters 1.3333334))
-    (:z (meters 0.1))
-    (:scale-x (meters 1.8))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:omega 0.0)
-    (:vel-x (meters 0.053333335))
-    (:vel-z (meters 0))
-    (:timer (seconds -0.005))
-    (:flags (bit2 bit7 bit9))
+   (:num 1.0)
+   (:x (meters 0))
+   (:y (meters 1.3333334))
+   (:z (meters 0.1))
+   (:scale-x (meters 1.8))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:omega 0.0)
+   (:vel-x (meters 0.053333335))
+   (:vel-z (meters 0))
+   (:timer (seconds -0.005))
+   (:flags (bit2 bit7 bit9))
    (:func 'part-hud-buzzer-func)))
 
 (deftype hud-buzzers (hud)
-  ((scale          float)
+  ((scale         float)
    (text-y-offset int32)))
 
 (defun part-hud-buzzer-func ((arg0 sparticle-system) (arg1 sparticle-cpuinfo) (arg2 matrix))
@@ -1185,37 +1130,37 @@
                         2)))
       (case *hud-collectable-view*
         (((hud-collectable-view game-totals))
-          ;; show flies collected/total across entire game
+         ;; show flies collected/total across entire game
          (draw-string-xy-scaled (string-format " ~D~% /~D"
-              (the int (-> *game-info* buzzer-total))
-              112 ;; (-> (the progress (-> *progress-process* 0)) total-nb-of-buzzers)
-              )
-            buf
-            string-x
-            (- string-y 5)
-            (font-color yellow)
-            (font-flags shadow kerning large)
+                                               (the int (-> *game-info* buzzer-total))
+                                               112 ;; (-> (the progress (-> *progress-process* 0)) total-nb-of-buzzers)
+                                               )
+                                buf
+                                string-x
+                                (- string-y 5)
+                                (font-color yellow)
+                                (font-flags shadow kerning large)
                                 0.8))
         (((hud-collectable-view level-totals))
-          (let ((lvl-idx (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1))))
-            ;; show flies collected/total this level
+         (let ((lvl-idx (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1))))
+           ;; show flies collected/total this level
            (draw-string-xy-scaled (string-format " ~D~% /~D"
                                                  (buzzer-count *game-info*
                                                                (-> *level-task-data* lvl-idx task-info (-> *level-task-data* lvl-idx buzzer-task-index) task-id))
                                                  (-> *game-counts* data lvl-idx buzzer-count))
-              buf
-              string-x
-              (- string-y 5)
-              (font-color yellow)
-              (font-flags shadow kerning large)
+                                  buf
+                                  string-x
+                                  (- string-y 5)
+                                  (font-color yellow)
+                                  (font-flags shadow kerning large)
                                   0.8)))
         (((hud-collectable-view original))
-          ;; show original (flies collected this level)
+         ;; show original (flies collected this level)
          (draw-string-xy (string-format " ~D" (-> this value))
-            buf
-            string-x
-            string-y
-            (font-color yellow)
+                         buf
+                         string-x
+                         string-y
+                         (font-color yellow)
                          (font-flags shadow kerning large))))))
   0
   (none))
@@ -1264,7 +1209,7 @@
   (cond
     (arg0 (set! (-> this scale) 6553.6) (set! (-> this text-y-offset) -40))
     (else (set! (-> this scale) 7372.8) (set! (-> this text-y-offset) 0) 0))
-      0
+  0
   (none))
 
 (defpartgroup group-part-hud-eco-timer
@@ -1282,29 +1227,29 @@
 (defpart 327
   :init-specs
   ((:texture (new 'static 'texture-id :index #x2b :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 3.2))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:timer (seconds -0.005))
-    (:flags (bit2 bit9))
+   (:num 1.0)
+   (:scale-x (meters 3.2))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:timer (seconds -0.005))
+   (:flags (bit2 bit9))
    (:func 'part-hud-eco-timer-func)))
 
 (defpart 328
   :init-specs
   ((:texture (new 'static 'texture-id :index #x3 :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 2.5))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 100.0)
-    (:b 63.0)
-    (:a 64.0)
-    (:timer (seconds -0.005))
-    (:flags (bit2 bit9))
+   (:num 1.0)
+   (:scale-x (meters 2.5))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 100.0)
+   (:b 63.0)
+   (:a 64.0)
+   (:timer (seconds -0.005))
+   (:flags (bit2 bit9))
    (:func 'part-hud-eco-timer-backing-func)))
 
 (defpartgroup group-part-hud-timer-blue
@@ -1316,66 +1261,66 @@
 (defpart 329
   :init-specs
   ((:texture (new 'static 'texture-id :index #x32 :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 2))
-    (:scale-y :copy scale-x)
-    (:r 0.0)
-    (:g 32.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:timer (seconds -0.005))
-    (:flags (bit2 bit9))
+   (:num 1.0)
+   (:scale-x (meters 2))
+   (:scale-y :copy scale-x)
+   (:r 0.0)
+   (:g 32.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:timer (seconds -0.005))
+   (:flags (bit2 bit9))
    (:func 'part-hud-eco-timer-01-func)))
 
 (defpart 330
   :init-specs
   ((:texture (new 'static 'texture-id :index #x32 :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 2))
-    (:scale-y :copy scale-x)
-    (:r 0.0)
-    (:g 32.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:timer (seconds -0.005))
-    (:flags (bit2 bit9))
+   (:num 1.0)
+   (:scale-x (meters 2))
+   (:scale-y :copy scale-x)
+   (:r 0.0)
+   (:g 32.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:timer (seconds -0.005))
+   (:flags (bit2 bit9))
    (:func 'part-hud-eco-timer-02-func)))
 
 (defpart 331
   :init-specs
   ((:texture (new 'static 'texture-id :index #x32 :page #x2))
-    (:num 1.0)
-    (:scale-x (meters 2))
-    (:scale-y :copy scale-x)
-    (:r 0.0)
-    (:g 32.0)
-    (:b 128.0)
-    (:a 128.0)
-    (:timer (seconds -0.005))
-    (:flags (bit2 bit9))
+   (:num 1.0)
+   (:scale-x (meters 2))
+   (:scale-y :copy scale-x)
+   (:r 0.0)
+   (:g 32.0)
+   (:b 128.0)
+   (:a 128.0)
+   (:timer (seconds -0.005))
+   (:flags (bit2 bit9))
    (:func 'part-hud-eco-timer-03-func)))
 
 (deftype hud-power (hud)
-  ((scale-timer    float)
-   (scale-backing  float)
+  ((scale-timer   float)
+   (scale-backing float)
    (scale-blue    float)))
 
 (defun calculate-rotation-and-color-for-slice ((arg0 int) (arg1 float) (arg2 int) (arg3 int) (arg4 int) (arg5 matrix))
   (cond
     ((>= 0.0 arg1) (set! (-> arg5 vector 1 z) -16566.045))
     (else
-      (let ((v1-1 arg0))
-        (cond
-          ((zero? v1-1)
-           (if (< 1.0 arg1)
+     (let ((v1-1 arg0))
+       (cond
+         ((zero? v1-1)
+          (if (< 1.0 arg1)
             (set! (-> arg5 vector 1 z) 910.2222)
             (set! (-> arg5 vector 1 z) (* 182.04445 (+ 5.0 (* 263.0 (- 1.0 arg1)))))))
-          ((= v1-1 1)
-           (if (< 0.6666667 arg1)
+         ((= v1-1 1)
+          (if (< 0.6666667 arg1)
             (set! (-> arg5 vector 1 z) 17294.223)
             (set! (-> arg5 vector 1 z) (* 182.04445 (+ 95.0 (* 173.0 (- 1.0 (* 1.5 arg1))))))))
-          ((= v1-1 2)
-           (if (< 0.33333334 arg1)
+         ((= v1-1 2)
+          (if (< 0.33333334 arg1)
             (set! (-> arg5 vector 1 z) 33678.223)
             (set! (-> arg5 vector 1 z) (* 182.04445 (+ 185.0 (* 83.0 (- 1.0 (* 3.0 arg1))))))))))))
   ;; low eco flashing
@@ -1462,7 +1407,7 @@
                                       (the-as uint (- (-> *display* game-frame-counter) (-> *target* fact eco-pickup-time)))))
                            (the-as int (-> *target* fact eco-timeout))))
                  (the-as int (-> *target* fact eco-timeout))))
-          0
+  0
   (none))
 
 (defmethod init-particles! ((this hud-power) (arg0 int))
@@ -1508,12 +1453,12 @@
   ;; og:preserve-this
   (#when PC_PORT
     (let ((base-x (-> this particles 2 init-pos x)))
-        (+! base-x (* (- 512.0 base-x) (- 1.0 (-> *pc-settings* aspect-ratio-reciprocal))))
-        (set! (-> this particles 0 init-pos x) 435.0)
-        (set! (-> this particles 1 init-pos x) 432.0)
-        (set! (-> this particles 2 init-pos x) 435.0)
-    (when (not (-> *pc-settings* use-vis?))
-      (dotimes (i (-> this nb-of-particles))
+      (+! base-x (* (- 512.0 base-x) (- 1.0 (-> *pc-settings* aspect-ratio-reciprocal))))
+      (set! (-> this particles 0 init-pos x) 435.0)
+      (set! (-> this particles 1 init-pos x) 432.0)
+      (set! (-> this particles 2 init-pos x) 435.0)
+      (when (not (-> *pc-settings* use-vis?))
+        (dotimes (i (-> this nb-of-particles))
           (set! (-> this particles i init-pos x)
                 (+ base-x (* (-> *pc-settings* aspect-ratio-reciprocal) (- (-> this particles i init-pos x) base-x))))))))
   0
@@ -1590,9 +1535,9 @@
   (local-vars (gp-0 symbol))
   (cond
     (*target*
-      (set! gp-0 #t)
-      (dotimes (s5-0 9)
-        (when (-> *hud-parts* parts s5-0)
+     (set! gp-0 #t)
+     (dotimes (s5-0 9)
+       (when (-> *hud-parts* parts s5-0)
          (if (not (hidden? (-> (the-as (pointer hud) (-> *hud-parts* parts s5-0)) 0))) (set! gp-0 #f)))))
     (else (set! gp-0 #t)))
   gp-0)
@@ -1601,9 +1546,9 @@
   (local-vars (gp-0 symbol))
   (cond
     (*target*
-      (set! gp-0 #t)
-      (dotimes (s5-0 4)
-        (when (-> *hud-parts* parts (+ s5-0 4))
+     (set! gp-0 #t)
+     (dotimes (s5-0 4)
+       (when (-> *hud-parts* parts (+ s5-0 4))
          (if (not (hidden? (-> (the-as (pointer hud) (-> *hud-parts* parts (+ s5-0 4))) 0))) (set! gp-0 #f)))))
     (else (set! gp-0 #t)))
   gp-0)
