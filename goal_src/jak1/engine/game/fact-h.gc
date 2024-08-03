@@ -1,9 +1,9 @@
 ;;-*-Lisp-*-
 (in-package goal)
-
-;; name: fact-h.gc
-;; name in dgo: fact-h
-;; dgos: GAME, ENGINE
+(bundles "ENGINE.CGO" "GAME.CGO")
+(require "engine/entity/res.gc")
+(require "kernel/gstate.gc")
+(require "engine/draw/drawable-h.gc")
 
 ;; DECOMP BEGINS
 
@@ -25,12 +25,11 @@
    (buzzer-single-inc     float)
    (suck-bounce-dist      meters)
    (suck-suck-dist        meters)
-   (default-pill-inc      float)
-   )
-  )
+   (default-pill-inc     float)))
 
-
-(define *FACT-bank* (new 'static 'fact-bank
+(define *FACT-bank*
+  (new 'static
+       'fact-bank
                       :eco-level-max 2.0
                       :eco-single-inc 1.0
                       :eco-full-inc 5.0
@@ -44,9 +43,7 @@
                       :buzzer-max-default 7.0
                       :buzzer-single-inc 1.0
                       :suck-bounce-dist (meters 18)
-                      :suck-suck-dist (meters 7.5)
-                      )
-        )
+       :suck-suck-dist (meters 7.5)))
 
 (defenum pickup-type
   :type int32
@@ -65,8 +62,7 @@
   )
 
 (defun pickup-type->string ((arg0 pickup-type))
-  (enum->string pickup-type arg0)
-  )
+  (enum->string pickup-type arg0))
 
 (defenum fact-options
   :bitfield #t
@@ -91,8 +87,7 @@
   (indestructible 16)
   (fop17 17)         ;; engine doesn't check it, set on babak near jungleb exit and in robot room.
   (eco-blocked 18)
-  (respawn 19)
-  )
+  (respawn 19))
 
 ;; Each individual enemy and pickup process will allocate a fact-info on its process heap.
 ;; The constructor will read the res-lump stored in the entity to pick reasonable defaults.
@@ -105,8 +100,7 @@
    (pickup-amount        float)
    (pickup-spawn-amount  float)
    (options              fact-options)
-   (fade-time            time-frame)
-   )
+   (fade-time           time-frame))
   (:methods
     (new (symbol type process-drawable pickup-type float) _type_)
     (drop-pickup (_type_ symbol process-tree fact-info int) (pointer process))
@@ -115,7 +109,6 @@
     (ap-pickup-collectable! (_type_ pickup-type float handle) float)
     )
   )
-
 
 (deftype fact-info-target (fact-info)
   ((eco-type               pickup-type)
@@ -134,13 +127,9 @@
    (money-pickup-time      time-frame)
    (buzzer-pickup-time     time-frame)
    (fuel-cell-pickup-time  time-frame)
-   (eco-pill-pickup-time   time-frame)
-   )
+   (eco-pill-pickup-time  time-frame))
   (:methods
-    (new (symbol type process-drawable pickup-type float) _type_)
-    )
-  )
-
+   (new (symbol type process-drawable pickup-type float) _type_)))
 
 (deftype fact-info-enemy (fact-info)
   ((speed            float)
@@ -149,12 +138,9 @@
    (notice-bottom    meters)
    (cam-horz         meters)
    (cam-vert         meters)
-   (cam-notice-dist  meters)
-   )
+   (cam-notice-dist meters))
   (:methods
-    (new (symbol type process-drawable pickup-type float) _type_)
-    )
-  )
+   (new (symbol type process-drawable pickup-type float) _type_)))
 
 (declare-type process-drawable process)
 
@@ -171,13 +157,10 @@
         (go process-drawable-art-error "memory")
         ;; this is already true...
         (set! this (the-as fact-info 0))
-        (goto cfg-10)
-        )
-
+        (goto cfg-10))
       ;; remember who we belong to
       (set! (-> this process) proc)
       (set! tag (new 'static 'res-tag))
-
       ;; eco may override the pickup type and amount, so try to get this.
       (let ((v1-6 (res-lump-data ent 'eco-info (pointer int32) :tag-ptr (& tag) :time 0.0)))
         (cond
@@ -187,39 +170,22 @@
              ;; first thing is pickup type, it's always there
              (set! (-> this pickup-type) (the-as pickup-type (-> v1-6 0)))
              ;; pickup amount is optional.
-             (set! pkup-amount (if (< (the-as uint 1) (the-as uint a0-6))
-                                   (the float (-> v1-6 1))
-                                   pkup-amount
-                                   )
-                   )
-             )
-           (set! (-> this pickup-amount) pkup-amount)
-           )
+             (set! pkup-amount (if (< (the-as uint 1) (the-as uint a0-6)) (the float (-> v1-6 1)) pkup-amount)))
+           (set! (-> this pickup-amount) pkup-amount))
           (else
            ;; no eco-info, use stuff from args
            (set! (-> this pickup-type) pkup-type)
-           (set! (-> this pickup-amount) pkup-amount)
-           )
-          )
-        )
-
+           (set! (-> this pickup-amount) pkup-amount))))
       ;; read the options
       (set! (-> this options) (res-lump-value ent 'options fact-options))
-
       ;; read fade time, if we have fade or respawn
       (if (logtest? (fact-options fade respawn) (-> this options))
-          (set! (-> this fade-time) (the int (* 300.0 (res-lump-float ent 'timeout))))
-          )
-      )
-
+        (set! (-> this fade-time) (the int (* 300.0 (res-lump-float ent 'timeout))))))
     (label cfg-10)
-    this
-    )
-  )
+    this))
 
 (defmethod pickup-collectable! ((this fact-info) (arg0 pickup-type) (arg1 float) (arg2 handle))
-  0.0
-  )
+  0.0)
 
 (defmethod new fact-info-enemy ((allocation symbol) (type-to-make type) (proc process-drawable) (kind pickup-type) (amount float))
   "Create information about an enemy. Possibly includes what the enemy will drop when it is killed?"
@@ -233,17 +199,12 @@
       (set! (-> this notice-bottom) (res-lump-float entity 'notice-bottom :default 4096000.0))
       (set! (-> this cam-horz) (res-lump-float entity 'cam-horz))
       (set! (-> this cam-vert) (res-lump-float entity 'cam-vert))
-      (set! (-> this cam-notice-dist) (res-lump-float entity 'cam-notice-dist :default -4096.0))
-      )
-    this
-    )
-  )
+      (set! (-> this cam-notice-dist) (res-lump-float entity 'cam-notice-dist :default -4096.0)))
+    this))
 
 (defmethod new fact-info-target ((allocation symbol) (type-to-make type) (arg0 process-drawable) (arg1 pickup-type) (arg2 float))
   "Create information about target. Not sure why this has stuff like pickup-type."
   (let ((this (the-as fact-info-target ((method-of-type fact-info new) allocation type-to-make arg0 arg1 arg2))))
     (set! (-> this eco-source) (the-as handle #f))
     (reset! this #f)
-    this
-    )
-  )
+    this))

@@ -168,31 +168,8 @@ std::string get_current_executable_path() {
 #endif
 }
 
-std::string get_parent_directory(const std::string& path) {
-  // Find the last occurrence of ".github" in the path.
-  size_t github_index = path.rfind(".github");
-  // If ".github" is not found in the path, return an empty string.
-  if (github_index == std::string::npos) {
-    return "";
-  }
-  // Extract the part of the path up to the ".github" directory.
-  std::string parent_directory = path.substr(0, github_index);
-  // Remove the last character from the path, which will be the slash.
-  parent_directory.pop_back();
-  // Return the parent directory.
-  return parent_directory;
-}
-
-
-
-std::optional<std::string> try_get_project_path_from_path(const std::string& path) {
-  // std::string::size_type pos =
-  //     std::string(path).rfind("jak-project");  // Strip file path down to /jak-project/ directory
-  // if (pos == std::string::npos) {
-  //   return {};
-  // }
-  // return std::string(path).substr(
-  //     0, pos + 11);  // + 12 to include "/jak-project" in the returned filepath
+// mod-base-change
+std::optional<std::string> try_get_project_path_from_path_modbase(const std::string& path) {
   fs::path current_path = fs::path(path);
   while (true) {
     lg::info("Current path in loop - {}", current_path.string());
@@ -208,6 +185,17 @@ std::optional<std::string> try_get_project_path_from_path(const std::string& pat
   }
 }
 
+std::optional<std::string> try_get_project_path_from_path(const std::string& path) {
+  return try_get_project_path_from_path_modbase(path);
+  std::string::size_type pos =
+      std::string(path).rfind("jak-project");  // Strip file path down to /jak-project/ directory
+  if (pos == std::string::npos) {
+    return {};
+  }
+  return std::string(path).substr(
+      0, pos + 11);  // + 12 to include "/jak-project" in the returned filepath
+}
+
 /*!
  * See if the current executable is somewhere in jak-project/. If so, return the path to jak-project
  */
@@ -215,9 +203,11 @@ std::optional<std::string> try_get_jak_project_path() {
   return try_get_project_path_from_path(get_current_executable_path());
 }
 
-std::optional<fs::path> try_get_data_dir() {
+std::optional<fs::path> try_get_data_dir(bool skip_logs) {
   fs::path my_path = get_current_executable_path();
-  lg::info("Current executable directory - {}", my_path.string());
+  if (!skip_logs) {
+    lg::debug("Current executable directory - {}", my_path.string());
+  }
   auto data_dir = my_path.parent_path() / "data";
   if (fs::exists(data_dir) && fs::is_directory(data_dir)) {
     return std::make_optional(data_dir);
@@ -226,7 +216,7 @@ std::optional<fs::path> try_get_data_dir() {
   }
 }
 
-bool setup_project_path(std::optional<fs::path> project_path_override) {
+bool setup_project_path(std::optional<fs::path> project_path_override, bool skip_logs) {
   if (g_file_path_info.initialized) {
     return true;
   }
@@ -234,16 +224,20 @@ bool setup_project_path(std::optional<fs::path> project_path_override) {
   if (project_path_override) {
     g_file_path_info.path_to_data_folder = fs::absolute(project_path_override.value());
     g_file_path_info.initialized = true;
-    lg::info("Using explicitly set project path: {}",
-             g_file_path_info.path_to_data_folder.string());
+    if (!skip_logs) {
+      lg::debug("Using explicitly set project path: {}",
+                g_file_path_info.path_to_data_folder.string());
+    }
     return true;
   }
 
-  auto data_path = try_get_data_dir();
+  auto data_path = try_get_data_dir(skip_logs);
   if (data_path) {
     g_file_path_info.path_to_data_folder = *data_path;
     g_file_path_info.initialized = true;
-    lg::info("Using data path: {}", data_path->string());
+    if (!skip_logs) {
+      lg::debug("Using data path: {}", data_path->string());
+    }
     return true;
   }
 
@@ -251,7 +245,9 @@ bool setup_project_path(std::optional<fs::path> project_path_override) {
   if (development_repo_path) {
     g_file_path_info.path_to_data_folder = *development_repo_path;
     g_file_path_info.initialized = true;
-    lg::info("Using development repo path: {}", *development_repo_path);
+    if (!skip_logs) {
+      lg::debug("Using development repo path: {}", *development_repo_path);
+    }
     return true;
   }
 

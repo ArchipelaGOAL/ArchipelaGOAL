@@ -19,6 +19,7 @@
 #include "decompiler/level_extractor/extract_tfrag.h"
 #include "decompiler/level_extractor/extract_tie.h"
 #include "decompiler/level_extractor/fr3_to_gltf.h"
+#include "goalc/build_actor/jak1/build_actor.h"
 
 namespace decompiler {
 
@@ -28,25 +29,9 @@ namespace decompiler {
 std::optional<ObjectFileRecord> get_bsp_file(const std::vector<ObjectFileRecord>& records,
                                              const std::string& dgo_name) {
   std::optional<ObjectFileRecord> result;
-  bool found = false;
-  for (auto& file : records) {
-    if (file.name.length() > 4 && file.name.substr(file.name.length() - 4) == "-vis") {
-      ASSERT(!found);
-      found = true;
-      result = file;
-    }
-  }
-
-  if (!result) {
-    if (str_util::ends_with(dgo_name, ".DGO") || str_util::ends_with(dgo_name, ".CGO")) {
-      auto expected_name = dgo_name.substr(0, dgo_name.length() - 4);
-      for (auto& c : expected_name) {
-        c = tolower(c);
-      }
-      if (!records.empty() && expected_name == records.back().name) {
-        return records.back();
-      }
-    }
+  if (str_util::ends_with(dgo_name, ".DGO")) {
+    // only DGOs are valid levels, and the last file is the bsp file
+    result = records.at(records.size() - 1);
   }
   return result;
 }
@@ -217,7 +202,7 @@ level_tools::BspHeader extract_bsp_from_level(const ObjectFileDB& db,
         expected_missing_textures = it->second;
       }
       bool atest_disable_flag = false;
-      if (db.version() == GameVersion::Jak2) {
+      if (db.version() >= GameVersion::Jak2) {
         if (bsp_header.texture_flags[0] & 1) {
           atest_disable_flag = true;
         }
@@ -337,7 +322,8 @@ void extract_common(const ObjectFileDB& db,
       compressed.data(), compressed.size());
 
   if (config.rip_levels) {
-    auto file_path = file_util::get_jak_project_dir() / "glb_out" / "common.glb";
+    auto file_path = file_util::get_jak_project_dir() / "glb_out" /
+                     game_version_names[config.game_version] / "common.glb";
     file_util::create_dir_if_needed_for_file(file_path);
     save_level_foreground_as_gltf(tfrag_level, art_group_data, file_path);
   }
@@ -375,15 +361,17 @@ void extract_from_level(const ObjectFileDB& db,
 
   if (config.rip_levels) {
     auto back_file_path = file_util::get_jak_project_dir() / "glb_out" /
-                          fmt::format("{}_background.glb", level_data.level_name);
+                          game_version_names[config.game_version] /
+                          fmt::format("{}-background.glb", level_data.level_name);
     file_util::create_dir_if_needed_for_file(back_file_path);
     save_level_background_as_gltf(level_data, back_file_path);
     auto fore_file_path = file_util::get_jak_project_dir() / "glb_out" /
-                          fmt::format("{}_foreground.glb", level_data.level_name);
+                          game_version_names[config.game_version] /
+                          fmt::format("{}-foreground.glb", level_data.level_name);
     file_util::create_dir_if_needed_for_file(fore_file_path);
     save_level_foreground_as_gltf(level_data, art_group_data, fore_file_path);
   }
-  file_util::write_text_file(entities_folder / fmt::format("{}_actors.json", level_data.level_name),
+  file_util::write_text_file(entities_folder / fmt::format("{}-actors.json", level_data.level_name),
                              extract_actors_to_json(bsp_header.actors));
 }
 

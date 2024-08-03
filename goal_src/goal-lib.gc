@@ -997,8 +997,8 @@
   `(make ,(string-append "$OUT/iso/" file ".DGO"))
   )
 
-(defmacro make-group (name &key (verbose #f) &key (force #f))
-  `(make ,(string-append "GROUP:" name) :verbose ,verbose :force ,force)
+(defmacro make-group (name &key (verbose #f) &key (force #f) &key (report #f))
+  `(make ,(string-append "GROUP:" name) :verbose ,verbose :force ,force :report ,report)
   )
 
 (defmacro rl ()
@@ -1013,6 +1013,10 @@
   "Make ISO"
   `(make-group "iso")
   )
+
+(defmacro mi-report ()
+  "Make ISO with Report"
+  `(make-group "iso" :report #t))
 
 (defmacro mkr ()
   "Make kernel"
@@ -1129,6 +1133,10 @@
   "Checks if the value is NOT within 0.000000000000000001 of zero (to solve float comparison bugs)"
   `(> (fabs (- ,val 0.0))
        0.000000000000000001))
+
+(defmacro fequal-epsilon? (a b epsilon)
+  `(< (fabs (- ,a ,b))
+      ,epsilon))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; user stuf
@@ -1259,14 +1267,12 @@
 (#cond
   ((eq? GAME_VERSION 'jak1)
    (asm-file "goal_src/jak1/compiler-setup.gc")
-   (seval (fmt #t "Jak 1 Mode\n"))
    )
   ((eq? GAME_VERSION 'jak2)
    (asm-file "goal_src/jak2/compiler-setup.gc")
-   (seval (fmt #t "Jak 2 Mode\n"))
    )
   ((eq? GAME_VERSION 'jak3)
    (asm-file "goal_src/jak3/compiler-setup.gc")
-   (seval (fmt #t "Jak 3 Mode\n"))
    )
   )
+

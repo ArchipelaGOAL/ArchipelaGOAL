@@ -187,7 +187,7 @@
        )
      )
     ((and (logtest? (continue-flags race) (-> arg0 flags)) (!= (-> arg0 vehicle-type) 27))
-     (set! (-> self mode-cache) (the-as basic 'pilot))
+     (set! (-> self mode-cache) 'pilot)
      (set! (-> self mode-param1) (the-as handle #f))
      (set! (-> self mode-param2) (-> arg0 vehicle-type))
      (when (= (-> arg0 vehicle-type) 28)
@@ -427,7 +427,7 @@
       (case (-> self ext-geo)
         (((target-geo jakc))
          (dotimes (s5-1 (-> gp-1 clothing length))
-           (cloth-base-method-10 (-> self draw cloth-instances s5-1) (-> gp-1 clothing s5-1) (process->handle self))
+           (setup-from-params! (-> self draw cloth-instances s5-1) (-> gp-1 clothing s5-1) (process->handle self))
            (logior! (-> self draw cloth-instances s5-1 flags) (cloth-flag need-reset active))
            )
          )
@@ -487,7 +487,7 @@
           #f
           )
          (else
-           (set! (-> self mode-cache) (the-as basic (-> block param 0)))
+           (set! (-> self mode-cache) (the-as symbol (-> block param 0)))
            (set! (-> self mode-param1) (if (>= argc 2)
                                            (process->handle (the-as process (-> block param 1)))
                                            (the-as handle #f)

@@ -2,18 +2,18 @@
   "cutscenes": {},
   "other": {
     "DSbop001": [
-      "You sure seem angry, Jak."
+      "Jak, sembri così arrabbiato."
     ],
     "DSbop002": [
-      "Do you remember how to jump?"
+      "Ti ricordi come si salta?"
     ],
     "DSbop003": [
-      "Jump onto that crate to get over the barricade."
+      "Per superare la barricata, salta su quella cassa!"
     ],
     "DSbop004": [
-      "Ooh, that's a high ledge!",
-      "Try jumping once, then jump again while in the air",
-      "to reach that one."
+      "Ooh, è alto!",
+      "Prova a saltare, e mentre sei in aria datti la spinta per saltare di nuovo",
+      "dovresti raggiungerlo."
     ],
     "DSbop005": [
       "Good job, see? You still got it!"
@@ -35,21 +35,21 @@
       "Works out some of that anger, eh?"
     ],
     "DSbop010": [
-      "There are lots of Krimzon Guard crates lying around",
-      "for the taking. Break that crate!"
+      "Ci sono molte casse delle Guardie Kremizi",
+      "che aspettano di essere aperte. Rompi quella cassa!"
     ],
     "DSbop011": [
-      "Good job! That crate had a health pack inside.",
-      "Pick it up, you'll wanna keep healthy, Jak, or uh heh...",
+      "Bene! La cassa aveva una scorta di energia all'interno.",
+      "Raccoglila, devi mantenerti in forze, Jak, altrimenti chi combatterà?",
       "who'll do the fighting?"
     ],
     "DSbop016": [
-      "If you jump then dive, you'll crash down to the ground",
-      "hard enough to break lots of things.",
-      "Breaking stuff's fun, right?"
+      "Se salti e ti tuffi, la forza con cui cadrai al suolo",
+      "ti consentirà di rompere molte cose.",
+      "Spaccare roba è divertente, eh?"
     ],
     "DSbop017": [
-      "Guards, Jak! Do your, uh... stuff."
+      "Guardie, Jak! Fai quello che sai fare meglio!"
     ],
     "agnt001": [
       "Hey hey, drive carefully!"
@@ -100,7 +100,7 @@
       "Go man!"
     ],
     "agnt017": [
-      "Keep your head down!"
+      "Tieni la testa giù!"
     ],
     "agnt018": [
       "They're shooting at us!"
@@ -115,7 +115,7 @@
       "Do it, man, do it!"
     ],
     "agnt022": [
-      "Hurry up, man!"
+      "Sbrigati, amico!"
     ],
     "agnt023": [
       "I ain't riding on the back, pick up a two-seater!"
@@ -124,13 +124,13 @@
       "Get a bigger car!"
     ],
     "agnt025": [
-      "Get a bigger vehicle."
+      "Prendi un veicolo più grande."
     ],
     "agnt026": [
       "Get one with two seats, will ya?"
     ],
     "agnt027": [
-      "Get another vehicle."
+      "Prendi un altro veicolo."
     ],
     "agnt028": [
       "They're onto us."
@@ -145,13 +145,13 @@
       "We can't take much more of that!"
     ],
     "agnt032": [
-      "Are you trying to die!?"
+      "Stai cercando di morire!?"
     ],
     "agnt033": [
-      "Where did Torn find you?"
+      "Dove ti ha trovato Torn?"
     ],
     "agnt034": [
-      "You sure you're on our side?"
+      "Sei sicuro di essere dalla nostra parte?"
     ],
     "agnt035": [
       "Turn, TURN!"
@@ -160,7 +160,7 @@
       "Good move."
     ],
     "agnt037": [
-      "Death to the Baron!"
+      "Morte al Barone!"
     ],
     "agnt038": [
       "Thank Mar you're here, Krimzon Guards are everywhere!"
@@ -181,10 +181,10 @@
       "Not a moment too soon, let's fly!"
     ],
     "agnt044": [
-      "Get me to my new safehouse, quickly!"
+      "Portami al mio nuovo rifugio, presto!"
     ],
     "agnt045": [
-      "Thanks, good luck!"
+      "Grazie, buona fortuna!"
     ],
     "agnt046": [
       "Good driving, go save the rest of our guys."
@@ -1609,7 +1609,7 @@
       "Entering Haven City."
     ],
     "cityv007": [
-      "Re-entering city."
+      "Rientro in città."
     ],
     "cityv008": [
       "Welcome back."
@@ -1705,7 +1705,7 @@
       "This sector is closed."
     ],
     "cityv039": [
-      "Alert: Prison escape in progress."
+      "Allarme: evasione in corso."
     ],
     "cityv040": [
       "Alert: City under attack."
@@ -1750,16 +1750,16 @@
       "General alert: Riot in progress. Krimzon Guards en route."
     ],
     "cityv054": [
-      "Surrender yourself. You are under arrest."
+      "Arrenditi. Sei in arresto."
     ],
     "cityv055": [
-      "There is no escape."
+      "Non c'è via di fuga."
     ],
     "cityv056": [
-      "You are in a restricted sector. This sector is on high alert."
+      "Sei in un settore ad accesso limitato. Il settore è in stato di allerta."
     ],
     "cityv057": [
-      "You are under arrest. Surrender yourself."
+      "Sei in arresto. Arrenditi."
     ],
     "cityv058": [
       "This sector is off limits."
@@ -1771,7 +1771,7 @@
       "The race is about to begin."
     ],
     "cityv063": [
-      "Welcome to the city transportation system."
+      "Benvenuto nel sistema di trasporti cittadino."
     ],
     "cityv064": [
       "You can thrust in your vehicle at any time."
@@ -1871,11 +1871,11 @@
       "The gunpod has taken severe damage."
     ],
     "cityv130": [
-      "The city map is displayed in the lower right."
+      "La mappa della città è mostrata in basso a destra."
     ],
     "cityv132": [
-      "Follow the icons on the map",
-      "to reach important destinations."
+      "Segui le icone sulla mappa",
+      "per raggiungere luoghi importanti."
     ],
     "cityv134": [
       "Intruder alert."
@@ -2128,7 +2128,7 @@
       "Break those tubes in the center."
     ],
     "ds020": [
-      "Please tell me you remember how to roll..."
+      "Per favore, dimmi che ti ricordi ancora come fare..."
     ],
     "ds023": [
       "Let's rock!"
@@ -2158,7 +2158,7 @@
       "Let's go back to the Underground Hideout."
     ],
     "ds043": [
-      "You can get a longer jump by rolling into it."
+      "Se arrivi veloce puoi saltare più lontano."
     ],
     "ds044": [
       "Use a long jump to get across this gap."
@@ -2167,8 +2167,8 @@
       "Nice form!"
     ],
     "ds046": [
-      "If you duck before you jump, you'll go higher.",
-      "You'll need a high jump to reach the top of this ledge, Jak."
+      "Se ti abbassi prima di saltare, arriverai più in alto.",
+      "Devi saltare più in alto per raggiungere quella sporgenza, Jak."
     ],
     "ds047": [
       "Ooh, that's a high one.",
@@ -2330,10 +2330,10 @@
       "There's Mar's gun, Jak! Let's go check it out."
     ],
     "ds162": [
-      "These Precursor Orbs are worth a lot now.",
-      "We might find a few hidden around,",
-      "or get some doing difficult tasks.",
-      "We'll be able to buy stuff with 'em!"
+      "Queste sfere Precursor valgono molto ora.",
+      "dovremmo trovarne alcune qui in giro,",
+      "o riceverne completando alcune missioni.",
+      "Vendendole potremmo comprare molte cose!"
     ],
     "ds163": [
       "Jak, now that we have the Palace Security Pass,",
@@ -2343,9 +2343,9 @@
       "Back up to get out of the mech."
     ],
     "ds165": [
-      "We're free, Jak! Thanks to me.",
-      "Nice to breathe some fresh air, huh?",
-      "We'll get that Baron Praxis guy, alright!"
+      "Siamo liberi, Jak! Grazie a me.",
+      "È bello respirare dell'aria fresca, eh?",
+      "La faremo vedere al Barone Praxis!"
     ],
     "ds166": [
       "I'm not getting out of this pod",
@@ -2881,7 +2881,7 @@
       "How's it feel to have your pants down, Baron?"
     ],
     "ds484": [
-      "Shoot him, shoot him!"
+      "Sparategli, sparategli!"
     ],
     "ds485": [
       "Look out!"
@@ -3946,7 +3946,7 @@
       "We gotta catch up!"
     ],
     "jak036": [
-      "There he is!"
+      "Eccolo!"
     ],
     "jak037": [
       "Come on, baby, show me what you got!"
@@ -4263,22 +4263,22 @@
       "Surrender!"
     ],
     "kg007": [
-      "This is a no-hover zone!"
+      "Quì il volo è vietato!"
     ],
     "kg007a": [
-      "This is a no-hover zone!"
+      "Quì il volo è vietato!"
     ],
     "kg008": [
-      "Pull over!"
+      "Fermo!"
     ],
     "kg008a": [
-      "Pull over!"
+      "Fermo!"
     ],
     "kg009": [
       "Say good night!"
     ],
     "kg010": [
-      "Seal off the area."
+      "Chiudete l'area."
     ],
     "kg011": [
       "Stop the vehicle!"
@@ -4299,7 +4299,7 @@
       "You want some?!"
     ],
     "kg015": [
-      "This area is off-limits."
+      "L'accesso è vietato."
     ],
     "kg016": [
       "Stop!"
@@ -4368,40 +4368,40 @@
       "Checking sector three."
     ],
     "kg030": [
-      "Patrolling sector nine."
+      "Pattugliamento settore nove."
     ],
     "kg030a": [
-      "Patrolling sector nine."
+      "Pattugliamento settore nove."
     ],
     "kg031": [
-      "Be advised, I'm on foot."
+      "Attenzione, sono a piedi."
     ],
     "kg031a": [
-      "Be advised, I'm on foot."
+      "Attenzione, sono a piedi."
     ],
     "kg032": [
-      "Moving to next sector."
+      "Passo al settore successivo."
     ],
     "kg032a": [
-      "Moving to next sector."
+      "Passo al settore successivo."
     ],
     "kg033": [
-      "I've got suspicious activity in this sector."
+      "Attività sospetta in questo settore."
     ],
     "kg033a": [
-      "I've got suspicious activity in this sector."
+      "Attività sospetta in questo settore."
     ],
     "kg034": [
-      "Sweeping for suspects."
+      "Ricerca sospetti in corso."
     ],
     "kg034a": [
-      "Sweeping for suspects."
+      "Ricerca sospetti in corso."
     ],
     "kg035": [
-      "Nothing so far."
+      "Nulla fin ora."
     ],
     "kg035a": [
-      "Nothing so far."
+      "Nulla fin ora."
     ],
     "kg036": [
       "Roger that, still looking."
@@ -4416,13 +4416,13 @@
       "Roger, we'll shoot on sight."
     ],
     "kg038": [
-      "Please advise, suspect's description."
+      "Comunicare la descrizione dei sospetti."
     ],
     "kg039": [
-      "Get out of the vehicle!"
+      "Fuori dal veicolo!"
     ],
     "kg039a": [
-      "Get out of the vehicle!"
+      "Fuori dal veicolo!"
     ],
     "kg040": [
       "Call in more Hellcats!"
@@ -4611,10 +4611,10 @@
       "I found him!"
     ],
     "kg071": [
-      "There he is."
+      "Eccolo."
     ],
     "kg071a": [
-      "There he is!"
+      "Eccolo!"
     ],
     "kg072": [
       "Be advised, target in sight."
@@ -4767,7 +4767,7 @@
       "Prison escape in progress, sound the alarm!"
     ],
     "kg097": [
-      "Prisoner on level two!"
+      "Prigioniero al livello due!"
     ],
     "kg097a": [
       "Prisoner on level two!"
@@ -4785,10 +4785,10 @@
       "We think he's in the pipes!"
     ],
     "kg100": [
-      "We're beginning our sweep."
+      "Iniziamo la perlustrazione."
     ],
     "kg100a": [
-      "We're beginning our sweep."
+      "Iniziamo la perlustrazione."
     ],
     "kg101": [
       "We have prisoner in sight, move in!"
@@ -4797,10 +4797,10 @@
       "We have prisoner in sight, move in!"
     ],
     "kg102": [
-      "We have movement on level one!"
+      "C'è movimento al livello uno!"
     ],
     "kg102a": [
-      "We have movement on level one!"
+      "C'è movimento al livello uno!"
     ],
     "kg103": [
       "Close in!"
@@ -4809,10 +4809,10 @@
       "Close in!"
     ],
     "kg104": [
-      "We're moving in!"
+      "Stiamo entrando!"
     ],
     "kg104a": [
-      "We're moving in!"
+      "Stiamo entrando!"
     ],
     "kg105": [
       "Secure the cell block!"
@@ -4911,10 +4911,10 @@
       "Activating security defenses."
     ],
     "kg121": [
-      "Please advise, subject's description."
+      "Fornire la descrizione dei sospetti."
     ],
     "kg121a": [
-      "Please advise, subject's description."
+      "Fornire la descrizione dei sospetti."
     ],
     "kg122": [
       "I've got civvies in sight."
@@ -4989,7 +4989,7 @@
       "Lock and load!"
     ],
     "kg135": [
-      "Open fire!"
+      "Aprite il fuoco!"
     ],
     "kg136": [
       "Alert, alert!"
@@ -5178,7 +5178,7 @@
       "Don't fight the law, son."
     ],
     "kg176": [
-      "You are under arrest!"
+      "Sei in arresto!"
     ],
     "kg177": [
       "Get moving!"
@@ -6013,7 +6013,7 @@
       "Suspect cornered in section two."
     ],
     "kg332a": [
-      "There is no escape!"
+      "Non c'è via di fuga!"
     ],
     "kg333a": [
       "Resistance is futile!"
@@ -6307,7 +6307,7 @@
       "Stop!"
     ],
     "kgv002": [
-      "Open fire!"
+      "Aprite il fuoco!"
     ],
     "kgv003": [
       "Move in!"
@@ -6334,7 +6334,7 @@
       "Give it up, outlaw!"
     ],
     "kgv011": [
-      "Seal off the area!"
+      "Chiudete l'area."
     ],
     "kgv012": [
       "Call in reinforcements!"
@@ -6349,10 +6349,10 @@
       "Stop the vehicle!"
     ],
     "kgv016": [
-      "You are under arrest!"
+      "Sei in arresto!"
     ],
     "kgv017": [
-      "Pull over!"
+      "Fermo!"
     ],
     "kgv018": [
       "Slow down!"
@@ -6361,7 +6361,7 @@
       "Move over!"
     ],
     "kgv020": [
-      "Get out of the vehicle!"
+      "Fuori dal veicolo!"
     ],
     "kgv021": [
       "Call in more Hellcats!"
@@ -6802,10 +6802,10 @@
       "Work hard, and be grateful."
     ],
     "prop014": [
-      "Report all wrongdoers."
+      "Denuncia i disonesti."
     ],
     "prop015": [
-      "Remember, even your friends could be enemies."
+      "Ricorda, anche i tuoi amici possono essere i tuoi nemici."
     ],
     "prop016": [
       "Turn in all who subvert."
@@ -6814,63 +6814,63 @@
       "Strength is our only option!"
     ],
     "prop018": [
-      "Obey and be happy."
+      "Obbedisci e sii felice."
     ],
     "prop019": [
-      "Sacrifice is something you should do",
-      "for your city."
+      "Il sacrificio è una cosa che devi fare",
+      "per la tua città."
     ],
     "prop020": [
-      "Sacrifice for your city."
+      "Sacrificati per la tua città."
     ],
     "prop021": [
-      "Remember, even friends might be enemies."
+      "Ricorda, anche gli amici possono essere nemici."
     ],
     "prop022": [
-      "The city needs your sacrifice."
+      "La città ha bisogno del tuo sacrificio."
     ],
     "prop023": [
-      "It is better inside the walls!"
+      "Dentro le mura è meglio!"
     ],
     "prop024": [
-      "The law will show no mercy."
+      "La legge non deve avere pietà."
     ],
     "prop025": [
-      "Justice is swift."
+      "La giustizia è rapida."
     ],
     "prop026": [
-      "The Underground movement is dead!"
+      "Il movimento mondo sotterrano è morto!"
     ],
     "prop027": [
       "Join the Krimzon Guard and your family",
       "will be allowed to stay."
     ],
     "prop028": [
-      "One way: My way."
+      "Una via: La mia via."
     ],
     "prop029": [
-      "To lead is to control."
+      "Comandare è controllare."
     ],
     "prop030": [
-      "Give up your freedom and I will protect you."
+      "Rinuncia alla tua libertà e io ti proteggerò."
     ],
     "prop031": [
-      "Have faith in me and the Promised Land is yours."
+      "Abbiate fede in me e la Terra Promessa sarà vostra."
     ],
     "prop032": [
-      "Your city needs a strong leader, not a childish fool."
+      "La città ha bisogno di un capo forte, non di un giovane folle."
     ],
     "prop033": [
       "Welcome not the unknown face."
     ],
     "prop034": [
-      "Shun those who would defy me!"
+      "Evitate chi mi sfida!"
     ],
     "prop035": [
-      "I am the face of Haven City."
+      "Io sono il volto di Città Rifugio."
     ],
     "prop036": [
-      "Without my strength, there would be no city."
+      "Senza la mia forza, non ci sarebbe nessuna città."
     ],
     "prop037": [
       "Follow me to a safer future!"
@@ -6879,23 +6879,23 @@
       "You are safe inside the walls with me."
     ],
     "prop039": [
-      "Defy... and die."
+      "Sfidami... e muori."
     ],
     "prop040": [
-      "Welcome to Haven City!",
-      "All laws are enforced for your safety.",
-      "Obey me and you will not be punished."
+      "Benvenuti a Città Rifugio.",
+      "Tutte le leggi sono in vigore per la vostra sicurezza.",
+      "Obbeditemi e non sarete puniti."
     ],
     "prop041": [
       "The city is safe. I will not allow harm",
       "to befall you, trust me."
     ],
     "prop042": [
-      "Rest assured, I will destroy the Metal Heads.",
-      "One way or another."
+      "State sicuri, distruggerò le Teste di Metallo.",
+      "In un modo o nell'altro."
     ],
     "prop043": [
-      "To all citizens, this puny Underground revolt",
+      "A tutti i cittadini, questa piccola rivolta clandestina",
       "will be dealt with by all aggressive means.",
       "We will crush these arrogant upstarts, they will not",
       "be allowed to threaten me or this city's order!"
@@ -6994,7 +6994,7 @@
       "Remember, Lurkers can be dangerous!"
     ],
     "prop055": [
-      "Please give generously to the Baron eco fund.",
+      "Per favore donate generosamente al fondo eco del Barone.",
       "Your munificent donation wil be used for a variety",
       "of humanitarian needs: bombs, guns, armor, genetic",
       "alteration research, all in the name of preserving this",
@@ -7839,6 +7839,8 @@
     "kor": "Kor",
     "krew": "Krew",
     "metalkor": "Metal Kor",
+    "metalkor-before-consite": "Metal Head Leader",
+    "metalkor-intro": "???",
     "mog": "Mog",
     "onin": "Onin",
     "oracle": "Oracle",
