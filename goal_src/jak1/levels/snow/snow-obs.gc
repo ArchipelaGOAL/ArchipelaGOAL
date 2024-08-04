@@ -16,7 +16,7 @@
   snowcam
   snowcam-lod0-jg
   -1
-              ((snowcam-lod0-mg (meters 999999)))
+  ((snowcam-lod0-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 10))
 
 (defmethod set-stack-size! ((this snowcam))
@@ -27,66 +27,66 @@
   :virtual #t
   :code
     (behavior ()
-    (let ((v1-0 (-> self seq)))
-      (cond
-        ((zero? v1-0)
-         (ja-no-eval :group! snowcam-gearstart-ja :num! (seek! max 0.2) :frame-num 0.0)
-         (until (ja-done? 0)
-           (suspend)
+      (let ((v1-0 (-> self seq)))
+        (cond
+          ((zero? v1-0)
+           (ja-no-eval :group! snowcam-gearstart-ja :num! (seek! max 0.2) :frame-num 0.0)
+           (until (ja-done? 0)
+             (suspend)
              (ja :num! (seek! max 0.2)))
-         (ja-no-eval :group! snowcam-gate-ja :num! (seek! max 0.25) :frame-num 0.0)
-         (until (ja-done? 0)
-           (suspend)
+           (ja-no-eval :group! snowcam-gate-ja :num! (seek! max 0.25) :frame-num 0.0)
+           (until (ja-done? 0)
+             (suspend)
              (ja :num! (seek! max 0.25)))
-         (ja-no-eval :group! snowcam-gearend-ja :num! (seek!) :frame-num 0.0)
-         (until (ja-done? 0)
-           (suspend)
+           (ja-no-eval :group! snowcam-gearend-ja :num! (seek!) :frame-num 0.0)
+           (until (ja-done? 0)
+             (suspend)
              (ja :num! (seek!)))
            (let ((gp-0 (current-time))) (until (time-elapsed? gp-0 (seconds 4.5)) (suspend))))
-        ((= v1-0 1)
+          ((= v1-0 1)
            (let ((gp-2 (ppointer->handle (process-spawn fuel-cell
                                                         :init
                                                         fuel-cell-init-as-clone
-                     (process->handle self)
-                     (-> self entity extra perm task)
+                                                        (process->handle self)
+                                                        (-> self entity extra perm task)
                                                         :to
                                                         (ppointer->process (-> self parent))))))
-           (add-setting! 'music-volume 'abs 0.0 0)
-           (add-setting! 'sfx-volume 'rel 50.0 0)
+             (add-setting! 'music-volume 'abs 0.0 0)
+             (add-setting! 'sfx-volume 'rel 50.0 0)
              (ja-play-spooled-anim (the-as spool-anim (-> self anim-name))
-             (the-as art-joint-anim #f)
-             (the-as art-joint-anim #f)
+                                   (the-as art-joint-anim #f)
+                                   (the-as art-joint-anim #f)
                                    (the-as (function process-drawable symbol) false-func))
-           (remove-setting! 'music-volume)
-           (remove-setting! 'sfx-volume)
+             (remove-setting! 'music-volume)
+             (remove-setting! 'sfx-volume)
              (let ((a0-21 (handle->process gp-2))) (if a0-21 (send-event a0-21 'stop-cloning)))))
-        ((= v1-0 2)
-         (ja-no-eval :group! snowcam-eggtop-activating-ja :num! (seek!) :frame-num 0.0)
-         (until (ja-done? 0)
-           (suspend)
+          ((= v1-0 2)
+           (ja-no-eval :group! snowcam-eggtop-activating-ja :num! (seek!) :frame-num 0.0)
+           (until (ja-done? 0)
+             (suspend)
              (ja :num! (seek!)))
-         (send-event (handle->process (-> self notify-handle)) 'notify 'cut)
-         (ja-no-eval :group! snowcam-ecovent-activating-ja :num! (seek!) :frame-num 0.0)
-         (until (ja-done? 0)
-           (suspend)
+           (send-event (handle->process (-> self notify-handle)) 'notify 'cut)
+           (ja-no-eval :group! snowcam-ecovent-activating-ja :num! (seek!) :frame-num 0.0)
+           (until (ja-done? 0)
+             (suspend)
              (ja :num! (seek!))))
           (else (suspend) 0)))
       (go-virtual pov-camera-done-playing)))
 
 (deftype snow-eggtop (process-drawable)
-  ((root         collide-shape-moving :override)
-   (spawn-trans  vector                :inline)
+  ((root        collide-shape-moving :override)
+   (spawn-trans vector :inline)
    (play-sound? symbol))
   (:states
-    snow-eggtop-activate
-    snow-eggtop-idle-down
+   snow-eggtop-activate
+   snow-eggtop-idle-down
    snow-eggtop-idle-up))
 
 (defskelgroup *snow-eggtop-sg*
   snow-eggtop
   snow-eggtop-lod0-jg
   snow-eggtop-idle-ja
-              ((snow-eggtop-lod0-mg (meters 999999)))
+  ((snow-eggtop-lod0-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 4))
 
 (defpartgroup group-snow-yellow-eco-room-open
@@ -94,9 +94,9 @@
   :bounds (static-bspherem 0 -6 0 8)
   :parts
   ((sp-item 1990 :fade-after (meters 110))
-    (sp-item 1991 :fade-after (meters 110))
-    (sp-item 1992 :fade-after (meters 110))
-    (sp-item 1993 :fade-after (meters 110))
+   (sp-item 1991 :fade-after (meters 110))
+   (sp-item 1992 :fade-after (meters 110))
+   (sp-item 1993 :fade-after (meters 110))
    (sp-item 1994 :fade-after (meters 110))))
 
 (defpartgroup group-snow-yellow-eco-room-activate
@@ -108,21 +108,21 @@
 (defpart 1995
   :init-specs
   ((:texture (new 'static 'texture-id :index #x2 :page #x2))
-    (:num 30.0)
-    (:y (meters -4))
-    (:scale-x (meters 20) (meters 10))
-    (:rot-x 4)
-    (:rot-z (degrees 0) (degrees 360))
-    (:scale-y (meters 5) (meters 2))
-    (:r 127.0)
-    (:g 127.0)
-    (:b 0.0 16.0)
-    (:a 0.0)
-    (:rotvel-z (degrees -0.05) (degrees 0.1))
-    (:fade-a 0.85333335)
-    (:timer (seconds 2))
-    (:flags (bit2 bit3 left-multiply-quat))
-    (:next-time (seconds 0.25))
+   (:num 30.0)
+   (:y (meters -4))
+   (:scale-x (meters 20) (meters 10))
+   (:rot-x 4)
+   (:rot-z (degrees 0) (degrees 360))
+   (:scale-y (meters 5) (meters 2))
+   (:r 127.0)
+   (:g 127.0)
+   (:b 0.0 16.0)
+   (:a 0.0)
+   (:rotvel-z (degrees -0.05) (degrees 0.1))
+   (:fade-a 0.85333335)
+   (:timer (seconds 2))
+   (:flags (bit2 bit3 left-multiply-quat))
+   (:next-time (seconds 0.25))
    (:next-launcher 1996)))
 
 (defpart 1996
@@ -134,48 +134,48 @@
 (defpart 1990
   :init-specs
   ((:texture (new 'static 'texture-id :index #xf :page #x2))
-    (:num 1.0)
-    (:y (meters -4))
-    (:scale-x (meters 10) (meters 2))
-    (:scale-y (meters 8) (meters 2))
-    (:r 255.0)
-    (:g 255.0)
-    (:b 0.0 64.0)
-    (:a 128.0 128.0)
-    (:timer (seconds 0.017))
+   (:num 1.0)
+   (:y (meters -4))
+   (:scale-x (meters 10) (meters 2))
+   (:scale-y (meters 8) (meters 2))
+   (:r 255.0)
+   (:g 255.0)
+   (:b 0.0 64.0)
+   (:a 128.0 128.0)
+   (:timer (seconds 0.017))
    (:flags (bit2 bit3))))
 
 (defpart 1991
   :init-specs
   ((:texture (new 'static 'texture-id :index #xf :page #x2))
-    (:num 1.0)
-    (:y (meters -4))
-    (:scale-x (meters 3) (meters 2))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0)
-    (:a 128.0 128.0)
-    (:timer (seconds 0.017))
+   (:num 1.0)
+   (:y (meters -4))
+   (:scale-x (meters 3) (meters 2))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0)
+   (:a 128.0 128.0)
+   (:timer (seconds 0.017))
    (:flags (bit2 bit3))))
 
 (defpart 1992
   :init-specs
   ((:texture (new 'static 'texture-id :index #x1f :page #x2))
-    (:num 0.5 1.0)
-    (:y (meters -4))
-    (:scale-x (meters 3) (meters 3))
-    (:rot-x 4)
-    (:rot-z (degrees -30) (degrees 60))
-    (:scale-y (meters 0.7) (meters 0.4))
-    (:r 128.0)
-    (:g 128.0)
-    (:b 64.0)
-    (:a 128.0)
-    (:fade-a -1.6)
-    (:timer (seconds 0.3))
-    (:flags (bit2 bit3))
-    (:next-time (seconds 0.035))
+   (:num 0.5 1.0)
+   (:y (meters -4))
+   (:scale-x (meters 3) (meters 3))
+   (:rot-x 4)
+   (:rot-z (degrees -30) (degrees 60))
+   (:scale-y (meters 0.7) (meters 0.4))
+   (:r 128.0)
+   (:g 128.0)
+   (:b 64.0)
+   (:a 128.0)
+   (:fade-a -1.6)
+   (:timer (seconds 0.3))
+   (:flags (bit2 bit3))
+   (:next-time (seconds 0.035))
    (:next-launcher 1998)))
 
 (defpart 1998
@@ -184,84 +184,84 @@
 (defpart 1993
   :init-specs
   ((:texture (new 'static 'texture-id :index #x1f :page #x2))
-    (:num 0.5 1.0)
-    (:y (meters -4))
-    (:scale-x (meters 3) (meters 3))
-    (:rot-x 4)
-    (:rot-z (degrees 150) (degrees 60))
-    (:scale-y (meters 0.7) (meters 0.4))
-    (:r 128.0)
-    (:g 128.0)
-    (:b 64.0)
-    (:a 128.0)
-    (:fade-a -1.6)
-    (:timer (seconds 0.3))
-    (:flags (bit2 bit3))
-    (:next-time (seconds 0.035))
+   (:num 0.5 1.0)
+   (:y (meters -4))
+   (:scale-x (meters 3) (meters 3))
+   (:rot-x 4)
+   (:rot-z (degrees 150) (degrees 60))
+   (:scale-y (meters 0.7) (meters 0.4))
+   (:r 128.0)
+   (:g 128.0)
+   (:b 64.0)
+   (:a 128.0)
+   (:fade-a -1.6)
+   (:timer (seconds 0.3))
+   (:flags (bit2 bit3))
+   (:next-time (seconds 0.035))
    (:next-launcher 1998)))
 
 (defpart 1994
   :init-specs
   ((:texture (new 'static 'texture-id :index #x1f :page #x2))
-    (:num 1.0 1.0)
-    (:y (meters -6.5) (meters 1))
-    (:scale-x (meters 6) (meters 2))
-    (:rot-x 4)
-    (:rot-z (degrees -140) (degrees 100.00001))
-    (:scale-y (meters 0.7) (meters 0.4))
-    (:r 128.0)
-    (:g 128.0)
-    (:b 64.0)
-    (:a 128.0)
-    (:fade-a -1.6)
-    (:timer (seconds 0.3))
-    (:flags (bit2 bit3))
-    (:next-time (seconds 0.035))
-    (:next-launcher 1998)
-    (:conerot-x (degrees 90))
-    (:conerot-y (degrees 80) (degrees 200.00002))
+   (:num 1.0 1.0)
+   (:y (meters -6.5) (meters 1))
+   (:scale-x (meters 6) (meters 2))
+   (:rot-x 4)
+   (:rot-z (degrees -140) (degrees 100.00001))
+   (:scale-y (meters 0.7) (meters 0.4))
+   (:r 128.0)
+   (:g 128.0)
+   (:b 64.0)
+   (:a 128.0)
+   (:fade-a -1.6)
+   (:timer (seconds 0.3))
+   (:flags (bit2 bit3))
+   (:next-time (seconds 0.035))
+   (:next-launcher 1998)
+   (:conerot-x (degrees 90))
+   (:conerot-y (degrees 80) (degrees 200.00002))
    (:conerot-radius (meters 4))))
 
 (defstate snow-eggtop-idle-up (snow-eggtop)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (case message
-      (('notify)
-       (case (-> block param 0)
-         (('pickup)
+      (case message
+        (('notify)
+         (case (-> block param 0)
+           (('pickup)
             (if (type-type? (-> proc type) fuel-cell) (save-reminder (get-task-control (-> self entity extra perm task)) 1 4)))))))
   :trans
     (behavior ()
       (if (and (not (-> self child)) (task-complete? *game-info* (-> self entity extra perm task))) (go snow-eggtop-activate))
-    (spawn (-> self part) (-> self root trans))
+      (spawn (-> self part) (-> self root trans))
       (update! (-> self sound)))
   :code
     (behavior ()
-    (ja-channel-push! 1 0)
-    (ja :group! snow-eggtop-idle-ja :num! min)
-    (transform-post)
-    (loop
-      (logior! (-> self mask) (process-mask sleep-code))
+      (ja-channel-push! 1 0)
+      (ja :group! snow-eggtop-idle-ja :num! min)
+      (transform-post)
+      (loop
+        (logior! (-> self mask) (process-mask sleep-code))
         (suspend))))
 
 (defstate snow-eggtop-activate (snow-eggtop)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (case message
-      (('notify)
-       (when (= (-> proc type) snowcam)
-         (cond
+      (case message
+        (('notify)
+         (when (= (-> proc type) snowcam)
+           (cond
              ((= (-> block param 0) 'die) (if *target* (+! (-> *target* control trans y) 1024.0)) (go snow-eggtop-idle-down))
              ((= (-> block param 0) 'cut) (stop! (-> self sound)) (set! (-> self play-sound?) #f) #f))))))
   :enter
     (behavior ()
-    (logclear! (-> self mask) (process-mask actor-pause))
-    (process-entity-status! self (entity-perm-status bit-3) #t)
+      (logclear! (-> self mask) (process-mask actor-pause))
+      (process-entity-status! self (entity-perm-status bit-3) #t)
       (set! (-> self play-sound?) #t))
   :exit
     (behavior ()
-    (stop! (-> self sound))
-    (logior! (-> self mask) (process-mask actor-pause))
+      (stop! (-> self sound))
+      (logior! (-> self mask) (process-mask actor-pause))
       (process-entity-status! self (entity-perm-status bit-3) #f))
   :trans rider-trans
   :code
@@ -269,42 +269,42 @@
       (process-spawn part-tracker
                      :init
                      part-tracker-init
-      (-> *part-group-id-table* 511)
-      -1
-      #f
-      #f
-      #f
-      (-> self root trans)
+                     (-> *part-group-id-table* 511)
+                     -1
+                     #f
+                     #f
+                     #f
+                     (-> self root trans)
                      :to
                      *entity-pool*)
       (let ((v1-7 (process-spawn snowcam
                                  :init
                                  pov-camera-init-by-other
-              (-> self spawn-trans)
-              *snowcam-sg*
-              "gearstart"
-              0
-              self
-              '((0 ambient camera "gamcam38") (10 alive "ecovent-278"))
+                                 (-> self spawn-trans)
+                                 *snowcam-sg*
+                                 "gearstart"
+                                 0
+                                 self
+                                 '((0 ambient camera "gamcam38") (10 alive "ecovent-278"))
                                  :to
                                  self)))
         (set! (-> (the-as snowcam (-> v1-7 0)) seq) (the-as uint 2)))
-    (change-sound! (-> self sound) (static-sound-name "snw-eggtop-seq"))
-    (save-reminder (get-task-control (-> self entity extra perm task)) 2 4)
-    (ja-no-eval :group! snow-eggtop-idle-ja :num! (seek!) :frame-num 0.0)
-    (until (ja-done? 0)
+      (change-sound! (-> self sound) (static-sound-name "snw-eggtop-seq"))
+      (save-reminder (get-task-control (-> self entity extra perm task)) 2 4)
+      (ja-no-eval :group! snow-eggtop-idle-ja :num! (seek!) :frame-num 0.0)
+      (until (ja-done? 0)
         (if (-> self play-sound?) (update! (-> self sound)))
-      (suspend)
+        (suspend)
         (ja :num! (seek!)))
       (level-hint-spawn (text-id snow-eggtop-resolution) "sksp0360" (the-as entity #f) *entity-pool* (game-task none))
-    (set-time! (-> self state-time))
-    (until (time-elapsed? (-> self state-time) (seconds 1.1))
+      (set-time! (-> self state-time))
+      (until (time-elapsed? (-> self state-time) (seconds 1.1))
         (if (-> self play-sound?) (update! (-> self sound)))
         (suspend))
-    (process-entity-status! self (entity-perm-status complete) #t)
+      (process-entity-status! self (entity-perm-status complete) #t)
       (let ((a0-18 (-> self entity))) (if (and a0-18 (= self (-> a0-18 extra process))) (entity-task-complete-on a0-18)))
-    (send-event (ppointer->process (-> *hud-parts* fuel-cell)) 'show)
-    (loop
+      (send-event (ppointer->process (-> *hud-parts* fuel-cell)) 'show)
+      (loop
         (if (-> self play-sound?) (update! (-> self sound)))
         (suspend)))
   :post rider-post)
@@ -312,13 +312,13 @@
 (defstate snow-eggtop-idle-down (snow-eggtop)
   :code
     (behavior ()
-    (process-entity-status! self (entity-perm-status complete) #t)
+      (process-entity-status! self (entity-perm-status complete) #t)
       (let ((a0-1 (-> self entity))) (if (and a0-1 (= self (-> a0-1 extra process))) (entity-task-complete-on a0-1)))
-    (ja-channel-push! 1 0)
-    (ja :group! snow-eggtop-idle-ja :num! max)
-    (transform-post)
-    (logior! (-> self mask) (process-mask sleep-code))
-    (suspend)
+      (ja-channel-push! 1 0)
+      (ja :group! snow-eggtop-idle-ja :num! max)
+      (transform-post)
+      (logior! (-> self mask) (process-mask sleep-code))
+      (suspend)
       0))
 
 (defmethod init-from-entity! ((this snow-eggtop) (arg0 entity-actor))
@@ -349,23 +349,23 @@
   (cond
     ((task-complete? *game-info* (-> this entity extra perm task)) (go snow-eggtop-idle-down))
     (else
-      (let ((a0-17 (new 'stack-no-clear 'vector)))
-        (set! (-> a0-17 quad) (-> this root trans quad))
-        (+! (-> a0-17 y) 3072.0)
+     (let ((a0-17 (new 'stack-no-clear 'vector)))
+       (set! (-> a0-17 quad) (-> this root trans quad))
+       (+! (-> a0-17 y) 3072.0)
        (birth-pickup-at-point a0-17
-          (pickup-type fuel-cell)
-          (the float (-> this entity extra perm task))
-          #f
-          this
+                              (pickup-type fuel-cell)
+                              (the float (-> this entity extra perm task))
+                              #f
+                              this
                               (the-as fact-info #f)))
      (go snow-eggtop-idle-up)))
   (none))
 
 (deftype snowpusher (process-drawable)
-  ((root         collide-shape-moving :override)
-   (max-frame    float)
-   (open-sound   sound-name)
-   (close-sound  sound-name)
+  ((root        collide-shape-moving :override)
+   (max-frame   float)
+   (open-sound  sound-name)
+   (close-sound sound-name)
    (sync        sync-info-paused :inline))
   (:states
    snowpusher-idle))
@@ -374,27 +374,27 @@
   snowpusher
   snowpusher-lod0-jg
   snowpusher-idle-ja
-              ((snowpusher-lod0-mg (meters 999999)))
+  ((snowpusher-lod0-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 10))
 
 (defstate snowpusher-idle (snowpusher)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (case message
+      (case message
         (('touch) (send-event proc 'no-look-around (seconds 1.5)) #f)))
   :code
     (behavior ()
-    (let ((gp-0 #f))
-      (loop
-        (let ((f0-0 (get-current-phase-with-mirror (-> self sync))))
-          (ja :num-func num-func-identity :frame-num (* f0-0 (-> self max-frame)))
-          (cond
+      (let ((gp-0 #f))
+        (loop
+          (let ((f0-0 (get-current-phase-with-mirror (-> self sync))))
+            (ja :num-func num-func-identity :frame-num (* f0-0 (-> self max-frame)))
+            (cond
               ((or (= f0-0 0.0) (= f0-0 1.0)) (set! gp-0 #f))
-            (else
-              (when (not gp-0)
-                (set! gp-0 #t)
-                (if (>= f0-0 0.5)
-                    (sound-play-by-name (-> self close-sound) (new-sound-id) 1024 0 0 (sound-group sfx) #t)
+              (else
+               (when (not gp-0)
+                 (set! gp-0 #t)
+                 (if (>= f0-0 0.5)
+                   (sound-play-by-name (-> self close-sound) (new-sound-id) 1024 0 0 (sound-group sfx) #t)
                    (sound-play-by-name (-> self open-sound) (new-sound-id) 1024 0 0 (sound-group sfx) #t))))))
           (suspend))))
   :post pusher-post)
@@ -446,7 +446,7 @@
   (none))
 
 (deftype snow-spatula (baseplat)
-  ((sync      sync-info  :inline)
+  ((sync     sync-info :inline)
    (startmat matrix :inline))
   (:states
    snow-spatula-idle))
@@ -455,34 +455,34 @@
   snow-spatula
   snow-spatula-lod0-jg
   snow-spatula-idle-ja
-              ((snow-spatula-lod0-mg (meters 999999)))
-              :bounds (static-spherem 0 10 0 10)
+  ((snow-spatula-lod0-mg (meters 999999)))
+  :bounds (static-spherem 0 10 0 10)
   :longest-edge (meters 9.4))
 
 (defstate snow-spatula-idle (snow-spatula)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (case message
+      (case message
         (('bonk) (baseplat-method-22 self) (sound-play "snow-spat-short" :vol 75 :pitch 0.75))))
   :trans plat-trans
   :code
     (behavior ()
-    (let ((f28-0 0.0)
+      (let ((f28-0 0.0)
             (gp-0 1))
-      (loop
-        (let ((f30-0 (get-current-phase-with-mirror (-> self sync))))
-          (when (!= f30-0 f28-0)
-            (let ((v1-3 1))
+        (loop
+          (let ((f30-0 (get-current-phase-with-mirror (-> self sync))))
+            (when (!= f30-0 f28-0)
+              (let ((v1-3 1))
                 (if (< f30-0 f28-0) (set! v1-3 -1))
-              (when (!= v1-3 gp-0)
-                (set! gp-0 v1-3)
-                (cond
+                (when (!= v1-3 gp-0)
+                  (set! gp-0 v1-3)
+                  (cond
                     ((> v1-3 0) (sound-play "snow-spat-long" :pitch (rand-vu-float-range -0.2 0.2)))
                     (1 (sound-play "snow-spat-short" :pitch (rand-vu-float-range -0.2 0.2))))))
               (set! f28-0 f30-0))
-          (let ((s5-2 (new 'stack-no-clear 'matrix)))
-            (matrix-rotate-y! s5-2 (* 16384.0 f30-0))
-            (matrix*! s5-2 s5-2 (-> self startmat))
+            (let ((s5-2 (new 'stack-no-clear 'matrix)))
+              (matrix-rotate-y! s5-2 (* 16384.0 f30-0))
+              (matrix*! s5-2 s5-2 (-> self startmat))
               (matrix->quaternion (-> self root quat) s5-2)))
           (suspend))))
   :post plat-post)
@@ -515,22 +515,22 @@
   (none))
 
 (deftype snow-fort-gate (process-drawable)
-  ((root          collide-shape :override)
-   (part2         sparticle-launch-control)
-   (part3         sparticle-launch-control)
-   (open-trans    vector         :inline)
+  ((root         collide-shape :override)
+   (part2        sparticle-launch-control)
+   (part3        sparticle-launch-control)
+   (open-trans   vector :inline)
    (closed-trans vector :inline))
   (:states
-    snow-fort-gate-activate
-    snow-fort-gate-idle-closed
+   snow-fort-gate-activate
+   snow-fort-gate-idle-closed
    snow-fort-gate-idle-open))
 
 (defskelgroup *snow-fort-gate-sg*
   snow-fort-gate
   snow-fort-gate-lod0-jg
   -1
-              ((snow-fort-gate-lod0-mg (meters 999999)))
-              :bounds (static-spherem 0 15 0 24)
+  ((snow-fort-gate-lod0-mg (meters 999999)))
+  :bounds (static-spherem 0 15 0 24)
   :longest-edge (meters 12.8))
 
 (defpartgroup group-snow-fort-gate-coming-down
@@ -542,26 +542,26 @@
 (defpart 1896
   :init-specs
   ((:texture (new 'static 'texture-id :page #x2))
-    (:num 0.5 1.0)
-    (:x (meters -10) (meters 20))
-    (:y (meters 0.5) (meters 1))
-    (:scale-x (meters 10.5) (meters 8.5))
-    (:rot-z (degrees 0) (degrees 360))
-    (:scale-y :copy scale-x)
-    (:r 96.0)
-    (:g 96.0)
-    (:b 96.0 16.0)
-    (:a 0.0)
-    (:vel-x (meters -0.026666667) (meters 0.053333335))
-    (:vel-z (meters -0.053333335) (meters 0.053333335))
-    (:rotvel-z (degrees -0.4) (degrees 0.8))
-    (:fade-a 0.42666668)
-    (:accel-y (meters -0.00066666666))
-    (:friction 0.98)
-    (:timer (seconds 1.5))
-    (:flags (bit2))
-    (:next-time (seconds 0.25) (seconds 0.247))
-    (:next-launcher 1897)
+   (:num 0.5 1.0)
+   (:x (meters -10) (meters 20))
+   (:y (meters 0.5) (meters 1))
+   (:scale-x (meters 10.5) (meters 8.5))
+   (:rot-z (degrees 0) (degrees 360))
+   (:scale-y :copy scale-x)
+   (:r 96.0)
+   (:g 96.0)
+   (:b 96.0 16.0)
+   (:a 0.0)
+   (:vel-x (meters -0.026666667) (meters 0.053333335))
+   (:vel-z (meters -0.053333335) (meters 0.053333335))
+   (:rotvel-z (degrees -0.4) (degrees 0.8))
+   (:fade-a 0.42666668)
+   (:accel-y (meters -0.00066666666))
+   (:friction 0.98)
+   (:timer (seconds 1.5))
+   (:flags (bit2))
+   (:next-time (seconds 0.25) (seconds 0.247))
+   (:next-launcher 1897)
    (:rotate-y (degrees 0))))
 
 (defpart 1897
@@ -576,27 +576,27 @@
 (defpart 1898
   :init-specs
   ((:texture (new 'static 'texture-id :page #x2))
-    (:num 64.0)
-    (:x (meters -10) (meters 20))
-    (:y (meters 0.5) (meters 1))
-    (:z (meters -3))
-    (:scale-x (meters 4) (meters 8))
-    (:rot-z (degrees 0) (degrees 360))
-    (:scale-y :copy scale-x)
-    (:r 128.0)
-    (:g 128.0)
-    (:b 128.0 16.0)
-    (:a 0.0)
-    (:vel-x (meters -0.013333334) (meters 0.026666667))
-    (:vel-z (meters -0.053333335) (meters 0.046666667))
-    (:rotvel-z (degrees -0.4) (degrees 0.8))
-    (:fade-a 0.42666668)
-    (:accel-y (meters -0.00016666666))
-    (:friction 0.98)
-    (:timer (seconds 2.5))
-    (:flags (bit2))
-    (:next-time (seconds 0.25) (seconds 0.247))
-    (:next-launcher 1899)
+   (:num 64.0)
+   (:x (meters -10) (meters 20))
+   (:y (meters 0.5) (meters 1))
+   (:z (meters -3))
+   (:scale-x (meters 4) (meters 8))
+   (:rot-z (degrees 0) (degrees 360))
+   (:scale-y :copy scale-x)
+   (:r 128.0)
+   (:g 128.0)
+   (:b 128.0 16.0)
+   (:a 0.0)
+   (:vel-x (meters -0.013333334) (meters 0.026666667))
+   (:vel-z (meters -0.053333335) (meters 0.046666667))
+   (:rotvel-z (degrees -0.4) (degrees 0.8))
+   (:fade-a 0.42666668)
+   (:accel-y (meters -0.00016666666))
+   (:friction 0.98)
+   (:timer (seconds 2.5))
+   (:flags (bit2))
+   (:next-time (seconds 0.25) (seconds 0.247))
+   (:next-launcher 1899)
    (:rotate-y (degrees 0))))
 
 (defpart 1899
@@ -607,40 +607,40 @@
   :bounds (static-bspherem 0 -16 0 32)
   :parts
   ((sp-item 2271 :fade-after (meters 100) :falloff-to (meters 130) :period (seconds 4) :length (seconds 0.5))
-    (sp-item 2271 :fade-after (meters 100) :falloff-to (meters 130) :period (seconds 4) :length (seconds 0.335))
-    (sp-item 2271 :fade-after (meters 100) :falloff-to (meters 130) :period (seconds 4) :length (seconds 0.2))
-    (sp-item 2271 :fade-after (meters 100) :falloff-to (meters 130) :period (seconds 4) :length (seconds 0.1))
-    (sp-item 2271 :fade-after (meters 100) :falloff-to (meters 130) :period (seconds 4) :length (seconds 0.035))
-    (sp-item 2272 :fade-after (meters 100) :falloff-to (meters 100) :period (seconds 4) :length (seconds 0.667))
-    (sp-item 2272 :fade-after (meters 100) :falloff-to (meters 100) :period (seconds 4) :length (seconds 0.5))
-    (sp-item 2272 :fade-after (meters 100) :falloff-to (meters 100) :period (seconds 4) :length (seconds 0.335))
-    (sp-item 2272 :fade-after (meters 100) :falloff-to (meters 100) :period (seconds 4) :length (seconds 0.167))
-    (sp-item 2272 :fade-after (meters 100) :falloff-to (meters 100) :period (seconds 4) :length (seconds 0.067))
-    (sp-item 2273 :fade-after (meters 80) :falloff-to (meters 80) :period (seconds 4) :length (seconds 0.57))
-    (sp-item 2273 :fade-after (meters 80) :falloff-to (meters 80) :period (seconds 4) :length (seconds 0.385))
-    (sp-item 2273 :fade-after (meters 80) :falloff-to (meters 80) :period (seconds 4) :length (seconds 0.235))
-    (sp-item 2273 :fade-after (meters 80) :falloff-to (meters 80) :period (seconds 4) :length (seconds 0.117))
+   (sp-item 2271 :fade-after (meters 100) :falloff-to (meters 130) :period (seconds 4) :length (seconds 0.335))
+   (sp-item 2271 :fade-after (meters 100) :falloff-to (meters 130) :period (seconds 4) :length (seconds 0.2))
+   (sp-item 2271 :fade-after (meters 100) :falloff-to (meters 130) :period (seconds 4) :length (seconds 0.1))
+   (sp-item 2271 :fade-after (meters 100) :falloff-to (meters 130) :period (seconds 4) :length (seconds 0.035))
+   (sp-item 2272 :fade-after (meters 100) :falloff-to (meters 100) :period (seconds 4) :length (seconds 0.667))
+   (sp-item 2272 :fade-after (meters 100) :falloff-to (meters 100) :period (seconds 4) :length (seconds 0.5))
+   (sp-item 2272 :fade-after (meters 100) :falloff-to (meters 100) :period (seconds 4) :length (seconds 0.335))
+   (sp-item 2272 :fade-after (meters 100) :falloff-to (meters 100) :period (seconds 4) :length (seconds 0.167))
+   (sp-item 2272 :fade-after (meters 100) :falloff-to (meters 100) :period (seconds 4) :length (seconds 0.067))
+   (sp-item 2273 :fade-after (meters 80) :falloff-to (meters 80) :period (seconds 4) :length (seconds 0.57))
+   (sp-item 2273 :fade-after (meters 80) :falloff-to (meters 80) :period (seconds 4) :length (seconds 0.385))
+   (sp-item 2273 :fade-after (meters 80) :falloff-to (meters 80) :period (seconds 4) :length (seconds 0.235))
+   (sp-item 2273 :fade-after (meters 80) :falloff-to (meters 80) :period (seconds 4) :length (seconds 0.117))
    (sp-item 2273 :fade-after (meters 80) :falloff-to (meters 80) :period (seconds 4) :length (seconds 0.035))))
 
 (defpart 2271
   :init-specs
   ((:texture (new 'static 'texture-id :index #x4 :page #x2))
-    (:num 0.25)
-    (:x (meters -1) (meters 2))
-    (:z (meters -1) (meters 2))
-    (:scale-x (meters 0.5) (meters 0.5))
-    (:rot-z (degrees 0) (degrees 360))
-    (:scale-y (meters 0.5) (meters 0.25))
-    (:r 150.0)
-    (:g 150.0)
-    (:b 150.0 55.0)
-    (:a 128.0)
-    (:vel-y (meters -0.006666667))
-    (:rotvel-z (degrees -0.2) (degrees 0.4))
-    (:accel-y (meters -0.00066666666) (meters -0.00033333333))
-    (:timer (seconds 3))
-    (:flags (bit2 bit12))
-    (:next-time (seconds 2))
+   (:num 0.25)
+   (:x (meters -1) (meters 2))
+   (:z (meters -1) (meters 2))
+   (:scale-x (meters 0.5) (meters 0.5))
+   (:rot-z (degrees 0) (degrees 360))
+   (:scale-y (meters 0.5) (meters 0.25))
+   (:r 150.0)
+   (:g 150.0)
+   (:b 150.0 55.0)
+   (:a 128.0)
+   (:vel-y (meters -0.006666667))
+   (:rotvel-z (degrees -0.2) (degrees 0.4))
+   (:accel-y (meters -0.00066666666) (meters -0.00033333333))
+   (:timer (seconds 3))
+   (:flags (bit2 bit12))
+   (:next-time (seconds 2))
    (:next-launcher 2274)))
 
 (defpart 2274
@@ -649,70 +649,66 @@
 (defpart 2272
   :init-specs
   ((:texture (new 'static 'texture-id :index #x4 :page #x2))
-    (:num 1.0)
-    (:x (meters -0.5) (meters 1))
-    (:y (meters 1))
-    (:z (meters -0.5) (meters 1))
-    (:scale-x (meters 0.25) (meters 0.25))
-    (:rot-z (degrees 0) (degrees 360))
-    (:scale-y (meters 0.25) (meters 0.1))
-    (:r 150.0)
-    (:g 150.0)
-    (:b 150.0 55.0)
-    (:a 96.0 32.0)
-    (:vel-y (meters -0.006666667))
-    (:rotvel-z (degrees -0.2) (degrees 0.4))
-    (:accel-y (meters -0.0005) (meters -0.00033333333))
-    (:timer (seconds 3))
-    (:flags (bit2 bit12))
-    (:next-time (seconds 2))
+   (:num 1.0)
+   (:x (meters -0.5) (meters 1))
+   (:y (meters 1))
+   (:z (meters -0.5) (meters 1))
+   (:scale-x (meters 0.25) (meters 0.25))
+   (:rot-z (degrees 0) (degrees 360))
+   (:scale-y (meters 0.25) (meters 0.1))
+   (:r 150.0)
+   (:g 150.0)
+   (:b 150.0 55.0)
+   (:a 96.0 32.0)
+   (:vel-y (meters -0.006666667))
+   (:rotvel-z (degrees -0.2) (degrees 0.4))
+   (:accel-y (meters -0.0005) (meters -0.00033333333))
+   (:timer (seconds 3))
+   (:flags (bit2 bit12))
+   (:next-time (seconds 2))
    (:next-launcher 2274)))
 
 (defpart 2273
   :init-specs
   ((:texture (new 'static 'texture-id :index #xb :page #x2))
-    (:num 0.25)
-    (:x (meters -0.5) (meters 1))
-    (:y (meters 1))
-    (:z (meters -0.5) (meters 1))
-    (:scale-x (meters 1) (meters 0.25))
-    (:scale-y (meters 2.5) (meters 1))
-    (:r 150.0)
-    (:g 150.0)
-    (:b 150.0 55.0)
-    (:a 32.0 96.0)
-    (:vel-y (meters -0.006666667))
-    (:fade-a -0.14222223)
-    (:accel-y (meters -0.0005) (meters -0.00033333333))
-    (:timer (seconds 3))
+   (:num 0.25)
+   (:x (meters -0.5) (meters 1))
+   (:y (meters 1))
+   (:z (meters -0.5) (meters 1))
+   (:scale-x (meters 1) (meters 0.25))
+   (:scale-y (meters 2.5) (meters 1))
+   (:r 150.0)
+   (:g 150.0)
+   (:b 150.0 55.0)
+   (:a 32.0 96.0)
+   (:vel-y (meters -0.006666667))
+   (:fade-a -0.14222223)
+   (:accel-y (meters -0.0005) (meters -0.00033333333))
+   (:timer (seconds 3))
    (:flags (bit2 bit12))))
 
 (defstate snow-fort-gate-idle-closed (snow-fort-gate)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (case message
+      (case message
         (('notice) (go snow-fort-gate-activate))))
   :trans
     (behavior ()
-    (when (and *target* (>= 61440.0 (vector-vector-distance (-> self root trans) (-> *target* control trans))))
-      (level-hint-spawn (text-id snow-fort-hint) "sksp0345" (the-as entity #f) *entity-pool* (game-task none))
+      (when (and *target* (>= 61440.0 (vector-vector-distance (-> self root trans) (-> *target* control trans))))
+        (level-hint-spawn (text-id snow-fort-hint) "sksp0345" (the-as entity #f) *entity-pool* (game-task none))
         (close-specific-task! (game-task snow-fort) (task-status need-hint))))
   :code
     (behavior ()
-    (ja :group! snow-fort-gate-idle-ja :num! min)
-    (set! (-> self root trans quad) (-> self closed-trans quad))
-    (transform-post)
-    ;;(suspend)
-    (loop
-      (cond 
-        ((ap-special-received? (the-as uint (game-task snow-ball)))
-          (go snow-fort-gate-activate)
-          )
-        (else
-          ;;(logior! (-> self mask) (process-mask sleep-code))
-        (suspend))))
-    )
-  )
+      (ja :group! snow-fort-gate-idle-ja :num! min)
+      (set! (-> self root trans quad) (-> self closed-trans quad))
+      (transform-post)
+      ;;(suspend)
+      (loop
+        (cond
+          ((ap-special-received? (the-as uint (game-task snow-ball))) (go snow-fort-gate-activate))
+          (else
+           ;;(logior! (-> self mask) (process-mask sleep-code))
+           (suspend))))))
 
 (defstate snow-fort-gate-activate (snow-fort-gate)
   :enter
@@ -720,53 +716,53 @@
       (logclear! (-> self mask) (process-mask actor-pause)))
   :exit
     (behavior ()
-    (stop! (-> self sound))
+      (stop! (-> self sound))
       (logior! (-> self mask) (process-mask actor-pause)))
   :code
     (behavior ()
-    (let ((gp-0 #f))
-      (loop
-        (let ((a1-0 (new 'stack-no-clear 'vector)))
-          (set! (-> a1-0 quad) (-> self closed-trans quad))
-          (+! (-> a1-0 y) -12288.0)
-          (+! (-> a1-0 z) -12288.0)
+      (let ((gp-0 #f))
+        (loop
+          (let ((a1-0 (new 'stack-no-clear 'vector)))
+            (set! (-> a1-0 quad) (-> self closed-trans quad))
+            (+! (-> a1-0 y) -12288.0)
+            (+! (-> a1-0 z) -12288.0)
             (spawn (-> self part) a1-0))
-        (let ((s5-0 (new 'stack-no-clear 'vector)))
-          (set! (-> s5-0 quad) (-> self root trans quad))
-          (let ((f30-0 (vector-vector-distance-squared s5-0 (-> self open-trans))))
-            (when (and (not gp-0) (>= 1048576.0 f30-0))
-              (set! gp-0 #t)
-              (let ((a1-2 (new 'stack-no-clear 'vector)))
-                (set! (-> a1-2 quad) (-> self open-trans quad))
-                (+! (-> a1-2 y) -26624.0)
-                (+! (-> a1-2 z) -3072.0)
+          (let ((s5-0 (new 'stack-no-clear 'vector)))
+            (set! (-> s5-0 quad) (-> self root trans quad))
+            (let ((f30-0 (vector-vector-distance-squared s5-0 (-> self open-trans))))
+              (when (and (not gp-0) (>= 1048576.0 f30-0))
+                (set! gp-0 #t)
+                (let ((a1-2 (new 'stack-no-clear 'vector)))
+                  (set! (-> a1-2 quad) (-> self open-trans quad))
+                  (+! (-> a1-2 y) -26624.0)
+                  (+! (-> a1-2 z) -3072.0)
                   (spawn (-> self part2) a1-2)))
-            (when (>= 1677.7216 f30-0)
-              (sound-play "lodge-close")
-              (activate! *camera-smush-control* 819.2 37 150 1.0 0.99)
+              (when (>= 1677.7216 f30-0)
+                (sound-play "lodge-close")
+                (activate! *camera-smush-control* 819.2 37 150 1.0 0.99)
                 (go snow-fort-gate-idle-open)))
-          (vector-seek-3d-smooth! s5-0 (-> self open-trans) (* 16384.0 (seconds-per-frame)) 0.9)
+            (vector-seek-3d-smooth! s5-0 (-> self open-trans) (* 16384.0 (seconds-per-frame)) 0.9)
             (move-to-point! (-> self root) s5-0))
-        (let ((a1-7 (new 'stack-no-clear 'vector)))
-          (set! (-> a1-7 quad) (-> self root trans quad))
-          (+! (-> a1-7 x) 20480.0)
-          (+! (-> a1-7 y) 106496.0)
-          (+! (-> a1-7 z) -32768.0)
+          (let ((a1-7 (new 'stack-no-clear 'vector)))
+            (set! (-> a1-7 quad) (-> self root trans quad))
+            (+! (-> a1-7 x) 20480.0)
+            (+! (-> a1-7 y) 106496.0)
+            (+! (-> a1-7 z) -32768.0)
             (spawn (-> self part3) a1-7))
-        (update! (-> self sound))
+          (update! (-> self sound))
           (suspend))))
   :post transform-post)
 
 (defstate snow-fort-gate-idle-open (snow-fort-gate)
   :code
     (behavior ()
-    (ja :group! snow-fort-gate-idle-ja :num! min)
-    (set! (-> self root trans quad) (-> self open-trans quad))
-    (transform-post)
-    (suspend)
-    (transform-post)
-    (loop
-      (logior! (-> self mask) (process-mask sleep-code))
+      (ja :group! snow-fort-gate-idle-ja :num! min)
+      (set! (-> self root trans quad) (-> self open-trans quad))
+      (transform-post)
+      (suspend)
+      (transform-post)
+      (loop
+        (logior! (-> self mask) (process-mask sleep-code))
         (suspend))))
 
 (defmethod deactivate ((this snow-fort-gate))
@@ -819,17 +815,17 @@
   (:methods
    (snow-gears-method-20 (_type_) none))
   (:states
-    snow-gears-activate
-    snow-gears-halt
-    snow-gears-idle
+   snow-gears-activate
+   snow-gears-halt
+   snow-gears-idle
    snow-gears-stopped))
 
 (defskelgroup *snow-gears-sg*
   snow-gears
   snow-gears-lod0-jg
   snow-gears-idle-ja
-              ((snow-gears-lod0-mg (meters 999999)))
-              :bounds (static-spherem 0 0 0 60)
+  ((snow-gears-lod0-mg (meters 999999)))
+  :bounds (static-spherem 0 0 0 60)
   :longest-edge (meters 12.1))
 
 (defpartgroup group-snow-gears-dripping
@@ -841,47 +837,47 @@
 (defpart 1900
   :init-specs
   ((:texture (new 'static 'texture-id :index #x1d :page #x2))
-    (:num 0.5)
-    (:x (meters -9) (meters 18))
-    (:y (meters -6))
-    (:z (meters -9) (meters 18))
-    (:scale-x (meters 0.1) (meters 0.5))
-    (:rot-z (degrees 0) (degrees 360))
-    (:scale-y :copy scale-x)
-    (:r 32.0 40.0)
-    (:g 32.0 40.0)
-    (:b 32.0 40.0)
-    (:a 128.0)
-    (:vel-y (meters 0) (meters -0.04))
-    (:rotvel-z (degrees -0.3) (degrees 0.6))
-    (:accel-y (meters -0.0016666667) (meters -0.00016666666))
-    (:timer (seconds 1.3))
-    (:flags (bit2))
-    (:userdata 0.0)
+   (:num 0.5)
+   (:x (meters -9) (meters 18))
+   (:y (meters -6))
+   (:z (meters -9) (meters 18))
+   (:scale-x (meters 0.1) (meters 0.5))
+   (:rot-z (degrees 0) (degrees 360))
+   (:scale-y :copy scale-x)
+   (:r 32.0 40.0)
+   (:g 32.0 40.0)
+   (:b 32.0 40.0)
+   (:a 128.0)
+   (:vel-y (meters 0) (meters -0.04))
+   (:rotvel-z (degrees -0.3) (degrees 0.6))
+   (:accel-y (meters -0.0016666667) (meters -0.00016666666))
+   (:timer (seconds 1.3))
+   (:flags (bit2))
+   (:userdata 0.0)
    (:func 'check-water-level-drop)))
 
 (defpart 1901
   :init-specs
   ((:texture (new 'static 'texture-id :page #x2))
-    (:num 1.0)
-    (:y (meters -7))
-    (:scale-x (meters 3) (meters 4.5))
-    (:rot-z (degrees 0) (degrees 360))
-    (:scale-y :copy scale-x)
-    (:r 64.0 16.0)
-    (:g 64.0)
-    (:b 64.0)
-    (:a 0.0)
-    (:vel-y (meters 0) (meters 0.006666667))
-    (:rotvel-z (degrees -0.3) (degrees 0.6))
-    (:fade-a 1.0666667)
-    (:accel-y (meters 0.000016666667))
-    (:timer (seconds 4))
-    (:flags (bit2 bit12))
-    (:next-time (seconds 0.2))
-    (:next-launcher 1902)
-    (:conerot-x (degrees 90) (degrees 10))
-    (:conerot-y (degrees 0) (degrees 360))
+   (:num 1.0)
+   (:y (meters -7))
+   (:scale-x (meters 3) (meters 4.5))
+   (:rot-z (degrees 0) (degrees 360))
+   (:scale-y :copy scale-x)
+   (:r 64.0 16.0)
+   (:g 64.0)
+   (:b 64.0)
+   (:a 0.0)
+   (:vel-y (meters 0) (meters 0.006666667))
+   (:rotvel-z (degrees -0.3) (degrees 0.6))
+   (:fade-a 1.0666667)
+   (:accel-y (meters 0.000016666667))
+   (:timer (seconds 4))
+   (:flags (bit2 bit12))
+   (:next-time (seconds 0.2))
+   (:next-launcher 1902)
+   (:conerot-x (degrees 90) (degrees 10))
+   (:conerot-y (degrees 0) (degrees 360))
    (:conerot-radius (meters 3.5) (meters 6))))
 
 (defpart 1902
@@ -900,27 +896,24 @@
 (defstate snow-gears-idle (snow-gears)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (case message
-      (('notice)
-       (logclear! (-> self mask) (process-mask actor-pause))
-       (process-entity-status! self (entity-perm-status bit-3) #t)
+      (case message
+        (('notice)
+         (logclear! (-> self mask) (process-mask actor-pause))
+         (process-entity-status! self (entity-perm-status bit-3) #t)
          (go snow-gears-activate))))
   :code
     (behavior ()
-    (ja :group! snow-gears-idle-ja :num! min)
-    (ja-post)
-    (loop
-      (cond 
-        ((ap-special-received? (the-as uint (game-task snow-ball)))
-          (logclear! (-> self mask) (process-mask actor-pause))
-          (process-entity-status! self (entity-perm-status bit-3) #t)
-          (go snow-gears-activate)
-          )
-        (else 
-          ;;(logior! (-> self mask) (process-mask sleep-code))
-        (suspend))))
-    )
-  )
+      (ja :group! snow-gears-idle-ja :num! min)
+      (ja-post)
+      (loop
+        (cond
+          ((ap-special-received? (the-as uint (game-task snow-ball)))
+           (logclear! (-> self mask) (process-mask actor-pause))
+           (process-entity-status! self (entity-perm-status bit-3) #t)
+           (go snow-gears-activate))
+          (else
+           ;;(logior! (-> self mask) (process-mask sleep-code))
+           (suspend))))))
 
 (defstate snow-gears-activate (snow-gears)
   :trans
@@ -928,20 +921,20 @@
       (snow-gears-method-20 self))
   :code
     (behavior ()
-    (sound-play "eng-start-up")
-    (ja-no-eval :group! snow-gears-start-ja :num! (seek! max 0.85) :frame-num 0.0)
-    (until (ja-done? 0)
-      (suspend)
+      (sound-play "eng-start-up")
+      (ja-no-eval :group! snow-gears-start-ja :num! (seek! max 0.85) :frame-num 0.0)
+      (until (ja-done? 0)
+        (suspend)
         (ja :num! (seek! max 0.85)))
-    (ja-no-eval :group! snow-gears-loop-ja :num! (seek! max 0.35) :frame-num 0.0)
-    (until (ja-done? 0)
-      (update! (-> self sound))
-      (suspend)
+      (ja-no-eval :group! snow-gears-loop-ja :num! (seek! max 0.35) :frame-num 0.0)
+      (until (ja-done? 0)
+        (update! (-> self sound))
+        (suspend)
         (ja :num! (seek! max 0.35)))
-    (set-time! (-> self state-time))
-    (ja :group! snow-gears-idle-ja :num! min)
-    (until (time-elapsed? (-> self state-time) (seconds 2))
-      (update! (-> self sound))
+      (set-time! (-> self state-time))
+      (ja :group! snow-gears-idle-ja :num! min)
+      (until (time-elapsed? (-> self state-time) (seconds 2))
+        (update! (-> self sound))
         (suspend))
       (go snow-gears-halt))
   :post ja-post)
@@ -955,16 +948,16 @@
       (snow-gears-method-20 self))
   :code
     (behavior ()
-    (ja-no-eval :group! snow-gears-loop-ja :num! (seek! max 0.35) :frame-num 0.0)
-    (until (ja-done? 0)
-      (update! (-> self sound))
-      (suspend)
+      (ja-no-eval :group! snow-gears-loop-ja :num! (seek! max 0.35) :frame-num 0.0)
+      (until (ja-done? 0)
+        (update! (-> self sound))
+        (suspend)
         (ja :num! (seek! max 0.35)))
-    (stop! (-> self sound))
-    (sound-play "eng-shut-down")
-    (ja-no-eval :group! snow-gears-stop-ja :num! (seek! max 0.85) :frame-num 0.0)
-    (until (ja-done? 0)
-      (suspend)
+      (stop! (-> self sound))
+      (sound-play "eng-shut-down")
+      (ja-no-eval :group! snow-gears-stop-ja :num! (seek! max 0.85) :frame-num 0.0)
+      (until (ja-done? 0)
+        (suspend)
         (ja :num! (seek! max 0.85)))
       (go snow-gears-stopped))
   :post ja-post)
@@ -972,12 +965,12 @@
 (defstate snow-gears-stopped (snow-gears)
   :code
     (behavior ()
-    (ja :group! snow-gears-idle-ja :num! min)
-    (ja-post)
-    (logior! (-> self mask) (process-mask actor-pause))
-    (process-entity-status! self (entity-perm-status bit-3) #f)
-    (loop
-      (logior! (-> self mask) (process-mask sleep-code))
+      (ja :group! snow-gears-idle-ja :num! min)
+      (ja-post)
+      (logior! (-> self mask) (process-mask actor-pause))
+      (process-entity-status! self (entity-perm-status bit-3) #f)
+      (loop
+        (logior! (-> self mask) (process-mask sleep-code))
         (suspend))))
 
 (defmethod init-from-entity! ((this snow-gears) (arg0 entity-actor))
@@ -987,28 +980,24 @@
   (set! (-> this part) (create-launch-control (-> *part-group-id-table* 515) this))
   (set! (-> this sound) (new 'process 'ambient-sound (static-sound-spec "snow-engine" :fo-max 300) (-> this root trans)))
   ;; Set initial state based on posession of ap-special.
-  (if (ap-special-received? (the-as uint (game-task snow-ball)))
-      (go snow-gears-stopped)
-      (go snow-gears-idle)
-      )
-  (none)
-  )
+  (if (ap-special-received? (the-as uint (game-task snow-ball))) (go snow-gears-stopped) (go snow-gears-idle))
+  (none))
 
 (deftype snow-switch (process-drawable)
-  ((root          collide-shape-moving :override)
-   (pressed?      symbol)
-   (fcell-handle  handle)
+  ((root         collide-shape-moving :override)
+   (pressed?     symbol)
+   (fcell-handle handle)
    (orig-trans   vector :inline))
   (:states
-    snow-switch-activate
-    snow-switch-idle-down
+   snow-switch-activate
+   snow-switch-idle-down
    snow-switch-idle-up))
 
 (defskelgroup *snow-switch-sg*
   snow-switch
   snow-switch-lod0-jg
   snow-switch-idle-ja
-              ((snow-switch-lod0-mg (meters 999999)))
+  ((snow-switch-lod0-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 2))
 
 (defbehavior snow-switch-event-handler snow-switch ((arg0 process) (arg1 int) (arg2 symbol) (arg3 event-message-block))
@@ -1029,56 +1018,55 @@
   :event snow-switch-event-handler
   :code
     (behavior ()
-    (loop
-      (logior! (-> self mask) (process-mask sleep-code))
+      (loop
+        (logior! (-> self mask) (process-mask sleep-code))
         (suspend))))
 
 (defstate snow-switch-activate (snow-switch)
   :event snow-switch-event-handler
   :exit
     (behavior ()
-    (process-entity-status! self (entity-perm-status bit-3) #f)
+      (process-entity-status! self (entity-perm-status bit-3) #f)
       (logior! (-> self mask) (process-mask actor-pause)))
   :trans rider-trans
   :code
     (behavior ()
-    (local-vars (v1-1 symbol))
-    (until v1-1
-      (suspend)
+      (local-vars (v1-1 symbol))
+      (until v1-1
+        (suspend)
         (set! v1-1 (or (not *target*) (not (logtest? (-> *target* state-flags) (state-flags grabbed))))))
-    (sound-play "prec-button1" :pitch -1)
-    (let ((gp-1 (get-process *default-dead-pool* snowcam #x4000)))
+      (sound-play "prec-button1" :pitch -1)
+      (let ((gp-1 (get-process *default-dead-pool* snowcam #x4000)))
         (set! (-> (the-as snowcam
                           (-> (when gp-1
                                 (let ((t9-3 (method-of-type snowcam activate))) (t9-3 (the-as snowcam gp-1) self 'snowcam (the-as pointer #x70004000)))
                                 (run-now-in-process gp-1
-                                        pov-camera-init-by-other
-                                        (new 'static 'vector :x 3411656.8 :y 779689.56 :z -13573010.0 :w 1.0)
-                                        *snowcam-sg*
-                                        "gearstart"
-                                        0
-                                        self
+                                                    pov-camera-init-by-other
+                                                    (new 'static 'vector :x 3411656.8 :y 779689.56 :z -13573010.0 :w 1.0)
+                                                    *snowcam-sg*
+                                                    "gearstart"
+                                                    0
+                                                    self
                                                     '())
                                 (-> gp-1 ppointer))
                               0))
                   seq)
               (the-as uint 0)))
-                                    0
-    (let ((gp-2 #f))
-      (loop
-        (let ((s5-1 (new 'stack-no-clear 'vector))
+      0
+      (let ((gp-2 #f))
+        (loop
+          (let ((s5-1 (new 'stack-no-clear 'vector))
                 (f0-1 (+ -1433.6 (-> self orig-trans y))))
-          (set! (-> s5-1 quad) (-> self root trans quad))
-          (cond
-            ((= (-> s5-1 y) f0-1)
-             (when (not gp-2)
-               (set! gp-2 #t)
-               ;; Don't tell the gears or gate to open, the ap-special is handling that now.
-               ;; (send-to-all (-> self link) 'notice) 
-               )
-             )
-            (else
-              (set! (-> s5-1 y) (seek-with-smooth (-> self root trans y) f0-1 (* 6144.0 (seconds-per-frame)) 0.2 204.8))
+            (set! (-> s5-1 quad) (-> self root trans quad))
+            (cond
+              ((= (-> s5-1 y) f0-1)
+               (when (not gp-2)
+                 (set! gp-2 #t)
+                 ;; Don't tell the gears or gate to open, the ap-special is handling that now.
+                 ;; (send-to-all (-> self link) 'notice) 
+                 ))
+              (else
+               (set! (-> s5-1 y) (seek-with-smooth (-> self root trans y) f0-1 (* 6144.0 (seconds-per-frame)) 0.2 204.8))
                (move-to-point! (-> self root) s5-1))))
           (suspend))))
   :post rider-post)
@@ -1087,12 +1075,12 @@
   :event snow-switch-event-handler
   :code
     (behavior ()
-    (set! (-> self pressed?) #t)
-    (set! (-> self root trans quad) (-> self orig-trans quad))
-    (+! (-> self root trans y) -1433.6)
-    (transform-post)
-    (loop
-      (logior! (-> self mask) (process-mask sleep-code))
+      (set! (-> self pressed?) #t)
+      (set! (-> self root trans quad) (-> self orig-trans quad))
+      (+! (-> self root trans y) -1433.6)
+      (transform-post)
+      (loop
+        (logior! (-> self mask) (process-mask sleep-code))
         (suspend))))
 
 (defmethod init-from-entity! ((this snow-switch) (arg0 entity-actor))
@@ -1132,91 +1120,91 @@
         (+! (-> a0-17 y) 12288.0)
         (set! (-> this fcell-handle)
               (ppointer->handle (birth-pickup-at-point a0-17
-                                                         (pickup-type fuel-cell)
-                                                         (the float (-> this entity extra perm task))
-                                                         #f
-                                                         this
+                                                       (pickup-type fuel-cell)
+                                                       (the float (-> this entity extra perm task))
+                                                       #f
+                                                       this
                                                        (the-as fact-info #f))))))
     (if s5-2 (go snow-switch-idle-down) (go snow-switch-idle-up)))
   (none))
 
 (deftype snow-log (process-drawable)
-  ((root    collide-shape-moving :override)
+  ((root   collide-shape-moving :override)
    (master entity-actor))
   (:states
-    snow-log-activate
-    snow-log-active
-    snow-log-hidden
+   snow-log-activate
+   snow-log-active
+   snow-log-hidden
    snow-log-wait-for-master))
 
 (defskelgroup *snow-log-sg*
   snow-log
   snow-log-lod0-jg
   -1
-              ((snow-log-lod0-mg (meters 999999)))
+  ((snow-log-lod0-mg (meters 999999)))
   :bounds (static-spherem 0 5 0 9))
 
 (defstate snow-log-wait-for-master (snow-log)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (case message
+      (case message
         (('trigger) (go snow-log-activate))))
   :code
     (behavior ()
-    (loop
+      (loop
         (while (let ((v1-0 (-> self master))) (not (if v1-0 (-> v1-0 extra process))))
           (suspend))
         (suspend)
-      (let* ((v1-3 (-> self master))
+        (let* ((v1-3 (-> self master))
                (a0-1 (if v1-3 (-> v1-3 extra process))))
-        (when a0-1
-          (cond
-            ((send-event a0-1 'query)
-             (logclear! (-> self mask) (process-mask actor-pause))
-             (process-entity-status! self (entity-perm-status bit-3) #t)
+          (when a0-1
+            (cond
+              ((send-event a0-1 'query)
+               (logclear! (-> self mask) (process-mask actor-pause))
+               (process-entity-status! self (entity-perm-status bit-3) #t)
                (go snow-log-active))
               (else (go snow-log-hidden))))))))
 
 (defstate snow-log-hidden (snow-log)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (case message
-      (('trigger)
-       (logclear! (-> self mask) (process-mask actor-pause))
-       (process-entity-status! self (entity-perm-status bit-3) #t)
+      (case message
+        (('trigger)
+         (logclear! (-> self mask) (process-mask actor-pause))
+         (process-entity-status! self (entity-perm-status bit-3) #t)
          (go snow-log-activate))))
   :code
     (behavior ()
-    (ja-channel-push! 1 0)
-    (ja :group! snow-log-activate-ja :num! min)
-    (transform-post)
-    (logior! (-> self mask) (process-mask sleep-code))
-    (suspend)
+      (ja-channel-push! 1 0)
+      (ja :group! snow-log-activate-ja :num! min)
+      (transform-post)
+      (logior! (-> self mask) (process-mask sleep-code))
+      (suspend)
       0))
 
 (defstate snow-log-activate (snow-log)
   :enter
     (behavior ()
-    (logclear! (-> self mask) (process-mask actor-pause))
-    (process-entity-status! self (entity-perm-status bit-3) #t)
+      (logclear! (-> self mask) (process-mask actor-pause))
+      (process-entity-status! self (entity-perm-status bit-3) #t)
       (logclear! (-> self draw status) (draw-status hidden)))
   :exit
     (behavior ()
-    (logior! (-> self mask) (process-mask actor-pause))
+      (logior! (-> self mask) (process-mask actor-pause))
       (process-entity-status! self (entity-perm-status bit-3) #f))
   :trans rider-trans
   :code
     (behavior ()
-    (activate! *camera-smush-control* 819.2 37 150 1.0 0.99)
-    (ja-channel-push! 1 0)
-    (let ((gp-0 #f))
-      (ja-no-eval :group! snow-log-activate-ja :num! (seek!) :frame-num 0.0)
-      (until (ja-done? 0)
-        (when (and (not gp-0) (>= (ja-frame-num 0) 5.0))
-          (set! gp-0 #t)
-          (sound-play "explosion" :vol 40 :pitch 0.9)
+      (activate! *camera-smush-control* 819.2 37 150 1.0 0.99)
+      (ja-channel-push! 1 0)
+      (let ((gp-0 #f))
+        (ja-no-eval :group! snow-log-activate-ja :num! (seek!) :frame-num 0.0)
+        (until (ja-done? 0)
+          (when (and (not gp-0) (>= (ja-frame-num 0) 5.0))
+            (set! gp-0 #t)
+            (sound-play "explosion" :vol 40 :pitch 0.9)
             (sound-play "snow-spat-short" :pitch 0.25))
-        (suspend)
+          (suspend)
           (ja :num! (seek!))))
       (go snow-log-active))
   :post rider-post)
@@ -1225,26 +1213,26 @@
   :trans rider-trans
   :code
     (behavior ()
-    (logior! (-> self mask) (process-mask actor-pause))
-    (process-entity-status! self (entity-perm-status bit-3) #f)
-    (logclear! (-> self draw status) (draw-status hidden))
-    (ja-channel-push! 1 (seconds 0.075))
-    (let ((gp-0 #t)
+      (logior! (-> self mask) (process-mask actor-pause))
+      (process-entity-status! self (entity-perm-status bit-3) #f)
+      (logclear! (-> self draw status) (draw-status hidden))
+      (ja-channel-push! 1 (seconds 0.075))
+      (let ((gp-0 #t)
             (s5-0 #t))
-      (loop
-        (ja-no-eval :group! snow-log-active-loop-ja :num! (seek! max 0.25) :frame-num 0.0)
-        (until (ja-done? 0)
-          (let ((f0-4 (ja-aframe-num 0)))
-            (cond
-              ((and gp-0 (< f0-4 1.0))
-               (set! gp-0 #f)
-               (set! s5-0 #t)
+        (loop
+          (ja-no-eval :group! snow-log-active-loop-ja :num! (seek! max 0.25) :frame-num 0.0)
+          (until (ja-done? 0)
+            (let ((f0-4 (ja-aframe-num 0)))
+              (cond
+                ((and gp-0 (< f0-4 1.0))
+                 (set! gp-0 #f)
+                 (set! s5-0 #t)
                  (sound-play "snow-spat-long" :vol 85 :pitch (rand-vu-float-range -0.2 0.2)))
-              ((and s5-0 (>= f0-4 11.0))
-               (set! s5-0 #f)
-               (set! gp-0 #t)
+                ((and s5-0 (>= f0-4 11.0))
+                 (set! s5-0 #f)
+                 (set! gp-0 #t)
                  (sound-play "snow-spat-short" :vol 85 :pitch (rand-vu-float-range -0.2 0.2)))))
-          (suspend)
+            (suspend)
             (ja :num! (seek! max 0.25))))))
   :post rider-post)
 
@@ -1279,12 +1267,12 @@
   (none))
 
 (deftype snow-log-button (process-drawable)
-  ((root        collide-shape-moving :override)
-   (log         entity-actor)
+  ((root       collide-shape-moving :override)
+   (log        entity-actor)
    (orig-trans vector :inline))
   (:states
-    snow-log-button-activate
-    snow-log-button-idle-down
+   snow-log-button-activate
+   snow-log-button-idle-down
    snow-log-button-idle-up))
 
 (defbehavior snow-log-button-event-handler snow-log-button ((arg0 process) (arg1 int) (arg2 symbol) (arg3 event-message-block))
@@ -1309,28 +1297,28 @@
   :event snow-log-button-event-handler
   :code
     (behavior ()
-    (loop
-      (logior! (-> self mask) (process-mask sleep-code))
+      (loop
+        (logior! (-> self mask) (process-mask sleep-code))
         (suspend))))
 
 (defstate snow-log-button-activate (snow-log-button)
   :event snow-log-button-event-handler
   :exit
     (behavior ()
-    (logior! (-> self mask) (process-mask actor-pause))
+      (logior! (-> self mask) (process-mask actor-pause))
       (process-entity-status! self (entity-perm-status bit-3) #f))
   :trans rider-trans
   :code
     (behavior ()
-    (sound-play "prec-button1")
-    (loop
-      (let ((f30-0 (+ -1433.6 (-> self orig-trans y))))
-        (when (= (-> self root trans y) f30-0)
-          (let ((a1-1 (new 'stack-no-clear 'event-message-block)))
-            (set! (-> a1-1 from) self)
-            (set! (-> a1-1 num-params) 0)
-            (set! (-> a1-1 message) 'trigger)
-            (let ((t9-2 send-event-function)
+      (sound-play "prec-button1")
+      (loop
+        (let ((f30-0 (+ -1433.6 (-> self orig-trans y))))
+          (when (= (-> self root trans y) f30-0)
+            (let ((a1-1 (new 'stack-no-clear 'event-message-block)))
+              (set! (-> a1-1 from) self)
+              (set! (-> a1-1 num-params) 0)
+              (set! (-> a1-1 message) 'trigger)
+              (let ((t9-2 send-event-function)
                     (v1-4 (-> self log)))
                 (t9-2 (if v1-4 (-> v1-4 extra process)) a1-1)))
             (go snow-log-button-idle-down))
@@ -1342,11 +1330,11 @@
   :event snow-log-button-event-handler
   :code
     (behavior ()
-    (set! (-> self root trans quad) (-> self orig-trans quad))
-    (+! (-> self root trans y) -1433.6)
-    (transform-post)
-    (loop
-      (logior! (-> self mask) (process-mask sleep-code))
+      (set! (-> self root trans quad) (-> self orig-trans quad))
+      (+! (-> self root trans y) -1433.6)
+      (transform-post)
+      (loop
+        (logior! (-> self mask) (process-mask sleep-code))
         (suspend))))
 
 (defmethod init-from-entity! ((this snow-log-button) (arg0 entity-actor))
@@ -1377,6 +1365,6 @@
   (set! (-> this orig-trans quad) (-> this root trans quad))
   (set! (-> this log) (entity-actor-lookup arg0 'alt-actor 0))
   (if (and (-> this entity) (logtest? (-> this entity extra perm status) (entity-perm-status complete)))
-      (go snow-log-button-idle-down)
+    (go snow-log-button-idle-down)
     (go snow-log-button-idle-up))
   (none))

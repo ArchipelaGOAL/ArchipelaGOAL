@@ -89,12 +89,12 @@
                      (>= (-> this task-index) 0)
                      (< (-> this task-index) (-> s5-0 nb-of-tasks)))
             (let ((s0-1 (new 'stack
-                          'font-context
-                          *font-default-matrix*
-                          (- (+ s2-0 32) (-> this left-x-offset))
-                          (+ (/ s4-1 2) 125)
-                          8325000.0
-                          (font-color progress-yellow)
+                             'font-context
+                             *font-default-matrix*
+                             (- (+ s2-0 32) (-> this left-x-offset))
+                             (+ (/ s4-1 2) 125)
+                             8325000.0
+                             (font-color progress-yellow)
                              (font-flags shadow kerning))))
               (let ((v1-91 s0-1)) (set! (-> v1-91 width) (the float 328)))
               (let ((v1-92 s0-1)) (set! (-> v1-92 height) (the float 50)))
@@ -135,12 +135,12 @@
     (let ((a0-15 (-> this icons 4 icon 0 root)))
       (set-yaw-angle-clear-roll-pitch! a0-15 (- (y-angle a0-15) (* 182.04445 (* 4.0 (-> *display* time-adjust-ratio))))))
     (let ((s4-1 (new 'stack
-              'font-context
-              *font-default-matrix*
-              (- (+ s3-0 200) (-> this left-x-offset))
-              (+ (/ s4-0 2) 96)
-              8325000.0
-              (font-color default)
+                     'font-context
+                     *font-default-matrix*
+                     (- (+ s3-0 200) (-> this left-x-offset))
+                     (+ (/ s4-0 2) 96)
+                     8325000.0
+                     (font-color default)
                      (font-flags shadow kerning))))
       (let ((v1-19 s4-1)) (set! (-> v1-19 width) (the float 328)))
       (let ((v1-20 s4-1)) (set! (-> v1-20 height) (the float 70)))
@@ -152,10 +152,9 @@
       (+! (-> s4-1 origin x) -220.0)
       (+! (-> s4-1 origin y) 40.0)
       (set! (-> s4-1 flags) (font-flags shadow kerning middle large))
-      (print-game-text-scaled
-        (lookup-text! *common-text* (text-id total-checked) #f)
-        (* 0.7 f30-0)
-        s4-1
+      (print-game-text-scaled (lookup-text! *common-text* (text-id total-checked) #f)
+                              (* 0.7 f30-0)
+                              s4-1
                               (the int (* 128.0 f30-0)))
       (+! (-> s4-1 origin y) 15.0)
       (let ((s5-2 print-game-text-scaled))
@@ -180,20 +179,14 @@
     (set! (-> this particles 14 init-pos x) (the float (- (+ a0-3 150) (-> this left-x-offset))))
     (set! (-> this particles 14 init-pos y) (the float (+ s4-0 214)))
     (let ((s2-0 0))
-      (let ((a1-8 (-> v1-2 buzzer-task-index)))
-        (if (!= a1-8 -1)
-            (set! s2-0 (the-as int (-> v1-2 task-info a1-8 task-id)))
-            )
-        )
-      (let ((s4-1
-              (new
-                'stack
-                'font-context
-                *font-default-matrix*
-                (- (+ s3-0 200) (-> this left-x-offset))
-                (+ (/ s4-0 2) 96)
-                8325000.0
-                (font-color default)
+      (let ((a1-8 (-> v1-2 buzzer-task-index))) (if (!= a1-8 -1) (set! s2-0 (the-as int (-> v1-2 task-info a1-8 task-id)))))
+      (let ((s4-1 (new 'stack
+                       'font-context
+                       *font-default-matrix*
+                       (- (+ s3-0 200) (-> this left-x-offset))
+                       (+ (/ s4-0 2) 96)
+                       8325000.0
+                       (font-color default)
                        (font-flags shadow kerning))))
         (let ((v1-9 s4-1)) (set! (-> v1-9 width) (the float 328)))
         (let ((v1-10 s4-1)) (set! (-> v1-10 height) (the float 70)))
@@ -205,18 +198,14 @@
           (+! (-> s4-1 origin y) 15.0)
           (format (clear *temp-string*) "RECEIVED: ~D" (ap-buzzer-count (the-as uint s2-0)))
           (s3-1 *temp-string* (* 0.7 f30-0) s4-1 (the int (* 128.0 f30-0)))
-          (+! (-> s4-1 origin y) -10.0)
-          )
-        (let ((v1-14 s4-1))
-          (set! (-> v1-14 width) (the float 428))
-          )
+          (+! (-> s4-1 origin y) -10.0))
+        (let ((v1-14 s4-1)) (set! (-> v1-14 width) (the float 428)))
         (+! (-> s4-1 origin x) -220.0)
         (+! (-> s4-1 origin y) 40.0)
         (set! (-> s4-1 flags) (font-flags shadow kerning middle large))
-        (print-game-text-scaled
-          (lookup-text! *common-text* (text-id total-checked) #f)
-          (* 0.7 f30-0)
-          s4-1
+        (print-game-text-scaled (lookup-text! *common-text* (text-id total-checked) #f)
+                                (* 0.7 f30-0)
+                                s4-1
                                 (the int (* 128.0 f30-0)))
         (+! (-> s4-1 origin y) 15.0)
         (let ((s5-2 print-game-text-scaled))
@@ -243,20 +232,20 @@
   (let ((v1-13 arg0)) (set! (-> v1-13 height) (the float 40)))
   (let ((s4-1 print-game-text-scaled))
     (format (clear *temp-string*)
-      (lookup-text! *common-text* (text-id memcard-space-requirement1) #f)
+            (lookup-text! *common-text* (text-id memcard-space-requirement1) #f)
             (if (-> this card-info) (-> this card-info mem-required) 0))
     (s4-1 *temp-string* (-> this transition-percentage-invert) arg0 128))
   (set! (-> arg0 origin y) 115.0)
   (let ((v1-17 arg0)) (set! (-> v1-17 height) (the float 60)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id memcard-space-requirement2) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (let ((v1-19 arg0)) (set! (-> v1-19 scale) 0.65))
   (set! (-> arg0 origin y) 160.0)
   (print-game-text-scaled (lookup-text! *common-text* (text-id continue?) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   0
   (none))
@@ -275,15 +264,15 @@
   (let ((v1-7 arg0)) (set! (-> v1-7 width) (the float 360)))
   (let ((v1-8 arg0)) (set! (-> v1-8 height) (the float 40)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id memcard-not-formatted-msg) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (let ((v1-10 arg0)) (set! (-> v1-10 scale) 0.65))
   (set! (-> arg0 origin y) 138.0)
   (let ((v1-11 arg0)) (set! (-> v1-11 height) (the float 60)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id format?) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   0
   (none))
@@ -296,15 +285,15 @@
   (let ((v1-4 arg0)) (set! (-> v1-4 width) (the float 365)))
   (let ((v1-5 arg0)) (set! (-> v1-5 height) (the float 75)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id save-data-already-exists) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (set! (-> arg0 origin y) 140.0)
   (let ((v1-7 arg0)) (set! (-> v1-7 width) (the float 360)))
   (let ((v1-8 arg0)) (set! (-> v1-8 height) (the float 40)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id overwrite?) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   0
   (none))
@@ -323,8 +312,8 @@
   (let ((v1-7 arg0)) (set! (-> v1-7 width) (the float 360)))
   (let ((v1-8 arg0)) (set! (-> v1-8 height) (the float 40)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id create-save-data?) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   0
   (none))
@@ -416,9 +405,9 @@
       (print-game-text (lookup-text! *common-text*
                                      (if (= (-> this display-state) (progress-screen load-game)) (text-id select-file-to-load) (text-id select-file-to-save))
                                      #f)
-        arg0
-        #f
-        s4-1
+                       arg0
+                       #f
+                       s4-1
                        22)
       (set! (-> arg0 origin y) 26.0)
       (let ((v1-37 arg0)) (set! (-> v1-37 height) (the float 20)))
@@ -435,11 +424,11 @@
              (let ((v1-57 arg0)) (set! (-> v1-57 scale) 0.6))
              (if (and (< (-> s3-3 file s1-0 level-index) (length *level-task-data-remap*)) (> (-> s3-3 file s1-0 level-index) 0))
                (print-game-text (lookup-text! *common-text*
-                     (-> *level-task-data* (-> *level-task-data-remap* (+ (-> s3-3 file s1-0 level-index) -1)) level-name-id)
+                                              (-> *level-task-data* (-> *level-task-data-remap* (+ (-> s3-3 file s1-0 level-index) -1)) level-name-id)
                                               #f)
-                   arg0
-                   #f
-                   s4-1
+                                arg0
+                                #f
+                                s4-1
                                 22)
                (print-game-text "OLD SAVE GAME" arg0 #f s4-1 22))
              (let ((a0-28 arg0)) (set! (-> a0-28 color) (font-color progress-memcard)))
@@ -516,15 +505,15 @@
                   (s0-8 *temp-string* arg0 #f s4-1 22))
                 (+! (-> arg0 origin y) 15.0))
                (else
-                 (+! (-> arg0 origin y) 18.0)
-                 (set! (-> arg0 origin x) (the float (- 28 (-> this left-x-offset))))
+                (+! (-> arg0 origin y) 18.0)
+                (set! (-> arg0 origin x) (the float (- 28 (-> this left-x-offset))))
                 (let ((v1-131 arg0)) (set! (-> v1-131 scale) 0.8))
-                 (set! (-> arg0 flags) (font-flags shadow kerning middle large))
+                (set! (-> arg0 flags) (font-flags shadow kerning middle large))
                 (let ((v1-133 arg0)) (set! (-> v1-133 width) (the float 350)))
-                 ;; og:preserve-this pc port stuff here, added YMD
-                 (case (scf-get-territory)
-                   ((GAME_TERRITORY_SCEA)
-                    (print-game-text (string-format "~X/~X/20~2X   ~2X:~2X"
+                ;; og:preserve-this pc port stuff here, added YMD
+                (case (scf-get-territory)
+                  ((GAME_TERRITORY_SCEA)
+                   (print-game-text (string-format "~X/~X/20~2X   ~2X:~2X"
                                                    (-> s3-3 file s1-0 month)
                                                    (-> s3-3 file s1-0 day)
                                                    (-> s3-3 file s1-0 year)
@@ -534,8 +523,8 @@
                                     #f
                                     s4-1
                                     22))
-                   ((GAME_TERRITORY_SCEI)
-                    (print-game-text (string-format "20~2X/~X/~X   ~2X:~2X"
+                  ((GAME_TERRITORY_SCEI)
+                   (print-game-text (string-format "20~2X/~X/~X   ~2X:~2X"
                                                    (-> s3-3 file s1-0 year)
                                                    (-> s3-3 file s1-0 month)
                                                    (-> s3-3 file s1-0 day)
@@ -545,8 +534,8 @@
                                     #f
                                     s4-1
                                     22))
-                   (else
-                    (print-game-text (string-format "~X/~X/20~2X   ~2X:~2X"
+                  (else
+                   (print-game-text (string-format "~X/~X/20~2X   ~2X:~2X"
                                                    (-> s3-3 file s1-0 day)
                                                    (-> s3-3 file s1-0 month)
                                                    (-> s3-3 file s1-0 year)
@@ -556,13 +545,13 @@
                                     #f
                                     s4-1
                                     22)))
-                 (set! (-> this particles s2-0 init-pos x) -320.0)
+                (set! (-> this particles s2-0 init-pos x) -320.0)
                 (+! (-> arg0 origin y) 23.0))))
             (else
-              (set! (-> this particles s2-0 init-pos x) -320.0)
-              (+! (-> arg0 origin y) 12.0)
+             (set! (-> this particles s2-0 init-pos x) -320.0)
+             (+! (-> arg0 origin y) 12.0)
              (let ((v1-173 arg0)) (set! (-> v1-173 scale) 0.7))
-              (print-game-text (lookup-text! *common-text* (text-id empty) #f) arg0 #f s4-1 22)
+             (print-game-text (lookup-text! *common-text* (text-id empty) #f) arg0 #f s4-1 22)
              (+! (-> arg0 origin y) 29.0)))
           (+! s2-0 1)))))
   0
@@ -576,8 +565,8 @@
   (let ((v1-4 arg0)) (set! (-> v1-4 width) (the float 265)))
   (let ((v1-5 arg0)) (set! (-> v1-5 height) (the float 35)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id error-saving) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (set! (-> arg0 origin x) (the float (- 20 (-> this left-x-offset))))
   (set! (-> arg0 origin y) 34.0)
@@ -590,22 +579,22 @@
   (let ((v1-12 arg0)) (set! (-> v1-12 width) (the float 360)))
   (let ((v1-13 arg0)) (set! (-> v1-13 height) (the float 20)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id autosave-disabled-title) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (set! (-> arg0 origin y) 118.0)
   (let ((v1-15 arg0)) (set! (-> v1-15 width) (the float 360)))
   (let ((v1-16 arg0)) (set! (-> v1-16 height) (the float 60)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id autosave-disabled-msg) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (let ((v1-18 arg0)) (set! (-> v1-18 scale) 0.65))
   (set! (-> arg0 origin y) 160.0)
   (let ((v1-19 arg0)) (set! (-> v1-19 height) (the float 60)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id continue?) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   0
   (none))
@@ -625,22 +614,22 @@
   (let ((v1-9 arg0)) (set! (-> v1-9 width) (the float 360)))
   (let ((v1-10 arg0)) (set! (-> v1-10 height) (the float 20)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id autosave-disabled-title) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (set! (-> arg0 origin y) 112.0)
   (let ((v1-12 arg0)) (set! (-> v1-12 width) (the float 360)))
   (let ((v1-13 arg0)) (set! (-> v1-13 height) (the float 60)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id autosave-disabled-msg) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (let ((v1-15 arg0)) (set! (-> v1-15 scale) 0.65))
   (set! (-> arg0 origin y) 160.0)
   (let ((v1-16 arg0)) (set! (-> v1-16 height) (the float 60)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id continue?) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   0
   (none))
@@ -670,8 +659,8 @@
   (set! (-> arg0 origin y) 155.0)
   (let ((v1-17 arg0)) (set! (-> v1-17 height) (the float 60)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id continue?) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   0
   (none))
@@ -684,23 +673,23 @@
   (let ((v1-4 arg0)) (set! (-> v1-4 height) (the float 60)))
   (set! (-> arg0 flags) (font-flags shadow kerning middle middle-vert large))
   (print-game-text-scaled (lookup-text! *common-text* (text-id autosave-warn-title) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (set! (-> arg0 origin x) (the float (- 15 (-> this left-x-offset))))
   (set! (-> arg0 origin y) 110.0)
   (let ((v1-9 arg0)) (set! (-> v1-9 width) (the float 370)))
   (let ((v1-10 arg0)) (set! (-> v1-10 height) (the float 60)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id autosave-warn-msg) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (let ((v1-12 arg0)) (set! (-> v1-12 scale) 0.65))
   (set! (-> arg0 origin y) 175.0)
   (let ((v1-13 arg0)) (set! (-> v1-13 height) (the float 20)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id continue?) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (set! (-> *progress-process* 0 particles 31 init-pos y) (the float (if (= (get-aspect-ratio) 'aspect16x9) 170 180)))
   (set! (-> *progress-process* 0 particles 31 init-pos x)
@@ -718,29 +707,29 @@
   (let ((v1-4 arg0)) (set! (-> v1-4 height) (the float 40)))
   (set! (-> arg0 flags) (font-flags shadow kerning middle middle-vert large))
   (print-game-text-scaled (lookup-text! *common-text* (text-id screen-change-to-60hz) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (set! (-> arg0 origin x) (the float (- 15 (-> this left-x-offset))))
   (set! (-> arg0 origin y) 60.0)
   (let ((v1-9 arg0)) (set! (-> v1-9 width) (the float 370)))
   (let ((v1-10 arg0)) (set! (-> v1-10 height) (the float 60)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id screen-60hz-warn-support) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (set! (-> arg0 origin y) 120.0)
   (let ((v1-12 arg0)) (set! (-> v1-12 height) (the float 50)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id screen-60hz-warn-timer) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (let ((v1-14 arg0)) (set! (-> v1-14 scale) 0.65))
   (set! (-> arg0 origin y) 175.0)
   (let ((v1-15 arg0)) (set! (-> v1-15 height) (the float 20)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id continue?) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   0
   (none))
@@ -753,24 +742,24 @@
   (let ((v1-4 arg0)) (set! (-> v1-4 height) (the float 40)))
   (set! (-> arg0 flags) (font-flags shadow kerning middle middle-vert large))
   (print-game-text-scaled (lookup-text! *common-text* (text-id no-disc-title) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (set! (-> arg0 origin x) (the float (- 20 (-> this left-x-offset))))
   (set! (-> arg0 origin y) 90.0)
   (let ((v1-9 arg0)) (set! (-> v1-9 width) (the float 360)))
   (let ((v1-10 arg0)) (set! (-> v1-10 height) (the float 60)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id no-disc-msg) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (when (is-cd-in?)
     (let ((v1-13 arg0)) (set! (-> v1-13 scale) 0.65))
     (set! (-> arg0 origin y) 155.0)
     (let ((v1-14 arg0)) (set! (-> v1-14 height) (the float 20)))
     (print-game-text-scaled (lookup-text! *common-text* (text-id continue?) #f)
-      (-> this transition-percentage-invert)
-      arg0
+                            (-> this transition-percentage-invert)
+                            arg0
                             128))
   0
   (none))
@@ -783,23 +772,23 @@
   (let ((v1-4 arg0)) (set! (-> v1-4 height) (the float 40)))
   (set! (-> arg0 flags) (font-flags shadow kerning middle middle-vert large))
   (print-game-text-scaled (lookup-text! *common-text* (text-id bad-disc-title) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (set! (-> arg0 origin x) (the float (- 20 (-> this left-x-offset))))
   (set! (-> arg0 origin y) 90.0)
   (let ((v1-9 arg0)) (set! (-> v1-9 width) (the float 360)))
   (let ((v1-10 arg0)) (set! (-> v1-10 height) (the float 60)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id bad-disc-msg) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (let ((v1-12 arg0)) (set! (-> v1-12 scale) 0.65))
   (set! (-> arg0 origin y) 155.0)
   (let ((v1-13 arg0)) (set! (-> v1-13 height) (the float 20)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id continue?) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   0
   (none))
@@ -823,14 +812,14 @@
   (let ((v1-4 arg0)) (set! (-> v1-4 height) (the float 50)))
   (set! (-> arg0 flags) (font-flags shadow kerning middle middle-vert large))
   (print-game-text-scaled (lookup-text! *common-text* (text-id screen-now-60hz) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   (set! (-> arg0 origin y) 95.0)
   (let ((v1-7 arg0)) (set! (-> v1-7 height) (the float 50)))
   (print-game-text-scaled (lookup-text! *common-text* (text-id screen-60hz-keep?) #f)
-    (-> this transition-percentage-invert)
-    arg0
+                          (-> this transition-percentage-invert)
+                          arg0
                           128)
   0
   (none))
@@ -839,12 +828,12 @@
   (hide-progress-icons)
   (when *common-text*
     (let ((a1-1 (new 'stack
-                  'font-context
-                  *font-default-matrix*
-                  (- 70 (-> this left-x-offset))
-                  10
-                  0.0
-                  (font-color default)
+                     'font-context
+                     *font-default-matrix*
+                     (- 70 (-> this left-x-offset))
+                     10
+                     0.0
+                     (font-color default)
                      (font-flags shadow kerning))))
       (case (-> this display-state)
         (((progress-screen memcard-format)) (draw-memcard-format this a1-1))
@@ -888,8 +877,8 @@
     (+! (-> arg1 origin x) (the float s5-0))
     (let ((f30-0 (- 1.0 (* 0.0033333334 (the float arg2)))))
       (print-game-text-scaled (lookup-text! *common-text* (-> *language-name-remap* arg0) #f)
-        f30-0
-        arg1
+                              f30-0
+                              arg1
                               (the int (* 128.0 f30-0))))
     (set! (-> arg1 origin x) (- (-> arg1 origin x) (the float s5-0))))
   (set! (-> arg1 color) (font-color default))
@@ -907,13 +896,13 @@
         (set-height! font 25)
         (set! (-> font flags) (font-flags shadow kerning middle middle-vert large))
         (dotimes (s0-0 (length s3-0))
-        (let ((option-str (the string #f))
-              (x-off 27)
+          (let ((option-str (the string #f))
+                (x-off 27)
                 (y-off s2-1))
-          (let ((v1-18 (-> s3-0 s0-0 option-type)))
-            (cond
-              ((= v1-18 (game-option-type yes-no))
-               (if (-> (the-as (pointer uint32) (-> s3-0 s0-0 value-to-modify)))
+            (let ((v1-18 (-> s3-0 s0-0 option-type)))
+              (cond
+                ((= v1-18 (game-option-type yes-no))
+                 (if (-> (the-as (pointer uint32) (-> s3-0 s0-0 value-to-modify)))
                    (set! option-str
                          (string-format "~30L~S~0L ~S"
                                         (lookup-text! *common-text* (text-id yes) #f)
@@ -922,33 +911,33 @@
                          (string-format "~0L~S ~30L~S~1L"
                                         (lookup-text! *common-text* (text-id yes) #f)
                                         (lookup-text! *common-text* (text-id no) #f)))))
-              ((or (= v1-18 (game-option-type menu)) (= v1-18 (game-option-type button)))
-               (cond
+                ((or (= v1-18 (game-option-type menu)) (= v1-18 (game-option-type button)))
+                 (cond
                    ((nonzero? (-> s3-0 s0-0 name)) (set! option-str (lookup-text! *common-text* (-> s3-0 s0-0 name) #f)))
                    (else (set! option-str (the-as string #f)))))
-              ((and (-> this selected-option) (= (-> this option-index) s0-0))
-               (set-color! font (font-color default))
-               (set! (-> font origin x) (the float (- x-off (-> this left-x-offset))))
-               (case (-> s3-0 s0-0 option-type)
+                ((and (-> this selected-option) (= (-> this option-index) s0-0))
+                 (set-color! font (font-color default))
+                 (set! (-> font origin x) (the float (- x-off (-> this left-x-offset))))
+                 (case (-> s3-0 s0-0 option-type)
                    (((game-option-type center-screen)) (set! (-> font origin y) (the float (+ s2-1 -20))))
                    (else (set! (-> font origin y) (the float (+ s2-1 -8)))))
-               (set-scale! font 0.6)
-               (print-game-text (lookup-text! *common-text* (-> s3-0 s0-0 name) #f) font #f 128 22)
-               (case (-> s3-0 s0-0 option-type)
+                 (set-scale! font 0.6)
+                 (print-game-text (lookup-text! *common-text* (-> s3-0 s0-0 name) #f) font #f 128 22)
+                 (case (-> s3-0 s0-0 option-type)
                    (((game-option-type center-screen)) (set! y-off (+ s2-1 3)))
                    (else (set! y-off (+ s2-1 7))))
-               (case (-> s3-0 s0-0 option-type)
-                 (((game-option-type slider))
-                  (let* ((v1-82 (the-as uint #x8000ffff))
-                         (f0-12 (* 0.01 (-> (the-as (pointer float) (-> s3-0 s0-0 value-to-modify)))))
-                         (a0-34 (logior (logand v1-82 -256) (shr (shl (the int (+ 64.0 (* 191.0 f0-12))) 56) 56)))
+                 (case (-> s3-0 s0-0 option-type)
+                   (((game-option-type slider))
+                    (let* ((v1-82 (the-as uint #x8000ffff))
+                           (f0-12 (* 0.01 (-> (the-as (pointer float) (-> s3-0 s0-0 value-to-modify)))))
+                           (a0-34 (logior (logand v1-82 -256) (shr (shl (the int (+ 64.0 (* 191.0 f0-12))) 56) 56)))
                            (a3-5 (logior (logand a0-34 -65281) (shr (shl (shr (shl a0-34 56) 56) 56) 48))))
                       (draw-percent-bar (- 75 (-> this left-x-offset)) (+ s2-1 8) f0-12 (the-as rgba a3-5)))
-                  (set! option-str (string-format "~D" (the int (-> (the-as (pointer float) (-> s3-0 s0-0 value-to-modify))))))
-                  (set! x-off (+ (the int (* 2.5 (-> (the-as (pointer float) (-> s3-0 s0-0 value-to-modify))))) -100))
+                    (set! option-str (string-format "~D" (the int (-> (the-as (pointer float) (-> s3-0 s0-0 value-to-modify))))))
+                    (set! x-off (+ (the int (* 2.5 (-> (the-as (pointer float) (-> s3-0 s0-0 value-to-modify))))) -100))
                     x-off)
-                 (((game-option-type on-off))
-                  (if (-> (the-as (pointer uint32) (-> s3-0 s0-0 value-to-modify)))
+                   (((game-option-type on-off))
+                    (if (-> (the-as (pointer uint32) (-> s3-0 s0-0 value-to-modify)))
                       (set! option-str
                             (string-format "~30L~S~0L ~S"
                                            (lookup-text! *common-text* (text-id on) #f)
@@ -957,45 +946,45 @@
                             (string-format "~0L~S ~30L~S~1L"
                                            (lookup-text! *common-text* (text-id on) #f)
                                            (lookup-text! *common-text* (text-id off) #f)))))
-                 (((game-option-type language))
-                  (let ((old-lang (-> this language-selection))
-                        (new-lang (-> (the-as (pointer language-enum) (-> s3-0 s0-0 value-to-modify))))
-                        (max-lang (if (and (= (scf-get-territory) GAME_TERRITORY_SCEA)
-                                           (not (and (= *progress-cheat* 'language) (cpad-hold? 0 l2) (cpad-hold? 0 r2))))
+                   (((game-option-type language))
+                    (let ((old-lang (-> this language-selection))
+                          (new-lang (-> (the-as (pointer language-enum) (-> s3-0 s0-0 value-to-modify))))
+                          (max-lang (if (and (= (scf-get-territory) GAME_TERRITORY_SCEA)
+                                             (not (and (= *progress-cheat* 'language) (cpad-hold? 0 l2) (cpad-hold? 0 r2))))
                                       5
                                       6)))
-                  (if (-> this language-transition)
-                      (seekl! (-> this language-x-offset) 200 (the int (* 10.0 (-> *display* time-adjust-ratio)))))
-                  (when (>= (-> this language-x-offset) 100)
-                    (set! (-> this language-selection) new-lang)
-                    (set! old-lang new-lang)
-                    (set! (-> this language-transition) #f)
+                      (if (-> this language-transition)
+                        (seekl! (-> this language-x-offset) 200 (the int (* 10.0 (-> *display* time-adjust-ratio)))))
+                      (when (>= (-> this language-x-offset) 100)
+                        (set! (-> this language-selection) new-lang)
+                        (set! old-lang new-lang)
+                        (set! (-> this language-transition) #f)
                         (set! (-> this language-x-offset) 0))
-                  (set! (-> font origin y) (the float (+ s2-1 3)))
-                  (set-color! font (font-color progress-blue))
-                  0
-                  (let ((next-lang (mod (+ old-lang 1) max-lang))
-                        (a0-66 (mod (+ max-lang -1 old-lang) max-lang))
-                        (v1-153 (mod (+ old-lang 2) max-lang))
+                      (set! (-> font origin y) (the float (+ s2-1 3)))
+                      (set-color! font (font-color progress-blue))
+                      0
+                      (let ((next-lang (mod (+ old-lang 1) max-lang))
+                            (a0-66 (mod (+ max-lang -1 old-lang) max-lang))
+                            (v1-153 (mod (+ old-lang 2) max-lang))
                             (prev-lang (mod (+ max-lang -2 old-lang) max-lang)))
-                    (cond
-                      ((-> this language-direction)
+                        (cond
+                          ((-> this language-direction)
                            (let ((a2-22 (- 200 (+ (-> this language-x-offset) 100)))) (print-language-name a0-66 font a2-22 #f))
-                       (let ((a2-23 (+ (-> this language-x-offset) 100)))
-                         (cond
+                           (let ((a2-23 (+ (-> this language-x-offset) 100)))
+                             (cond
                                ((< a2-23 150) (print-language-name (the int next-lang) font a2-23 #t))
                                (else (let ((a2-24 (- 200 (-> this language-x-offset)))) (print-language-name prev-lang font a2-24 #f))))))
-                           (else
-                        (let ((a2-25 (+ (-> this language-x-offset) 100)))
-                          (cond
+                          (else
+                           (let ((a2-25 (+ (-> this language-x-offset) 100)))
+                             (cond
                                ((< a2-25 150) (print-language-name a0-66 font a2-25 #f))
                                (else (let ((a2-26 (- 200 (-> this language-x-offset)))) (print-language-name (the int v1-153) font a2-26 #t)))))
                            (let ((a2-27 (- 200 (+ (-> this language-x-offset) 100)))) (print-language-name (the int next-lang) font a2-27 #t)))))
                       (if (not (-> this language-transition)) (set-color! font (font-color progress-selected)))
                       (print-language-name (the-as int old-lang) font (-> this language-x-offset) (-> this language-direction))))
                    (((game-option-type center-screen)) (set! option-str (lookup-text! *common-text* (text-id move-dpad) #f)))
-                 (((game-option-type aspect-ratio))
-                  (if (= (-> (the-as (pointer uint32) (-> s3-0 s0-0 value-to-modify))) 'aspect4x3)
+                   (((game-option-type aspect-ratio))
+                    (if (= (-> (the-as (pointer uint32) (-> s3-0 s0-0 value-to-modify))) 'aspect4x3)
                       (set! option-str
                             (string-format "~30L~S~0L ~S"
                                            (lookup-text! *common-text* (text-id 4x3) #f)
@@ -1004,8 +993,8 @@
                             (string-format "~0L~S ~30L~S~1L"
                                            (lookup-text! *common-text* (text-id 4x3) #f)
                                            (lookup-text! *common-text* (text-id 16x9) #f)))))
-                 (((game-option-type video-mode))
-                  (if (= (-> (the-as (pointer uint32) (-> s3-0 s0-0 value-to-modify))) 'ntsc)
+                   (((game-option-type video-mode))
+                    (if (= (-> (the-as (pointer uint32) (-> s3-0 s0-0 value-to-modify))) 'ntsc)
                       (set! option-str
                             (string-format "~0L~S ~30L~S~1L"
                                            (lookup-text! *common-text* (text-id 50hz) #f)
@@ -1014,34 +1003,34 @@
                             (string-format "~30L~S~0L ~S"
                                            (lookup-text! *common-text* (text-id 50hz) #f)
                                            (lookup-text! *common-text* (text-id 60hz) #f)))))))
-              (else
-                (case (-> s3-0 s0-0 option-type)
-                  (((game-option-type slider)
-                    (game-option-type center-screen)
-                    (game-option-type aspect-ratio)
+                (else
+                 (case (-> s3-0 s0-0 option-type)
+                   (((game-option-type slider)
+                     (game-option-type center-screen)
+                     (game-option-type aspect-ratio)
                      (game-option-type video-mode))
                     (set! option-str (lookup-text! *common-text* (-> s3-0 s0-0 name) #f)))
-                  (((game-option-type on-off))
+                   (((game-option-type on-off))
                     (set! option-str
                           (string-format "~S: ~S"
                                          (lookup-text! *common-text* (-> s3-0 s0-0 name) #f)
-                                                        (if (-> (the-as (pointer uint32) (-> s3-0 s0-0 value-to-modify)))
-                                                            (lookup-text! *common-text* (text-id on) #f)
+                                         (if (-> (the-as (pointer uint32) (-> s3-0 s0-0 value-to-modify)))
+                                           (lookup-text! *common-text* (text-id on) #f)
                                            (lookup-text! *common-text* (text-id off) #f)))))
-                  (((game-option-type language))
+                   (((game-option-type language))
                     (set! option-str
                           (string-format "~S: ~S"
                                          (lookup-text! *common-text* (-> s3-0 s0-0 name) #f)
                                          (lookup-text! *common-text* (-> *language-name-remap* (-> (the-as (pointer uint64) (-> s3-0 s0-0 value-to-modify)))) #f))))))))
-          (when option-str
-            (let ((f0-23 (-> this transition-percentage-invert)))
+            (when option-str
+              (let ((f0-23 (-> this transition-percentage-invert)))
                 (set-color! font
                             (if (and (= s0-0 (-> this option-index)) (not (-> this in-transition))) (font-color progress-selected) (font-color default)))
-              (set! (-> font origin x) (the float (- x-off (-> this left-x-offset))))
+                (set! (-> font origin x) (the float (- x-off (-> this left-x-offset))))
                 (set! (-> font origin y) (the float (the int (* (the float y-off) (if (-> s3-0 s0-0 scale) f0-23 1.0)))))
-              (set-scale! font (* arg2 f0-23))
+                (set-scale! font (* arg2 f0-23))
                 (print-game-text option-str font #f (the int (* 128.0 f0-23)) 22)))
-          (+! s2-1 arg1)
+            (+! s2-1 arg1)
             (+! s1-0 1))))))
   0
   (none))
@@ -1055,26 +1044,26 @@
         (let ((s2-0 draw-string-xy))
           (format (clear *temp-string*) "~D" (the int (+ 0.5 (-> *target* game money))))
           (s2-0 *temp-string*
-            s3-0
-            (the int (+ 428.0 (the float s5-0) f30-0))
-            (- 12 (the int (* 0.16666667 f30-0)))
-            (font-color default)
+                s3-0
+                (the int (+ 428.0 (the float s5-0) f30-0))
+                (- 12 (the int (* 0.16666667 f30-0)))
+                (font-color default)
                 (font-flags shadow kerning large)))
         (let ((s2-1 draw-string-xy))
           (format (clear *temp-string*) "~D" (the int (+ 0.5 (-> *target* game fuel))))
           (s2-1 *temp-string*
-            s3-0
-            (the int (+ 456.0 (the float (adjust-pos s5-0 50)) f30-0))
-            (- 48 (the int (* 0.125 f30-0)))
-            (font-color default)
+                s3-0
+                (the int (+ 456.0 (the float (adjust-pos s5-0 50)) f30-0))
+                (- 48 (the int (* 0.125 f30-0)))
+                (font-color default)
                 (font-flags shadow kerning large)))
         (let ((s2-2 draw-string-xy))
           (format (clear *temp-string*) "~D" (the int (+ 0.5 (-> *target* fact buzzer))))
           (s2-2 *temp-string*
-            s3-0
-            (the int (+ 469.0 (the float (adjust-pos s5-0 100)) f30-0))
-            89
-            (font-color default)
+                s3-0
+                (the int (+ 469.0 (the float (adjust-pos s5-0 100)) f30-0))
+                89
+                (font-color default)
                 (font-flags shadow kerning large)))
         (let ((a3-4 (-> s3-0 base)))
           (let ((v1-20 (the-as object (-> s3-0 base))))
@@ -1083,16 +1072,16 @@
             (set! (-> (the-as dma-packet v1-20) vif1) (new 'static 'vif-tag))
             (set! (-> s3-0 base) (&+ (the-as pointer v1-20) 16)))
           (dma-bucket-insert-tag (-> *display* frames (-> *display* on-screen) frame bucket-group)
-            (bucket-id debug)
-            s4-0
+                                 (bucket-id debug)
+                                 s4-0
                                  (the-as (pointer dma-tag) a3-4))))
       (let ((s4-2 (new 'stack
-                'font-context
-                *font-default-matrix*
-                (the int (+ (- 423.0 (the float (/ (-> this left-x-offset) 2))) f30-0 (the float (adjust-pos s5-0 150))))
-                131
-                0.0
-                (font-color default)
+                       'font-context
+                       *font-default-matrix*
+                       (the int (+ (- 423.0 (the float (/ (-> this left-x-offset) 2))) f30-0 (the float (adjust-pos s5-0 150))))
+                       131
+                       0.0
+                       (font-color default)
                        (font-flags shadow kerning))))
         (let ((v1-29 s4-2)) (set! (-> v1-29 width) (the float 100)))
         (let ((v1-30 s4-2)) (set! (-> v1-30 height) (the float 15)))
@@ -1134,10 +1123,10 @@
         (let* ((s3-5 (-> *display* frames (-> *display* on-screen) frame global-buf))
                (s4-4 (-> s3-5 base)))
           (draw-string-xy a0-46
-            s3-5
-            (the int (+ 430.0 f30-0))
-            200
-            (font-color progress-memcard)
+                          s3-5
+                          (the int (+ 430.0 f30-0))
+                          200
+                          (font-color progress-memcard)
                           (font-flags shadow kerning middle))
           (let ((a3-9 (-> s3-5 base)))
             (let ((v1-81 (the-as object (-> s3-5 base))))
@@ -1146,8 +1135,8 @@
               (set! (-> (the-as dma-packet v1-81) vif1) (new 'static 'vif-tag))
               (set! (-> s3-5 base) (&+ (the-as pointer v1-81) 16)))
             (dma-bucket-insert-tag (-> *display* frames (-> *display* on-screen) frame bucket-group)
-              (bucket-id debug)
-              s4-4
+                                   (bucket-id debug)
+                                   s4-4
                                    (the-as (pointer dma-tag) a3-9))))))
     (let ((a0-52 (-> this icons 5 icon 0 root)))
       (set-yaw-angle-clear-roll-pitch! a0-52 (- (y-angle a0-52) (* 182.04445 (* 4.0 (-> *display* time-adjust-ratio))))))
@@ -1165,8 +1154,8 @@
       (set! (-> this particles 17 init-pos x)
             (the float
                  (+ (the int (the float (adjust-pos s5-0 150)))
-                                                           442
-                                                           (the int f30-1)
+                    442
+                    (the int f30-1)
                     (the int (* 0.7 (the float (-> this right-x-offset)))))))))
   (set! (-> this particles 17 init-pos y) 193.0)
   0

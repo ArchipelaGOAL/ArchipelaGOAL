@@ -10,83 +10,83 @@
 ;; DECOMP BEGINS
 
 (deftype citb-arm-section (process-drawable)
-  ((sync            sync-info  :inline)
-   (cull-dir-local  vector     :inline)
-   (cull-dot        float)
-   (rot-scale       float)
+  ((sync           sync-info :inline)
+   (cull-dir-local vector :inline)
+   (cull-dot       float)
+   (rot-scale      float)
    (y-angle        float))
   (:methods
-    (init-root! (_type_) none)
-    (setup-new-process! (_type_) none)
+   (init-root! (_type_) none)
+   (setup-new-process! (_type_) none)
    (idle () _type_ :state)))
 
 (defskelgroup *citb-arm-a-sg*
   citb-arm
   citb-arm-a-lod0-jg
   citb-arm-a-idle-ja
-              ((citb-arm-a-lod0-mg (meters 20)) (citb-arm-a-lod1-mg (meters 999999)))
-              :bounds (static-spherem 0 0 0 14)
+  ((citb-arm-a-lod0-mg (meters 20)) (citb-arm-a-lod1-mg (meters 999999)))
+  :bounds (static-spherem 0 0 0 14)
   :longest-edge (meters 9))
 
 (defskelgroup *citb-arm-b-sg*
   citb-arm
   citb-arm-b-lod0-jg
   citb-arm-b-idle-ja
-              ((citb-arm-b-lod0-mg (meters 20)) (citb-arm-b-lod1-mg (meters 999999)))
-              :bounds (static-spherem 0 0 0 20)
+  ((citb-arm-b-lod0-mg (meters 20)) (citb-arm-b-lod1-mg (meters 999999)))
+  :bounds (static-spherem 0 0 0 20)
   :longest-edge (meters 10))
 
 (defskelgroup *citb-arm-c-sg*
   citb-arm
   citb-arm-c-lod0-jg
   citb-arm-c-idle-ja
-              ((citb-arm-c-lod0-mg (meters 20)) (citb-arm-c-lod1-mg (meters 999999)))
-              :bounds (static-spherem 0 0 0 25)
+  ((citb-arm-c-lod0-mg (meters 20)) (citb-arm-c-lod1-mg (meters 999999)))
+  :bounds (static-spherem 0 0 0 25)
   :longest-edge (meters 11))
 
 (defskelgroup *citb-arm-d-sg*
   citb-arm
   citb-arm-d-lod0-jg
   citb-arm-d-idle-ja
-              ((citb-arm-d-lod0-mg (meters 20)) (citb-arm-d-lod1-mg (meters 999999)))
-              :bounds (static-spherem 0 0 0 29)
+  ((citb-arm-d-lod0-mg (meters 20)) (citb-arm-d-lod1-mg (meters 999999)))
+  :bounds (static-spherem 0 0 0 29)
   :longest-edge (meters 8))
 
 (defskelgroup *citb-arm-shoulder-a-sg*
   citb-arm-shoulder
   citb-arm-shoulder-a-lod0-jg
   citb-arm-shoulder-a-idle-ja
-              ((citb-arm-shoulder-a-lod0-mg (meters 999999)))
-              :bounds (static-spherem 0 0 0 22)
+  ((citb-arm-shoulder-a-lod0-mg (meters 999999)))
+  :bounds (static-spherem 0 0 0 22)
   :longest-edge (meters 10))
 
 (defskelgroup *citb-arm-shoulder-b-sg*
   citb-arm-shoulder
   citb-arm-shoulder-b-lod0-jg
   citb-arm-shoulder-b-idle-ja
-              ((citb-arm-shoulder-b-lod0-mg (meters 999999)))
-              :bounds (static-spherem 0 0 0 22)
+  ((citb-arm-shoulder-b-lod0-mg (meters 999999)))
+  :bounds (static-spherem 0 0 0 22)
   :longest-edge (meters 10))
 
 (defstate idle (citb-arm-section)
   :virtual #t
   :code
     (behavior ()
-    (let ((gp-0 (new 'stack-no-clear 'vector))
+      (let ((gp-0 (new 'stack-no-clear 'vector))
             (s5-0 (new 'stack-no-clear 'vector)))
-      (loop
-        (cond
+        (loop
+          (cond
             ((< (- (-> (target-pos 0) y) (-> self root trans y)) -122880.0) (set! (-> self draw force-lod) 1))
             (else (set! (-> self draw force-lod) 0) 0))
-        (set! (-> self y-angle) (* 65536.0 (get-current-phase (-> self sync)) (-> self rot-scale)))
-        (quaternion-axis-angle! (-> self root quat) 0.0 1.0 0.0 (-> self y-angle))
-        (vector-orient-by-quat! gp-0 (-> self cull-dir-local) (-> self root quat))
-        (vector-! s5-0 (-> self root trans) (camera-pos))
-        (set! (-> gp-0 y) 0.0)
-        (set! (-> s5-0 y) 0.0)
-        (vector-normalize! gp-0 1.0)
-        (vector-normalize! s5-0 1.0)
-        (if (>= (vector-dot gp-0 s5-0) (-> self cull-dot))
+          (set! (-> self y-angle) (* 65536.0 (get-current-phase (-> self sync)) (-> self rot-scale)))
+          (quaternion-axis-angle! (-> self root quat) 0.0 1.0 0.0 (-> self y-angle))
+          (vector-orient-by-quat! gp-0 (-> self cull-dir-local) (-> self root quat))
+          (vector-! s5-0 (-> self root trans) (camera-pos))
+          (set! (-> gp-0 y) 0.0)
+          (set! (-> s5-0 y) 0.0)
+          (vector-normalize! gp-0 1.0)
+          (vector-normalize! s5-0 1.0)
+          (if (>= (vector-dot gp-0 s5-0) (-> self cull-dot))
             (logior! (-> self draw status) (draw-status hidden))
             (logclear! (-> self draw status) (draw-status hidden)))
           (suspend))))
@@ -103,7 +103,7 @@
   (cond
     ((> (-> this sync period) 0) (set! (-> this rot-scale) 1.0))
     (else
-      (set! (-> this rot-scale) -1.0)
+     (set! (-> this rot-scale) -1.0)
      (let ((v1-6 (abs (the-as int (-> this sync period))))) (set! (-> this sync period) (the-as uint v1-6)))))
   (logior! (-> this skel status) (janim-status inited))
   (set-vector! (-> this cull-dir-local) 0.0 0.0 -1.0 1.0)
@@ -126,7 +126,7 @@
   :trans rider-trans
   :post
     (behavior ()
-    (if (logtest? (-> self draw status) (draw-status hidden))
+      (if (logtest? (-> self draw status) (draw-status hidden))
         (clear-collide-with-as (-> self root))
         (restore-collide-with-as (-> self root)))
       (rider-post)))
@@ -225,40 +225,40 @@
   citb-disc
   citb-disc-a-lod0-jg
   citb-disc-a-idle-ja
-              ((citb-disc-a-lod0-mg (meters 20)) (citb-disc-a-lod1-mg (meters 40)) (citb-disc-a-lod2-mg (meters 999999)))
-              :bounds (static-spherem 0 0 0 12)
+  ((citb-disc-a-lod0-mg (meters 20)) (citb-disc-a-lod1-mg (meters 40)) (citb-disc-a-lod2-mg (meters 999999)))
+  :bounds (static-spherem 0 0 0 12)
   :longest-edge (meters 7.5))
 
 (defskelgroup *citb-disc-b-sg*
   citb-disc
   citb-disc-b-lod0-jg
   citb-disc-b-idle-ja
-              ((citb-disc-b-lod0-mg (meters 20)) (citb-disc-b-lod1-mg (meters 40)) (citb-disc-b-lod2-mg (meters 999999)))
-              :bounds (static-spherem 0 0 0 12)
+  ((citb-disc-b-lod0-mg (meters 20)) (citb-disc-b-lod1-mg (meters 40)) (citb-disc-b-lod2-mg (meters 999999)))
+  :bounds (static-spherem 0 0 0 12)
   :longest-edge (meters 7.5))
 
 (defskelgroup *citb-disc-c-sg*
   citb-disc
   citb-disc-c-lod0-jg
   citb-disc-c-idle-ja
-              ((citb-disc-c-lod0-mg (meters 20)) (citb-disc-c-lod1-mg (meters 40)) (citb-disc-c-lod2-mg (meters 999999)))
-              :bounds (static-spherem 0 0 0 12)
+  ((citb-disc-c-lod0-mg (meters 20)) (citb-disc-c-lod1-mg (meters 40)) (citb-disc-c-lod2-mg (meters 999999)))
+  :bounds (static-spherem 0 0 0 12)
   :longest-edge (meters 11))
 
 (defskelgroup *citb-disc-d-sg*
   citb-disc
   citb-disc-d-lod0-jg
   citb-disc-d-idle-ja
-              ((citb-disc-d-lod0-mg (meters 20)) (citb-disc-d-lod1-mg (meters 40)) (citb-disc-d-lod2-mg (meters 999999)))
-              :bounds (static-spherem 0 0 0 12)
+  ((citb-disc-d-lod0-mg (meters 20)) (citb-disc-d-lod1-mg (meters 40)) (citb-disc-d-lod2-mg (meters 999999)))
+  :bounds (static-spherem 0 0 0 12)
   :longest-edge (meters 8))
 
 (deftype citb-disc (process-drawable)
-  ((root       collide-shape-moving :override)
-   (sync       sync-info             :inline)
+  ((root      collide-shape-moving :override)
+   (sync      sync-info :inline)
    (rot-scale float))
   (:methods
-    (init! (_type_) none)
+   (init! (_type_) none)
    (citb-disc-method-21 (_type_) none))
   (:states
    citb-disc-idle))
@@ -266,17 +266,17 @@
 (defstate citb-disc-idle (citb-disc)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (case message
+      (case message
         (('touch) (send-event proc 'no-look-around (seconds 0.25)) #f)))
   :trans rider-trans
   :code
     (behavior ()
-    (loop
-      (update! (-> self sound))
+      (loop
+        (update! (-> self sound))
         (quaternion-axis-angle! (-> self root quat)
-        0.0
-        1.0
-        0.0
+                                0.0
+                                1.0
+                                0.0
                                 (* 65536.0 (get-current-phase (-> self sync)) (-> self rot-scale)))
         (suspend)))
   :post rider-post)
@@ -313,7 +313,7 @@
   (cond
     ((> (-> this sync period) 0) (set! (-> this rot-scale) 1.0))
     (else
-      (set! (-> this rot-scale) -1.0)
+     (set! (-> this rot-scale) -1.0)
      (let ((v1-8 (abs (the-as int (-> this sync period))))) (set! (-> this sync period) (the-as uint v1-8)))))
   (citb-disc-method-21 this)
   (set! (-> this sound) (new 'process 'ambient-sound (static-sound-spec "rotate-plat" :fo-max 20) (-> this root trans)))
@@ -355,7 +355,7 @@
   citb-iris-door
   citb-iris-door-lod0-jg
   citb-iris-door-idle-ja
-              ((citb-iris-door-lod0-mg (meters 20)) (citb-iris-door-lod1-mg (meters 999999)))
+  ((citb-iris-door-lod0-mg (meters 20)) (citb-iris-door-lod1-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 8))
 
 (defmethod eco-door-method-24 ((this citb-iris-door))
@@ -388,7 +388,7 @@
   citb-button
   citb-button-lod0-jg
   citb-button-idle-ja
-              ((citb-button-lod0-mg (meters 999999)))
+  ((citb-button-lod0-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 3))
 
 (deftype citb-button (basebutton) ())
@@ -421,7 +421,7 @@
        (joint-control-channel-group-eval! s5-0 (the-as art-joint-anim (-> this draw art-group data 2)) num-func-identity)
        (set! (-> s5-0 frame-num) (the float (+ (-> (the-as art-joint-anim (-> this draw art-group data 2)) data 0 length) -1)))))
     (else
-      (let ((s5-1 (-> this skel root-channel 0)))
+     (let ((s5-1 (-> this skel root-channel 0)))
        (joint-control-channel-group-eval! s5-1 (the-as art-joint-anim (-> this draw art-group data 2)) num-func-identity)
        (set! (-> s5-1 frame-num) 0.0))))
   (set! (-> this anim-speed) 2.0)
@@ -437,7 +437,7 @@
   :virtual #t
   :post
     (behavior ()
-    (let ((t9-0 (-> (method-of-type plat plat-path-active) post)))
+      (let ((t9-0 (-> (method-of-type plat plat-path-active) post)))
         (if t9-0 ((the-as (function none :behavior citb-launcher) t9-0))))
       (send-event (ppointer->process (-> self launcher)) 'trans (-> self basetrans))))
 
@@ -445,7 +445,7 @@
   citb-launcher
   citb-launcher-lod0-jg
   citb-launcher-idle-ja
-              ((citb-launcher-lod0-mg (meters 999999)))
+  ((citb-launcher-lod0-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 4))
 
 (defmethod get-unlit-skel ((this citb-launcher))
@@ -464,144 +464,144 @@
   citb-robotboss
   citb-robotboss-lod0-jg
   citb-robotboss-idle-ja
-              ((citb-robotboss-lod0-mg (meters 999999)))
-              :bounds (static-spherem 0 17 0 18)
+  ((citb-robotboss-lod0-mg (meters 999999)))
+  :bounds (static-spherem 0 17 0 18)
   :longest-edge (meters 6))
 
 (defskelgroup *citb-robotboss-head-sg*
   citb-robotboss
   citb-robotboss-head-lod0-jg
   citb-robotboss-head-idle-ja
-              ((citb-robotboss-head-lod0-mg (meters 999999)))
-              :bounds (static-spherem 0 30 10 12)
+  ((citb-robotboss-head-lod0-mg (meters 999999)))
+  :bounds (static-spherem 0 30 10 12)
   :longest-edge (meters 2))
 
 (defskelgroup *citb-robotboss-nose-sg*
   citb-robotboss
   citb-robotboss-nose-lod0-jg
   citb-robotboss-nose-idle-ja
-              ((citb-robotboss-nose-lod0-mg (meters 999999)))
+  ((citb-robotboss-nose-lod0-mg (meters 999999)))
   :bounds (static-spherem 0 10 20 15))
 
 (defskelgroup *citb-robotboss-gun-sg*
   citb-robotboss
   citb-robotboss-gun-lod0-jg
   citb-robotboss-gun-idle-ja
-              ((citb-robotboss-gun-lod0-mg (meters 999999)))
-              :bounds (static-spherem 0 28 -10 14)
+  ((citb-robotboss-gun-lod0-mg (meters 999999)))
+  :bounds (static-spherem 0 28 -10 14)
   :longest-edge (meters 5))
 
 (defskelgroup *citb-robotboss-leftshoulder-sg*
   citb-robotboss
   citb-robotboss-leftshoulder-lod0-jg
   citb-robotboss-leftshoulder-idle-ja
-              ((citb-robotboss-leftshoulder-lod0-mg (meters 999999)))
-              :bounds (static-spherem 17 27 0 14)
+  ((citb-robotboss-leftshoulder-lod0-mg (meters 999999)))
+  :bounds (static-spherem 17 27 0 14)
   :longest-edge (meters 6))
 
 (defskelgroup *citb-robotboss-rightshoulder-sg*
   citb-robotboss
   citb-robotboss-rightshoulder-lod0-jg
   citb-robotboss-rightshoulder-idle-ja
-              ((citb-robotboss-rightshoulder-lod0-mg (meters 999999)))
-              :bounds (static-spherem -17 27 0 14)
+  ((citb-robotboss-rightshoulder-lod0-mg (meters 999999)))
+  :bounds (static-spherem -17 27 0 14)
   :longest-edge (meters 6))
 
 (defskelgroup *citb-robotboss-leftarm-sg*
   citb-robotboss
   citb-robotboss-leftarm-lod0-jg
   citb-robotboss-leftarm-idle-ja
-              ((citb-robotboss-leftarm-lod0-mg (meters 999999)))
-              :bounds (static-spherem 15 5 -10 20)
+  ((citb-robotboss-leftarm-lod0-mg (meters 999999)))
+  :bounds (static-spherem 15 5 -10 20)
   :longest-edge (meters 9))
 
 (defskelgroup *citb-robotboss-rightarm-sg*
   citb-robotboss
   citb-robotboss-rightarm-lod0-jg
   citb-robotboss-rightarm-idle-ja
-              ((citb-robotboss-rightarm-lod0-mg (meters 999999)))
-              :bounds (static-spherem -15 0 -8 16)
+  ((citb-robotboss-rightarm-lod0-mg (meters 999999)))
+  :bounds (static-spherem -15 0 -8 16)
   :longest-edge (meters 3))
 
 (defskelgroup *citb-robotboss-belly-sg*
   citb-robotboss
   citb-robotboss-belly-lod0-jg
   citb-robotboss-belly-idle-ja
-              ((citb-robotboss-belly-lod0-mg (meters 999999)))
-              :bounds (static-spherem 0 -2 3 10)
+  ((citb-robotboss-belly-lod0-mg (meters 999999)))
+  :bounds (static-spherem 0 -2 3 10)
   :longest-edge (meters 3))
 
 (deftype citb-robotboss (process-drawable)
-  ((root       collide-shape :override)
+  ((root      collide-shape :override)
    (shield-on symbol))
   (:states
-    citb-robotboss-die
+   citb-robotboss-die
    citb-robotboss-idle))
 
 (defstate citb-robotboss-idle (citb-robotboss)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (local-vars (sv-96 int) (sv-112 int))
+      (local-vars (sv-96 int) (sv-112 int))
       (the-as symbol
-      (cond
-        ((= message 'shield-off)
-         (stop! (-> self sound))
+              (cond
+                ((= message 'shield-off)
+                 (stop! (-> self sound))
                  (if (-> self shield-on) (sound-play "robotcage-off"))
-         (set! (-> self shield-on) #f)
+                 (set! (-> self shield-on) #f)
                  #f)
                 ((= message 'shield-on) (let ((v0-3 #t)) (set! (-> self shield-on) v0-3) v0-3))
                 ((= message 'die) (cleanup-for-death self) (the-as symbol (deactivate self)))
-        ((or (= message 'touch) (= message 'attack))
-         (let ((s4-0 sound-play-by-name)
-               (s3-0 (make-u128 #x7061 (the-as uint #x7a2d646c65696873)))
-               (s2-0 (new-sound-id))
-               (s1-0 1024)
+                ((or (= message 'touch) (= message 'attack))
+                 (let ((s4-0 sound-play-by-name)
+                       (s3-0 (make-u128 #x7061 (the-as uint #x7a2d646c65696873)))
+                       (s2-0 (new-sound-id))
+                       (s1-0 1024)
                        (s0-0 0))
-           (set! sv-96 0)
-           (set! sv-112 1)
-           (let ((t2-1 (target-pos 0)))
+                   (set! sv-96 0)
+                   (set! sv-112 1)
+                   (let ((t2-1 (target-pos 0)))
                      (s4-0 (the-as sound-name s3-0) s2-0 s1-0 s0-0 sv-96 (the-as sound-group sv-112) (the-as symbol t2-1))))
                  (the-as symbol
                          (send-event proc 'shove (-> block param 0) (static-attack-info ((shove-up (meters 2)) (shove-back (meters 3))))))))))
   :code
     (behavior ()
-    (let ((gp-0 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-nose-sg* #f :to self)))
-      (send-event (ppointer->process gp-0) 'anim-mode 'loop)
-      (send-event (ppointer->process gp-0) 'art-joint-anim "citb-robotboss-nose-idle" 0)
+      (let ((gp-0 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-nose-sg* #f :to self)))
+        (send-event (ppointer->process gp-0) 'anim-mode 'loop)
+        (send-event (ppointer->process gp-0) 'art-joint-anim "citb-robotboss-nose-idle" 0)
         (send-event (ppointer->process gp-0) 'draw #t))
-    (let ((gp-1 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-head-sg* #f :to self)))
-      (send-event (ppointer->process gp-1) 'anim-mode 'loop)
-      (send-event (ppointer->process gp-1) 'art-joint-anim "citb-robotboss-head-idle" 0)
+      (let ((gp-1 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-head-sg* #f :to self)))
+        (send-event (ppointer->process gp-1) 'anim-mode 'loop)
+        (send-event (ppointer->process gp-1) 'art-joint-anim "citb-robotboss-head-idle" 0)
         (send-event (ppointer->process gp-1) 'draw #t))
-    (let ((gp-2 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-gun-sg* #f :to self)))
-      (send-event (ppointer->process gp-2) 'anim-mode 'loop)
-      (send-event (ppointer->process gp-2) 'art-joint-anim "citb-robotboss-gun-idle" 0)
+      (let ((gp-2 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-gun-sg* #f :to self)))
+        (send-event (ppointer->process gp-2) 'anim-mode 'loop)
+        (send-event (ppointer->process gp-2) 'art-joint-anim "citb-robotboss-gun-idle" 0)
         (send-event (ppointer->process gp-2) 'draw #t))
-    (let ((gp-3 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-leftshoulder-sg* #f :to self)))
-      (send-event (ppointer->process gp-3) 'anim-mode 'loop)
-      (send-event (ppointer->process gp-3) 'art-joint-anim "citb-robotboss-leftshoulder-idle" 0)
+      (let ((gp-3 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-leftshoulder-sg* #f :to self)))
+        (send-event (ppointer->process gp-3) 'anim-mode 'loop)
+        (send-event (ppointer->process gp-3) 'art-joint-anim "citb-robotboss-leftshoulder-idle" 0)
         (send-event (ppointer->process gp-3) 'draw #t))
-    (let ((gp-4 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-rightshoulder-sg* #f :to self)))
-      (send-event (ppointer->process gp-4) 'anim-mode 'loop)
-      (send-event (ppointer->process gp-4) 'art-joint-anim "citb-robotboss-rightshoulder-idle" 0)
+      (let ((gp-4 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-rightshoulder-sg* #f :to self)))
+        (send-event (ppointer->process gp-4) 'anim-mode 'loop)
+        (send-event (ppointer->process gp-4) 'art-joint-anim "citb-robotboss-rightshoulder-idle" 0)
         (send-event (ppointer->process gp-4) 'draw #t))
-    (let ((gp-5 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-leftarm-sg* #f :to self)))
-      (send-event (ppointer->process gp-5) 'anim-mode 'loop)
-      (send-event (ppointer->process gp-5) 'art-joint-anim "citb-robotboss-leftarm-idle" 0)
+      (let ((gp-5 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-leftarm-sg* #f :to self)))
+        (send-event (ppointer->process gp-5) 'anim-mode 'loop)
+        (send-event (ppointer->process gp-5) 'art-joint-anim "citb-robotboss-leftarm-idle" 0)
         (send-event (ppointer->process gp-5) 'draw #t))
-    (let ((gp-6 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-rightarm-sg* #f :to self)))
-      (send-event (ppointer->process gp-6) 'anim-mode 'loop)
-      (send-event (ppointer->process gp-6) 'art-joint-anim "citb-robotboss-rightarm-idle" 0)
+      (let ((gp-6 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-rightarm-sg* #f :to self)))
+        (send-event (ppointer->process gp-6) 'anim-mode 'loop)
+        (send-event (ppointer->process gp-6) 'art-joint-anim "citb-robotboss-rightarm-idle" 0)
         (send-event (ppointer->process gp-6) 'draw #t))
-    (let ((gp-7 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-belly-sg* #f :to self)))
-      (send-event (ppointer->process gp-7) 'anim-mode 'loop)
-      (send-event (ppointer->process gp-7) 'art-joint-anim "citb-robotboss-belly-idle" 0)
+      (let ((gp-7 (manipy-spawn (-> self root trans) (-> self entity) *citb-robotboss-belly-sg* #f :to self)))
+        (send-event (ppointer->process gp-7) 'anim-mode 'loop)
+        (send-event (ppointer->process gp-7) 'art-joint-anim "citb-robotboss-belly-idle" 0)
         (send-event (ppointer->process gp-7) 'draw #t))
-    (update-transforms! (-> self root))
-    (loop
-      (when (-> self shield-on)
-        (update! (-> self sound))
-        (spawn (-> self part) (-> self root trans))
+      (update-transforms! (-> self root))
+      (loop
+        (when (-> self shield-on)
+          (update! (-> self sound))
+          (spawn (-> self part) (-> self root trans))
           (set! (-> *palette-fade-controls* control 7 fade) 1.0))
         (suspend)))
   :post ja-post)
@@ -609,7 +609,7 @@
 (defstate citb-robotboss-die (citb-robotboss)
   :code
     (behavior ()
-    (cleanup-for-death self)
+      (cleanup-for-death self)
       (deactivate self)))
 
 (defmethod init-from-entity! ((this citb-robotboss) (arg0 entity-actor))
@@ -632,7 +632,7 @@
   (set! (-> this shield-on) #t)
   (set! (-> this sound) (new 'process 'ambient-sound (static-sound-spec "robotcage-lp" :fo-max 150) (-> this root trans)))
   (if (= (get-task-status (-> this entity extra perm task)) (task-status invalid))
-      (go citb-robotboss-die)
+    (go citb-robotboss-die)
     (go citb-robotboss-idle))
   (none))
 
@@ -640,14 +640,14 @@
   citb-coil
   citb-coil-lod0-jg
   citb-coil-idle-ja
-              ((citb-coil-lod0-mg (meters 20)) (citb-coil-lod1-mg (meters 999999)))
+  ((citb-coil-lod0-mg (meters 20)) (citb-coil-lod1-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 4))
 
 (deftype citb-coil (process-drawable)
   ((part-off sparticle-launch-control))
   (:states
-    citb-coil-break
-    citb-coil-broken
+   citb-coil-break
+   citb-coil-broken
    citb-coil-idle))
 
 (defmethod relocate ((this citb-coil) (arg0 int))
@@ -662,28 +662,28 @@
 (defstate citb-coil-idle (citb-coil)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (case message
+      (case message
         (('trigger) (go citb-coil-break))))
   :code
     (behavior ()
-    (loop
-      (ja-no-eval :group! (ja-group) :num! (seek!) :frame-num 0.0)
-      (until (ja-done? 0)
-        (suspend)
+      (loop
+        (ja-no-eval :group! (ja-group) :num! (seek!) :frame-num 0.0)
+        (until (ja-done? 0)
+          (suspend)
           (ja :num! (seek!)))))
   :post
     (behavior ()
-    (spawn (-> self part) (-> self root trans))
+      (spawn (-> self part) (-> self root trans))
       (ja-post)))
 
 (defstate citb-coil-break (citb-coil)
   :code
     (behavior ()
-    (process-entity-status! self (entity-perm-status complete) #t)
-    (ja-channel-push! 1 (seconds 0.1))
-    (ja-no-eval :group! citb-coil-die-ja :num! (seek!) :frame-num 0.0)
-    (until (ja-done? 0)
-      (suspend)
+      (process-entity-status! self (entity-perm-status complete) #t)
+      (ja-channel-push! 1 (seconds 0.1))
+      (ja-no-eval :group! citb-coil-die-ja :num! (seek!) :frame-num 0.0)
+      (until (ja-done? 0)
+        (suspend)
         (ja :num! (seek!)))
       (go citb-coil-broken))
   :post ja-post)
@@ -691,12 +691,12 @@
 (defstate citb-coil-broken (citb-coil)
   :code
     (behavior ()
-    (ja-no-eval :group! citb-coil-dead-ja :num! (seek!) :frame-num 0.0)
-    (until (ja-done? 0)
-      (suspend)
+      (ja-no-eval :group! citb-coil-dead-ja :num! (seek!) :frame-num 0.0)
+      (until (ja-done? 0)
+        (suspend)
         (ja :num! (seek!)))
-    (loop
-      (spawn (-> self part-off) (-> self root trans))
+      (loop
+        (spawn (-> self part-off) (-> self root trans))
         (suspend)))
   :post ja-post)
 
@@ -715,13 +715,13 @@
   citb-hose
   citb-hose-lod0-jg
   citb-hose-idle-ja
-              ((citb-hose-lod0-mg (meters 20)) (citb-hose-lod1-mg (meters 999999)))
+  ((citb-hose-lod0-mg (meters 20)) (citb-hose-lod1-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 10))
 
 (deftype citb-hose (process-drawable) ()
   (:states
-    citb-hose-die
-    citb-hose-idle
+   citb-hose-die
+   citb-hose-idle
    citb-hose-spawn))
 
 (defbehavior citb-hose-event-handler citb-hose ((arg0 process) (arg1 int) (arg2 symbol) (arg3 event-message-block))
@@ -733,10 +733,10 @@
   :event citb-hose-event-handler
   :code
     (behavior ()
-    (loop
-      (ja-no-eval :group! citb-hose-idle-ja :num! (seek!) :frame-num 0.0)
-      (until (ja-done? 0)
-        (suspend)
+      (loop
+        (ja-no-eval :group! citb-hose-idle-ja :num! (seek!) :frame-num 0.0)
+        (until (ja-done? 0)
+          (suspend)
           (ja :num! (seek!)))))
   :post ja-post)
 
@@ -744,10 +744,10 @@
   :event citb-hose-event-handler
   :code
     (behavior ()
-    (ja-channel-push! 1 (seconds 0.1))
-    (ja-no-eval :group! citb-hose-spit-ja :num! (seek!) :frame-num 0.0)
-    (until (ja-done? 0)
-      (suspend)
+      (ja-channel-push! 1 (seconds 0.1))
+      (ja-no-eval :group! citb-hose-spit-ja :num! (seek!) :frame-num 0.0)
+      (until (ja-done? 0)
+        (suspend)
         (ja :num! (seek!)))
       (go citb-hose-idle))
   :post ja-post)
@@ -756,11 +756,11 @@
   :event citb-hose-event-handler
   :code
     (behavior ()
-    (process-entity-status! self (entity-perm-status complete) #t)
-    (ja-channel-push! 1 (seconds 0.1))
-    (ja-no-eval :group! citb-hose-die-ja :num! (seek!) :frame-num 0.0)
-    (until (ja-done? 0)
-      (suspend)
+      (process-entity-status! self (entity-perm-status complete) #t)
+      (ja-channel-push! 1 (seconds 0.1))
+      (ja-no-eval :group! citb-hose-die-ja :num! (seek!) :frame-num 0.0)
+      (until (ja-done? 0)
+        (suspend)
         (ja :num! (seek!)))
       (anim-loop))
   :post ja-post)
@@ -780,32 +780,32 @@
   citb-generator
   citb-generator-lod0-jg
   citb-generator-idle-ja
-              ((citb-generator-lod0-mg (meters 999999)))
+  ((citb-generator-lod0-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 2))
 
 (defskelgroup *citb-generator-broken-sg*
   citb-generator
   citb-generator-broken-lod0-jg
   citb-generator-idle-ja
-              ((citb-generator-broken-lod0-mg (meters 999999)))
+  ((citb-generator-broken-lod0-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 2))
 
 (deftype citb-generator (process-drawable)
-  ((root             collide-shape :override)
-   (normal-look      lod-set        :inline)
-   (broken-look      lod-set        :inline)
-   (mushroom-pos     vector         :inline)
-   (mushroom         symbol)
-   (birth-fuel-cell  symbol)
-   (trigger-others   symbol)
-   (part-broken      sparticle-launch-control)
+  ((root            collide-shape :override)
+   (normal-look     lod-set :inline)
+   (broken-look     lod-set :inline)
+   (mushroom-pos    vector :inline)
+   (mushroom        symbol)
+   (birth-fuel-cell symbol)
+   (trigger-others  symbol)
+   (part-broken     sparticle-launch-control)
    (part-mushroom   sparticle-launch-control))
   (:methods
-    (init! (_type_) none)
+   (init! (_type_) none)
    (citb-generator-method-21 (_type_) none))
   (:states
-    citb-generator-break
-    citb-generator-broken
+   citb-generator-break
+   citb-generator-broken
    citb-generator-idle))
 
 (defmethod relocate ((this citb-generator) (arg0 int))
@@ -856,9 +856,9 @@
 (defstate citb-generator-idle (citb-generator)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (case message
-      (('attack)
-       (if (-> self mushroom)
+      (case message
+        (('attack)
+         (if (-> self mushroom)
            (increment-success-for-hint (text-id citadel-generator))
            (increment-success-for-hint (text-id citadel-generator-no-mushroom)))
          (go citb-generator-break))
@@ -868,15 +868,15 @@
       (stop! (-> self sound)))
   :code
     (behavior ()
-    (lods-assign! (-> self draw) (-> self normal-look))
-    (update-transforms! (-> self root))
-    (loop
-      (spawn (-> self part) (-> self root trans))
-      (update! (-> self sound))
+      (lods-assign! (-> self draw) (-> self normal-look))
+      (update-transforms! (-> self root))
+      (loop
+        (spawn (-> self part) (-> self root trans))
+        (update! (-> self sound))
         (if (-> self mushroom) (spawn (-> self part-mushroom) (-> self mushroom-pos)))
         (if (not (-> self mushroom)) (+! (-> *palette-fade-controls* control 3 fade) 0.3333))
-      (when (and *target* (>= 32768.0 (vector-vector-distance (-> self root trans) (-> *target* control trans))))
-        (if (-> self mushroom)
+        (when (and *target* (>= 32768.0 (vector-vector-distance (-> self root trans) (-> *target* control trans))))
+          (if (-> self mushroom)
             (level-hint-spawn (text-id citadel-generator) "sksp0381" (the-as entity #f) *entity-pool* (game-task none))
             (level-hint-spawn (text-id citadel-generator-no-mushroom) "sksp0384" (the-as entity #f) *entity-pool* (game-task none))))
         (suspend)))
@@ -885,56 +885,56 @@
 (defstate citb-generator-break (citb-generator)
   :code
     (behavior ()
-    (let ((gp-0 (entity-actor-count (-> self entity) 'open-actor)))
-      (dotimes (s5-0 gp-0)
-        (let ((s4-0 (entity-actor-lookup (-> self entity) 'open-actor s5-0))
+      (let ((gp-0 (entity-actor-count (-> self entity) 'open-actor)))
+        (dotimes (s5-0 gp-0)
+          (let ((s4-0 (entity-actor-lookup (-> self entity) 'open-actor s5-0))
                 (a1-2 (new 'stack-no-clear 'event-message-block)))
-          (set! (-> a1-2 from) self)
-          (set! (-> a1-2 num-params) 0)
-          (set! (-> a1-2 message) 'open)
-          (let ((t9-2 send-event-function)
+            (set! (-> a1-2 from) self)
+            (set! (-> a1-2 num-params) 0)
+            (set! (-> a1-2 message) 'open)
+            (let ((t9-2 send-event-function)
                   (v1-1 s4-0))
               (when (not (t9-2 (if v1-1 (-> v1-1 extra process)) a1-2))
-              (entity-birth-no-kill s4-0)
-              (suspend)
+                (entity-birth-no-kill s4-0)
+                (suspend)
                 (send-event (if s4-0 (-> s4-0 extra process)) 'open))))))
-    (process-entity-status! self (entity-perm-status complete) #t)
+      (process-entity-status! self (entity-perm-status complete) #t)
       (process-spawn part-tracker
                      :init
                      part-tracker-init
-      (-> *part-group-id-table* 598)
-      -1
-      #f
-      #f
-      #f
-      (-> self root trans)
+                     (-> *part-group-id-table* 598)
+                     -1
+                     #f
+                     #f
+                     #f
+                     (-> self root trans)
                      :to
                      *entity-pool*)
-    (sound-play "sagecage-open")
-    ;; og:preserve-this NTSC-J patch here
-    ; (if (name= (-> self name) "citb-generator-1")
-        ; (set-continue! *game-info* "citadel-elevator")
-        ; )
+      (sound-play "sagecage-open")
+      ;; og:preserve-this NTSC-J patch here
+      ; (if (name= (-> self name) "citb-generator-1")
+      ; (set-continue! *game-info* "citadel-elevator")
+      ; )
       (go citb-generator-broken))
   :post ja-post)
 
 (defstate citb-generator-broken (citb-generator)
   :code
     (behavior ()
-    (lods-assign! (-> self draw) (-> self broken-look))
-    (update-transforms! (-> self root))
-    (cond
-      ((-> self birth-fuel-cell)
-       (process-drawable-birth-fuel-cell (the-as entity #f) (the-as vector #f) #t)
-       (when (-> self child)
-         (while (-> self child)
+      (lods-assign! (-> self draw) (-> self broken-look))
+      (update-transforms! (-> self root))
+      (cond
+        ((-> self birth-fuel-cell)
+         (process-drawable-birth-fuel-cell (the-as entity #f) (the-as vector #f) #t)
+         (when (-> self child)
+           (while (-> self child)
              (suspend))
            (citb-generator-trigger-others)))
         (else (citb-generator-trigger-others)))
       (anim-loop))
   :post
     (behavior ()
-    (spawn (-> self part-broken) (-> self root trans))
+      (spawn (-> self part-broken) (-> self root trans))
       (ja-post)))
 
 (defmethod init! ((this citb-generator))
@@ -990,50 +990,49 @@
   citadelcam
   citadelcam-lod0-jg
   citadelcam-idle-ja
-              ((citadelcam-lod0-mg (meters 999999)))
+  ((citadelcam-lod0-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 20))
 
 (deftype citadelcam (process-drawable) ()
   (:states
-    citadelcam-idle
+   citadelcam-idle
    citadelcam-stair-plats))
 
 (defstate citadelcam-idle (citadelcam)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (case message
-      (('trigger)
-       (when (and (ap-special-received? (the-as uint (game-task citadel-sage-blue)))
-                  (ap-special-received? (the-as uint (game-task citadel-sage-red)))
-                  (ap-special-received? (the-as uint (game-task citadel-sage-yellow)))
-                  )
-         (logclear! (-> self mask) (process-mask actor-pause))
+      (case message
+        (('trigger)
+         (when (and (ap-special-received? (the-as uint (game-task citadel-sage-blue)))
+                    (ap-special-received? (the-as uint (game-task citadel-sage-red)))
+                    (ap-special-received? (the-as uint (game-task citadel-sage-yellow))))
+           (logclear! (-> self mask) (process-mask actor-pause))
            (go citadelcam-stair-plats)))))
   :code
     (behavior ()
-    (logior! (-> self mask) (process-mask actor-pause))
+      (logior! (-> self mask) (process-mask actor-pause))
       (anim-loop)))
 
 (defstate citadelcam-stair-plats (citadelcam)
   :code
     (behavior ()
-    (let ((gp-0 (entity-actor-count (-> self entity) 'trigger-actor)))
-      (dotimes (s5-0 gp-0)
-        (let ((s4-0 (entity-actor-lookup (-> self entity) 'trigger-actor s5-0))
+      (let ((gp-0 (entity-actor-count (-> self entity) 'trigger-actor)))
+        (dotimes (s5-0 gp-0)
+          (let ((s4-0 (entity-actor-lookup (-> self entity) 'trigger-actor s5-0))
                 (a1-2 (new 'stack-no-clear 'event-message-block)))
-          (set! (-> a1-2 from) self)
-          (set! (-> a1-2 num-params) 0)
-          (set! (-> a1-2 message) 'trigger)
-          (let ((t9-2 send-event-function)
+            (set! (-> a1-2 from) self)
+            (set! (-> a1-2 num-params) 0)
+            (set! (-> a1-2 message) 'trigger)
+            (let ((t9-2 send-event-function)
                   (v1-1 s4-0))
               (when (not (t9-2 (if v1-1 (-> v1-1 extra process)) a1-2))
-              (entity-birth-no-kill s4-0)
-              (suspend)
+                (entity-birth-no-kill s4-0)
+                (suspend)
                 (send-event (if s4-0 (-> s4-0 extra process)) 'trigger))))))
       (let ((gp-2 (ppointer->handle (process-spawn pov-camera (-> self root trans) *citadelcam-sg* "citadelcam-stair-plats" 0 #f '() :to self))))
-      (while (handle->process (the-as handle gp-2))
+        (while (handle->process (the-as handle gp-2))
           (suspend)))
-    (level-hint-spawn (text-id citadel-plat) "sksp0387" (the-as entity #f) *entity-pool* (game-task none))
+      (level-hint-spawn (text-id citadel-plat) "sksp0387" (the-as entity #f) *entity-pool* (game-task none))
       (go citadelcam-idle)))
 
 (defmethod init-from-entity! ((this citadelcam) (arg0 entity-actor))
@@ -1049,20 +1048,20 @@
   :virtual #t
   :code
     (behavior ()
-    (level-hint-spawn (text-id citadel-battle) "sksp0383" (the-as entity #f) *entity-pool* (game-task none))
-    (suspend)
+      (level-hint-spawn (text-id citadel-battle) "sksp0383" (the-as entity #f) *entity-pool* (game-task none))
+      (suspend)
       (let ((gp-1 (ppointer->handle (process-spawn pov-camera
-                                    (-> (entity-by-name "citadelcam-1") extra trans)
-                                    *citadelcam-sg*
-                                    "citadel-bunnies"
-                                    0
-                                    #f
-                                    '()
+                                                   (-> (entity-by-name "citadelcam-1") extra trans)
+                                                   *citadelcam-sg*
+                                                   "citadel-bunnies"
+                                                   0
+                                                   #f
+                                                   '()
                                                    :to
                                                    self))))
-      (send-event (handle->process (the-as handle gp-1)) 'mask 2048)
-      (while (handle->process (the-as handle gp-1))
-        (logclear! (-> *target* state-flags) (state-flags invulnerable))
+        (send-event (handle->process (the-as handle gp-1)) 'mask 2048)
+        (while (handle->process (the-as handle gp-1))
+          (logclear! (-> *target* state-flags) (state-flags invulnerable))
           (suspend)))
       (go-virtual battlecontroller-active)))
 
@@ -1070,7 +1069,7 @@
   :virtual #t
   :code
     (behavior ()
-    (process-entity-status! self (entity-perm-status complete) #t)
+      (process-entity-status! self (entity-perm-status complete) #t)
       (let ((t9-2 (-> (find-parent-state) code))) (if t9-2 ((the-as (function none :behavior battlecontroller) t9-2))))))
 
 (defmethod battlecontroller-method-27 ((this citb-battlecontroller))

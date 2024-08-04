@@ -19,16 +19,16 @@
   - whatever else.
 
   If you do not want to include these PC things, you should exclude it from the build system.
- |#
+|#
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; constants
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (deftype pckernel-version (int64)
-  ((build     int16 :offset 0)
-   (revision  int16 :offset 16)
-   (minor     int16 :offset 32)
+  ((build    int16 :offset 0)
+   (revision int16 :offset 16)
+   (minor    int16 :offset 32)
    (major    int16 :offset 48)))
 
 (defmacro static-pckernel-version (major minor rev build)
@@ -36,7 +36,7 @@
 
 (defconstant PC_KERNEL_INVALID_VERSION (static-pckernel-version #xffff #xffff #xffff #xffff))
 
-                                                  ;; version: invalid
+;; version: invalid
 (defconstant PC_KERNEL_VERSION PC_KERNEL_INVALID_VERSION)
 
 (defconstant PC_KERNEL_VER_MAJOR (-> PC_KERNEL_VERSION major))
@@ -91,7 +91,7 @@
 
 ;; music log info
 (deftype pc-music-log-entry (structure)
-  ((name  symbol)
+  ((name       symbol)
    (flava-mask int32))
   :pack-me)
 
@@ -102,147 +102,146 @@
 ;; All of the configuration for the PC port in GOAL. Access things from here!
 ;; Includes some methods to change parameters.
 (deftype pc-settings (basic)
-  ((version pckernel-version) ;; version of this settings
+  ((version                          pckernel-version) ;; version of this settings
    ;; "generic" graphics settings
-   (target-fps int16) ;; the target framerate of the game
+   (target-fps                       int16) ;; the target framerate of the game
    ;; game resolution?
-   (width int64)
-   (height int64)
+   (width                            int64)
+   (height                           int64)
    ;; window size. resolution = window size in windowed mode.
-   (window-width int64)
-   (window-height int64)
+   (window-width                     int64)
+   (window-height                    int64)
    ;; reported window framebuffer size from OS
-   (framebuffer-width int64)
-   (framebuffer-height int64)
+   (framebuffer-width                int64)
+   (framebuffer-height               int64)
    ;; the region to draw in that framebuffer. rest is cleared to black.
-   (framebuffer-scissor-width int64)
-   (framebuffer-scissor-height int64)
-   (dpi-x float) ;; DPI width scale
-   (dpi-y float) ;; DPI height scale
-   (aspect-ratio-auto? symbol) ;; if on, aspect ratio is calculated automatically based on game display size.
-   (aspect-ratio float) ;; the desired aspect ratio. set auto to off and then this to 4/3 to force 4x3 aspect.
-   (aspect-ratio-scale float) ;; aspect ratio compared to 4x3
-   (aspect-ratio-reciprocal float) ;; reciprocal of that
-   (aspect-custom-x int)
-   (aspect-custom-y int)
-   (letterbox? symbol) ;; letterbox. #f = stretched
-   (vsync? symbol) ;; vsync.
-   (font-scale float) ;; font scaling.
+   (framebuffer-scissor-width        int64)
+   (framebuffer-scissor-height       int64)
+   (dpi-x                            float) ;; DPI width scale
+   (dpi-y                            float) ;; DPI height scale
+   (aspect-ratio-auto?               symbol) ;; if on, aspect ratio is calculated automatically based on game display size.
+   (aspect-ratio                     float) ;; the desired aspect ratio. set auto to off and then this to 4/3 to force 4x3 aspect.
+   (aspect-ratio-scale               float) ;; aspect ratio compared to 4x3
+   (aspect-ratio-reciprocal          float) ;; reciprocal of that
+   (aspect-custom-x                  int)
+   (aspect-custom-y                  int)
+   (letterbox?                       symbol) ;; letterbox. #f = stretched
+   (vsync?                           symbol) ;; vsync.
+   (font-scale                       float) ;; font scaling.
    ;; debug settings
-   (os symbol) ;; windows, linux, macos
-   (user symbol) ;; username. not system username, just debug thing.
-   (debug? symbol) ;; more debug stuff just in case.
-   (debug-font-scale        float)  ;; debug font scaling factor.
-   (debug-font-scale-auto?  symbol) ;; auto-scale debug font by screen height.
+   (os                               symbol) ;; windows, linux, macos
+   (user                             symbol) ;; username. not system username, just debug thing.
+   (debug?                           symbol) ;; more debug stuff just in case.
+   (debug-font-scale                 float) ;; debug font scaling factor.
+   (debug-font-scale-auto?           symbol) ;; auto-scale debug font by screen height.
    ;; device settings
    (ignore-controller-win-unfocused? symbol)
-   (controller-led-hp?    symbol)
-   (controller-led-eco?   symbol)
-   (controller-led-heat?  symbol)
-   (controller-led-brightness     float)
-   (controller-led-min-brightness float)
-   (controller-led-max-brightness float)
-   (controller-led-color          rgbaf :inline)
-   (stick-deadzone float) ;; analog stick deadzone. 0-1
-   (keyboard-enabled? symbol) ;; NOTE - this is here solely to satisfy jak 1's menu design, the setting has been moved into `input-settings.json`
-   (mouse-enabled? symbol)
-   (mouse-camera? symbol)
-   (mouse-xsens float)
-   (mouse-ysens float)
-   (mouse-movement? symbol)
-   (auto-hide-cursor? symbol)
+   (controller-led-hp?               symbol)
+   (controller-led-eco?              symbol)
+   (controller-led-heat?             symbol)
+   (controller-led-brightness        float)
+   (controller-led-min-brightness    float)
+   (controller-led-max-brightness    float)
+   (controller-led-color             rgbaf :inline)
+   (stick-deadzone                   float) ;; analog stick deadzone. 0-1
+   (keyboard-enabled?                symbol) ;; NOTE - this is here solely to satisfy jak 1's menu design, the setting has been moved into `input-settings.json`
+   (mouse-enabled?                   symbol)
+   (mouse-camera?                    symbol)
+   (mouse-xsens                      float)
+   (mouse-ysens                      float)
+   (mouse-movement?                  symbol)
+   (auto-hide-cursor?                symbol)
    ;; audio settings
-   (audio-latency-ms int16) ;; audio latency in milliseconds
-   (audio-pan-override float) ;; audio pan modifier
-   (audio-volume-override float) ;; audio volume modifier
-   (audio-channel-nb int16) ;; audio channel amount. will be 48 on PS2 mode.
+   (audio-latency-ms                 int16) ;; audio latency in milliseconds
+   (audio-pan-override               float) ;; audio pan modifier
+   (audio-volume-override            float) ;; audio volume modifier
+   (audio-channel-nb                 int16) ;; audio channel amount. will be 48 on PS2 mode.
    ;; graphics settings
-   (gfx-renderer pc-gfx-renderer) ;; the renderer to use
-   (gfx-resolution float) ;; for supersampling
-   (gfx-anisotropy float) ;; for anisotropy
-   (gfx-msaa int32) ;; for MSAA
+   (gfx-renderer                     pc-gfx-renderer) ;; the renderer to use
+   (gfx-resolution                   float) ;; for supersampling
+   (gfx-anisotropy                   float) ;; for anisotropy
+   (gfx-msaa                         int32) ;; for MSAA
    ;; ps2 settings
-   (ps2-read-speed? symbol) ;; emulate DVD loads
-   (ps2-parts? symbol) ;; if off, increase particle cap
-   (ps2-music? symbol) ;; if off, use .wav files stored somewhere
-   (ps2-se? symbol) ;; if off, use adjusted sound effects
-   (ps2-hints? symbol) ;; if off, enables extra game hints
+   (ps2-read-speed?                  symbol) ;; emulate DVD loads
+   (ps2-parts?                       symbol) ;; if off, increase particle cap
+   (ps2-music?                       symbol) ;; if off, use .wav files stored somewhere
+   (ps2-se?                          symbol) ;; if off, use adjusted sound effects
+   (ps2-hints?                       symbol) ;; if off, enables extra game hints
    ;; lod settings
-   (ps2-shadow? symbol) ;; if off, enables extended object shadows
-   (ps2-lod-dist? symbol) ;; use original lod distances
-   (force-envmap? symbol) ;; dont use envmap fading (force max).
-   (shrub-dist-mod float) ;; shrub render distance modifier
-   (lod-dist-mod float) ;; non-shrub lod distance modifier
-   (lod-force-tfrag int8) ;; tfrag lod tier override. 0 = highest detail
-   (lod-force-tie int8) ;; tie lod tier override
-   (lod-force-ocean int8) ;; ocean lod tier override
-   (lod-force-actor int8) ;; merc lod tier override
+   (ps2-shadow?                      symbol) ;; if off, enables extended object shadows
+   (ps2-lod-dist?                    symbol) ;; use original lod distances
+   (force-envmap?                    symbol) ;; dont use envmap fading (force max).
+   (shrub-dist-mod                   float) ;; shrub render distance modifier
+   (lod-dist-mod                     float) ;; non-shrub lod distance modifier
+   (lod-force-tfrag                  int8) ;; tfrag lod tier override. 0 = highest detail
+   (lod-force-tie                    int8) ;; tie lod tier override
+   (lod-force-ocean                  int8) ;; ocean lod tier override
+   (lod-force-actor                  int8) ;; merc lod tier override
    ;; misc settings
-   (ps2-actor-vis? symbol) ;; skips vis check for actor entity if disabled
-   (use-vis? symbol) ;; if off, don't use vis trees. this MUST be off for custom (non-cropping) aspect ratios.
-   (hinttitles? symbol) ;; if on, non-cutscene subtitles will show up
-   (subtitle-speaker? symbol) ;; #f (force off), #t (force on), auto (on for offscreen)
-   (first-camera-h-inverted? symbol) ;; first-person horizontal camera inverted
-   (first-camera-v-inverted? symbol) ;; first-person vertical camera inverted
-   (third-camera-h-inverted? symbol) ;; third-person horizontal camera inverted
-   (third-camera-v-inverted? symbol) ;; third-person vertical camera inverted
-   (music-fadeout?  symbol) ;; music fadeout toggle.
-   (music-fadein?   symbol) ;; music fadein toggle.
-   (territory   int16)
-   (bingo pc-bingo-info :inline) ;; bingo integration. does nothing for now.
-   (discord-rpc? symbol) ;; enable discord rich presence integration
-   (speedrunner-mode? symbol) ;; enable speedrunner mode
-   (flava-hack int64)
+   (ps2-actor-vis?                   symbol) ;; skips vis check for actor entity if disabled
+   (use-vis?                         symbol) ;; if off, don't use vis trees. this MUST be off for custom (non-cropping) aspect ratios.
+   (hinttitles?                      symbol) ;; if on, non-cutscene subtitles will show up
+   (subtitle-speaker?                symbol) ;; #f (force off), #t (force on), auto (on for offscreen)
+   (first-camera-h-inverted?         symbol) ;; first-person horizontal camera inverted
+   (first-camera-v-inverted?         symbol) ;; first-person vertical camera inverted
+   (third-camera-h-inverted?         symbol) ;; third-person horizontal camera inverted
+   (third-camera-v-inverted?         symbol) ;; third-person vertical camera inverted
+   (music-fadeout?                   symbol) ;; music fadeout toggle.
+   (music-fadein?                    symbol) ;; music fadein toggle.
+   (territory                        int16)
+   (bingo                            pc-bingo-info :inline) ;; bingo integration. does nothing for now.
+   (discord-rpc?                     symbol) ;; enable discord rich presence integration
+   (speedrunner-mode?                symbol) ;; enable speedrunner mode
+   (flava-hack                       int64)
    ;; settings originally stored in the game save
    ;; now stored in pc-settings
    (memcard-volume-sfx               float)
    (memcard-volume-music             float)
    (memcard-volume-dialog            float)
-   (memcard-vibration?               symbol)
-   )
+   (memcard-vibration?               symbol))
   (:methods
-    (new (symbol type) _type_)
-    (initialize (_type_) _type_)
-    (update (_type_) none)
-    (update-from-os (_type_) none)
-    (update-to-os (_type_) none)
-    (update-discord-rpc (_type_) none)
-    (update-speedrun (_type_) none)
-    (update-video-hacks (_type_) object)
-    (reset (_type_ symbol) int)
-    (reset-audio (_type_ symbol) int)
-    (reset-input (_type_ symbol symbol) int)
-    (reset-gfx (_type_ symbol) int)
-    (reset-ps2 (_type_ symbol) int)
-    (reset-misc (_type_ symbol) int)
-    (reset-camera (_type_ symbol) int)
-    (reset-extra (_type_ symbol) int)
-    (print-debug-misc (_type_) object)
-    (draw (_type_ dma-buffer) object)
-    (draw-memory (_type_ dma-buffer) symbol)
+   (new (symbol type) _type_)
+   (initialize (_type_) _type_)
+   (update (_type_) none)
+   (update-from-os (_type_) none)
+   (update-to-os (_type_) none)
+   (update-discord-rpc (_type_) none)
+   (update-speedrun (_type_) none)
+   (update-video-hacks (_type_) object)
+   (reset (_type_ symbol) int)
+   (reset-audio (_type_ symbol) int)
+   (reset-input (_type_ symbol symbol) int)
+   (reset-gfx (_type_ symbol) int)
+   (reset-ps2 (_type_ symbol) int)
+   (reset-misc (_type_ symbol) int)
+   (reset-camera (_type_ symbol) int)
+   (reset-extra (_type_ symbol) int)
+   (print-debug-misc (_type_) object)
+   (draw (_type_ dma-buffer) object)
+   (draw-memory (_type_ dma-buffer) symbol)
    (set-window-size! (_type_ int int) none)
-    (set-aspect! (_type_ int int) none)
-    (set-aspect-ratio! (_type_ float) none)
-    (set-frame-rate! (_type_ int symbol) int)
-    (set-game-setting! (_type_ symbol symbol) object)
-    (get-game-setting (_type_ symbol) symbol)
-    (set-game-language! (_type_ language-enum) language-enum)
-    (get-game-language (_type_) language-enum)
-    (get-current-game-width (_type_) int)
-    (get-current-game-height (_type_) int)
-    (read-from-file (_type_ string) symbol)
-    (write-to-file (_type_ string) symbol)
-    (handle-input-settings (_type_ file-stream) object)
-    (handle-output-settings (_type_ file-stream) object)
-    (led-enabled? (_type_) symbol)
-    (update-led (_type_) symbol)
-    (update-cheats (_type_) int)
-    (update-music-log (_type_) int)
-    (add-to-music-log (_type_ symbol int) int)
-    (commit-to-file (_type_) none)
-    (load-settings (_type_) int)
-    (set-ignore-controller-in-bg! (_type_ symbol) none)
-    (update-mouse-controls! (_type_) none)
+   (set-aspect! (_type_ int int) none)
+   (set-aspect-ratio! (_type_ float) none)
+   (set-frame-rate! (_type_ int symbol) int)
+   (set-game-setting! (_type_ symbol symbol) object)
+   (get-game-setting (_type_ symbol) symbol)
+   (set-game-language! (_type_ language-enum) language-enum)
+   (get-game-language (_type_) language-enum)
+   (get-current-game-width (_type_) int)
+   (get-current-game-height (_type_) int)
+   (read-from-file (_type_ string) symbol)
+   (write-to-file (_type_ string) symbol)
+   (handle-input-settings (_type_ file-stream) object)
+   (handle-output-settings (_type_ file-stream) object)
+   (led-enabled? (_type_) symbol)
+   (update-led (_type_) symbol)
+   (update-cheats (_type_) int)
+   (update-music-log (_type_) int)
+   (add-to-music-log (_type_ symbol int) int)
+   (commit-to-file (_type_) none)
+   (load-settings (_type_) int)
+   (set-ignore-controller-in-bg! (_type_ symbol) none)
+   (update-mouse-controls! (_type_) none)
    (debug-font-scale-factor (_type_) float)))
 
 (defconstant PC_TEMP_STRING_LEN 1024)
@@ -283,32 +282,27 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (deftype ap-settings (basic)
-  (
-    (version uint64)
-    (deathlink? symbol)
-    (moverando? symbol)
-    (orbsanity-option uint8) 
-    (orbsanity-bundle uint32)
-    (fire-canyon-unlock float)
-    (mountain-pass-unlock float)
-    (lava-tube-unlock float)
-    (completion-goal uint8)
-    )
+  ((version              uint64)
+   (deathlink?           symbol)
+   (moverando?           symbol)
+   (orbsanity-option     uint8)
+   (orbsanity-bundle     uint32)
+   (fire-canyon-unlock   float)
+   (mountain-pass-unlock float)
+   (lava-tube-unlock     float)
+   (completion-goal      uint8))
   (:methods
-    (new (symbol type) _type_)
-    (reset (_type_) none)
-    (read-from-file (_type_ string) symbol)
-    (commit-to-file (_type_) none)
-    (write-to-file (_type_ string) symbol)
-    (load-settings (_type_) int)
-    )
-  )
+   (new (symbol type) _type_)
+   (reset (_type_) none)
+   (read-from-file (_type_ string) symbol)
+   (commit-to-file (_type_) none)
+   (write-to-file (_type_ string) symbol)
+   (load-settings (_type_) int)))
 
-(defmethod reset ap-settings ((obj ap-settings))
+(defmethod reset ap-settings
+  ((obj ap-settings))
   "Set the default settings for archipelago"
-
   (format 0 "Resetting archipelago settings~%")
-
   (set! (-> obj version) 0)
   (set! (-> obj deathlink?) #f)
   (set! (-> obj moverando?) #t)
@@ -318,8 +312,7 @@
   (set! (-> obj mountain-pass-unlock) (the float 45))
   (set! (-> obj lava-tube-unlock) (the float 72))
   (set! (-> obj completion-goal) 112)
-  (none)
-  )
+  (none))
 
 (defmethod reset ((obj pc-settings) (call-handlers symbol))
   "Reset everything back to default settings
@@ -365,12 +358,17 @@
   (let* ((saved-width (-> obj width))
          (saved-height (-> obj height))
          (supported-resolution? (pc-is-supported-resolution? saved-width saved-height)))
-  (cond
-     (supported-resolution?
-      (format 0 "[PC Settings]: Valid default game-size resolution set ~D x ~D~%" saved-width saved-height))
-    (else
-     (pc-get-active-display-size (&-> obj width) (&-> obj height))
-      (format 0 "[PC Settings]: Invalid game-size resolution ~D x ~D, defaulting to ~D x ~D~%" saved-width saved-height (-> obj width) (-> obj height)))))
+    (cond
+      (supported-resolution?
+       (format 0 "[PC Settings]: Valid default game-size resolution set ~D x ~D~%" saved-width saved-height))
+      (else
+       (pc-get-active-display-size (&-> obj width) (&-> obj height))
+       (format 0
+               "[PC Settings]: Invalid game-size resolution ~D x ~D, defaulting to ~D x ~D~%"
+               saved-width
+               saved-height
+               (-> obj width)
+               (-> obj height)))))
   (format 0 "[PC Settings]: fullscreen resolution defaulted to ~D x ~D~%" (-> obj width) (-> obj height))
   (set! (-> obj gfx-msaa) PC_DEFAULT_MSAA) ;; default msaa
   0)
@@ -461,8 +459,7 @@
   `(debug-font-scale-factor *pc-settings*))
 
 (defmacro fullscreen? ()
-  `(or (= (pc-get-display-mode) 'fullscreen)
-       (= (pc-get-display-mode) 'borderless)))
+  `(or (= (pc-get-display-mode) 'fullscreen) (= (pc-get-display-mode) 'borderless)))
 
 (defun bcd->dec ((bcd uint))
   "Convert a number encoded in BCD to its decimal equivalent"
@@ -474,60 +471,60 @@
 
 (seval
   (define *pc-cheat-map*
-          '((#\a (circle triangle))
-            (#\b (square x))
-            (#\c (circle))
-            (#\d (down))
-            (#\e (right right))
-            ;; #\f
-            ;; #\g
-            ;; #\h
-            (#\i (up))
-            ;; #\j
-            (#\k (circle))
-            (#\l (left))
-            (#\m (triangle))
-            (#\n (up up))
-            (#\o (square))
-            (#\p (square circle))
-            ;; #\q
-            (#\r (right))
-            (#\s (down down))
-            (#\t (triangle))
-            (#\u (up))
-            (#\v (down))
-            (#\w (left left))
-            (#\x (x))
-            (#\y (triangle))
+    '((#\a (circle triangle))
+     (#\b (square x))
+     (#\c (circle))
+     (#\d (down))
+     (#\e (right right))
+     ;; #\f
+     ;; #\g
+     ;; #\h
+     (#\i (up))
+     ;; #\j
+     (#\k (circle))
+     (#\l (left))
+     (#\m (triangle))
+     (#\n (up up))
+     (#\o (square))
+     (#\p (square circle))
+     ;; #\q
+     (#\r (right))
+     (#\s (down down))
+     (#\t (triangle))
+     (#\u (up))
+     (#\v (down))
+     (#\w (left left))
+     (#\x (x))
+     (#\y (triangle))
      (#\z (x x)))))
 
 (desfun pc-cheat-encode (word extra)
   "turn a cheat word into input names."
   (let ((out '())
         (word-str (symbol->string word)))
-  (dotimes (i (string-length word-str))
-    (let ((char-to-inputs (assoc (string-ref word-str i) *pc-cheat-map*)))
-    (if (not char-to-inputs)
-        (ferror "bad input for pc cheat name: {}" (string-ref word-str i))
-        (dolist (button (cadr char-to-inputs))
+    (dotimes (i (string-length word-str))
+      (let ((char-to-inputs (assoc (string-ref word-str i) *pc-cheat-map*)))
+        (if (not char-to-inputs)
+          (ferror "bad input for pc cheat name: {}" (string-ref word-str i))
+          (dolist (button (cadr char-to-inputs))
             (set! out (cons (car button) out))))))
-  (dolist (ex extra)
-    (set! out (cons (car ex) out)))
+    (dolist (ex extra)
+      (set! out (cons (car ex) out)))
     out))
 
 (defmacro pc-check-cheat-code (cheat-var pad-idx input &key (extra ()) &rest body)
   "execute body when a cheat code made up of sequential inputs has been inputted"
   (let ((buttons (pc-cheat-encode input extra)))
-  `(when (nonzero? (cpad-pressed ,pad-idx)) ;; only check when some button has been pressed
-    (case ,cheat-var
-      ,@(apply-i
-          (lambda (x i)
-            `((,i)
-              (if (cpad-pressed? ,pad-idx ,x)
-                ,(if (< i (- (length buttons) 1))
-                    `(1+! ,cheat-var)
-                    `(begin
-                      (cond
+    `(when (nonzero? (cpad-pressed ,pad-idx)) ;; only check when some button has been pressed
+      (case ,cheat-var
+        ,@(apply-i
+         (lambda (x i)
+           `((,i)
+            (if (cpad-pressed? ,pad-idx ,x)
+              ,(if (< i (- (length buttons) 1))
+                `(1+! ,cheat-var)
+                `(begin
+                  (cond
                     ((-> *pc-settings* speedrunner-mode?) (sound-play "cursor-options"))
                     (else ,@body))
                   (set! ,cheat-var 0)))

@@ -790,7 +790,6 @@
   (input-opts-binds-unknown #x1615)
   (progress-no-other-resolution-options #x1616)
   (input-opts-controller-led-reflect-heat #x1617)
-
   ;; mod text mod-base-change
   (pad-triangle #x2000)
   (pad-circle #x2001)
@@ -856,14 +855,13 @@
   (ap-cross-mp #x2061)
   (ap-cross-lt #x2062)
   (ap-final-boss #x2063)
-  (ap-final-door #x2064) 
-  (fire-canyon-unlock #x2065) 
-  (mountain-pass-unlock #x2066) 
-  (lava-tube-unlock #x2067) 
+  (ap-final-door #x2064)
+  (fire-canyon-unlock #x2065)
+  (mountain-pass-unlock #x2066)
+  (lava-tube-unlock #x2067)
   (ap-plant-boss #x2068)
   (ap-connect-and-start #x2069)
-
-;; GAME-TEXT-ID ENUM ENDS
+  ;; GAME-TEXT-ID ENUM ENDS
   )
 
 ;; DECOMP BEGINS

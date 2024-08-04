@@ -19,7 +19,7 @@
   - whatever else.
 
   If you do not want to include these PC things, you should exclude it from the build system.
- |#
+|#
 
 (format 0 "pckernel version: ~D.~D~%" PC_KERNEL_VER_MAJOR PC_KERNEL_VER_MINOR)
 
@@ -34,16 +34,16 @@
 (defmethod set-window-size! ((obj pc-settings) (width int) (height int))
   "sets the size of the display window"
   (let ((display-mode (pc-get-display-mode)))
-  (cond
+    (cond
       ((= display-mode 'windowed)
-      (set! (-> obj window-width) width)
-      (set! (-> obj window-height) height)
-        (format 0 "Setting window size to ~D x ~D~%" width height)
-        (pc-set-window-size! (max PC_MIN_WIDTH (-> obj window-width)) (max PC_MIN_HEIGHT (-> obj window-height))))
-    (else
-        (format 0 "Setting borderless/fullscreen size to ~D x ~D~%" width height)
-      (set! (-> obj width) width)
-        (set! (-> obj height) height))))
+       (set! (-> obj window-width) width)
+       (set! (-> obj window-height) height)
+       (format 0 "Setting window size to ~D x ~D~%" width height)
+       (pc-set-window-size! (max PC_MIN_WIDTH (-> obj window-width)) (max PC_MIN_HEIGHT (-> obj window-height))))
+      (else
+       (format 0 "Setting borderless/fullscreen size to ~D x ~D~%" width height)
+       (set! (-> obj width) width)
+       (set! (-> obj height) height))))
   (none))
 
 (defmethod set-aspect! ((obj pc-settings) (aw int) (ah int))
@@ -87,27 +87,27 @@
   (pc-get-window-scale (&-> obj dpi-x) (&-> obj dpi-y))
   (when (-> obj use-vis?)
     (if (= (get-game-setting obj 'aspect-ratio) 'aspect4x3)
-        (set-aspect-ratio! obj ASPECT_4X3)
+      (set-aspect-ratio! obj ASPECT_4X3)
       (set-aspect-ratio! obj ASPECT_16X9)))
   (unless (or (zero? (-> obj framebuffer-width)) (zero? (-> obj framebuffer-height)))
-  (let ((win-aspect (/ (the float (-> obj framebuffer-width)) (the float (-> obj framebuffer-height)))))
-    (cond
-      ((and (not (-> obj use-vis?)) (-> obj aspect-ratio-auto?))
-       ;; the window determines the resolution
-       (set-aspect-ratio! obj win-aspect)
-       (set! (-> obj framebuffer-scissor-width) (-> obj framebuffer-width))
+    (let ((win-aspect (/ (the float (-> obj framebuffer-width)) (the float (-> obj framebuffer-height)))))
+      (cond
+        ((and (not (-> obj use-vis?)) (-> obj aspect-ratio-auto?))
+         ;; the window determines the resolution
+         (set-aspect-ratio! obj win-aspect)
+         (set! (-> obj framebuffer-scissor-width) (-> obj framebuffer-width))
          (set! (-> obj framebuffer-scissor-height) (-> obj framebuffer-height)))
-      ((> win-aspect (-> obj aspect-ratio))
-       ;; too wide
-       (set! (-> obj framebuffer-scissor-width) (the int (* (the float (-> obj framebuffer-height)) (-> obj aspect-ratio))))
+        ((> win-aspect (-> obj aspect-ratio))
+         ;; too wide
+         (set! (-> obj framebuffer-scissor-width) (the int (* (the float (-> obj framebuffer-height)) (-> obj aspect-ratio))))
          (set! (-> obj framebuffer-scissor-height) (-> obj framebuffer-height)))
-      ((< win-aspect (-> obj aspect-ratio))
-       ;; too tall
-       (set! (-> obj framebuffer-scissor-width) (-> obj framebuffer-width))
+        ((< win-aspect (-> obj aspect-ratio))
+         ;; too tall
+         (set! (-> obj framebuffer-scissor-width) (-> obj framebuffer-width))
          (set! (-> obj framebuffer-scissor-height) (the int (/ (the float (-> obj framebuffer-width)) (-> obj aspect-ratio)))))
-      (else
-       ;; just right
-       (set! (-> obj framebuffer-scissor-width) (-> obj framebuffer-width))
+        (else
+         ;; just right
+         (set! (-> obj framebuffer-scissor-width) (-> obj framebuffer-width))
          (set! (-> obj framebuffer-scissor-height) (-> obj framebuffer-height))))))
   (none))
 
@@ -123,13 +123,13 @@
     (pc-set-frame-rate (-> obj target-fps)))
   ;; do game resolution
   (if (= (pc-get-display-mode) 'windowed)
-      (pc-set-game-resolution (-> obj framebuffer-scissor-width) (-> obj framebuffer-scissor-height))
-      (pc-set-game-resolution (-> obj width) (-> obj height)))
+    (pc-set-game-resolution (-> obj framebuffer-scissor-width) (-> obj framebuffer-scissor-height))
+    (pc-set-game-resolution (-> obj width) (-> obj height)))
   ;; set msaa sample rate. if invalid, just reset to 2.
   (let ((valid? #f))
-      (dotimes (i 31)
+    (dotimes (i 31)
       (if (= (-> obj gfx-msaa) (ash 1 i)) (true! valid?)))
-      (if (not valid?) (set! (-> obj gfx-msaa) PC_DEFAULT_MSAA))
+    (if (not valid?) (set! (-> obj gfx-msaa) PC_DEFAULT_MSAA))
     (pc-set-msaa (-> obj gfx-msaa)))
   ;; -- end TODO
   (pc-discord-rpc-set (if (-> obj discord-rpc?) 1 0))
@@ -163,8 +163,8 @@
                          (the int (lerp-scale 0.0 255.0 (-> obj controller-led-color g) 0.0 1.0))
                          :b
                          (the int (lerp-scale 0.0 255.0 (-> obj controller-led-color b) 0.0 1.0))
-                                       :a #x80)))
-        (set! *display-led-rgba* led-rgba)
+                         :a #x80)))
+      (set! *display-led-rgba* led-rgba)
       (pc-set-controller-led! 0 (the-as int (-> led-rgba r)) (the-as int (-> led-rgba g)) (the-as int (-> led-rgba b)))))
   (none))
 
@@ -191,12 +191,12 @@
     (update-video-hacks obj))
   (cond
     ((not (-> obj ps2-actor-vis?))
-      ;; kinda overkill.
-      (set! (-> *ACTOR-bank* birth-dist) (meters 10000))
-      (set! (-> *ACTOR-bank* pause-dist) (meters 10000))
+     ;; kinda overkill.
+     (set! (-> *ACTOR-bank* birth-dist) (meters 10000))
+     (set! (-> *ACTOR-bank* pause-dist) (meters 10000))
      (set! (-> *ACTOR-bank* birth-max) 1000))
     ((> (-> *ACTOR-bank* birth-dist) (meters 220)) ;; the original caps at 220m, exceeding that means it was using our hacks
-      (set! (-> *ACTOR-bank* birth-dist) (meters 220))
+     (set! (-> *ACTOR-bank* birth-dist) (meters 220))
      (set! (-> *ACTOR-bank* pause-dist) (meters 220))))
   ;; cheats.
   (update-cheats obj)
@@ -243,9 +243,9 @@
 
 (when *debug-segment*
   (defmethod draw ((obj pc-settings) (buf dma-buffer))
-  "debug draw some things on-screen"
-  (when (-> obj debug?)
-    (format *stdcon* "fullscreen resolution: ~D x ~D~%" (-> obj width) (-> obj height))
+    "debug draw some things on-screen"
+    (when (-> obj debug?)
+      (format *stdcon* "fullscreen resolution: ~D x ~D~%" (-> obj width) (-> obj height))
       (format *stdcon*
               "window size: ~D x ~D @ ~,,1f x ~,,1f~%"
               (-> obj window-width)
@@ -266,7 +266,7 @@
               (-> obj use-vis?)
               (-> obj letterbox?))
       (clear *pc-temp-string*))
-  (when *display-actor-bank*
+    (when *display-actor-bank*
       (draw-string-xy (string-format "Actor Bank: ~,,1m/~,,1m (~D)"
                                      (-> *ACTOR-bank* pause-dist)
                                      (-> *ACTOR-bank* birth-dist)
@@ -294,8 +294,8 @@
   "return the debug font scale factor to be used."
   (declare (inline))
   (if (-> this debug-font-scale-auto?)
-      (/ (-> this debug-font-scale) (fmax 1.0 (/ (the float (get-current-game-height this)) PC_BASE_HEIGHT)))
-      (-> this debug-font-scale)))
+    (/ (-> this debug-font-scale) (fmax 1.0 (/ (the float (get-current-game-height this)) PC_BASE_HEIGHT)))
+    (-> this debug-font-scale)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; file IO
@@ -396,10 +396,10 @@
                (file-stream-seek-past-whitespace ,fs)
                (set! c (file-stream-getc ,fs))
                (= #x28 c))
-            (file-stream-read-word ,fs)
-            ,@body
-            (set! c (file-stream-get-next-char ,fs))
-            (when (!= #x29 c)
+        (file-stream-read-word ,fs)
+        ,@body
+        (set! c (file-stream-get-next-char ,fs))
+        (when (!= #x29 c)
           (pc-settings-read-throw-error ,fs (string-format "invalid char, ) not found, got #x~X ~A" c *pc-temp-string*))))
       (file-stream-seek ,fs -1 SCE_SEEK_CUR))))
 
@@ -411,31 +411,31 @@
       (return #f))
     (let ((version PC_KERNEL_VERSION))
       (with-settings-scope (file)
-        (case-str (file-stream-read-word file)
-          (("settings")
-            (set! version (the pckernel-version (file-stream-read-int file)))
-            (cond
-                                        ((and (= (-> version major) PC_KERNEL_VER_MAJOR) (= (-> version minor) PC_KERNEL_VER_MINOR))
-                ;; minor or no difference
-                )
-              (else
-                ;; major difference
-                                         (format 0
-                                                 "PC kernel version mismatch! Got ~D.~D vs ~D.~D~%"
-                                                 PC_KERNEL_VER_MAJOR
-                                                 PC_KERNEL_VER_MINOR
-                                                 (-> version major)
-                                                 (-> version minor))
-                (file-stream-close file)
-                                         (return #f)))
-                                      (dosettings (file) (handle-input-settings obj file))
-            ;; upgrade settings if minor changes
-            ;; remember to delete this when major changes to the version number are made
-            (when (and (= PC_KERNEL_VER_MAJOR 1)
-                       (= PC_KERNEL_VER_MINOR 10)
-                                                 (or (> 3 (-> version build)) (and (= 3 (-> version build)) (> 1 (-> version revision)))))
-                ;; 1.10 upgrade: turn envmap on
-                                        (set! (-> obj force-envmap?) #t))))))
+                           (case-str (file-stream-read-word file)
+                             (("settings")
+                              (set! version (the pckernel-version (file-stream-read-int file)))
+                              (cond
+                                ((and (= (-> version major) PC_KERNEL_VER_MAJOR) (= (-> version minor) PC_KERNEL_VER_MINOR))
+                                 ;; minor or no difference
+                                 )
+                                (else
+                                 ;; major difference
+                                 (format 0
+                                         "PC kernel version mismatch! Got ~D.~D vs ~D.~D~%"
+                                         PC_KERNEL_VER_MAJOR
+                                         PC_KERNEL_VER_MINOR
+                                         (-> version major)
+                                         (-> version minor))
+                                 (file-stream-close file)
+                                 (return #f)))
+                              (dosettings (file) (handle-input-settings obj file))
+                              ;; upgrade settings if minor changes
+                              ;; remember to delete this when major changes to the version number are made
+                              (when (and (= PC_KERNEL_VER_MAJOR 1)
+                                         (= PC_KERNEL_VER_MINOR 10)
+                                         (or (> 3 (-> version build)) (and (= 3 (-> version build)) (> 1 (-> version revision)))))
+                                ;; 1.10 upgrade: turn envmap on
+                                (set! (-> obj force-envmap?) #t))))))
     (file-stream-close file))
   (format 0 "pc settings file read: ~A~%" filename)
   ;; restore the windowed mode resolution properly
@@ -448,41 +448,46 @@
   (case-str *pc-temp-string*
     (("fps") (set-frame-rate! obj (file-stream-read-int file) #t))
     (("window-size")
-      (set! (-> obj window-width) (file-stream-read-int file))
-             (set! (-> obj window-height) (file-stream-read-int file)))
+     (set! (-> obj window-width) (file-stream-read-int file))
+     (set! (-> obj window-height) (file-stream-read-int file)))
     (("game-size")
-             ;; Check to see if the game-size is a valid resolution on this persons device
-             ;; on some machines, this has been proven to cause the black-screen issue https://github.com/open-goal/jak-project/issues/3563
-             ;; Correlating with logs like:
-             ;; - OpenGL error 0x502 S8246 T824C: GL_INVALID_OPERATION error generated. Source and destination dimensions must be identical with the current filtering modes.
-             (let* ((saved-width (file-stream-read-int file))
-                    (saved-height (file-stream-read-int file))
-                    (supported-resolution? (pc-is-supported-resolution? saved-width saved-height)))
-              (cond
-               (supported-resolution?
-                (format 0 "[PC Settings]: Valid game-size resolution ~D x ~D~%" saved-width saved-height)
-                (set! (-> obj width) saved-width)
-                (set! (-> obj height) saved-height))
-               (else
-                (pc-get-active-display-size (&-> obj width) (&-> obj height))
-                (format 0 "[PC Settings]: Invalid game-size resolution ~D x ~D, defaulting to ~D x ~D~%" saved-width saved-height (-> obj width) (-> obj height))))))
+     ;; Check to see if the game-size is a valid resolution on this persons device
+     ;; on some machines, this has been proven to cause the black-screen issue https://github.com/open-goal/jak-project/issues/3563
+     ;; Correlating with logs like:
+     ;; - OpenGL error 0x502 S8246 T824C: GL_INVALID_OPERATION error generated. Source and destination dimensions must be identical with the current filtering modes.
+     (let* ((saved-width (file-stream-read-int file))
+            (saved-height (file-stream-read-int file))
+            (supported-resolution? (pc-is-supported-resolution? saved-width saved-height)))
+       (cond
+         (supported-resolution?
+          (format 0 "[PC Settings]: Valid game-size resolution ~D x ~D~%" saved-width saved-height)
+          (set! (-> obj width) saved-width)
+          (set! (-> obj height) saved-height))
+         (else
+          (pc-get-active-display-size (&-> obj width) (&-> obj height))
+          (format 0
+                  "[PC Settings]: Invalid game-size resolution ~D x ~D, defaulting to ~D x ~D~%"
+                  saved-width
+                  saved-height
+                  (-> obj width)
+                  (-> obj height))))))
     (("msaa") (set! (-> obj gfx-msaa) (file-stream-read-int file)))
     (("aspect-state")
-      ;; game aspect
-      (set-game-setting! obj 'aspect-ratio (file-stream-read-symbol file))
-      ;; aspect ratio
-      (set! (-> obj aspect-custom-x) (file-stream-read-int file))
-      (set! (-> obj aspect-custom-y) (file-stream-read-int file))
-      ;; aspect auto
-      (set! (-> obj aspect-ratio-auto?) (file-stream-read-symbol file))
-      (unless (-> obj aspect-ratio-auto?)
-               (set-aspect! obj (-> obj aspect-custom-x) (-> obj aspect-custom-y))))
-            ;; TODO - moved to C++, has to remain because settings parsing can't handle
-            ;; unexpected keys
-            (("display-mode") (file-stream-read-symbol file))
-            ;; TODO - moved to C++, has to remain because settings parsing can't handle
-            ;; unexpected keys
-            (("monitor") (file-stream-read-int file))
+     ;; game aspect
+     (set-game-setting! obj 'aspect-ratio (file-stream-read-symbol file))
+     ;; aspect ratio
+     (set! (-> obj aspect-custom-x) (file-stream-read-int file))
+     (set! (-> obj aspect-custom-y) (file-stream-read-int file))
+     ;; aspect auto
+     (set! (-> obj aspect-ratio-auto?) (file-stream-read-symbol file))
+     (unless (-> obj aspect-ratio-auto?)
+       (set-aspect! obj (-> obj aspect-custom-x) (-> obj aspect-custom-y))))
+    ;; TODO - moved to C++, has to remain because settings parsing can't handle
+    ;; unexpected keys
+    (("display-mode") (file-stream-read-symbol file))
+    ;; TODO - moved to C++, has to remain because settings parsing can't handle
+    ;; unexpected keys
+    (("monitor") (file-stream-read-int file))
     (("letterbox") (set! (-> obj letterbox?) (file-stream-read-symbol file)))
     (("vsync") (set! (-> obj vsync?) (file-stream-read-symbol file)))
     (("font-scale") (set! (-> obj font-scale) (file-stream-read-float file)))
@@ -540,14 +545,14 @@
     (("controller-led-brightness") (set! (-> obj controller-led-brightness) (file-stream-read-float file)))
     (("controller-led-min-brightness") (set! (-> obj controller-led-min-brightness) (file-stream-read-float file)))
     (("controller-led-max-brightness") (set! (-> obj controller-led-max-brightness) (file-stream-read-float file)))
-            (("memcard-volume-sfx") (set! (-> obj memcard-volume-sfx) (file-stream-read-float file)))
-            (("memcard-volume-music") (set! (-> obj memcard-volume-music) (file-stream-read-float file)))
-            (("memcard-volume-dialog") (set! (-> obj memcard-volume-dialog) (file-stream-read-float file)))
-            (("memcard-vibration?") (set! (-> obj memcard-vibration?) (file-stream-read-symbol file)))
+    (("memcard-volume-sfx") (set! (-> obj memcard-volume-sfx) (file-stream-read-float file)))
+    (("memcard-volume-music") (set! (-> obj memcard-volume-music) (file-stream-read-float file)))
+    (("memcard-volume-dialog") (set! (-> obj memcard-volume-dialog) (file-stream-read-float file)))
+    (("memcard-vibration?") (set! (-> obj memcard-vibration?) (file-stream-read-symbol file)))
     ;; debug
     (("debug-font-scale") (set! (-> obj debug-font-scale) (file-stream-read-float file)))
     (("debug-font-scale-auto?") (set! (-> obj debug-font-scale-auto?) (file-stream-read-symbol file)))
-            (("panic") (when (file-stream-read-symbol file) (reset obj #t) (return #f))))
+    (("panic") (when (file-stream-read-symbol file) (reset obj #t) (return #f))))
   0)
 
 (defmethod handle-output-settings ((obj pc-settings) (file file-stream))
@@ -559,7 +564,7 @@
           (get-game-setting obj 'aspect-ratio)
           (-> obj aspect-custom-x)
           (-> obj aspect-custom-y)
-                                                (-> obj aspect-ratio-auto?))
+          (-> obj aspect-ratio-auto?))
   (format file "  (window-size ~D ~D)~%" (-> obj window-width) (-> obj window-height))
   (format file "  (game-size ~D ~D)~%" (-> obj width) (-> obj height))
   (format file "  (letterbox ~A)~%" (-> obj letterbox?))
@@ -639,15 +644,15 @@
   (format (clear *pc-temp-string-1*) "~S/pc-settings.gc" *pc-settings-folder*)
   (cond
     ((pc-filepath-exists? *pc-temp-string-1*)
-      (format 0 "[PC] PC Settings found at '~S'...loading!~%" *pc-temp-string-1*)
-      (unless (read-from-file obj *pc-temp-string-1*)
-        (format 0 "[PC] PC Settings found at '~S' but could not be loaded, using defaults!~%" *pc-temp-string-1*)
+     (format 0 "[PC] PC Settings found at '~S'...loading!~%" *pc-temp-string-1*)
+     (unless (read-from-file obj *pc-temp-string-1*)
+       (format 0 "[PC] PC Settings found at '~S' but could not be loaded, using defaults!~%" *pc-temp-string-1*)
        (reset obj #t)))
     (else
-      (format 0 "[PC] PC Settings not found at '~S'...initializing with defaults!~%" *pc-temp-string-1*)
-      (reset obj #t)
-      ;; save the file so users aren't confused, and so we can debug what the game is producing for them
-      (commit-to-file obj)))
+     (format 0 "[PC] PC Settings not found at '~S'...initializing with defaults!~%" *pc-temp-string-1*)
+     (reset obj #t)
+     ;; save the file so users aren't confused, and so we can debug what the game is producing for them
+     (commit-to-file obj)))
   0)
 
 (defmethod initialize ((obj pc-settings))
@@ -669,21 +674,15 @@
 ;;;; archipelago settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defmethod write-to-file ap-settings ((obj ap-settings) (filename string))
+(defmethod write-to-file ap-settings
+  ((obj ap-settings) (filename string))
   "Write archipelago settings to a file"
-
-  (if (not filename)
-    (return #f)
-    )
-
+  (if (not filename) (return #f))
   (let ((file (new 'stack 'file-stream filename 'write)))
     (when (not (file-stream-valid? file))
-      (return #f)
-      )
-
-     ;; file header
+      (return #f))
+    ;; file header
     (format file "(settings #x~X~%" (-> obj version))
-
     ;; file contents
     (format file "  (deathlink? ~A)~%" (-> obj deathlink?))
     (format file "  (moverando? ~A)~%" (-> obj moverando?))
@@ -693,98 +692,71 @@
     (format file "  (mountain-pass-unlock ~F)~%" (the-as float (-> obj mountain-pass-unlock)))
     (format file "  (lava-tube-unlock ~F)~%" (the-as float (-> obj lava-tube-unlock)))
     (format file "  (completion-goal ~D)~%" (the-as int (-> obj completion-goal)))
-
     ;; file trailer
     (format file "  )~%")
-    (file-stream-close file)
-    )
-
+    (file-stream-close file))
   (format 0 "Archipelago settings file write: ~A~%" filename)
-  #t
-  )
+  #t)
 
-(defmethod commit-to-file ap-settings ((obj ap-settings))
+(defmethod commit-to-file ap-settings
+  ((obj ap-settings))
   "Commits the current archipelago settings to the file"
-
   ;; auto load settings if available
   (format (clear *pc-temp-string-1*) "~S/Mods/archipelagoal-settings.gc" *pc-settings-folder*)
   (pc-mkdir-file-path *pc-temp-string-1*)
   (write-to-file obj *pc-temp-string-1*)
-  (none)
-  )
+  (none))
 
-(defmethod read-from-file ap-settings ((obj ap-settings) (filename string))
+(defmethod read-from-file ap-settings
+  ((obj ap-settings) (filename string))
   "Read archipelago settings from a file"
-
-  (if (not filename)
-    (return #f)
-    )
-
+  (if (not filename) (return #f))
   (let ((file (new 'stack 'file-stream filename 'read)))
     (when (not (file-stream-valid? file))
-      (return #f)
-      )
-
+      (return #f))
     ;; check version
     (let ((version 0))
       (with-settings-scope (file)
-        (case-str (file-stream-read-word file)
-          (("settings")
-            (set! version (file-stream-read-int file))
-
-            ;; read through file and set fields
-            (dosettings (file)
-              (case-str *pc-temp-string*
-                (("deathlink?") (set! (-> obj deathlink?) (file-stream-read-symbol file)))
-                (("moverando?") (set! (-> obj moverando?) (file-stream-read-symbol file)))
-                (("orbsanity-option") (set! (-> obj orbsanity-option) (the-as uint8 (file-stream-read-int file))))
-                (("orbsanity-bundle") (set! (-> obj orbsanity-bundle) (the-as uint32 (file-stream-read-int file))))
-                (("fire-canyon-unlock") (set! (-> obj fire-canyon-unlock) (the-as float (file-stream-read-float file))))
-                (("mountain-pass-unlock") (set! (-> obj mountain-pass-unlock) (the-as float (file-stream-read-float file))))
-                (("lava-tube-unlock") (set! (-> obj lava-tube-unlock) (the-as float (file-stream-read-float file))))
-                (("completion-goal") (set! (-> obj completion-goal) (the-as uint8 (file-stream-read-int file))))
-                )
-              )
-            )
-          )
-        )
-      )
+                           (case-str (file-stream-read-word file)
+                             (("settings")
+                              (set! version (file-stream-read-int file))
+                              ;; read through file and set fields
+                              (dosettings (file)
+                                          (case-str *pc-temp-string*
+                                            (("deathlink?") (set! (-> obj deathlink?) (file-stream-read-symbol file)))
+                                            (("moverando?") (set! (-> obj moverando?) (file-stream-read-symbol file)))
+                                            (("orbsanity-option") (set! (-> obj orbsanity-option) (the-as uint8 (file-stream-read-int file))))
+                                            (("orbsanity-bundle") (set! (-> obj orbsanity-bundle) (the-as uint32 (file-stream-read-int file))))
+                                            (("fire-canyon-unlock") (set! (-> obj fire-canyon-unlock) (the-as float (file-stream-read-float file))))
+                                            (("mountain-pass-unlock") (set! (-> obj mountain-pass-unlock) (the-as float (file-stream-read-float file))))
+                                            (("lava-tube-unlock") (set! (-> obj lava-tube-unlock) (the-as float (file-stream-read-float file))))
+                                            (("completion-goal") (set! (-> obj completion-goal) (the-as uint8 (file-stream-read-int file))))))))))
     (inspect file)
-    (file-stream-close file)
-    )
+    (file-stream-close file))
   (format 0 "Archipelago settings file read: ~A~%" filename)
-  #t
-  )
+  #t)
 
-(defmethod load-settings ap-settings ((obj ap-settings))
+(defmethod load-settings ap-settings
+  ((obj ap-settings))
   "Load archipelago settings"
-
   (format (clear *pc-temp-string-1*) "~S/Mods/archipelagoal-settings.gc" *pc-settings-folder*)
   (if (pc-filepath-exists? *pc-temp-string-1*)
     (begin
       (format 0 "[Archipelago] Settings found at '~S'... loading!~%" *pc-temp-string-1*)
       (unless (read-from-file obj *pc-temp-string-1*)
         (format 0 "[Archipelago] Settings found at '~S' but could not be loaded... using defaults!~%" *pc-temp-string-1*)
-        (reset obj)
-        )
-      )
-    (format 0 "[Archipelago] Settings not found at '~S'... initializing with defaults!~%" *pc-temp-string-1*)
-    )
-  0
-  )
+        (reset obj)))
+    (format 0 "[Archipelago] Settings not found at '~S'... initializing with defaults!~%" *pc-temp-string-1*))
+  0)
 
 (defmethod new ap-settings ((allocation symbol) (type-to-make type))
   "Make a new ap-settings object"
-
   (let ((obj (object-new allocation type-to-make (the-as int (-> type-to-make size)))))
     (reset obj)
-
     ;; auto load settings if available
     ;; if saved settings are corrupted or not found, use defaults
     (load-settings obj)
-    obj
-    )
-  )
+    obj))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; entity debugging
@@ -792,14 +764,14 @@
 
 (when *debug-segment*
   (defmethod update-pad ((obj entity-debug-inspect) (pad-idx int))
-  "respond to pad inputs"
-  ;; scroll up
+    "respond to pad inputs"
+    ;; scroll up
     (if (cpad-pressed? pad-idx l1) (1-! (-> obj scroll-y)))
-  ;; scroll down
+    ;; scroll down
     (if (cpad-pressed? pad-idx r1) (1+! (-> obj scroll-y)))
-  ;; toggle actor info
+    ;; toggle actor info
     (if (cpad-pressed? pad-idx l3) (not! (-> obj show-actor-info)))
-  ;; toggle long info
+    ;; toggle long info
     (if (cpad-pressed? pad-idx up) (not! (-> obj show-long-info)))
-  (minmax! (-> obj scroll-y) 0 (-> obj scroll-y-max))
+    (minmax! (-> obj scroll-y) 0 (-> obj scroll-y-max))
     (none))) ;; when debug_segment

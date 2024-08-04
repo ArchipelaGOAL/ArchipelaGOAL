@@ -11,7 +11,7 @@
   plat-citb
   plat-citb-lod0-jg
   plat-citb-idle-ja
-              ((plat-citb-lod0-mg (meters 20)) (plat-citb-lod1-mg (meters 999999)))
+  ((plat-citb-lod0-mg (meters 20)) (plat-citb-lod1-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 3))
 
 (defskelgroup *plat-eco-citb-unlit-sg*
@@ -25,8 +25,8 @@
   plat-eco-citb
   plat-eco-citb-lit-lod0-jg
   plat-eco-citb-idle-ja
-              ((plat-eco-citb-lit-lod0-mg (meters 20))
-               (plat-eco-citb-lit-lod1-mg (meters 40))
+  ((plat-eco-citb-lit-lod0-mg (meters 20))
+   (plat-eco-citb-lit-lod1-mg (meters 40))
    (plat-eco-citb-lit-lod2-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 3))
 
@@ -34,18 +34,18 @@
   citb-chain-plat
   citb-chain-plat-lod0-jg
   citb-chain-plat-idle-ja
-              ((citb-chain-plat-lod0-mg (meters 20)) (citb-chain-plat-lod1-mg (meters 999999)))
+  ((citb-chain-plat-lod0-mg (meters 20)) (citb-chain-plat-lod1-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 5))
 
 (deftype citb-base-plat (process-drawable)
-  ((root           collide-shape-moving :override)
+  ((root          collide-shape-moving :override)
    (idle-distance float))
   (:state-methods
    citb-base-plat-idle)
   (:methods
-    (citb-base-plat-method-21 (_type_) none)
-    (citb-base-plat-method-22 (_type_) none)
-    (citb-base-plat-active () _type_ :state)
+   (citb-base-plat-method-21 (_type_) none)
+   (citb-base-plat-method-22 (_type_) none)
+   (citb-base-plat-active () _type_ :state)
    (citb-base-plat-method-24 (_type_) none)))
 
 (defstate citb-base-plat-idle (citb-base-plat)
@@ -149,11 +149,11 @@
     (behavior ()
       (set! (-> self path-pos)
             (if (logtest? (-> self fact options) (fact-options wrap-phase))
-                                 (get-current-phase (-> self sync))
+              (get-current-phase (-> self sync))
               (get-current-phase-with-mirror (-> self sync))))
-    (eval-path-curve! (-> self path) (-> self basetrans) (-> self path-pos) 'interp)
-    (vector+! (-> self basetrans) (-> self basetrans) (-> self trans-offset))
-    (if (< (vector-vector-distance (-> self root trans) (ear-trans)) 81920.0)
+      (eval-path-curve! (-> self path) (-> self basetrans) (-> self path-pos) 'interp)
+      (vector+! (-> self basetrans) (-> self basetrans) (-> self trans-offset))
+      (if (< (vector-vector-distance (-> self root trans) (ear-trans)) 81920.0)
         (sound-play "eco-plat-hover" :id (-> self sound-id) :position (the-as symbol (-> self root trans))))
       (plat-trans)))
 
@@ -189,69 +189,62 @@
   (set! (-> this trans-offset quad)
         (-> (the-as vector
                     ((method-of-type res-lump get-property-struct)
-                                                        (-> this entity)
-                                                        'trans-offset
-                                                        'interp
-                                                        -1000000000.0
-                                                        *null-vector*
-                                                        (the-as (pointer res-tag) #f)
+                     (-> this entity)
+                     'trans-offset
+                     'interp
+                     -1000000000.0
+                     *null-vector*
+                     (the-as (pointer res-tag) #f)
                      *res-static-buf*))
             quad))
   0
   (none))
 
 (deftype citb-stair-plat (citb-base-plat)
-  ((idle-height  float)
-   (rise-height  float)
-   (delay        time-frame)
+  ((idle-height float)
+   (rise-height float)
+   (delay       time-frame)
    (rise        symbol)))
 
 (defstate citb-base-plat-idle (citb-stair-plat)
   :virtual #t
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (case message
-      (('trigger)
-        #t ;; Do nothing when you free the sages.
-       )
-      )
-    )
+      (case message
+        (('trigger)
+         #t ;; Do nothing when you free the sages.
+         )))
   :trans #f
   :code
     (behavior ()
-    (logior! (-> self draw status) (draw-status hidden))
-    ;; Instead of checking self rise, check the ap-specials.
-    (while (not (and (ap-special-received? (the-as uint (game-task citadel-sage-blue)))
-                     (ap-special-received? (the-as uint (game-task citadel-sage-red)))
-                     (ap-special-received? (the-as uint (game-task citadel-sage-yellow)))
-                     )
-                )
+      (logior! (-> self draw status) (draw-status hidden))
+      ;; Instead of checking self rise, check the ap-specials.
+      (while (not (and (ap-special-received? (the-as uint (game-task citadel-sage-blue)))
+                       (ap-special-received? (the-as uint (game-task citadel-sage-red)))
+                       (ap-special-received? (the-as uint (game-task citadel-sage-yellow)))))
         (suspend))
-    ;; Once out of the while loop, do what the 'trigger event would have done. 
-    (logclear! (-> self mask) (process-mask actor-pause))
-    (let ((v0-0 #t))
-      (set! (-> self rise) v0-0)
-      v0-0
-      )
-    ;; Continue as normal.
-    (logclear! (-> self draw status) (draw-status hidden))
-    (set-vector! (-> self draw color-mult) 0.0 0.0 0.0 1.0)
-    (set-time! (-> self state-time))
-    (while (not (time-elapsed? (-> self state-time) (-> self delay)))
-      (ja-post)
+      ;; Once out of the while loop, do what the 'trigger event would have done. 
+      (logclear! (-> self mask) (process-mask actor-pause))
+      (let ((v0-0 #t)) (set! (-> self rise) v0-0) v0-0)
+      ;; Continue as normal.
+      (logclear! (-> self draw status) (draw-status hidden))
+      (set-vector! (-> self draw color-mult) 0.0 0.0 0.0 1.0)
+      (set-time! (-> self state-time))
+      (while (not (time-elapsed? (-> self state-time) (-> self delay)))
+        (ja-post)
         (suspend))
-    (set-time! (-> self state-time))
-    (loop
-      (let ((f30-0 (- 1.0 (* 0.0011111111 (the float (- (current-time) (-> self state-time)))))))
-        (when (< f30-0 0.0)
-          (set! (-> self root trans y) (-> self rise-height))
+      (set-time! (-> self state-time))
+      (loop
+        (let ((f30-0 (- 1.0 (* 0.0011111111 (the float (- (current-time) (-> self state-time)))))))
+          (when (< f30-0 0.0)
+            (set! (-> self root trans y) (-> self rise-height))
             (go-virtual citb-base-plat-active))
           (set! (-> self root trans y) (lerp (-> self rise-height) (-> self idle-height) (* f30-0 f30-0))))
-      (let ((f0-12 (fmax 0.0 (fmin 1.0 (* 0.000012207031 (+ 409600.0 (-> self root trans y)))))))
-        (set! (-> self draw color-mult x) f0-12)
-        (set! (-> self draw color-mult y) f0-12)
+        (let ((f0-12 (fmax 0.0 (fmin 1.0 (* 0.000012207031 (+ 409600.0 (-> self root trans y)))))))
+          (set! (-> self draw color-mult x) f0-12)
+          (set! (-> self draw color-mult y) f0-12)
           (set! (-> self draw color-mult z) f0-12))
-      (transform-post)
+        (transform-post)
         (suspend)))
   :post #f)
 
@@ -260,10 +253,10 @@
   :trans #f
   :code
     (behavior ()
-    (set! (-> self root trans y) (-> self rise-height))
-    (suspend)
-    (update-transforms! (-> self root))
-    (logior! (-> self mask) (process-mask actor-pause))
+      (set! (-> self root trans y) (-> self rise-height))
+      (suspend)
+      (update-transforms! (-> self root))
+      (logior! (-> self mask) (process-mask actor-pause))
       (anim-loop))
   :post ja-post)
 
@@ -284,9 +277,8 @@
 (defmethod citb-base-plat-method-24 ((this citb-stair-plat))
   (if (and (ap-special-received? (the-as uint (game-task citadel-sage-blue)))
            (ap-special-received? (the-as uint (game-task citadel-sage-red)))
-           (ap-special-received? (the-as uint (game-task citadel-sage-yellow)))
-           )
-      (go (method-of-object this citb-base-plat-active))
+           (ap-special-received? (the-as uint (game-task citadel-sage-yellow))))
+    (go (method-of-object this citb-base-plat-active))
     (go (method-of-object this citb-base-plat-idle)))
   0
   (none))
@@ -294,34 +286,34 @@
 (define *citb-chain-plat-constants*
   (new 'static
        'rigid-body-platform-constants
-                                      :drag-factor 2.0
-                                      :buoyancy-factor 2.0
-                                      :max-buoyancy-depth (meters 3)
-                                      :gravity-factor 1.0
-                                      :gravity (meters 80)
-                                      :player-weight (meters 35)
-                                      :player-bonk-factor 1.0
-                                      :player-dive-factor 1.0
-                                      :player-force-distance (meters 1000)
-                                      :player-force-clamp (meters 1000000)
-                                      :player-force-timeout (seconds 0.1)
-                                      :explosion-force (meters 1000)
-                                      :linear-damping 1.0
-                                      :angular-damping 1.0
-                                      :control-point-count 5
-                                      :mass 2.0
-                                      :inertial-tensor-x (meters 10)
-                                      :inertial-tensor-y (meters 5)
-                                      :inertial-tensor-z (meters 10)
-                                      :idle-distance (meters 70)
-                                      :platform #t
+       :drag-factor 2.0
+       :buoyancy-factor 2.0
+       :max-buoyancy-depth (meters 3)
+       :gravity-factor 1.0
+       :gravity (meters 80)
+       :player-weight (meters 35)
+       :player-bonk-factor 1.0
+       :player-dive-factor 1.0
+       :player-force-distance (meters 1000)
+       :player-force-clamp (meters 1000000)
+       :player-force-timeout (seconds 0.1)
+       :explosion-force (meters 1000)
+       :linear-damping 1.0
+       :angular-damping 1.0
+       :control-point-count 5
+       :mass 2.0
+       :inertial-tensor-x (meters 10)
+       :inertial-tensor-y (meters 5)
+       :inertial-tensor-z (meters 10)
+       :idle-distance (meters 70)
+       :platform #t
        :sound-name "blue-eco-on"))
 
 (deftype citb-chain-plat (rigid-body-platform)
-  ((orig-trans    vector      :inline)
-   (orig-quat     quaternion  :inline)
-   (beam-end      vector      :inline)
-   (float-offset  float)
+  ((orig-trans   vector :inline)
+   (orig-quat    quaternion :inline)
+   (beam-end     vector :inline)
+   (float-offset float)
    (idle-offset  float))
   (:states
    citb-chain-plat-settle))
@@ -356,8 +348,8 @@
   :virtual #t
   :trans
     (behavior ()
-    (when (time-elapsed? (-> self state-time) (seconds 0.1))
-      (set-time! (-> self state-time))
+      (when (time-elapsed? (-> self state-time) (seconds 0.1))
+        (set-time! (-> self state-time))
         (if (and (and *target*
                       (>= (-> self info idle-distance) (vector-vector-distance (-> self root-overlay trans) (-> *target* control trans))))
                  (send-event *target* 'query 'powerup (pickup-type eco-blue)))
@@ -378,19 +370,19 @@
       (stop! (-> self sound)))
   :trans
     (behavior ()
-    (cond
+      (cond
         ((and (and *target*
                    (>= (-> self info idle-distance) (vector-vector-distance (-> self root-overlay trans) (-> *target* control trans))))
               (send-event *target* 'query 'powerup (pickup-type eco-blue)))
-       (when (not (time-elapsed? (-> self state-time) (seconds 1)))
+         (when (not (time-elapsed? (-> self state-time) (seconds 1)))
            (if (rand-vu-percent? 0.05) (spawn-projectile-blue *target*)))
-       (seek! (-> self float-height-offset) (-> self float-offset) (* 8192.0 (seconds-per-frame)))
-       (draw-eco-beam (-> self root-overlay trans) (-> self beam-end))
-       (update-trans! (-> self sound) (-> self root-overlay trans))
+         (seek! (-> self float-height-offset) (-> self float-offset) (* 8192.0 (seconds-per-frame)))
+         (draw-eco-beam (-> self root-overlay trans) (-> self beam-end))
+         (update-trans! (-> self sound) (-> self root-overlay trans))
          (update! (-> self sound)))
-      (else
-        (seek! (-> self float-height-offset) (-> self idle-offset) (* 16384.0 (seconds-per-frame)))
-        (stop! (-> self sound))
+        (else
+         (seek! (-> self float-height-offset) (-> self idle-offset) (* 16384.0 (seconds-per-frame)))
+         (stop! (-> self sound))
          (if (= (-> self float-height-offset) (-> self idle-offset)) (go citb-chain-plat-settle)))))
   :code
     (behavior ()
@@ -401,24 +393,24 @@
   :trans rider-trans
   :code
     (behavior ()
-    (let ((gp-0 (new 'stack-no-clear 'vector))
+      (let ((gp-0 (new 'stack-no-clear 'vector))
             (s5-0 (new 'stack-no-clear 'quaternion)))
-      (set! (-> gp-0 quad) (-> self root-overlay trans quad))
-      (quaternion-copy! s5-0 (-> self root-overlay quat))
-      (set-time! (-> self state-time))
-      (while (not (time-elapsed? (-> self state-time) (seconds 0.25)))
-        (let ((f30-0 (* 0.013333334 (the float (- (current-time) (-> self state-time))))))
-          (quaternion-slerp! (-> self root-overlay quat) s5-0 (-> self orig-quat) f30-0)
+        (set! (-> gp-0 quad) (-> self root-overlay trans quad))
+        (quaternion-copy! s5-0 (-> self root-overlay quat))
+        (set-time! (-> self state-time))
+        (while (not (time-elapsed? (-> self state-time) (seconds 0.25)))
+          (let ((f30-0 (* 0.013333334 (the float (- (current-time) (-> self state-time))))))
+            (quaternion-slerp! (-> self root-overlay quat) s5-0 (-> self orig-quat) f30-0)
             (vector-lerp! (-> self root-overlay trans) gp-0 (-> self orig-trans) f30-0))
           (suspend)))
-    (set! (-> self root-overlay trans quad) (-> self orig-trans quad))
-    (quaternion-copy! (-> self root-overlay quat) (-> self orig-quat))
+      (set! (-> self root-overlay trans quad) (-> self orig-trans quad))
+      (quaternion-copy! (-> self root-overlay quat) (-> self orig-quat))
       (rigid-body-method-22 (-> self rbody)
-      (-> self root-overlay trans)
-      (-> self root-overlay quat)
-      (-> self info linear-damping)
+                            (-> self root-overlay trans)
+                            (-> self root-overlay quat)
+                            (-> self info linear-damping)
                             (-> self info angular-damping))
-    (suspend)
+      (suspend)
       (go-virtual rigid-body-platform-idle))
   :post rider-post)
 
@@ -469,7 +461,7 @@
   citb-rotatebox
   citb-rotatebox-lod0-jg
   citb-rotatebox-idle-ja
-              ((citb-rotatebox-lod0-mg (meters 999999)))
+  ((citb-rotatebox-lod0-mg (meters 999999)))
   :bounds (static-spherem 0 -5 0 10))
 
 (deftype citb-rotatebox (citb-base-plat) ())
@@ -479,10 +471,10 @@
   :trans rider-trans
   :code
     (behavior ()
-    (loop
-      (ja-no-eval :group! (ja-group) :num! (seek!) :frame-num 0.0)
-      (until (ja-done? 0)
-        (suspend)
+      (loop
+        (ja-no-eval :group! (ja-group) :num! (seek!) :frame-num 0.0)
+        (until (ja-done? 0)
+          (suspend)
           (ja :num! (seek!)))
         (if (or (not *target*)
                 (< (+ 8192.0 (-> self idle-distance)) (vector-vector-distance (-> self root trans) (-> *target* control trans))))
@@ -517,7 +509,7 @@
   citb-donut
   citb-donut-lod0-jg
   citb-donut-idle-ja
-              ((citb-donut-lod0-mg (meters 20)) (citb-donut-lod1-mg (meters 999999)))
+  ((citb-donut-lod0-mg (meters 20)) (citb-donut-lod1-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 10))
 
 (deftype citb-donut (citb-base-plat)
@@ -527,8 +519,8 @@
   :virtual #t
   :post
     (behavior ()
-    (update! (-> self sound))
-    (quaternion-axis-angle! (-> self root quat) 0.0 1.0 0.0 (* 65536.0 (get-current-phase (-> self sync))))
+      (update! (-> self sound))
+      (quaternion-axis-angle! (-> self root quat) 0.0 1.0 0.0 (* 65536.0 (get-current-phase (-> self sync))))
       (rider-post)))
 
 (defmethod citb-base-plat-method-21 ((this citb-donut))
@@ -563,7 +555,7 @@
   citb-stopbox
   citb-stopbox-lod0-jg
   citb-stopbox-idle-ja
-              ((citb-stopbox-lod0-mg (meters 20)) (citb-stopbox-lod1-mg (meters 999999)))
+  ((citb-stopbox-lod0-mg (meters 20)) (citb-stopbox-lod1-mg (meters 999999)))
   :bounds (static-spherem 0 -2 0 5.5))
 
 (deftype citb-stopbox (plat) ())
@@ -572,9 +564,9 @@
   :virtual #t
   :trans
     (behavior ()
-    (set! (-> self path-pos) (get-current-phase (-> self sync)))
-    (eval-path-curve! (-> self path) (-> self basetrans) (-> self path-pos) 'interp)
-    (if (< (vector-vector-distance (-> self root trans) (ear-trans)) 81920.0)
+      (set! (-> self path-pos) (get-current-phase (-> self sync)))
+      (eval-path-curve! (-> self path) (-> self basetrans) (-> self path-pos) 'interp)
+      (if (< (vector-vector-distance (-> self root trans) (ear-trans)) 81920.0)
         (sound-play "eco-plat-hover" :id (-> self sound-id) :position (the-as symbol (-> self root trans))))
       (plat-trans)))
 
@@ -608,21 +600,21 @@
   (none))
 
 (deftype citb-firehose (process-drawable)
-  ((root           collide-shape :override)
-   (idle-distance  float)
-   (sync           sync-info      :inline)
-   (last-sync      float)
+  ((root          collide-shape :override)
+   (idle-distance float)
+   (sync          sync-info :inline)
+   (last-sync     float)
    (blast-pos     vector :inline))
   (:states
-    citb-firehose-active
-    citb-firehose-blast
+   citb-firehose-active
+   citb-firehose-blast
    citb-firehose-idle))
 
 (defskelgroup *citb-firehose-sg*
   citb-firehose
   citb-firehose-lod0-jg
   citb-firehose-idle-ja
-              ((citb-firehose-lod0-mg (meters 999999)))
+  ((citb-firehose-lod0-mg (meters 999999)))
   :bounds (static-spherem 0 3 0 15))
 
 (defstate citb-firehose-idle (citb-firehose)
@@ -632,7 +624,7 @@
         (go citb-firehose-active)))
   :code
     (behavior ()
-    (loop
+      (loop
         (suspend)))
   :post ja-post)
 
@@ -642,13 +634,13 @@
       (if (or (not *target*)
               (< (+ 8192.0 (-> self idle-distance)) (vector-vector-distance (-> self root trans) (-> *target* control trans))))
         (go citb-firehose-idle))
-    (let ((f0-2 (get-current-phase (-> self sync)))
+      (let ((f0-2 (get-current-phase (-> self sync)))
             (f1-1 (-> self last-sync)))
-      (set! (-> self last-sync) f0-2)
+        (set! (-> self last-sync) f0-2)
         (if (< f0-2 f1-1) (go citb-firehose-blast))))
   :code
     (behavior ()
-    (loop
+      (loop
         (suspend)))
   :post ja-post)
 
@@ -665,33 +657,33 @@
 (defstate citb-firehose-blast (citb-firehose)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (case message
-      (('touch)
+      (case message
+        (('touch)
          (send-event proc
-         'attack
-         (-> block param 0)
+                     'attack
+                     (-> block param 0)
                      (static-attack-info ((mode 'damage) (shove-back (meters 6)) (shove-up (meters 3))))))))
   :code
     (behavior ()
-    (ja-no-eval :group! citb-firehose-start-ja :num! (seek!) :frame-num 0.0)
-    (until (ja-done? 0)
-      (suspend)
-        (ja :num! (seek!)))
-    (ja-channel-push! 1 (seconds 0.1))
-    (restore-collide-with-as (-> self root))
-    (sound-play "eco-torch" :position (the-as symbol (-> self blast-pos)))
-    (dotimes (gp-1 2)
-      (ja-no-eval :group! citb-firehose-loopflame-ja :num! (seek!) :frame-num 0.0)
+      (ja-no-eval :group! citb-firehose-start-ja :num! (seek!) :frame-num 0.0)
       (until (ja-done? 0)
-        (set! (-> self blast-pos quad) (-> self node-list data 5 bone transform vector 3 quad))
-        (citb-firehose-blast-particles)
         (suspend)
+        (ja :num! (seek!)))
+      (ja-channel-push! 1 (seconds 0.1))
+      (restore-collide-with-as (-> self root))
+      (sound-play "eco-torch" :position (the-as symbol (-> self blast-pos)))
+      (dotimes (gp-1 2)
+        (ja-no-eval :group! citb-firehose-loopflame-ja :num! (seek!) :frame-num 0.0)
+        (until (ja-done? 0)
+          (set! (-> self blast-pos quad) (-> self node-list data 5 bone transform vector 3 quad))
+          (citb-firehose-blast-particles)
+          (suspend)
           (ja :num! (seek!))))
-    (clear-collide-with-as (-> self root))
-    (ja-channel-push! 1 (seconds 0.1))
-    (ja-no-eval :group! citb-firehose-end-ja :num! (seek!) :frame-num 0.0)
-    (until (ja-done? 0)
-      (suspend)
+      (clear-collide-with-as (-> self root))
+      (ja-channel-push! 1 (seconds 0.1))
+      (ja-no-eval :group! citb-firehose-end-ja :num! (seek!) :frame-num 0.0)
+      (until (ja-done? 0)
+        (suspend)
         (ja :num! (seek!)))
       (go citb-firehose-active))
   :post transform-post)
@@ -738,58 +730,49 @@
   citb-exit-plat
   citb-exit-plat-lod0-jg
   citb-exit-plat-idle-ja
-              ((citb-exit-plat-lod0-mg (meters 999999)))
+  ((citb-exit-plat-lod0-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 30))
 
 (deftype citb-exit-plat (plat-button)
-  ((idle-height  float)
-   (rise-height  float)
+  ((idle-height float)
+   (rise-height float)
    (activated   symbol))
   (:states
-    citb-exit-plat-idle
+   citb-exit-plat-idle
    citb-exit-plat-rise))
 
 (defstate citb-exit-plat-idle (citb-exit-plat)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-    (case message
-      (('trigger)
-       #t ;; Do nothing when you break Samos's cage.
-       )
-      )
-    )
-  :code (behavior ()
-    (logior! (-> self draw status) (draw-status hidden))
-    (clear-collide-with-as (-> self root))
-    (loop
-      ;; Do what the 'trigger event would have done if you receive the ap-special.
-      (cond 
-        ((ap-special-received? (the-as uint (game-task citadel-sage-green)))
-          (let ((v1-3 (-> self entity extra perm)))
-            (logior! (-> v1-3 status) (entity-perm-status user-set-from-cstage))
-            (set! (-> v1-3 user-int8 0) 1)
-            )
-          (go citb-exit-plat-rise)
-          )
-        (else
-          (suspend)
-          )
-        )
-      )
-    )
-  )
+      (case message
+        (('trigger)
+         #t ;; Do nothing when you break Samos's cage.
+         )))
+  :code
+    (behavior ()
+      (logior! (-> self draw status) (draw-status hidden))
+      (clear-collide-with-as (-> self root))
+      (loop
+        ;; Do what the 'trigger event would have done if you receive the ap-special.
+        (cond
+          ((ap-special-received? (the-as uint (game-task citadel-sage-green)))
+           (let ((v1-3 (-> self entity extra perm)))
+             (logior! (-> v1-3 status) (entity-perm-status user-set-from-cstage))
+             (set! (-> v1-3 user-int8 0) 1))
+           (go citb-exit-plat-rise))
+          (else (suspend))))))
 
 (defstate citb-exit-plat-rise (citb-exit-plat)
   :trans rider-trans
   :code
     (behavior ()
-    (logclear! (-> self draw status) (draw-status hidden))
-    (restore-collide-with-as (-> self root))
-    (set-time! (-> self state-time))
-    (loop
-      (let ((f30-0 (- 1.0 (* 0.0016666667 (the float (- (current-time) (-> self state-time)))))))
-        (when (< f30-0 0.0)
-          (set! (-> self root trans y) (-> self rise-height))
+      (logclear! (-> self draw status) (draw-status hidden))
+      (restore-collide-with-as (-> self root))
+      (set-time! (-> self state-time))
+      (loop
+        (let ((f30-0 (- 1.0 (* 0.0016666667 (the float (- (current-time) (-> self state-time)))))))
+          (when (< f30-0 0.0)
+            (set! (-> self root trans y) (-> self rise-height))
             (go-virtual plat-button-idle))
           (set! (-> self root trans y) (lerp (-> self rise-height) (-> self idle-height) (* f30-0 f30-0))))
         (suspend)))
@@ -814,8 +797,8 @@
   :virtual #t
   :trans
     (behavior ()
-    (let ((gp-0 (new 'stack-no-clear 'vector)))
-      (set! (-> gp-0 quad) (-> self root trans quad))
+      (let ((gp-0 (new 'stack-no-clear 'vector)))
+        (set! (-> gp-0 quad) (-> self root trans quad))
         (let ((t9-1 (-> (the-as (state plat-button) (find-parent-state)) trans))) (if t9-1 (t9-1)))
         (citb-exit-plat-move-player gp-0)))
   :post transform-post)
@@ -824,8 +807,8 @@
   :virtual #t
   :trans
     (behavior ()
-    (let ((gp-0 (new 'stack-no-clear 'vector)))
-      (set! (-> gp-0 quad) (-> self root trans quad))
+      (let ((gp-0 (new 'stack-no-clear 'vector)))
+        (set! (-> gp-0 quad) (-> self root trans quad))
         (let ((t9-1 (-> (the-as (state plat-button) (find-parent-state)) trans))) (if t9-1 (t9-1)))
         (citb-exit-plat-move-player gp-0)))
   :post transform-post)
@@ -881,8 +864,7 @@
   (logclear! (-> this mask) (process-mask actor-pause))
   (set! (-> this draw light-index) (the-as uint 255))
   (let ((a0-5 (entity-actor-lookup (-> this entity) 'state-actor 0)))
-    (set! (-> this activated) (ap-special-received? (the-as uint (game-task citadel-sage-green))))
-    )
+    (set! (-> this activated) (ap-special-received? (the-as uint (game-task citadel-sage-green)))))
   (cond
     ((= (-> *game-info* current-continue level) 'finalboss)
      (let ((v1-8 (-> this entity extra perm)))
@@ -897,7 +879,7 @@
   (set! (-> this rise-height) (-> this root trans y))
   (set! (-> this idle-height) (+ -286720.0 (-> this rise-height)))
   (if (-> this activated)
-      (set! (-> this root trans y) (-> this rise-height))
+    (set! (-> this root trans y) (-> this rise-height))
     (set! (-> this root trans y) (-> this idle-height)))
   (set! (-> this allow-auto-kill) #f)
   (process-entity-status! this (entity-perm-status bit-3) #t)

@@ -12,8 +12,8 @@
   warrior
   warrior-lod0-jg
   warrior-idle-ja
-              ((warrior-lod0-mg (meters 20)) (warrior-lod1-mg (meters 40)) (warrior-lod2-mg (meters 999999)))
-              :bounds (static-spherem 0 0 0 4)
+  ((warrior-lod0-mg (meters 20)) (warrior-lod1-mg (meters 40)) (warrior-lod2-mg (meters 999999)))
+  :bounds (static-spherem 0 0 0 4)
   :shadow warrior-shadow-mg)
 
 (defmethod process-taskable-method-52 ((this warrior))
@@ -42,25 +42,25 @@
     (case (current-status (-> this tasks))
       (((task-status need-hint) (task-status need-introduction))
        (when arg0
-           ;; on first contact with warrior, check pontoon bridge.
-           (ap-special-checked! (the-as uint (game-task village2-warrior-money))) 
-           (close-status! (-> this tasks) (task-status need-introduction))
-           )
-       (new 'static 'spool-anim
-         :name "warrior-introduction"
-         :index 6
-         :parts 29
+         ;; on first contact with warrior, check pontoon bridge.
+         (ap-special-checked! (the-as uint (game-task village2-warrior-money)))
+         (close-status! (-> this tasks) (task-status need-introduction)))
+       (new 'static
+            'spool-anim
+            :name "warrior-introduction"
+            :index 6
+            :parts 29
             :command-list
             '((125 joint "cameraB")
-           (260 joint "camera")
-           (574 joint "cameraB")
-           (918 joint "camera")
-           (1174 joint "cameraB")
-           (1174 shadow self #f)
-           (1301 joint "camera")
-           (1301 shadow self #t)
-           (2025 joint "cameraB")
-           (2322 joint "camera")
+             (260 joint "camera")
+             (574 joint "cameraB")
+             (918 joint "camera")
+             (1174 joint "cameraB")
+             (1174 shadow self #f)
+             (1301 joint "camera")
+             (1301 shadow self #t)
+             (2025 joint "cameraB")
+             (2322 joint "camera")
              (2560 joint "cameraB"))))
       (((task-status need-reminder))
        (set! (-> this skippable) #t)
@@ -68,26 +68,26 @@
       (((task-status need-reward-speech))
        (cond
          (arg0
-           (set! (-> this cell-for-task) (current-task (-> this tasks)))
-           (close-current! (-> this tasks))
-           (send-event *target* 'get-pickup 5 (- (-> *GAME-bank* money-task-inc)))
-           (send-event (-> (entity-by-type allpontoons) extra process) 'clone (process->handle this))
-           (dotimes (s5-2 (entity-actor-count (-> this entity) 'alt-actor))
-             (entity-birth-no-kill (entity-actor-lookup (-> this entity) 'alt-actor s5-2))
-             (let ((s4-2 (new 'stack-no-clear 'event-message-block)))
-               (set! (-> s4-2 from) pp)
-               (set! (-> s4-2 num-params) 0)
-               (set! (-> s4-2 message) 'die)
-               (let ((s3-0 send-event-function)
+          (set! (-> this cell-for-task) (current-task (-> this tasks)))
+          (close-current! (-> this tasks))
+          (send-event *target* 'get-pickup 5 (- (-> *GAME-bank* money-task-inc)))
+          (send-event (-> (entity-by-type allpontoons) extra process) 'clone (process->handle this))
+          (dotimes (s5-2 (entity-actor-count (-> this entity) 'alt-actor))
+            (entity-birth-no-kill (entity-actor-lookup (-> this entity) 'alt-actor s5-2))
+            (let ((s4-2 (new 'stack-no-clear 'event-message-block)))
+              (set! (-> s4-2 from) pp)
+              (set! (-> s4-2 num-params) 0)
+              (set! (-> s4-2 message) 'die)
+              (let ((s3-0 send-event-function)
                     (v1-25 (entity-actor-lookup (-> this entity) 'alt-actor s5-2)))
                 (s3-0 (if v1-25 (-> v1-25 extra process)) s4-2)))))
          (else (set! (-> this will-talk) #t) (set! (-> this talk-message) (text-id press-to-trade-money))))
        (new 'static 'spool-anim :name "warrior-resolution" :index 8 :parts 6 :command-list '((508 blackout 10) (511 blackout 0))))
-         (else
-        (if arg0
+      (else
+       (if arg0
          (format 0
-              "ERROR: <GMJ>: ~S playing anim for task status ~S~%"
-              (-> this name)
+                 "ERROR: <GMJ>: ~S playing anim for task status ~S~%"
+                 (-> this name)
                  (task-status->string (current-status (-> this tasks)))))
        (-> this draw art-group data 5)))))
 
@@ -98,7 +98,7 @@
   :virtual #t
   :exit
     (behavior ()
-    (send-event (-> (entity-by-type allpontoons) extra process) 'end-mode)
+      (send-event (-> (entity-by-type allpontoons) extra process) 'end-mode)
       ((-> (method-of-type process-taskable play-anim) exit))))
 
 (defmethod process-taskable-method-43 ((this warrior))

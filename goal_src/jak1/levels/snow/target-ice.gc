@@ -24,8 +24,7 @@
         (remove-exit)
         (go target-duck-stance))
       ;; og:preserve-this - High FPS Fix
-      (if (and (recently-pressed? x)
-               (can-jump? #f))
+      (if (and (recently-pressed? x) (can-jump? #f))
         (go target-jump (-> *TARGET-bank* jump-height-min) (-> *TARGET-bank* jump-height-max) (the-as surface #f)))
       ;; og:preserve-this - High FPS Fix
       (if (and (recently-pressed? circle)
@@ -142,10 +141,9 @@
         (remove-exit)
         (go target-ice-stance))
       ;; og:preserve-this - High FPS Fix
-      (if (and (recently-pressed? x)
-               (can-jump? #f))
+      (if (and (recently-pressed? x) (can-jump? #f))
         (go target-jump (-> *TARGET-bank* jump-height-min) (-> *TARGET-bank* jump-height-max) (the-as surface #f)))
-       ;; og:preserve-this - High FPS Fix
+      ;; og:preserve-this - High FPS Fix
       (if (and (recently-pressed? circle)
                (can-feet?)
                (or (zero? (-> *ap-info-jak1* moverando-enabled)) (ap-move-received? (the-as uint 23350))))
@@ -212,4 +210,3 @@
                        ((< 0.5 f0-18) (lerp-scale 1.0 0.75 f0-18 0.5 1.0))
                        (else (lerp-scale 1.33 1.0 f0-18 0.0 0.5))))))))
   :post target-post)
-

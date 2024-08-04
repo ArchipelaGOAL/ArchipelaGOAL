@@ -1,9 +1,11 @@
 ;;-*-Lisp-*-
 (in-package goal)
-
 (define *ap-info-jak1* (new 'static 'ap-info-jak1))
+
 (define *ap-string1* (new 'global 'string 256 (the string #f)))
+
 (define *ap-string2* (new 'global 'string 256 (the string #f)))
+
 ;; Init arrays
 ;;(set! (-> *ap-info-jak1* cells) (new 'static 'boxed-array :type uint32 :length 101 :allocated-length 101))
 ;;(set! (-> *ap-info-jak1* buzzers) (new 'static 'boxed-array :type uint32 :length 112 :allocated-length 112))
@@ -15,34 +17,26 @@
 
 (defun ap-cell-checked! ((cell-id uint))
   (set! (-> *ap-info-jak1* cells-checked (-> *ap-info-jak1* next-cell-index)) cell-id)
-  (+! (-> *ap-info-jak1* next-cell-index) 1.0)
-  )
+  (+! (-> *ap-info-jak1* next-cell-index) 1.0))
 
 (defun ap-buzzer-checked! ((buzzer-id uint))
   (set! (-> *ap-info-jak1* buzzers-checked (-> *ap-info-jak1* next-buzzer-index)) buzzer-id)
-  (+! (-> *ap-info-jak1* next-buzzer-index) 1.0)
-  )
+  (+! (-> *ap-info-jak1* next-buzzer-index) 1.0))
 
 (defun ap-special-checked! ((special-id uint))
   (set! (-> *ap-info-jak1* specials-checked (-> *ap-info-jak1* next-special-index)) special-id)
-  (+! (-> *ap-info-jak1* next-special-index) 1.0)
-  )
+  (+! (-> *ap-info-jak1* next-special-index) 1.0))
 
 (defun ap-special-checked? ((special-id uint))
   (let ((checked #f))
     (dotimes (i (-> *ap-info-jak1* next-special-index))
       (when (= special-id (-> *ap-info-jak1* specials-checked i))
-        (set! checked #t)
-        )
-      )
-    checked
-    )
-  )
+        (set! checked #t)))
+    checked))
 
 (defun ap-orb-cache-checked! ((actor-id uint))
   (set! (-> *ap-info-jak1* orb-caches-checked (-> *ap-info-jak1* next-orb-cache-index)) actor-id)
-  (+! (-> *ap-info-jak1* next-orb-cache-index) 1.0)
-  )
+  (+! (-> *ap-info-jak1* next-orb-cache-index) 1.0))
 
 ;; These will be indexed like game-tasks, so make sure we set the right index!
 
@@ -50,123 +44,99 @@
 ;; locations lists.
 (defun ap-buzzer-task-to-index ((buzz-task uint))
   (cond
-    ((= buzz-task 95) (the-as uint  0)) ;; GR
-    ((= buzz-task 75) (the-as uint  1)) ;; SV
-    ((= buzz-task 7)  (the-as uint  2)) ;; FJ
-    ((= buzz-task 20) (the-as uint  3)) ;; SB
-    ((= buzz-task 28) (the-as uint  4)) ;; MI
-    ((= buzz-task 68) (the-as uint  5)) ;; FC
-    ((= buzz-task 76) (the-as uint  6)) ;; RV
-    ((= buzz-task 57) (the-as uint  7)) ;; PB
-    ((= buzz-task 49) (the-as uint  8)) ;; LPC
-    ((= buzz-task 43) (the-as uint  9)) ;; BS
+    ((= buzz-task 95) (the-as uint 0)) ;; GR
+    ((= buzz-task 75) (the-as uint 1)) ;; SV
+    ((= buzz-task 7) (the-as uint 2)) ;; FJ
+    ((= buzz-task 20) (the-as uint 3)) ;; SB
+    ((= buzz-task 28) (the-as uint 4)) ;; MI
+    ((= buzz-task 68) (the-as uint 5)) ;; FC
+    ((= buzz-task 76) (the-as uint 6)) ;; RV
+    ((= buzz-task 57) (the-as uint 7)) ;; PB
+    ((= buzz-task 49) (the-as uint 8)) ;; LPC
+    ((= buzz-task 43) (the-as uint 9)) ;; BS
     ((= buzz-task 88) (the-as uint 10)) ;; MP
     ((= buzz-task 77) (the-as uint 11)) ;; VC
     ((= buzz-task 85) (the-as uint 12)) ;; SC
     ((= buzz-task 65) (the-as uint 13)) ;; SM
     ((= buzz-task 90) (the-as uint 14)) ;; LT
     ((= buzz-task 91) (the-as uint 15)) ;; GMC
-    )
-  )
+    ))
 
 (defun ap-buzzer-received! ((buzz-task uint) (buzz-index uint))
-  (+! (-> *ap-info-jak1* buzzers-received (ap-buzzer-task-to-index buzz-task)) 1.0)
-  )
+  (+! (-> *ap-info-jak1* buzzers-received (ap-buzzer-task-to-index buzz-task)) 1.0))
 
 (defun ap-buzzer-count ((buzz-task uint))
-  (-> *ap-info-jak1* buzzers-received (ap-buzzer-task-to-index buzz-task))
-  )
+  (-> *ap-info-jak1* buzzers-received (ap-buzzer-task-to-index buzz-task)))
 
 (defun ap-buzzer-specific-7? ((buzz-task uint))
-  (= (ap-buzzer-count buzz-task) 7)
-  )
+  (= (ap-buzzer-count buzz-task) 7))
 
 ;; Whereas specific-7 checks that you received all 7 buzzers for a single level,
 ;; progressive-7 asks if you received any 7 buzzers, so you will always receive 
 ;; a power cell every 7 flies, distributing their power cells more evenly 
 ;; throughout a run and making the game less RNG-heavy.
 (defun ap-buzzer-progressive-7? ()
-  (let ((sum 0))
-       (dotimes (i 16)
-          (+! sum (-> *ap-info-jak1* buzzers-received i))
-          )
-       (and (nonzero? sum) (= (mod sum 7) 0))
-       )
-  )
+  (let ((sum 0)) (dotimes (i 16) (+! sum (-> *ap-info-jak1* buzzers-received i))) (and (nonzero? sum) (= (mod sum 7) 0))))
 
 ;; These are the game-tasks in the same order as defined by the archipelago
 ;; special location list.
 (defun ap-special-task-to-index ((special-id uint))
   (cond
-    ((= special-id 5)   (the-as uint  0)) ;; Fisherman's Boat
-    ((= special-id 4)   (the-as uint  1)) ;; Jungle Elevator
-    ((= special-id 2)   (the-as uint  2)) ;; Blue Eco Switch
-    ((= special-id 17)  (the-as uint  3)) ;; Flut Flut
-    ((= special-id 33)  (the-as uint  4)) ;; Warrior's Pontoons
-    ((= special-id 105) (the-as uint  5)) ;; Snowy Mountain Gondola (village3-button)
-    ((= special-id 60)  (the-as uint  6)) ;; Yellow Eco Switch
-    ((= special-id 63)  (the-as uint  7)) ;; Snowy Fort Gate
-    ((= special-id 71)  (the-as uint  8)) ;; Freed The Blue Sage
-    ((= special-id 72)  (the-as uint  9)) ;; Freed The Red Sage
-    ((= special-id 73)  (the-as uint 10)) ;; Freed The Yellow Sage
-    ((= special-id 70)  (the-as uint 11)) ;; Freed The Green Sage
-    )
-  )
+    ((= special-id 5) (the-as uint 0)) ;; Fisherman's Boat
+    ((= special-id 4) (the-as uint 1)) ;; Jungle Elevator
+    ((= special-id 2) (the-as uint 2)) ;; Blue Eco Switch
+    ((= special-id 17) (the-as uint 3)) ;; Flut Flut
+    ((= special-id 33) (the-as uint 4)) ;; Warrior's Pontoons
+    ((= special-id 105) (the-as uint 5)) ;; Snowy Mountain Gondola (village3-button)
+    ((= special-id 60) (the-as uint 6)) ;; Yellow Eco Switch
+    ((= special-id 63) (the-as uint 7)) ;; Snowy Fort Gate
+    ((= special-id 71) (the-as uint 8)) ;; Freed The Blue Sage
+    ((= special-id 72) (the-as uint 9)) ;; Freed The Red Sage
+    ((= special-id 73) (the-as uint 10)) ;; Freed The Yellow Sage
+    ((= special-id 70) (the-as uint 11)) ;; Freed The Green Sage
+    ))
 
 (defun ap-special-received! ((special-id uint))
   (send-event (ppointer->process (-> *hud-parts* fuel-cell)) 'show)
   (sound-play "buzzer-pickup" :pitch 0.166)
-  (set! (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) (the uint 1))
-  )
+  (set! (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) (the uint 1)))
 
 (defun ap-special-received? ((special-id uint))
-  (> (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) 0)
-  )
+  (> (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) 0))
 
 ;; These are the move ID's in the same order as defined by the archipelago
 ;; orb cache location list/move item table.
 (defun ap-move-id-to-index ((move-id uint))
   (cond
-    ((= move-id 10344) (the-as uint  0)) ;; Crouch
-    ((= move-id 10369) (the-as uint  1)) ;; Crouch Jump
-    ((= move-id 11072) (the-as uint  2)) ;; Crouch Uppercut
-    ((= move-id 12634) (the-as uint  3)) ;; Roll
-    ((= move-id 12635) (the-as uint  4)) ;; Roll Jump
-    ((= move-id 10945) (the-as uint  5)) ;; Double Jump
-    ((= move-id 14507) (the-as uint  6)) ;; Jump Dive
-    ((= move-id 14838) (the-as uint  7)) ;; Jump Kick
-    ((= move-id 23348) (the-as uint  8)) ;; Punch
-    ((= move-id 23349) (the-as uint  9)) ;; Punch Uppercut
+    ((= move-id 10344) (the-as uint 0)) ;; Crouch
+    ((= move-id 10369) (the-as uint 1)) ;; Crouch Jump
+    ((= move-id 11072) (the-as uint 2)) ;; Crouch Uppercut
+    ((= move-id 12634) (the-as uint 3)) ;; Roll
+    ((= move-id 12635) (the-as uint 4)) ;; Roll Jump
+    ((= move-id 10945) (the-as uint 5)) ;; Double Jump
+    ((= move-id 14507) (the-as uint 6)) ;; Jump Dive
+    ((= move-id 14838) (the-as uint 7)) ;; Jump Kick
+    ((= move-id 23348) (the-as uint 8)) ;; Punch
+    ((= move-id 23349) (the-as uint 9)) ;; Punch Uppercut
     ((= move-id 23350) (the-as uint 10)) ;; Kick
-    )
-  )
+    ))
 
 (defun ap-move-received! ((move-id uint))
   (send-event (ppointer->process (-> *hud-parts* fuel-cell)) 'show)
   (sound-play "buzzer-pickup" :pitch 0.166)
-  (set! (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) (the uint 1))
-  )
+  (set! (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) (the uint 1)))
 
 (defun ap-move-received? ((move-id uint))
-  (> (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) 0)
-  )
+  (> (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) 0))
 
 (defun ap-deathlink-received! ((chosen-death symbol))
   (if (= (-> *target* state) target-fishing)
-      (send-event (process-by-ename "fisher-1") 'deathlink) ;; quickhack for fishgame. 
-      (send-event *target* 'attack #f ;; everything else.
-        (static-attack-info 
-          ((deathlink-death #t) 
-           (mode chosen-death) 
-           (vector (new 'static 'vector :y (meters 1) :w 1.0)) 
-           (angle 'up) 
-           (control 1.0)
-           )
-          )
-        )
-      )
-  #t
-  )
+    (send-event (process-by-ename "fisher-1") 'deathlink) ;; quickhack for fishgame. 
+    (send-event *target*
+                'attack
+                #f ;; everything else.
+                (static-attack-info ((deathlink-death #t) (mode chosen-death) (vector (new 'static 'vector :y (meters 1) :w 1.0)) (angle 'up) (control 1.0)))))
+  #t)
 
 (defun ap-setup-options! ((option uint) (bundle uint) (fc float) (mp float) (lt float) (goal uint))
   (set! (-> *ap-settings* orbsanity-option) option)
@@ -175,8 +145,7 @@
   (set! (-> *ap-settings* mountain-pass-unlock) mp)
   (set! (-> *ap-settings* lava-tube-unlock) lt)
   (set! (-> *ap-settings* completion-goal) goal)
-  #t
-  )
+  #t)
 
 (defun ap-settings-update ()
   "A per frame update for settings related stuff"
@@ -188,5 +157,4 @@
   (set! (-> *ap-info-jak1* mountain-pass-unlock) (-> *ap-settings* mountain-pass-unlock))
   (set! (-> *ap-info-jak1* lava-tube-unlock) (-> *ap-settings* lava-tube-unlock))
   (set! (-> *ap-info-jak1* completion-goal) (-> *ap-settings* completion-goal))
-  (none)
-  )
+  (none))
