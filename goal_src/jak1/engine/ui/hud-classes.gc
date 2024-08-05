@@ -869,7 +869,6 @@
                  (+! completed-task-count 1))))
            ;; show cells collected/total across entire game
            (draw-string-xy-scaled (string-format "~D~%/~D"
-                                                 (the int (-> *game-info* fuel))
                                                  completed-task-count
                                                  101 ;;(-> (the progress (-> *progress-process* 0)) total-nb-of-power-cells)
                                                  )
