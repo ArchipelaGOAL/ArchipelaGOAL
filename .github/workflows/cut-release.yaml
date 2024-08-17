@@ -23,7 +23,7 @@ jobs:
     with:
       semverBump: ${{ inputs.bump }}
       metadataName: "ArchipelaGOAL"
-      metadataDescription: "ALPHA RELEASE - Jak 1 x Archipelago Randomizer!"
+      metadataDescription: "Jak 1 Archipelago Randomizer"
       metadataSupportedGames: "jak1"
       metadataAuthors: "markus"
       metadataTags: "rng,challenge,gameplay-mod"
