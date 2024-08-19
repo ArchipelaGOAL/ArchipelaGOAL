@@ -299,9 +299,9 @@
           (send-event (-> this other-miner ppointer 3) 'clone (process->handle this))
           (set! (-> this cell-for-task) (current-task (-> this tasks)))
           (close-current! (-> this tasks))
-          (send-event *target* 'get-pickup 5 (- (-> *GAME-bank* money-task-inc)))
+          (send-event *target* 'get-pickup 5 (- (-> *ap-info-jak1* citizen-orb-amount)))
           (save-reminder (-> this tasks) (+ s4-3 1) 2))
-         (else (set! (-> this will-talk) #t) (set! (-> this talk-message) (text-id press-to-trade-money))))
+         (else (set! (-> this will-talk) #t) (set! (-> this talk-message) (text-id ap-trade-citizen))))
        (if (< (the-as uint s4-3) (the-as uint 3))
          (new 'static 'spool-anim :name "minershort-resolution-1-orbs" :index 7 :parts 2 :command-list '())
          (new 'static

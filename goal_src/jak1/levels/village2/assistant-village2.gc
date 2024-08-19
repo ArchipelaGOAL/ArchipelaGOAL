@@ -1074,7 +1074,9 @@
             (let ((v1-29 gp-0)) (set! (-> v1-29 height) (the float 80)))
             (let ((v1-30 gp-0)) (set! (-> v1-30 scale) 0.8))
             (set! (-> gp-0 flags) (font-flags shadow kerning middle large))
-            (format (clear *temp-string*) "POWER CELLS REQUIRED: ~D" (the uint (-> *ap-info-jak1* mountain-pass-unlock)))
+            (format (clear *temp-string*)
+                    (lookup-text! *common-text* (text-id ap-collect-mountain-pass-text) #f)
+                    (the uint (-> *ap-info-jak1* mountain-pass-unlock)))
             (print-game-text *temp-string* gp-0 #f 128 22)))
         (level-hint-spawn (text-id village2-levitator-need-cells) "asstvb71" (the-as entity #f) *entity-pool* (game-task none)))))
 

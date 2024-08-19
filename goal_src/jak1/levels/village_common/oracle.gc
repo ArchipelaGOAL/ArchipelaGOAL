@@ -128,12 +128,12 @@
        (arg0
         (set! (-> this cell-for-task) (current-task (-> this tasks)))
         (close-current! (-> this tasks))
-        (send-event *target* 'get-pickup 5 (- (-> *GAME-bank* money-oracle-inc)))
+        (send-event *target* 'get-pickup 5 (- (-> *ap-info-jak1* oracle-orb-amount)))
         (cond
           ((= (current-task (-> this tasks)) (-> this first-task))
            (let ((a0-25 (handle->process (-> this right-eye-cell)))) (if a0-25 (deactivate a0-25))))
           (else (let ((a0-29 (handle->process (-> this left-eye-cell)))) (if a0-29 (deactivate a0-29))))))
-       (else (set! (-> this will-talk) #t) (set! (-> this talk-message) (text-id press-to-trade-money-oracle))))
+       (else (set! (-> this will-talk) #t) (set! (-> this talk-message) (text-id ap-trade-oracle))))
      (cond
        ((= (current-task (-> this tasks)) (-> this first-task))
         (case (-> (level-get-target-inside *level*) name)

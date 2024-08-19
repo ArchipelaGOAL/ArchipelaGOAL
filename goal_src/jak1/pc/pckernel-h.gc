@@ -290,6 +290,8 @@
    (fire-canyon-unlock   float)
    (mountain-pass-unlock float)
    (lava-tube-unlock     float)
+   (citizen-orb-amount   float)
+   (oracle-orb-amount    float)
    (completion-goal      uint8))
   (:methods
    (new (symbol type) _type_)
@@ -311,6 +313,8 @@
   (set! (-> obj fire-canyon-unlock) (the float 20))
   (set! (-> obj mountain-pass-unlock) (the float 45))
   (set! (-> obj lava-tube-unlock) (the float 72))
+  (set! (-> obj citizen-orb-amount) (the float 90))
+  (set! (-> obj oracle-orb-amount) (the float 120))
   (set! (-> obj completion-goal) 112)
   (none))
 

@@ -861,6 +861,14 @@
   (lava-tube-unlock #x2067)
   (ap-plant-boss #x2068)
   (ap-connect-and-start #x2069)
+  (citizen-orb-amount #x2070)
+  (oracle-orb-amount #x2071)
+  (ap-collect-fire-canyon-text #x2072)
+  (ap-collect-mountain-pass-text #x2073)
+  (ap-collect-lava-tube-text #x2074)
+  (ap-trade-citizen #x2075)
+  (ap-trade-oracle #x2076)
+  (ap-press-to-check #x2077)
   ;; GAME-TEXT-ID ENUM ENDS
   )
 

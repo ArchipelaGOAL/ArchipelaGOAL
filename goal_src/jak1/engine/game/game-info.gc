@@ -266,7 +266,7 @@
      (if (>= amount 0.0) (seek! (-> this life) (-> this life-max) amount) (seek! (-> this life) 0.0 (- amount)))
      (-> this life))
     (('money)
-     (if (and (< 0.0 amount) (= (+ (-> this money) amount) (-> *GAME-bank* money-task-inc)))
+     (if (and (< 0.0 amount) (= (+ (-> this money) amount) (-> *ap-info-jak1* citizen-orb-amount)))
        ;; got enough orbs to trade, display a hint
        (level-hint-spawn (text-id sidekick-reminder-money) "sksp0014" (the-as entity #f) *entity-pool* (game-task none)))
      ;; negative amount means we are trading. they use send-event to give us negative money.
@@ -372,7 +372,7 @@
      (-> this life))
     (('money)
      ;; got a bundle of precursor orbs, only thing to do is increase current orb balance.
-     (if (and (< 0.0 amount) (= (+ (-> this money) amount) (-> *GAME-bank* money-task-inc)))
+     (if (and (< 0.0 amount) (= (+ (-> this money) amount) (-> *ap-info-jak1* citizen-orb-amount)))
        ;; got enough orbs to trade, display a hint
        (level-hint-spawn (text-id sidekick-reminder-money) "sksp0014" (the-as entity #f) *entity-pool* (game-task none)))
      ;; increment our current money count

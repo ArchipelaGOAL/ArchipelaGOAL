@@ -490,8 +490,8 @@
           (arg0
            (set! (-> this cell-for-task) (current-task (-> this tasks)))
            (close-current! (-> this tasks))
-           (send-event *target* 'get-pickup 5 (- (-> *GAME-bank* money-task-inc))))
-          (else (set! (-> this talk-message) (text-id press-to-trade-money))))
+           (send-event *target* 'get-pickup 5 (- (-> *ap-info-jak1* citizen-orb-amount))))
+          (else (set! (-> this talk-message) (text-id ap-trade-citizen))))
         (new 'static
              'spool-anim
              :name "mayor-resolution-donation"

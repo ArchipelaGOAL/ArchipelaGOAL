@@ -38,9 +38,9 @@
 
 (defmethod play-anim! ((this warrior) (arg0 symbol))
   (with-pp
-    (set! (-> this talk-message) (text-id press-to-talk))
     (case (current-status (-> this tasks))
       (((task-status need-hint) (task-status need-introduction))
+       (set! (-> this talk-message) (text-id ap-press-to-check))
        (when arg0
          ;; on first contact with warrior, check pontoon bridge.
          (ap-special-checked! (the-as uint (game-task village2-warrior-money)))
@@ -63,6 +63,7 @@
              (2322 joint "camera")
              (2560 joint "cameraB"))))
       (((task-status need-reminder))
+       (set! (-> this talk-message) (text-id press-to-talk))
        (set! (-> this skippable) #t)
        (new 'static 'spool-anim :name "warrior-reminder-1" :index 7 :parts 3 :command-list '()))
       (((task-status need-reward-speech))
@@ -70,7 +71,7 @@
          (arg0
           (set! (-> this cell-for-task) (current-task (-> this tasks)))
           (close-current! (-> this tasks))
-          (send-event *target* 'get-pickup 5 (- (-> *GAME-bank* money-task-inc)))
+          (send-event *target* 'get-pickup 5 (- (-> *ap-info-jak1* citizen-orb-amount)))
           (send-event (-> (entity-by-type allpontoons) extra process) 'clone (process->handle this))
           (dotimes (s5-2 (entity-actor-count (-> this entity) 'alt-actor))
             (entity-birth-no-kill (entity-actor-lookup (-> this entity) 'alt-actor s5-2))
@@ -81,7 +82,7 @@
               (let ((s3-0 send-event-function)
                     (v1-25 (entity-actor-lookup (-> this entity) 'alt-actor s5-2)))
                 (s3-0 (if v1-25 (-> v1-25 extra process)) s4-2)))))
-         (else (set! (-> this will-talk) #t) (set! (-> this talk-message) (text-id press-to-trade-money))))
+         (else (set! (-> this will-talk) #t) (set! (-> this talk-message) (text-id ap-trade-citizen))))
        (new 'static 'spool-anim :name "warrior-resolution" :index 8 :parts 6 :command-list '((508 blackout 10) (511 blackout 0))))
       (else
        (if arg0

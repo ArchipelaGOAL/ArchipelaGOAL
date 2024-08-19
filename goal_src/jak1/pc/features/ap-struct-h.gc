@@ -31,6 +31,8 @@
    (fire-canyon-unlock   float)
    (mountain-pass-unlock float)
    (lava-tube-unlock     float)
+   (citizen-orb-amount   float)
+   (oracle-orb-amount    float)
    (completion-goal      uint8)
    (completed            uint8)
    ;; HUD information.
@@ -92,7 +94,7 @@
 ;; Slightly more complicated functions.
 (define-extern ap-deathlink-received! (function symbol symbol))
 
-(define-extern ap-setup-options! (function uint uint float float float uint symbol))
+(define-extern ap-setup-options! (function uint uint float float float float float uint symbol))
 
 ;; Handles options changes.
 (define-extern ap-settings-update (function none))

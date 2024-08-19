@@ -583,7 +583,7 @@
                  (lambda :behavior process-taskable ((arg0 task-control))
                    (the-as symbol
                            (and *target*
-                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *GAME-bank* money-task-inc))))))
+                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *ap-info-jak1* citizen-orb-amount))))))
             (new 'static
                  'task-cstage
                  :game-task (game-task rolling-race)
@@ -674,7 +674,7 @@
                  (lambda :behavior process-taskable ((arg0 task-control))
                    (the-as symbol
                            (and *target*
-                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *GAME-bank* money-task-inc))))))
+                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *ap-info-jak1* citizen-orb-amount))))))
             (new 'static
                  'task-cstage
                  :game-task (game-task rolling-moles)
@@ -765,7 +765,7 @@
                  (lambda :behavior process-taskable ((arg0 task-control))
                    (the-as symbol
                            (and *target*
-                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *GAME-bank* money-task-inc))))))
+                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *ap-info-jak1* citizen-orb-amount))))))
             (new 'static
                  'task-cstage
                  :game-task (game-task jungle-lurkerm)
@@ -1054,7 +1054,7 @@
                  (lambda :behavior process-taskable ((arg0 task-control))
                    (the-as symbol
                            (and *target*
-                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *GAME-bank* money-oracle-inc))))))
+                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *ap-info-jak1* oracle-orb-amount))))))
             (new 'static
                  'task-cstage
                  :game-task (game-task village1-oracle-money1)
@@ -1079,7 +1079,7 @@
                  (lambda :behavior process-taskable ((arg0 task-control))
                    (the-as symbol
                            (and *target*
-                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *GAME-bank* money-oracle-inc))))))
+                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *ap-info-jak1* oracle-orb-amount))))))
             (new 'static
                  'task-cstage
                  :game-task (game-task village1-oracle-money2)
@@ -1146,7 +1146,7 @@
                  (lambda :behavior process-taskable ((arg0 task-control))
                    (the-as symbol
                            (and *target*
-                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *GAME-bank* money-oracle-inc))))))
+                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *ap-info-jak1* oracle-orb-amount))))))
             (new 'static
                  'task-cstage
                  :game-task (game-task village2-oracle-money1)
@@ -1171,7 +1171,7 @@
                  (lambda :behavior process-taskable ((arg0 task-control))
                    (the-as symbol
                            (and *target*
-                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *GAME-bank* money-oracle-inc))))))
+                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *ap-info-jak1* oracle-orb-amount))))))
             (new 'static
                  'task-cstage
                  :game-task (game-task village2-oracle-money2)
@@ -1238,7 +1238,7 @@
                  (lambda :behavior process-taskable ((arg0 task-control))
                    (the-as symbol
                            (and *target*
-                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *GAME-bank* money-oracle-inc))))))
+                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *ap-info-jak1* oracle-orb-amount))))))
             (new 'static
                  'task-cstage
                  :game-task (game-task village3-oracle-money1)
@@ -1263,7 +1263,7 @@
                  (lambda :behavior process-taskable ((arg0 task-control))
                    (the-as symbol
                            (and *target*
-                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *GAME-bank* money-oracle-inc))))))
+                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *ap-info-jak1* oracle-orb-amount))))))
             (new 'static
                  'task-cstage
                  :game-task (game-task village3-oracle-money2)
@@ -1362,7 +1362,7 @@
                  (lambda :behavior process-taskable ((arg0 task-control))
                    (the-as symbol
                            (and *target*
-                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *GAME-bank* money-task-inc))))))
+                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *ap-info-jak1* citizen-orb-amount))))))
             (new 'static
                  'task-cstage
                  :game-task (game-task village3-miner-money2)
@@ -1372,7 +1372,7 @@
                  (lambda :behavior process-taskable ((arg0 task-control))
                    (the-as symbol
                            (and *target*
-                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *GAME-bank* money-task-inc))))))
+                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *ap-info-jak1* citizen-orb-amount))))))
             (new 'static
                  'task-cstage
                  :game-task (game-task village3-miner-money3)
@@ -1382,7 +1382,7 @@
                  (lambda :behavior process-taskable ((arg0 task-control))
                    (the-as symbol
                            (and *target*
-                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *GAME-bank* money-task-inc))))))
+                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *ap-info-jak1* citizen-orb-amount))))))
             (new 'static
                  'task-cstage
                  :game-task (game-task village3-miner-money4)
@@ -1392,7 +1392,7 @@
                  (lambda :behavior process-taskable ((arg0 task-control))
                    (the-as symbol
                            (and *target*
-                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *GAME-bank* money-task-inc))))))
+                                (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *ap-info-jak1* citizen-orb-amount))))))
             (new 'static
                  'task-cstage
                  :game-task (game-task cave-gnawers)
@@ -2158,7 +2158,7 @@
                               (lambda :behavior process-taskable ((arg0 task-control))
                                 (the-as symbol
                                         (and *target*
-                                             (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *GAME-bank* money-task-inc))))))
+                                             (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *ap-info-jak1* citizen-orb-amount))))))
                          (new 'static
                               'task-cstage
                               :game-task (game-task village1-uncle-money)
@@ -2752,7 +2752,7 @@
                               (lambda :behavior process-taskable ((arg0 task-control))
                                 (the-as symbol
                                         (and *target*
-                                             (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *GAME-bank* money-task-inc))))))
+                                             (>= (the-as float (send-event *target* 'query 'pickup (pickup-type money))) (-> *ap-info-jak1* citizen-orb-amount))))))
                          (new 'static
                               'task-cstage
                               :game-task (game-task village2-warrior-money)

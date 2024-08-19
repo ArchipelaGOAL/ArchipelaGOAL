@@ -138,12 +138,14 @@
                 (static-attack-info ((deathlink-death #t) (mode chosen-death) (vector (new 'static 'vector :y (meters 1) :w 1.0)) (angle 'up) (control 1.0)))))
   #t)
 
-(defun ap-setup-options! ((option uint) (bundle uint) (fc float) (mp float) (lt float) (goal uint))
+(defun ap-setup-options! ((option uint) (bundle uint) (fc float) (mp float) (lt float) (coa float) (ooa float) (goal uint))
   (set! (-> *ap-settings* orbsanity-option) option)
   (set! (-> *ap-settings* orbsanity-bundle) bundle)
   (set! (-> *ap-settings* fire-canyon-unlock) fc)
   (set! (-> *ap-settings* mountain-pass-unlock) mp)
   (set! (-> *ap-settings* lava-tube-unlock) lt)
+  (set! (-> *ap-settings* citizen-orb-amount) coa)
+  (set! (-> *ap-settings* oracle-orb-amount) ooa)
   (set! (-> *ap-settings* completion-goal) goal)
   #t)
 
@@ -156,5 +158,7 @@
   (set! (-> *ap-info-jak1* fire-canyon-unlock) (-> *ap-settings* fire-canyon-unlock))
   (set! (-> *ap-info-jak1* mountain-pass-unlock) (-> *ap-settings* mountain-pass-unlock))
   (set! (-> *ap-info-jak1* lava-tube-unlock) (-> *ap-settings* lava-tube-unlock))
+  (set! (-> *ap-info-jak1* citizen-orb-amount) (-> *ap-settings* citizen-orb-amount))
+  (set! (-> *ap-info-jak1* oracle-orb-amount) (-> *ap-settings* oracle-orb-amount))
   (set! (-> *ap-info-jak1* completion-goal) (-> *ap-settings* completion-goal))
   (none))
