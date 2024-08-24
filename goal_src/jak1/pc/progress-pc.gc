@@ -302,10 +302,30 @@
             :name (text-id move-tracker)
             :scale #t
             :param3 (game-option-menu move-tracker))
-       (new 'static 'game-option :option-type (game-option-type on-off) :name (text-id deathlink) :scale #t)
-       (new 'static 'game-option :option-type (game-option-type on-off) :name (text-id moverando) :scale #t)
-       (new 'static 'game-option :option-type (game-option-type orbsanity-option) :name (text-id orbsanity) :scale #t)
-       (new 'static 'game-option :option-type (game-option-type orbsanity-bundle) :name (text-id orb-bundle-size) :scale #t)
+       (new 'static 
+            'game-option 
+            :option-type (game-option-type on-off) 
+            :name (text-id deathlink) 
+            :scale #t)
+       (new 'static 
+            'game-option 
+            :option-type (game-option-type on-off) 
+            :name (text-id moverando) 
+            :scale #t)
+       (new 'static 
+            'game-option 
+            :option-type (game-option-type orbsanity-option) 
+            :name (text-id orbsanity) 
+            :scale #t
+            :option-disabled-func
+            (lambda () (not *debug-segment*)))
+       (new 'static 
+            'game-option 
+            :option-type (game-option-type orbsanity-bundle) 
+            :name (text-id orb-bundle-size) 
+            :scale #t
+            :option-disabled-func
+            (lambda () (not *debug-segment*)))
        (new 'static
             'game-option
             :option-type (game-option-type slider)
@@ -346,7 +366,11 @@
             :param1 0.0
             :param2 333.0
             :slider-step-size 1.0)
-       (new 'static 'game-option :option-type (game-option-type completion-goal) :name (text-id completion-goal) :scale #t)
+       (new 'static 
+            'game-option 
+            :option-type (game-option-type completion-goal) 
+            :name (text-id completion-goal) 
+            :scale #t)
        (new 'static
             'game-option
             :option-type (game-option-type menu)
