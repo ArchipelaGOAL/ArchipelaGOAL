@@ -28,10 +28,7 @@ jobs:
       metadataAuthors: "markus"
       metadataTags: "rng,challenge,gameplay-mod"
       metadataWebsiteUrl: "https://github.com/ArchipelaGOAL/Archipelago/blob/main/worlds/jakanddaxter/docs/setup_en.md"
-      skipMacOS: true
-      skipLinux: true
-      toolingBinaryDir: "out/build/Release/bin"
+      toolingRepo: "OpenGOAL-Mods/OG-Mod-Base"
       gameAssetsDir: "game/assets"
-      copyEntireBinaryDir: true
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
