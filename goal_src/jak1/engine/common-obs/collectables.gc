@@ -675,6 +675,14 @@
   :bounds (static-spherem 0 1 0 1.6)
   :texture-level 2)
 
+(defskelgroup *ap-cell-sg*
+  ap-cell
+  ap-cell-lod0-jg
+  ap-cell-idle-ja
+  ((ap-cell-lod0-mg (meters 999999)))
+  :bounds (static-spherem 0 5 0 8)
+  :texture-level 2)
+
 (deftype money (eco-collectable) ())
 
 (defmethod run-logic? ((this money))
@@ -932,7 +940,7 @@
     (behavior ()
       0.5
       (let ((f28-0 0.0))
-        (ja :group! fuel-cell-idle-ja)
+        (ja :group! ap-cell-idle-ja)
         (loop
           (let ((f30-0 (vector-vector-distance (-> self base) (target-pos 0))))
             (set! f28-0
@@ -1023,7 +1031,7 @@
       (process-spawn othercam self 10 #f #t :to self)
       (auto-save-command 'auto-save 0 0 *default-pool*)
       (ja-play-spooled-anim (-> self victory-anim)
-                            (the-as art-joint-anim fuel-cell-idle-ja)
+                            (the-as art-joint-anim ap-cell-idle-ja)
                             (the-as art-joint-anim #f)
                             (the-as (function process-drawable symbol) false-func))
       (remove-setting! 'music-volume)
@@ -1133,7 +1141,7 @@
   (set! (-> this actor-pause) #t)
   (set! (-> this notify-parent) #f)
   (set! (-> this fact) (new 'process 'fact-info this (pickup-type fuel-cell) (the-as float 0.0)))
-  (initialize-skeleton this *fuel-cell-sg* '())
+  (initialize-skeleton this *ap-cell-sg* '())
   (set! (-> this base quad) (-> this root trans quad))
   (set! (-> this old-base quad) (-> this root trans quad))
   (set! (-> this part) (create-launch-control (-> *part-group-id-table* 63) this))
@@ -1202,7 +1210,7 @@
          (set! (-> self root trans quad) (-> self draw origin quad))
          (set! (-> self base quad) (-> self root trans quad))
          (ja-channel-set! 1)
-         (ja :group! fuel-cell-idle-ja)
+         (ja :group! ap-cell-idle-ja)
          (logclear! (-> self draw status) (draw-status hidden))
          (vector-reset! (-> self draw origin))
          (go-virtual wait))))
