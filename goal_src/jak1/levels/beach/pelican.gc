@@ -149,7 +149,7 @@
       (let ((gp-0 (-> self path-vector)))
         (eval-path-curve-div! (-> self path-dive0) gp-0 4.5 'interp)
         (+! (-> gp-0 y) -4505.6)
-        (let ((v1-8 (manipy-spawn gp-0 (-> self entity) *fuel-cell-sg* (new 'static 'vector :w 4915.2) :to self)))
+        (let ((v1-8 (manipy-spawn gp-0 (-> self entity) *ap-cell-sg* (new 'static 'vector :w 4915.2) :to self)))
           (set! (-> self fuel-cell) (ppointer->handle v1-8))
           (if v1-8
             (send-event (ppointer->process v1-8)
@@ -588,7 +588,7 @@
     ((10) (go pelican-wait-at-end #t))
     ((5) (go pelican-wait-at-nest #t))
     ((2)
-     (let ((s5-2 (manipy-spawn (-> this root trans) (-> this entity) *fuel-cell-sg* (new 'static 'vector :w 4915.2) :to this)))
+     (let ((s5-2 (manipy-spawn (-> this root trans) (-> this entity) *ap-cell-sg* (new 'static 'vector :w 4915.2) :to this)))
        (set! (-> this fuel-cell) (if s5-2 (ppointer->handle s5-2) (the-as handle #f)))
        (when s5-2
          (send-event (ppointer->process s5-2)

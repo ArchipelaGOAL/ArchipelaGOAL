@@ -14,7 +14,6 @@
   "plat-eco-ag.go"
   "test-actor-ag.go"
   "babak-ag.go"
-  "ap-cell-ag.go"
   "test-zone.go"
   )
  )
