@@ -505,6 +505,8 @@
 
 (define-extern fuel-cell type)
 
+(define-extern ap-cell type)
+
 (defmethod print-volume-sizes ((this level-group))
   "Loop through all entities and print their visibility.
    Excludes crate, fuel-cell and springbox."
@@ -526,7 +528,7 @@
                     (s1-1 (-> s1-0 1)))
                 ;; This technically will work on type objects because it just checks for value equality.
                 ;; the code here is super weird. I have no idea what was going on, or why there are two or's.
-                (when (not (or (name= sv-16 money) (or (name= sv-16 crate) (name= sv-16 fuel-cell) (name= sv-16 springbox))))
+                (when (not (or (name= sv-16 money) (or (name= sv-16 crate) (name= sv-16 fuel-cell) (name= sv-16 ap-cell) (name= sv-16 springbox))))
                   (format #t "actor-vis ~S ~6,,1M " (res-lump-struct sv-80 'name basic) f30-0)
                   (format #t
                           "~6,,1M ~6,,1M ~6,,1M  ~6,,1M ~6,,1M ~6,,1M~%"
@@ -925,6 +927,7 @@
   ;;   )
   ;;(birth-log "call to birth! on ~A~%" this)
   (custom-nav-mesh-check-and-setup this)
+  (if (= (-> this etype) fuel-cell) (set! (-> this etype) ap-cell)) ;; Replace default etype of fuel-cell with ap-cell for custom model.
   (let* ((entity-type (-> this etype))
          (info (entity-info-lookup entity-type))
          (entity-process (get-process *default-dead-pool* entity-type (if info (-> info heap-size) #x4000))))

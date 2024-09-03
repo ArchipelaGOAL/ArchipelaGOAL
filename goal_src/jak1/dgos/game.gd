@@ -320,6 +320,7 @@
   "tpage-62.go"
   "tpage-1532.go"
   "fuel-cell-ag.go"
+  "ap-cell-ag.go" ;; added
   "money-ag.go"
   "buzzer-ag.go"
   "ecovalve-ag.go"

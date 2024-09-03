@@ -189,8 +189,6 @@
       (vector<-cspace! s4-0 (-> this node-list data 5))
       (set! (-> this right-eye-cell)
             (ppointer->handle (manipy-spawn s4-0 (-> this entity) *ap-cell-sg* (new 'static 'vector :w 4915.2) :to this)))
-      (quaternion-rotate-y! (-> this right-eye-cell root quat) (-> this right-eye-cell root quat) (* (degrees 45) (seconds-per-frame)))
-      (quaternion-rotate-z! (-> this right-eye-cell root quat) (-> this right-eye-cell root quat) (* (degrees 360) (seconds-per-frame)))
       (send-event (handle->process (-> this right-eye-cell))
                   'eval
                   (lambda :behavior oracle ()
@@ -202,8 +200,6 @@
       (vector<-cspace! s4-0 (-> this node-list data 6))
       (set! (-> this left-eye-cell)
             (ppointer->handle (manipy-spawn s4-0 (-> this entity) *ap-cell-sg* (new 'static 'vector :w 4915.2) :to this)))
-      (quaternion-rotate-y! (-> this left-eye-cell root quat) (-> this left-eye-cell root quat) (* (degrees 45) (seconds-per-frame)))
-      (quaternion-rotate-z! (-> this left-eye-cell root quat) (-> this left-eye-cell root quat) (* (degrees 360) (seconds-per-frame)))
       (send-event (handle->process (-> this left-eye-cell))
                   'eval
                   (lambda :behavior oracle ()
