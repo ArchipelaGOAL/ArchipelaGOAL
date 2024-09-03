@@ -2034,6 +2034,144 @@
   0
   (none))
 
+(defmethod draw-progress ((this progress))
+  (let ((f30-0 (+ -409.0 (-> this particles 2 init-pos x) (* 0.8 (the float (-> this left-x-offset)))))
+        (s5-0 (if (or (-> this stat-transition) (nonzero? (-> this level-transition))) 0 (-> this transition-offset))))
+    (let ((f28-0 (if (or (-> this stat-transition) (nonzero? (-> this level-transition))) 1.0 (-> this transition-percentage-invert))))
+      (let* ((s3-0 (-> *display* frames (-> *display* on-screen) frame global-buf))
+             (s4-0 (-> s3-0 base)))
+        (let ((s2-0 draw-string-xy))
+          (format (clear *temp-string*) "~D" (the int (+ 0.5 (-> *target* game money))))
+          (s2-0 *temp-string*
+                s3-0
+                (the int (+ *PC-ORB-TEXT-X-ADJUST* 428.0 (the float s5-0) f30-0))
+                (- 12 (the int (* 0.16666667 f30-0)))
+                (font-color default)
+                (font-flags shadow kerning large)))
+        (let ((s2-1 draw-string-xy))
+          (format (clear *temp-string*) "~D" (the int (+ 0.5 (-> *target* game fuel))))
+          (s2-1 *temp-string*
+                s3-0
+                (the int (+ *PC-CELL-TEXT-X-ADJUST* 456.0 (the float (adjust-pos s5-0 50)) f30-0))
+                (- 48 (the int (* 0.125 f30-0)))
+                (font-color default)
+                (font-flags shadow kerning large)))
+        (let ((s2-2 draw-string-xy))
+          (format (clear *temp-string*) "~D" (the int (+ 0.5 (-> *target* fact buzzer))))
+          (s2-2 *temp-string*
+                s3-0
+                (the int (+ *PC-BUZZER-TEXT-X-ADJUST* 469.0 (the float (adjust-pos s5-0 100)) f30-0))
+                89
+                (font-color default)
+                (font-flags shadow kerning large)))
+        (let ((a3-4 (-> s3-0 base)))
+          (let ((v1-20 (the-as object (-> s3-0 base))))
+            (set! (-> (the-as dma-packet v1-20) dma) (new 'static 'dma-tag :id (dma-tag-id next)))
+            (set! (-> (the-as dma-packet v1-20) vif0) (new 'static 'vif-tag))
+            (set! (-> (the-as dma-packet v1-20) vif1) (new 'static 'vif-tag))
+            (set! (-> s3-0 base) (&+ (the-as pointer v1-20) 16)))
+          (dma-bucket-insert-tag (-> *display* frames (-> *display* on-screen) frame bucket-group)
+                                 (bucket-id debug)
+                                 s4-0
+                                 (the-as (pointer dma-tag) a3-4))))
+      (let ((s4-2 (new 'stack
+                       'font-context
+                       *font-default-matrix*
+                       (the int
+                            (+ *PC-OPTIONS-TEXT-X-ADJUST*
+                               (- 423.0 (the float (/ (-> this left-x-offset) 2)))
+                               f30-0
+                               (the float (adjust-pos s5-0 150))))
+                       131
+                       0.0
+                       (font-color default)
+                       (font-flags shadow kerning))))
+        (let ((v1-29 s4-2)) (set! (-> v1-29 width) (the float 100)))
+        (let ((v1-30 s4-2)) (set! (-> v1-30 height) (the float 15)))
+        (let ((v1-31 s4-2)) (set! (-> v1-31 scale) 0.5))
+        (set! (-> s4-2 flags) (font-flags shadow kerning large))
+        (print-game-text (lookup-text! *common-text* (text-id options) #f) s4-2 #f 128 22)
+        (let ((v1-34 s4-2)) (set! (-> v1-34 width) (the float 160)))
+        (let ((v1-35 s4-2)) (set! (-> v1-35 height) (the float 22)))
+        (let ((v1-36 s4-2)) (set! (-> v1-36 scale) 1.3))
+        (let ((a0-31 s4-2)) (set! (-> a0-31 color) (font-color progress-percent)))
+        (set! (-> s4-2 origin x)
+              (+ *PC-PERCENT-X-ADJUST*
+                 (- 435.0 (the float (if (< (-> *progress-process* 0 completion-percentage) 10.0) 93 80)))
+                 f30-0))
+        (set! (-> s4-2 origin y) 180.0)
+        (set! (-> s4-2 flags) (font-flags shadow kerning middle middle-vert large))
+        (let ((s3-3 print-game-text))
+          (format (clear *temp-string*) "~2D%" (the int (-> *progress-process* 0 completion-percentage)))
+          (s3-3 *temp-string* s4-2 #f (the int (* 128.0 f28-0)) 22))))
+    0.0
+    (let ((f28-1 (+ -94.0 (-> this particles 2 init-pos x)))
+          (s3-4 90)
+          (s4-3 224)
+          (s2-5 (/ s5-0 5))
+          (f26-3 (-> this button-scale)))
+      ;; CROSS
+      (let ((f24-0 (* 182.04445 (- (/ -36.0 f26-3) (the float s2-5)))))
+        (set! (-> this particles 27 init-pos x) (+ *PC-CROSS-X-ADJUST* (the float (+ s3-4 (the int (* f28-1 (cos f24-0)))))))
+        (set! (-> this particles 27 init-pos y) (+ *PC-CROSS-Y-ADJUST* (the float (+ s4-3 (the int (* f28-1 (sin f24-0))))))))
+      ;; SQUARE
+      (let ((f24-2 (* 182.04445 (- (/ -21.0 f26-3) (the float (adjust-pos s2-5 10))))))
+        (set! (-> this particles 28 init-pos x) (+ *PC-SQUARE-X-ADJUST* (the float (+ s3-4 (the int (* f28-1 (cos f24-2)))))))
+        (set! (-> this particles 28 init-pos y) (+ *PC-SQUARE-Y-ADJUST* (the float (+ s4-3 (the int (* f28-1 (sin f24-2))))))))
+      ;; TRIANGLE
+      (let ((f24-4 (* 182.04445 (- (/ -6.0 f26-3) (the float (adjust-pos s2-5 15))))))
+        (set! (-> this particles 29 init-pos x) (+ *PC-TRIANGLE-X-ADJUST* (the float (+ s3-4 (the int (* f28-1 (cos f24-4)))))))
+        (set! (-> this particles 29 init-pos y) (+ *PC-TRIANGLE-Y-ADJUST* (the float (+ s4-3 (the int (* f28-1 (sin f24-4))))))))
+      ;; CIRCLE
+      (let ((f26-5 (* 182.04445 (- (/ 9.0 f26-3) (the float (adjust-pos s2-5 20))))))
+        (set! (-> this particles 30 init-pos x) (+ *PC-CIRCLE-X-ADJUST* (the float (+ s3-4 (the int (* f28-1 (cos f26-5)))))))
+        (set! (-> this particles 30 init-pos y) (+ *PC-CIRCLE-Y-ADJUST* (the float (+ s4-3 (the int (* f28-1 (sin f26-5)))))))))
+    (when *cheat-mode*
+      (let ((a0-46 "AUTO SAVE OFF"))
+        (if (-> *setting-control* current auto-save) (set! a0-46 "AUTO SAVE ON"))
+        (let* ((s3-5 (-> *display* frames (-> *display* on-screen) frame global-buf))
+               (s4-4 (-> s3-5 base)))
+          (draw-string-xy a0-46
+                          s3-5
+                          (the int (+ *PC-AUTOSAVE-X-ADJUST* 430.0 f30-0))
+                          200
+                          (font-color progress-memcard)
+                          (font-flags shadow kerning middle))
+          (let ((a3-9 (-> s3-5 base)))
+            (let ((v1-81 (the-as object (-> s3-5 base))))
+              (set! (-> (the-as dma-packet v1-81) dma) (new 'static 'dma-tag :id (dma-tag-id next)))
+              (set! (-> (the-as dma-packet v1-81) vif0) (new 'static 'vif-tag))
+              (set! (-> (the-as dma-packet v1-81) vif1) (new 'static 'vif-tag))
+              (set! (-> s3-5 base) (&+ (the-as pointer v1-81) 16)))
+            (dma-bucket-insert-tag (-> *display* frames (-> *display* on-screen) frame bucket-group)
+                                   (bucket-id debug)
+                                   s4-4
+                                   (the-as (pointer dma-tag) a3-9))))))
+    (let ((a0-52 (-> this icons 5 icon 0 root)))
+      (set-yaw-angle-clear-roll-pitch! a0-52 (- (y-angle a0-52) (* 182.04445 (* 4.0 (-> *display* time-adjust-ratio))))))
+    (let* ((f28-2 (* 0.00024414062 (the float (-> *progress-process* 0 in-out-position))))
+           (f30-1 (* 300.0 f28-2)))
+      (set! (-> this particles 18 init-pos x)
+            (+ *PC-ORB-GLOW-X-ADJUST*
+               (the float (+ (the int (the float (adjust-pos s5-0 50))) 394 (the int f30-1) (-> this right-x-offset)))))
+      (set! (-> this particles 18 init-pos y) (the float (- 40 (the int (* 80.0 f28-2)))))
+      (set! (-> this icons 5 icon-x)
+            (+ (the int *PC-ORB-X-ADJUST*) (the int (the float (adjust-pos s5-0 50))) 393 (the int f30-1) (-> this right-x-offset)))
+      (set! (-> this icons 5 icon-y) (- (-> this small-orb-y-offset) (the int (* 80.0 f28-2))))
+      (set! (-> this particles 16 init-pos x)
+            (+ *PC-CELL-X-ADJUST*
+               (the float (+ (the int (the float (adjust-pos s5-0 100))) 425 (the int f30-1) (-> this right-x-offset)))))
+      (set! (-> this particles 16 init-pos y) (the float (- 112 (the int (* 60.0 f28-2)))))
+      (set! (-> this particles 17 init-pos x)
+            (the float
+                 (+ (the int (the float (adjust-pos s5-0 150)))
+                    442
+                    (the int f30-1)
+                    (the int (* 0.7 (the float (-> this right-x-offset)))))))))
+  (set! (-> this particles 17 init-pos y) 193.0)
+  0
+  (none))
+
 (defun init-game-options ((obj progress))
   "Set the options for all of the menus."
   ;; start off by making them all invalid
