@@ -16,7 +16,8 @@
    (buzzers-received     uint8 16)
    (specials-received    uint8 32) ;; we don't use all 32, but they are there for future use.
    ;; Deathlink information.
-   (died                 uint8) ;; this number indicates how you died. 0 == not dead, >0 == dead.
+   (death-count          uint32)
+   (cause-of-death       uint8) ;; this number indicates how you died. 0 == not dead, >0 == dead.
    (deathlink-enabled    uint8) ;; this enables/disabled the setting.
    ;; Move Rando information.
    (next-orb-cache-index uint)
