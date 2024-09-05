@@ -576,8 +576,11 @@
               (a0-35 (new-stack-vector0)))
           (set! (-> a0-35 quad) (-> self control transv quad))
           (s5-3 s4-2 (t9-9 a0-35 1.0) (vector-y-quaternion! (new-stack-vector0) (-> self control dir-targ))))
+        (when (nonzero? (-> arg1 deathlink-death)) ;; Handle incoming deathlinks.
+          (pickup-collectable! (-> self fact) (pickup-type eco-green) (the-as float -1000.0) (the-as handle #f))       
+          (go target-tube-death (-> gp-0 mode)))
         (when (and (= (-> self game mode) 'play) (>= 0.0 (-> self fact health)))
-          (when (zero? (-> arg1 deathlink-death)) 
+          (when (zero? (-> arg1 deathlink-death))  ;; Handle outgoing deathlinks.
             (set! (-> *ap-info-jak1* cause-of-death) (the-as uint 19)) 
             (+! (-> *ap-info-jak1* death-count) (the-as uint 1)))
           (go target-tube-death (-> gp-0 mode))))

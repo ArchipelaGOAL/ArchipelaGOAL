@@ -632,7 +632,7 @@
              (case (-> gp-0 mode)
                (('burn 'burnup)
                 (sound-play "get-burned")
-                (when (zero? (-> arg1 deathlink-death)) 
+                (when (and (zero? (-> arg1 deathlink-death)) (>= 0.0 (-> self fact health)))
                   (set! (-> *ap-info-jak1* cause-of-death) (the-as uint 14)) 
                   (+! (-> *ap-info-jak1* death-count) (the-as uint 1)))))))
           (set! (-> self control unknown-surface00) *smack-mods*)
