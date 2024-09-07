@@ -1202,7 +1202,8 @@
          (set! (-> self caught) (the-as int v0-2))
          v0-2)
         (('deadly)
-         (set! (-> *ap-info-jak1* died) (the-as uint 18)) ;; only set this for "natural" deaths by poison eel.
+         (set! (-> *ap-info-jak1* cause-of-death) (the-as uint 18)) 
+         (+! (-> *ap-info-jak1* death-count) (the-as uint 1)) ;; only set these for "natural" deaths by poison eel.
          (go fisher-done))
         (('deathlink) ;; otherwise act like you caught a poison eel.
          (go fisher-done))
