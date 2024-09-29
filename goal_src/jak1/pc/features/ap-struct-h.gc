@@ -101,5 +101,7 @@
 
 (define-extern ap-setup-options! (function uint uint float float float float float uint symbol))
 
+(define-extern ap-set-connection-status! (function uint symbol))
+
 ;; Handles options changes.
 (define-extern ap-settings-update (function none))

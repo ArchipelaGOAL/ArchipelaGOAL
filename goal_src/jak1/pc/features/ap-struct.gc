@@ -151,8 +151,12 @@
   (set! (-> *ap-settings* citizen-orb-amount) coa)
   (set! (-> *ap-settings* oracle-orb-amount) ooa)
   (set! (-> *ap-settings* completion-goal) goal)
-  (set! (-> *ap-info-jak1* connection-status) (the-as uint 1)) ;; Tell the client we connected successfully.
   #t)
+
+(defun ap-set-connection-status! ((status uint))
+  (set! (-> *ap-info-jak1* connection-status) status) ;; 0 = default, 1 = success, 2 = failure.
+  #t
+  )
 
 (defun ap-settings-update ()
   "A per frame update for settings related stuff"
