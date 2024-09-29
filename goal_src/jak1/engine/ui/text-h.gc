@@ -869,6 +869,8 @@
   (ap-trade-citizen #x2075)
   (ap-trade-oracle #x2076)
   (ap-press-to-check #x2077)
+  (ap-connected-start #x2078)
+  (ap-error-connecting #x2079)
   ;; GAME-TEXT-ID ENUM ENDS
   )
 

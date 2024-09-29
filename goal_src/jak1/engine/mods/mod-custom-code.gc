@@ -10,7 +10,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 #|
- This file contains function defenitions that are pre placed in the mod base,
+ This file contains function definitions that are pre placed in the mod base,
     so if you place custom code inside of these functions, it will exectue based on
     the name of the function, for example, if you place (set! (-> *game-info* fuel) (+ (-> *game-info* fuel) 1))
     to the function named runs-on-orb-pickup, then jaks powercell count will increase each time you collect
@@ -21,12 +21,58 @@
 ;; Begin function defintions.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun render-ap-ui ()
+  (with-dma-buffer-add-bucket ((buf (-> (current-frame) global-buf)) (bucket-id subtitle))
+    (case *hud-collectable-view*
+      (((hud-collectable-view game-totals) (hud-collectable-view level-totals)) 
+        (begin 
+          (string<-charp (clear *ap-string1*) (-> *ap-info-jak1* their-item-name))
+          (string<-charp (clear *ap-string2*) (-> *ap-info-jak1* their-item-owner))
+          (if (not (or (string= *ap-string1* "") (string= *ap-string2* "")))
+            (if (string= *ap-string2* "MYSELF")
+              (draw-string-xy-scaled (string-format "FOUND ~8L~S~0L" *ap-string1*)
+                                      buf
+                                      256
+                                      214
+                                      (font-color default)
+                                      (font-flags shadow kerning middle large)
+                                      0.4)
+              (draw-string-xy-scaled (string-format "SENT ~6L~S~0L TO ~3L~S~0L" *ap-string1* *ap-string2*)
+                                      buf
+                                      256
+                                      214
+                                      (font-color default)
+                                      (font-flags shadow kerning middle large)
+                                      0.4)))))
+        (((hud-collectable-view original))
+          (begin 
+            (string<-charp (clear *ap-string1*) (-> *ap-info-jak1* my-item-name))
+            (string<-charp (clear *ap-string2*) (-> *ap-info-jak1* my-item-finder))
+            (if (not (or (string= *ap-string1* "") (string= *ap-string2* "")))
+              (if (string= *ap-string2* "MYSELF")
+                (draw-string-xy-scaled (string-format "FOUND ~8L~S~0L" *ap-string1*)
+                                        buf
+                                        256
+                                        214
+                                        (font-color default)
+                                        (font-flags shadow kerning middle large)
+                                        0.4)
+                (draw-string-xy-scaled (string-format "GOT ~6L~S~0L FROM ~3L~S~0L" *ap-string1* *ap-string2*)
+                                        buf
+                                        256
+                                        214
+                                        (font-color default)
+                                        (font-flags shadow kerning middle large)
+                                        0.4))))))))
+
 (defun runs-every-frame ()
   ;;(increase-power-cell-by-one) This is a call to increase-power-cell-by-one defined in mod-common-functions.gc
   (if *show-input-display* (input-display-on) (input-display-off))
   ;; ensure orb-placer is spawned/killed as requested, debug menu is updated
   (when *debug-segment*
     (orb-placer-maintenance))
+  (when (not (paused?))
+    (render-ap-ui))
   (none))
 
 (defun runs-on-orb-pickup ((parent process-tree))
