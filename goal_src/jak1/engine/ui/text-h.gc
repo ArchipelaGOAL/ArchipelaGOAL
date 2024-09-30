@@ -871,6 +871,7 @@
   (ap-press-to-check #x2077)
   (ap-connected-start #x2078)
   (ap-error-connecting #x2079)
+  (seed-options #x2080)
   ;; GAME-TEXT-ID ENUM ENDS
   )
 

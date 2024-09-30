@@ -312,6 +312,26 @@
             :option-type (game-option-type on-off) 
             :name (text-id moverando) 
             :scale #t)
+       (new 'static
+            'game-option
+            :option-type (game-option-type menu)
+            :name (text-id seed-options)
+            :scale #t
+            :param3 (game-option-menu seed-options))
+       (new 'static
+            'game-option
+            :option-type (game-option-type menu)
+            :name (text-id warp-to-home)
+            :scale #t
+            :param3 (game-option-menu warp-to-home))
+       (new 'static 'game-option :option-type (game-option-type button) :name (text-id back) :scale #t)))
+
+
+(define *seed-options*
+  (new 'static
+       'boxed-array
+       :type
+       game-option
        (new 'static 
             'game-option 
             :option-type (game-option-type orbsanity-option) 
@@ -371,12 +391,6 @@
             :option-type (game-option-type completion-goal) 
             :name (text-id completion-goal) 
             :scale #t)
-       (new 'static
-            'game-option
-            :option-type (game-option-type menu)
-            :name (text-id warp-to-home)
-            :scale #t
-            :param3 (game-option-menu warp-to-home))
        (new 'static 'game-option :option-type (game-option-type button) :name (text-id back) :scale #t)))
 
 (define *item-tracker*
@@ -2246,6 +2260,7 @@
   (set! (-> *options-remap* (progress-screen speedrun-cat-ext-options)) *speedrun-cat-ext-options*)
   (set! (-> *options-remap* (progress-screen warp-to-home)) *yes-no-options*)
   (set! (-> *options-remap* (progress-screen archipelago-options)) *archipelago-options*)
+  (set! (-> *options-remap* (progress-screen seed-options)) *seed-options*)
   (set! (-> *options-remap* (progress-screen item-tracker)) *item-tracker*)
   (set! (-> *options-remap* (progress-screen move-tracker)) *move-tracker*)
   ;; set default params
@@ -2287,14 +2302,15 @@
   ;; archipelago options
   (set! (-> *archipelago-options* 2 value-to-modify) (&-> *ap-settings* deathlink?))
   (set! (-> *archipelago-options* 3 value-to-modify) (&-> *ap-settings* moverando?))
-  (set! (-> *archipelago-options* 4 value-to-modify) (&-> *progress-carousell* int-backup)) ;; remember, carousell menus map to this backup variable, not directly to the setting variable. 
-  (set! (-> *archipelago-options* 5 value-to-modify) (&-> *progress-carousell* int-backup))
-  (set! (-> *archipelago-options* 6 value-to-modify) (&-> *ap-settings* fire-canyon-unlock))
-  (set! (-> *archipelago-options* 7 value-to-modify) (&-> *ap-settings* mountain-pass-unlock))
-  (set! (-> *archipelago-options* 8 value-to-modify) (&-> *ap-settings* lava-tube-unlock))
-  (set! (-> *archipelago-options* 9 value-to-modify) (&-> *ap-settings* citizen-orb-amount))
-  (set! (-> *archipelago-options* 10 value-to-modify) (&-> *ap-settings* oracle-orb-amount))
-  (set! (-> *archipelago-options* 11 value-to-modify) (&-> *progress-carousell* int-backup))
+  ;; seed options
+  (set! (-> *seed-options* 0 value-to-modify) (&-> *progress-carousell* int-backup)) ;; remember, carousell menus map to this backup variable, not directly to the setting variable. 
+  (set! (-> *seed-options* 1 value-to-modify) (&-> *progress-carousell* int-backup)) ;; above was orbsanity option, this is orbsanity bundle.
+  (set! (-> *seed-options* 2 value-to-modify) (&-> *ap-settings* fire-canyon-unlock))
+  (set! (-> *seed-options* 3 value-to-modify) (&-> *ap-settings* mountain-pass-unlock))
+  (set! (-> *seed-options* 4 value-to-modify) (&-> *ap-settings* lava-tube-unlock))
+  (set! (-> *seed-options* 5 value-to-modify) (&-> *ap-settings* citizen-orb-amount))
+  (set! (-> *seed-options* 6 value-to-modify) (&-> *ap-settings* oracle-orb-amount))
+  (set! (-> *seed-options* 7 value-to-modify) (&-> *progress-carousell* int-backup)) ;; this is completion goal.
   ;; input options
   (set! (-> *controller-options* 1 value-to-modify) (&-> *pc-settings* memcard-vibration?))
   (set! (-> *controller-options* 2 value-to-modify) (&-> *pc-settings* stick-deadzone))
@@ -3849,6 +3865,7 @@
             (((progress-screen money)) (set! stats? #t) (draw-money-screen self a1-0))
             (((progress-screen buzzer)) (set! stats? #t) (draw-buzzer-screen self a1-0))
             (((progress-screen archipelago-options)
+              (progress-screen seed-options)
               (progress-screen graphic-settings)
               (progress-screen settings-title)
               (progress-screen title)
@@ -4060,6 +4077,7 @@
                    (= v1-74 (progress-screen memcard-disable-auto-save))
                    (= v1-74 (progress-screen warp-to-home))
                    (= v1-74 (progress-screen archipelago-options))
+                   (= v1-74 (progress-screen seed-options))
                    (= v1-74 (progress-screen item-tracker))
                    (= v1-74 (progress-screen move-tracker)))
                (respond-memcard self))))
