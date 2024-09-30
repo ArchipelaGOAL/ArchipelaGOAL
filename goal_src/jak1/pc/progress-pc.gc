@@ -312,6 +312,11 @@
             :option-type (game-option-type on-off) 
             :name (text-id moverando) 
             :scale #t)
+       (new 'static 
+            'game-option 
+            :option-type (game-option-type on-off) 
+            :name (text-id show-item-messages) 
+            :scale #t)
        (new 'static
             'game-option
             :option-type (game-option-type menu)
@@ -2302,6 +2307,7 @@
   ;; archipelago options
   (set! (-> *archipelago-options* 2 value-to-modify) (&-> *ap-settings* deathlink?))
   (set! (-> *archipelago-options* 3 value-to-modify) (&-> *ap-settings* moverando?))
+  (set! (-> *archipelago-options* 4 value-to-modify) (&-> *ap-settings* item-messages?))
   ;; seed options
   (set! (-> *seed-options* 0 value-to-modify) (&-> *progress-carousell* int-backup)) ;; remember, carousell menus map to this backup variable, not directly to the setting variable. 
   (set! (-> *seed-options* 1 value-to-modify) (&-> *progress-carousell* int-backup)) ;; above was orbsanity option, this is orbsanity bundle.

@@ -292,7 +292,8 @@
    (lava-tube-unlock     float)
    (citizen-orb-amount   float)
    (oracle-orb-amount    float)
-   (completion-goal      uint8))
+   (completion-goal      uint8)
+   (item-messages?       symbol))
   (:methods
    (new (symbol type) _type_)
    (reset (_type_) none)
@@ -308,6 +309,7 @@
   (set! (-> obj version) 0)
   (set! (-> obj deathlink?) #f)
   (set! (-> obj moverando?) #t)
+  (set! (-> obj item-messages?) #t)
   (set! (-> obj orbsanity-option) 0)
   (set! (-> obj orbsanity-bundle) 1)
   (set! (-> obj fire-canyon-unlock) (the float 20))
