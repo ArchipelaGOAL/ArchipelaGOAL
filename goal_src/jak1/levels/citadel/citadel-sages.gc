@@ -585,7 +585,8 @@
          (close-specific-task! (game-task citadel-sage-blue) (task-status need-hint))
          (close-specific-task! (game-task citadel-sage-red) (task-status need-hint))
          (close-specific-task! (game-task citadel-sage-yellow) (task-status need-hint))
-         (set-continue! *game-info* "citadel-elevator"))
+         ;; (set-continue! *game-info* "citadel-elevator")) ;; patch out citadel skip
+       )
        (new 'static
             'spool-anim
             :name "green-sagecage-introduction"
