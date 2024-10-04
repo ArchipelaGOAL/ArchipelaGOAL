@@ -12,9 +12,13 @@
 ;; Setup markers
 (charp<-string (-> *ap-info-jak1* end-marker) "end")
 
+;; ****************************************************************************
+;; **** This number must match expected_memory_version in MemoryReader.py! ****
+;; ****************************************************************************
+(set! (-> *ap-info-jak1* version) 2)
+
 ;; These don't need to be indexed like they are game-tasks.
 ;; We can just take them first-come-first-serve.
-
 (defun ap-cell-checked! ((cell-id uint))
   (set! (-> *ap-info-jak1* cells-checked (-> *ap-info-jak1* next-cell-index)) cell-id)
   (+! (-> *ap-info-jak1* next-cell-index) 1.0))
@@ -148,6 +152,11 @@
   (set! (-> *ap-settings* oracle-orb-amount) ooa)
   (set! (-> *ap-settings* completion-goal) goal)
   #t)
+
+(defun ap-set-connection-status! ((status uint))
+  (set! (-> *ap-info-jak1* connection-status) status) ;; 0 = default, 1 = success, 2 = failure.
+  #t
+  )
 
 (defun ap-settings-update ()
   "A per frame update for settings related stuff"

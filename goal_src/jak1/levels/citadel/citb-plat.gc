@@ -219,6 +219,7 @@
     (behavior ()
       (logior! (-> self draw status) (draw-status hidden))
       ;; Instead of checking self rise, check the ap-specials.
+      ;; All 3 sages aside from Samos are required to raise the stairs.
       (while (not (and (ap-special-received? (the-as uint (game-task citadel-sage-blue)))
                        (ap-special-received? (the-as uint (game-task citadel-sage-red)))
                        (ap-special-received? (the-as uint (game-task citadel-sage-yellow)))))
@@ -753,9 +754,13 @@
       (logior! (-> self draw status) (draw-status hidden))
       (clear-collide-with-as (-> self root))
       (loop
-        ;; Do what the 'trigger event would have done if you receive the ap-special.
+        ;; Do what the 'trigger event would have done if you receive the ap-specials.
+        ;; Include the other sages here to guard against citadel skip (V1 and V2).
         (cond
-          ((ap-special-received? (the-as uint (game-task citadel-sage-green)))
+          ((and (ap-special-received? (the-as uint (game-task citadel-sage-blue)))
+                (ap-special-received? (the-as uint (game-task citadel-sage-red)))
+                (ap-special-received? (the-as uint (game-task citadel-sage-yellow)))
+                (ap-special-received? (the-as uint (game-task citadel-sage-green))))
            (let ((v1-3 (-> self entity extra perm)))
              (logior! (-> v1-3 status) (entity-perm-status user-set-from-cstage))
              (set! (-> v1-3 user-int8 0) 1))
