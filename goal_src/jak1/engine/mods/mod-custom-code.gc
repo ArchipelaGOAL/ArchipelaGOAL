@@ -34,13 +34,15 @@
   ((sent-messages ap-message-array)
    (recv-messages ap-message-array)
    (max-size int))
+  (:methods 
+    (append-messages (_type_ symbol) none))
   (:states
     ap-messenger-show
     ap-messenger-hide
     ap-messenger-scroll))
 
 (defbehavior ap-messenger-init-by-other ap-messenger ()
-  (set! (-> self max-size) 5)
+  (set! (-> self max-size) 3)
   (set! (-> self sent-messages) (new 'process 'ap-message-array (-> self max-size)))
   (dotimes (i (-> self max-size))
     (set! (-> self sent-messages messages i item-name) "")
@@ -49,13 +51,56 @@
   (dotimes (i (-> self max-size))
     (set! (-> self recv-messages messages i item-name) "")
     (set! (-> self recv-messages messages i player-name) ""))
-  (go ap-messenger-show)
-  )
+  (go ap-messenger-show))
 
+;; This method is an important override! Without it, our data structures
+;; will initialize with junk values and the game could crash if it moves 
+;; the struct to a new address!
 (defmethod relocate ((this ap-messenger) (offset int))
   (if (nonzero? (-> this sent-messages)) (&+! (-> this sent-messages) offset))
   (if (nonzero? (-> this recv-messages)) (&+! (-> this recv-messages) offset))
   (call-parent-method this offset))
+
+(defmethod append-messages ((this ap-messenger) (direction symbol))
+  (let* ((target-array (case direction
+          (('sent) (-> this sent-messages))
+          (('recv) (-> this recv-messages))))
+         (active-direction (case *hud-collectable-view*
+          (((hud-collectable-view game-totals) 
+            (hud-collectable-view level-totals)) 'sent)
+          (((hud-collectable-view original)) 'recv)))
+         (must-shift #t)
+         (target-index 0))
+    ;; If we find an empty space, we don't need to shift.
+    (dotimes (i (-> this max-size))
+      (when (and must-shift (string= (-> target-array messages i item-name) ""))
+        (format #t "no shift!~%")
+        (set! must-shift #f)
+        (set! target-index i)))
+    ;; If we need to shift, we push every element down one index, 
+    ;; then insert at the last index.
+    (when must-shift
+      (set! target-index (- (-> this max-size) 1))
+      (dotimes (i (-> this max-size))
+        (when (< i (- (-> this max-size) 1))
+          (format #t "shift! ~D -> ~D~%" i (+ i 1))
+          (set! (-> target-array messages i item-name) (-> target-array messages (+ i 1) item-name))
+          (set! (-> target-array messages i player-name) (-> target-array messages (+ i 1) player-name)))))
+    ;; Now add the new information to the determined index.
+    (case direction
+      (('sent)
+        (string<-charp (clear *ap-string1*) (-> *ap-info-jak1* their-item-name))
+        (string<-charp (clear *ap-string2*) (-> *ap-info-jak1* their-item-owner)))
+      (('recv)            
+        (string<-charp (clear *ap-string1*) (-> *ap-info-jak1* my-item-name))
+        (string<-charp (clear *ap-string2*) (-> *ap-info-jak1* my-item-finder))))
+    (format #t "we wrote: ~S ~S to ~D~%" *ap-string1* *ap-string2* target-index)
+    (set! (-> target-array messages target-index item-name) *ap-string1*)
+    (set! (-> target-array messages target-index player-name) *ap-string2*)
+    ;; Last order of business, do we move ap-messenger to the scroll state?
+    (when (and must-shift (= direction active-direction))
+      (go ap-messenger-scroll)))
+  (none))
 
 (defun draw-message ((message string) (index int))
   (with-dma-buffer-add-bucket ((buf (-> (current-frame) global-buf)) (bucket-id subtitle))
@@ -71,10 +116,24 @@
             (hud-collectable-view level-totals)) "SENT ~6L~S~0L TO ~3L~S~0L")
           (((hud-collectable-view original)) "GOT ~6L~S~0L FROM ~3L~S~0L"))))
     (dotimes (i (-> self max-size))
-      (if (not (string= (-> active-array messages i item-name) ""))
-        (if (string= (-> active-array messages i player-name) "MYSELF")
-          (draw-message (string-format "FOUND ~8L~S~0L" (-> active-array messages i item-name)) i)
-          (draw-message (string-format active-template (-> active-array messages i item-name) (-> active-array messages i player-name)) i))))))
+      ;; Don't print at all if no item is here.
+      (when (not (string= (-> active-array messages i item-name) ""))
+         ;; Print a special format for self-found items.
+        (when (string= (-> active-array messages i player-name) "MYSELF")
+          ;;(format #t "myself: ~S~%" (-> active-array messages i item-name))
+          (draw-message 
+            (string-format 
+              "FOUND ~8L~S~0L" 
+              (-> active-array messages i item-name))
+            i))
+        (when (not (string= (-> active-array messages i player-name) "MYSELF"))
+          ;;(format #t "someone: ~S~%" (-> active-array messages i item-name))
+          (draw-message
+            (string-format 
+              active-template 
+              (-> active-array messages i item-name) 
+              (-> active-array messages i player-name))
+            i))))))
 
 (defstate ap-messenger-show (ap-messenger)
   :code (behavior ()
@@ -107,6 +166,12 @@
   (kill-by-name "ap-messenger" *active-pool*))
 
 (define-perm *ap-messenger* (pointer ap-messenger) (the (pointer ap-messenger) #f))
+
+(defun debug-messenger ((x string) (y string))
+  (charp<-string (-> *ap-info-jak1* my-item-name) x)
+  (charp<-string (-> *ap-info-jak1* my-item-finder) y)
+  (append-messages (-> *ap-messenger* 0) 'recv)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Begin function definitions.
@@ -162,8 +227,6 @@
   ;; ensure orb-placer is spawned/killed as requested, debug menu is updated
   (when *debug-segment*
     (orb-placer-maintenance))
-  ;;(when (and (not (paused?)) (-> *ap-settings* item-messages?))
-  ;;  (render-ap-ui))
   (when (not *ap-messenger*)
     (set! *ap-messenger* (ap-messenger-run)))
   (none))
