@@ -18,7 +18,98 @@
 |#
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Begin function defintions.
+;; Begin type definitions.
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(deftype ap-message (structure)
+  ((item-name string)
+   (player-name string)))
+
+(deftype ap-message-array (inline-array-class)
+  ((messages ap-message :inline :dynamic)))
+
+(set! (-> ap-message-array heap-base) (the-as uint 64))
+
+(deftype ap-messenger (process)
+  ((sent-messages ap-message-array)
+   (recv-messages ap-message-array)
+   (max-size int))
+  (:states
+    ap-messenger-show
+    ap-messenger-hide
+    ap-messenger-scroll))
+
+(defbehavior ap-messenger-init-by-other ap-messenger ()
+  (set! (-> self max-size) 5)
+  (set! (-> self sent-messages) (new 'process 'ap-message-array (-> self max-size)))
+  (dotimes (i (-> self max-size))
+    (set! (-> self sent-messages messages i item-name) "")
+    (set! (-> self sent-messages messages i player-name) ""))
+  (set! (-> self recv-messages) (new 'process 'ap-message-array (-> self max-size)))
+  (dotimes (i (-> self max-size))
+    (set! (-> self recv-messages messages i item-name) "")
+    (set! (-> self recv-messages messages i player-name) ""))
+  (go ap-messenger-show)
+  )
+
+(defmethod relocate ((this ap-messenger) (offset int))
+  (if (nonzero? (-> this sent-messages)) (&+! (-> this sent-messages) offset))
+  (if (nonzero? (-> this recv-messages)) (&+! (-> this recv-messages) offset))
+  (call-parent-method this offset))
+
+(defun draw-message ((message string) (index int))
+  (with-dma-buffer-add-bucket ((buf (-> (current-frame) global-buf)) (bucket-id subtitle))
+    (draw-string-xy-scaled message buf 256 (- 214 (* 9 index)) (font-color default) (font-flags shadow kerning middle large) 0.4)))
+
+(defbehavior draw-messages ap-messenger ()
+  (let* ((active-array (case *hud-collectable-view*
+          (((hud-collectable-view game-totals) 
+            (hud-collectable-view level-totals)) (-> self sent-messages))
+          (((hud-collectable-view original)) (-> self recv-messages))))
+         (active-template (case *hud-collectable-view*
+          (((hud-collectable-view game-totals) 
+            (hud-collectable-view level-totals)) "SENT ~6L~S~0L TO ~3L~S~0L")
+          (((hud-collectable-view original)) "GOT ~6L~S~0L FROM ~3L~S~0L"))))
+    (dotimes (i (-> self max-size))
+      (if (not (string= (-> active-array messages i item-name) ""))
+        (if (string= (-> active-array messages i player-name) "MYSELF")
+          (draw-message (string-format "FOUND ~8L~S~0L" (-> active-array messages i item-name)) i)
+          (draw-message (string-format active-template (-> active-array messages i item-name) (-> active-array messages i player-name)) i))))))
+
+(defstate ap-messenger-show (ap-messenger)
+  :code (behavior ()
+    (loop
+      (draw-messages)
+      (when (or (paused?) (not (-> *ap-settings* item-messages?)))
+        (go ap-messenger-hide))
+      (suspend))))
+
+(defstate ap-messenger-hide (ap-messenger)
+  :code (behavior ()
+    (loop
+      (when (and (not (paused?)) (-> *ap-settings* item-messages?))
+        (go ap-messenger-show))
+      (suspend))))
+
+(defstate ap-messenger-scroll (ap-messenger)
+  :code (behavior ()
+    (loop
+      (when #t ;;(scrolling-animation-finished?) ;; TODO
+        (go ap-messenger-show))
+      (suspend))))
+
+(defun ap-messenger-run ()
+  "Run the AP Messenger"
+  (process-spawn ap-messenger))
+
+(defun ap-message-renderer-stop ()
+  "Stop the AP Messenger"
+  (kill-by-name "ap-messenger" *active-pool*))
+
+(define-perm *ap-messenger* (pointer ap-messenger) (the (pointer ap-messenger) #f))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Begin function definitions.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun render-ap-ui ()
@@ -71,8 +162,10 @@
   ;; ensure orb-placer is spawned/killed as requested, debug menu is updated
   (when *debug-segment*
     (orb-placer-maintenance))
-  (when (and (not (paused?)) (-> *ap-settings* item-messages?))
-    (render-ap-ui))
+  ;;(when (and (not (paused?)) (-> *ap-settings* item-messages?))
+  ;;  (render-ap-ui))
+  (when (not *ap-messenger*)
+    (set! *ap-messenger* (ap-messenger-run)))
   (none))
 
 (defun runs-on-orb-pickup ((parent process-tree))
