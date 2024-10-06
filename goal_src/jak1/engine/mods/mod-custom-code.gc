@@ -33,9 +33,10 @@
 (deftype ap-messenger (process)
   ((sent-messages ap-message-array)
    (recv-messages ap-message-array)
-   (max-size int))
+   (max-size int)
+   (state-time time-frame))
   (:methods 
-    (append-messages (_type_ symbol) none))
+    (append-messages (_type_ symbol string string) none))
   (:states
     ap-messenger-show
     ap-messenger-hide
@@ -45,23 +46,31 @@
   (set! (-> self max-size) 3)
   (set! (-> self sent-messages) (new 'process 'ap-message-array (-> self max-size)))
   (dotimes (i (-> self max-size))
-    (set! (-> self sent-messages messages i item-name) "")
-    (set! (-> self sent-messages messages i player-name) ""))
+    (set! (-> self sent-messages messages i item-name) (new 'process 'string 32 (the string #f)))
+    (set! (-> self sent-messages messages i player-name) (new 'process 'string 32 (the string #f))))
   (set! (-> self recv-messages) (new 'process 'ap-message-array (-> self max-size)))
   (dotimes (i (-> self max-size))
-    (set! (-> self recv-messages messages i item-name) "")
-    (set! (-> self recv-messages messages i player-name) ""))
+    (set! (-> self recv-messages messages i item-name) (new 'process 'string 32 (the string #f)))
+    (set! (-> self recv-messages messages i player-name) (new 'process 'string 32 (the string #f))))
   (go ap-messenger-show))
 
 ;; This method is an important override! Without it, our data structures
 ;; will initialize with junk values and the game could crash if it moves 
 ;; the struct to a new address!
 (defmethod relocate ((this ap-messenger) (offset int))
-  (if (nonzero? (-> this sent-messages)) (&+! (-> this sent-messages) offset))
-  (if (nonzero? (-> this recv-messages)) (&+! (-> this recv-messages) offset))
+  (when (nonzero? (-> this sent-messages))
+    (dotimes (i (-> this max-size))
+      (when (nonzero? (-> this sent-messages messages i item-name)) (&+! (-> this sent-messages messages i item-name) offset))
+      (when (nonzero? (-> this sent-messages messages i player-name)) (&+! (-> this sent-messages messages i player-name) offset)))
+    (&+! (-> this sent-messages) offset))
+  (when (nonzero? (-> this recv-messages))
+    (dotimes (i (-> this max-size))
+      (when (nonzero? (-> this recv-messages messages i item-name)) (&+! (-> this recv-messages messages i item-name) offset))
+      (when (nonzero? (-> this recv-messages messages i player-name)) (&+! (-> this recv-messages messages i player-name) offset)))
+    (&+! (-> this recv-messages) offset))
   (call-parent-method this offset))
 
-(defmethod append-messages ((this ap-messenger) (direction symbol))
+(defmethod append-messages ((this ap-messenger) (direction symbol) (item-name string) (player-name string))
   (let* ((target-array (case direction
           (('sent) (-> this sent-messages))
           (('recv) (-> this recv-messages))))
@@ -74,39 +83,28 @@
     ;; If we find an empty space, we don't need to shift.
     (dotimes (i (-> this max-size))
       (when (and must-shift (string= (-> target-array messages i item-name) ""))
-        (format #t "no shift!~%")
         (set! must-shift #f)
         (set! target-index i)))
-    ;; If we need to shift, we push every element down one index, 
-    ;; then insert at the last index.
+    ;; If we need to shift, we push every element down one index, then insert at the last index.
     (when must-shift
       (set! target-index (- (-> this max-size) 1))
       (dotimes (i (-> this max-size))
         (when (< i (- (-> this max-size) 1))
-          (format #t "shift! ~D -> ~D~%" i (+ i 1))
           (set! (-> target-array messages i item-name) (-> target-array messages (+ i 1) item-name))
           (set! (-> target-array messages i player-name) (-> target-array messages (+ i 1) player-name)))))
     ;; Now add the new information to the determined index.
-    (case direction
-      (('sent)
-        (string<-charp (clear *ap-string1*) (-> *ap-info-jak1* their-item-name))
-        (string<-charp (clear *ap-string2*) (-> *ap-info-jak1* their-item-owner)))
-      (('recv)            
-        (string<-charp (clear *ap-string1*) (-> *ap-info-jak1* my-item-name))
-        (string<-charp (clear *ap-string2*) (-> *ap-info-jak1* my-item-finder))))
-    (format #t "we wrote: ~S ~S to ~D~%" *ap-string1* *ap-string2* target-index)
-    (set! (-> target-array messages target-index item-name) *ap-string1*)
-    (set! (-> target-array messages target-index player-name) *ap-string2*)
+    (set! (-> target-array messages target-index item-name) item-name)
+    (set! (-> target-array messages target-index player-name) player-name)
     ;; Last order of business, do we move ap-messenger to the scroll state?
     (when (and must-shift (= direction active-direction))
-      (go ap-messenger-scroll)))
+      (send-event this 'scroll)))
   (none))
 
-(defun draw-message ((message string) (index int))
+(defun draw-message ((message string) (bottom int) (index int))
   (with-dma-buffer-add-bucket ((buf (-> (current-frame) global-buf)) (bucket-id subtitle))
-    (draw-string-xy-scaled message buf 256 (- 214 (* 9 index)) (font-color default) (font-flags shadow kerning middle large) 0.4)))
+    (draw-string-xy-scaled message buf 256 (- bottom (* 10 index)) (font-color default) (font-flags shadow kerning middle large) 0.4)))
 
-(defbehavior draw-messages ap-messenger ()
+(defbehavior draw-messages ap-messenger ((bottom int))
   (let* ((active-array (case *hud-collectable-view*
           (((hud-collectable-view game-totals) 
             (hud-collectable-view level-totals)) (-> self sent-messages))
@@ -118,27 +116,32 @@
     (dotimes (i (-> self max-size))
       ;; Don't print at all if no item is here.
       (when (not (string= (-> active-array messages i item-name) ""))
-         ;; Print a special format for self-found items.
+        ;; Print a special format for self-found items.
         (when (string= (-> active-array messages i player-name) "MYSELF")
-          ;;(format #t "myself: ~S~%" (-> active-array messages i item-name))
           (draw-message 
             (string-format 
               "FOUND ~8L~S~0L" 
               (-> active-array messages i item-name))
+            bottom
             i))
+        ;; Print the usual format for everything else.
         (when (not (string= (-> active-array messages i player-name) "MYSELF"))
-          ;;(format #t "someone: ~S~%" (-> active-array messages i item-name))
           (draw-message
             (string-format 
               active-template 
               (-> active-array messages i item-name) 
               (-> active-array messages i player-name))
+            bottom
             i))))))
 
 (defstate ap-messenger-show (ap-messenger)
+  :event
+    (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
+      (case message
+        (('scroll) (go ap-messenger-scroll))))
   :code (behavior ()
     (loop
-      (draw-messages)
+      (draw-messages 215)
       (when (or (paused?) (not (-> *ap-settings* item-messages?)))
         (go ap-messenger-hide))
       (suspend))))
@@ -151,26 +154,27 @@
       (suspend))))
 
 (defstate ap-messenger-scroll (ap-messenger)
+  :enter (behavior ()
+    (set-state-time))
   :code (behavior ()
     (loop
-      (when #t ;;(scrolling-animation-finished?) ;; TODO
-        (go ap-messenger-show))
+      (if (time-passed? (seconds 0.05))
+        (go ap-messenger-show)
+        (draw-messages (+ 215 (- (current-time) (-> self state-time)))))
       (suspend))))
 
 (defun ap-messenger-run ()
   "Run the AP Messenger"
   (process-spawn ap-messenger))
 
-(defun ap-message-renderer-stop ()
+(defun ap-messenger-stop ()
   "Stop the AP Messenger"
   (kill-by-name "ap-messenger" *active-pool*))
 
 (define-perm *ap-messenger* (pointer ap-messenger) (the (pointer ap-messenger) #f))
 
 (defun debug-messenger ((x string) (y string))
-  (charp<-string (-> *ap-info-jak1* my-item-name) x)
-  (charp<-string (-> *ap-info-jak1* my-item-finder) y)
-  (append-messages (-> *ap-messenger* 0) 'recv)
+  (append-messages (-> *ap-messenger* 0) 'recv x y)
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
