@@ -43,7 +43,8 @@
     ap-messenger-scroll))
 
 (defbehavior ap-messenger-init-by-other ap-messenger ()
-  (set! (-> self max-size) 3)
+  ;; The Nth position is the "on-deck" position. You will only see N-1 elements in-game.
+  (set! (-> self max-size) 4) 
   (set! (-> self sent-messages) (new 'process 'ap-message-array (-> self max-size)))
   (dotimes (i (-> self max-size))
     (set! (-> self sent-messages messages i item-name) (new 'process 'string 32 (the string #f)))
@@ -79,19 +80,12 @@
             (hud-collectable-view level-totals)) 'sent)
           (((hud-collectable-view original)) 'recv)))
          (must-shift #t)
-         (target-index 0))
+         (target-index (- (-> this max-size) 1)))
     ;; If we find an empty space, we don't need to shift.
-    (dotimes (i (-> this max-size))
+    (dotimes (i (- (-> this max-size) 1))
       (when (and must-shift (string= (-> target-array messages i item-name) ""))
         (set! must-shift #f)
         (set! target-index i)))
-    ;; If we need to shift, we push every element down one index, then insert at the last index.
-    (when must-shift
-      (set! target-index (- (-> this max-size) 1))
-      (dotimes (i (-> this max-size))
-        (when (< i (- (-> this max-size) 1))
-          (set! (-> target-array messages i item-name) (-> target-array messages (+ i 1) item-name))
-          (set! (-> target-array messages i player-name) (-> target-array messages (+ i 1) player-name)))))
     ;; Now add the new information to the determined index.
     (set! (-> target-array messages target-index item-name) item-name)
     (set! (-> target-array messages target-index player-name) player-name)
@@ -100,11 +94,20 @@
       (send-event this 'scroll)))
   (none))
 
-(defun draw-message ((message string) (bottom int) (index int))
-  (with-dma-buffer-add-bucket ((buf (-> (current-frame) global-buf)) (bucket-id subtitle))
-    (draw-string-xy-scaled message buf 256 (- bottom (* 10 index)) (font-color default) (font-flags shadow kerning middle large) 0.4)))
+(defun draw-message ((message string) (bottom float) (index int))
+  (let ((s4-1 (new 'stack
+                   'font-context
+                   *font-default-matrix*
+                   5
+                   (the int bottom)
+                   0.0
+                   (font-color default)
+                   (font-flags shadow kerning large))))
+    (set! (-> s4-1 origin y) (- bottom (* 10 index)))
+    (set! (-> s4-1 width) (the float 1920))
+    (print-game-text-scaled message 0.36 s4-1 128)))
 
-(defbehavior draw-messages ap-messenger ((bottom int))
+(defbehavior draw-messages ap-messenger ((bottom float))
   (let* ((active-array (case *hud-collectable-view*
           (((hud-collectable-view game-totals) 
             (hud-collectable-view level-totals)) (-> self sent-messages))
@@ -113,7 +116,7 @@
           (((hud-collectable-view game-totals) 
             (hud-collectable-view level-totals)) "SENT ~6L~S~0L TO ~3L~S~0L")
           (((hud-collectable-view original)) "GOT ~6L~S~0L FROM ~3L~S~0L"))))
-    (dotimes (i (-> self max-size))
+    (dotimes (i (- (-> self max-size) 1))
       ;; Don't print at all if no item is here.
       (when (not (string= (-> active-array messages i item-name) ""))
         ;; Print a special format for self-found items.
@@ -141,7 +144,7 @@
         (('scroll) (go ap-messenger-scroll))))
   :code (behavior ()
     (loop
-      (draw-messages 215)
+      (draw-messages 215.0)
       (when (or (paused?) (not (-> *ap-settings* item-messages?)))
         (go ap-messenger-hide))
       (suspend))))
@@ -158,10 +161,20 @@
     (set-state-time))
   :code (behavior ()
     (loop
-      (if (time-passed? (seconds 0.05))
+      (if (time-passed? (seconds 0.33333334))
         (go ap-messenger-show)
-        (draw-messages (+ 215 (- (current-time) (-> self state-time)))))
-      (suspend))))
+        (let ((y (/ (the float (- (current-time) (-> self state-time))) 10)))
+          (draw-messages (+ 215.0 y))))
+      (suspend)))
+  :exit (behavior ()
+    (let* ((active-array (case *hud-collectable-view*
+        (((hud-collectable-view game-totals)
+          (hud-collectable-view level-totals)) (-> self sent-messages))
+        (((hud-collectable-view original)) (-> self recv-messages)))))
+      (dotimes (i (-> self max-size))
+        (when (< i (- (-> self max-size) 1))
+          (set! (-> active-array messages i item-name) (-> active-array messages (+ i 1) item-name))
+          (set! (-> active-array messages i player-name) (-> active-array messages (+ i 1) player-name)))))))
 
 (defun ap-messenger-run ()
   "Run the AP Messenger"
@@ -174,8 +187,7 @@
 (define-perm *ap-messenger* (pointer ap-messenger) (the (pointer ap-messenger) #f))
 
 (defun debug-messenger ((x string) (y string))
-  (append-messages (-> *ap-messenger* 0) 'recv x y)
-  )
+  (append-messages (-> *ap-messenger* 0) 'recv x y))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Begin function definitions.
