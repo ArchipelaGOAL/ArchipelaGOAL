@@ -26,13 +26,15 @@
    (player-name string)))
 
 (deftype ap-message-array (inline-array-class)
-  ((messages ap-message :inline :dynamic)))
+  ((target-index int)
+   (messages ap-message :inline :dynamic)))
 
 (set! (-> ap-message-array heap-base) (the-as uint 64))
 
 (deftype ap-messenger (process)
   ((sent-messages ap-message-array)
    (recv-messages ap-message-array)
+   (show-size int)
    (max-size int)
    (state-time time-frame))
   (:methods 
@@ -43,16 +45,18 @@
     ap-messenger-scroll))
 
 (defbehavior ap-messenger-init-by-other ap-messenger ()
-  ;; The Nth position is the "on-deck" position. You will only see N-1 elements in-game.
-  (set! (-> self max-size) 4) 
+  (set! (-> self show-size) 3)
+  (set! (-> self max-size) 10)
   (set! (-> self sent-messages) (new 'process 'ap-message-array (-> self max-size)))
   (dotimes (i (-> self max-size))
     (set! (-> self sent-messages messages i item-name) (new 'process 'string 32 (the string #f)))
     (set! (-> self sent-messages messages i player-name) (new 'process 'string 32 (the string #f))))
   (set! (-> self recv-messages) (new 'process 'ap-message-array (-> self max-size)))
+  (set! (-> self sent-messages target-index) 0)
   (dotimes (i (-> self max-size))
     (set! (-> self recv-messages messages i item-name) (new 'process 'string 32 (the string #f)))
     (set! (-> self recv-messages messages i player-name) (new 'process 'string 32 (the string #f))))
+  (set! (-> self recv-messages target-index) 0)
   (go ap-messenger-show))
 
 ;; This method is an important override! Without it, our data structures
@@ -71,42 +75,35 @@
     (&+! (-> this recv-messages) offset))
   (call-parent-method this offset))
 
+(defun shift-messages ((target-array ap-message-array) (show-size int) (max-size int))
+  (dotimes (i max-size)
+    (when (< i (- max-size 1))
+      (set! (-> target-array messages i item-name) (-> target-array messages (+ i 1) item-name))
+      (set! (-> target-array messages i player-name) (-> target-array messages (+ i 1) player-name))))
+  (if (> (-> target-array target-index) show-size)
+    (-! (-> target-array target-index) 1)))
+
 ;; Called by the Archipelago client to inform the game about new items being sent/received.
 ;; Direction can be either 'sent or 'recv, to tell us which array to write info to.
 (defmethod append-messages ((this ap-messenger) (direction symbol) (item-name string) (player-name string))
   (let* ((target-array (case direction
           (('sent) (-> this sent-messages))
-          (('recv) (-> this recv-messages))))
-         (active-direction (case *hud-collectable-view*
-          (((hud-collectable-view game-totals) 
-            (hud-collectable-view level-totals)) 'sent)
-          (((hud-collectable-view original)) 'recv)))
-         (must-shift #t)
-         (target-index (- (-> this max-size) 1)))
-    ;; If we find an empty space, we don't need to shift.
-    (dotimes (i (- (-> this max-size) 1))
-      (when (and must-shift (string= (-> target-array messages i item-name) ""))
-        (set! must-shift #f)
-        (set! target-index i)))
-    ;; Now add the new information to the determined index.
-    (set! (-> target-array messages target-index item-name) item-name)
-    (set! (-> target-array messages target-index player-name) player-name)
-    ;; Last order of business, do we move ap-messenger to the scroll state?
-    (when (and must-shift (= direction active-direction))
-      (send-event this 'scroll)))
+          (('recv) (-> this recv-messages)))))
+    ;; Don't go over the upper bound!
+    (if (= (-> target-array target-index) (-> this max-size)) 
+      (set! (-> target-array target-index) (- (-> this max-size) 1)))
+    ;; Add the new information to the target index.
+    (set! (-> target-array messages (-> target-array target-index) item-name) item-name)
+    (set! (-> target-array messages (-> target-array target-index) player-name) player-name)
+    ;; Incremement target-index to the next available empty space.
+    (if (< (-> target-array target-index) (- (-> this max-size) 1))
+      (+! (-> target-array target-index) 1)))
   (none))
 
 (defun draw-message ((message string) (bottom float) (index int))
-  (let ((s4-1 (new 'stack
-                   'font-context
-                   *font-default-matrix*
-                   5
-                   (the int bottom)
-                   0.0
-                   (font-color default)
-                   (font-flags shadow kerning large))))
+  (let ((s4-1 (new 'stack 'font-context *font-default-matrix* 5 (the int bottom) 0.0 (font-color default) (font-flags shadow kerning large))))
     (with-dma-buffer-add-bucket ((buf (-> (current-frame) global-buf)) (bucket-id subtitle))
-      (set! (-> s4-1 origin y) (- bottom (* 9 index))) ;; Handles smooth scrolling and separate lines.
+      (set! (-> s4-1 origin y) (- bottom (* 9 index)))  ;; Handles smooth scrolling and separate lines.
       (set! (-> s4-1 width) (the float 1920))           ;; Set width to fit 32-char names on a single line.
       (draw-string-xy-scaled-ctxt message buf 256 (the int (- bottom (* 9 index))) s4-1 0.36))))
 
@@ -119,7 +116,7 @@
           (((hud-collectable-view game-totals) 
             (hud-collectable-view level-totals)) "SENT ~6L~S~0L TO ~3L~S~0L")
           (((hud-collectable-view original)) "GOT ~6L~S~0L FROM ~3L~S~0L"))))
-    (dotimes (i (- (-> self max-size) 1))
+    (dotimes (i (-> self show-size))
       ;; Don't print at all if no item is here.
       (when (not (string= (-> active-array messages i item-name) ""))
         ;; Print a special format for self-found items.
@@ -141,15 +138,26 @@
             i))))))
 
 (defstate ap-messenger-show (ap-messenger)
-  :event
-    (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-      (case message
-        (('scroll) (go ap-messenger-scroll))))
   :code (behavior ()
     (loop
       (draw-messages 215.0)
       (when (or (paused?) (not (-> *ap-settings* item-messages?)))
         (go ap-messenger-hide))
+      (case *hud-collectable-view*
+        (((hud-collectable-view game-totals) (hud-collectable-view level-totals))
+          ;; Silently shift the messages in the inactive queue.
+          (when (> (-> self recv-messages target-index) (-> self show-size))
+            (shift-messages (-> self recv-messages) (-> self show-size) (-> self max-size)))
+          ;; Visually shift the messages in the active queue.
+          (when (> (-> self sent-messages target-index) (-> self show-size))
+            (go ap-messenger-scroll)))
+        (((hud-collectable-view original)) 
+          ;; Silently shift the messages in the inactive queue.
+          (when (> (-> self sent-messages target-index) (-> self show-size))
+            (shift-messages (-> self sent-messages) (-> self show-size) (-> self max-size)))
+          ;; Visually shift the messages in the active queue.
+          (when (> (-> self recv-messages target-index) (-> self show-size))
+            (go ap-messenger-scroll))))
       (suspend))))
 
 (defstate ap-messenger-hide (ap-messenger)
@@ -165,7 +173,15 @@
   :code (behavior ()
     (loop
       (if (time-passed? (seconds 0.25))
-        (go ap-messenger-show)
+        (let* ((active-array (case *hud-collectable-view*
+            (((hud-collectable-view game-totals)
+              (hud-collectable-view level-totals)) (-> self sent-messages))
+            (((hud-collectable-view original)) (-> self recv-messages)))))
+          ;; If the queue still has items, restart the scrolling, else go back to show.
+          (if (> (-> active-array target-index) (+ (-> self show-size) 1))
+            (go ap-messenger-scroll)
+            (go ap-messenger-show)))
+        ;; Smoothly scroll through the existing messages.
         (let ((y (/ (the float (- (current-time) (-> self state-time))) 7.5)))
           (draw-messages (+ 215.0 y))))
       (suspend)))
@@ -174,10 +190,7 @@
         (((hud-collectable-view game-totals)
           (hud-collectable-view level-totals)) (-> self sent-messages))
         (((hud-collectable-view original)) (-> self recv-messages)))))
-      (dotimes (i (-> self max-size))
-        (when (< i (- (-> self max-size) 1))
-          (set! (-> active-array messages i item-name) (-> active-array messages (+ i 1) item-name))
-          (set! (-> active-array messages i player-name) (-> active-array messages (+ i 1) player-name)))))))
+      (shift-messages active-array (-> self show-size) (-> self max-size)))))
 
 (defun ap-messenger-run ()
   "Run the AP Messenger"
