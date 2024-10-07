@@ -106,9 +106,9 @@
                    (font-color default)
                    (font-flags shadow kerning large))))
     (with-dma-buffer-add-bucket ((buf (-> (current-frame) global-buf)) (bucket-id subtitle))
-      (set! (-> s4-1 origin y) (- bottom (* 10 index))) ;; Handles smooth scrolling and separate lines.
+      (set! (-> s4-1 origin y) (- bottom (* 9 index))) ;; Handles smooth scrolling and separate lines.
       (set! (-> s4-1 width) (the float 1920))           ;; Set width to fit 32-char names on a single line.
-      (draw-string-xy-scaled-ctxt message buf 256 (the int (- bottom (* 10 index))) s4-1 0.4))))
+      (draw-string-xy-scaled-ctxt message buf 256 (the int (- bottom (* 9 index))) s4-1 0.36))))
 
 (defbehavior draw-messages ap-messenger ((bottom float))
   (let* ((active-array (case *hud-collectable-view*
