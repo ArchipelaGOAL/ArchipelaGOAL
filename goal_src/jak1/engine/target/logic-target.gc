@@ -264,11 +264,14 @@
           (vector-! a0-36 (-> arg0 control transv) (vector-float*! a0-36 (-> arg0 control dynam gravity-normal) f0-17)))
         (let ((f0-18 (vector-length a0-36))) f0-18 (let ((t2-4 f0-18)) (s4-6 s3-6 s2-6 s1-6 s0-6 sv-160 sv-176 t2-4)))))
     (format arg1
-            "~0ky:~,,2M t:~d cy: ~,,2M my: ~,,2M impv:~,,2M "
+            "~0ky:~,,2M t:~d cy: ~,,2M my: ~,,2M jy: ~,,2M impv:~,,2M "
             (-> arg0 control unknown-vector52 y)
             (- (current-time) (-> arg0 control unknown-dword11))
             (- (-> arg0 control trans y) (-> arg0 control unknown-vector52 y))
             (- (-> arg0 control unknown-vector111 y) (-> arg0 control unknown-vector110 y))
+            ;; "jy" is jak's current y coordinate minus the y coordinate of the position where he last initiated a jump.
+            ;; this gives us his relative y translation at any given moment from his last jump point.
+            (- (-> arg0 control trans y) (-> arg0 control unknown-vector110 y))
             (-> arg0 control ground-impact-vel))
     (format arg1
             "~0k~Tcd: ~,,2M md:~,,2M~%"

@@ -68,9 +68,10 @@
 (defmethod calculate-pos ((this orb-cache-top) (arg0 symbol))
   (let ((f0-0 0.0))
     (when arg0
-      (set! f0-0 (+ 14336.0 (* 6144.0 (the float (+ (-> this money) -1)))))
+      (set! f0-0 (+ 10240.0 (* 6144.0 (the float (+ (-> this money) -1)))))
       (if (< f0-0 2048.0) (set! f0-0 2048.0)))
-    (set! (-> this platform-pos) (+ (-> this root-pos) f0-0))
+    ;; added a gap of 6144 (height of 1 orb) between the highest orb and the vent top.
+    (set! (-> this platform-pos) (+ 6144.0 (-> this root-pos) f0-0)) 
     (let ((f0-2 (+ -6144.0 f0-0)))
       (dotimes (v1-5 (-> this money))
         (set! (-> this money-pos-list v1-5) (+ (-> this root-pos) f0-2))
@@ -95,14 +96,21 @@
         (s5-1 #t))
     (let ((s3-0 #f))
       (let ((f28-0 (- (-> this basetrans y) (-> this root-pos)))
-            (f30-0 (- (-> this platform-pos) (-> this root-pos))))
+            (f30-0 (- (-> this platform-pos) (-> this root-pos)))
+            ;; this is jak's current y coordinate minus the y coordinate of the position where he last initiated a jump.
+            ;; this gives us his relative y translation at any given moment from his last jump point.
+            (target-y (- (-> *target* control trans y) (-> *target* control unknown-vector110 y))))
         (when (zero? (-> this money))
           (set! f30-0 2048.0)
           (set! s3-0 #t))
-        (when (and (< f30-0 15155.2)
-                   (and *target* (>= 16384.0 (vector-vector-distance (-> this root trans) (-> *target* control trans))))
+        ;; increase the radius around the vent from 16384 to 24576.
+        ;; increase the minimum height of the vent top from 15155 to 21299.
+        (when (and (< f30-0 21299.2)
+                   (and *target* (>= 24576.0 (vector-vector-distance (-> this root trans) (-> *target* control trans))))
                    (< (-> (target-pos 0) y) (-> this basetrans y)))
-          (set! f30-0 (if (< 14131.2 f28-0) 15155.2 f28-0))
+          ;; add jak's current positive y translation to this calculation 
+          ;; to ensure he never gets stuck, even when on flut flut.
+          (set! f30-0 (+ (if (< target-y 0.0) 0.0 target-y) (if (< 20275.2 f28-0) 21299.2 f28-0)))
           (set! s3-0 #f))
         (seek! (-> this basetrans y) (+ (-> this root-pos) f30-0) (* 40960.0 (seconds-per-frame)))
         (if (not (= (-> this basetrans y) (+ (-> this root-pos) f30-0))) (set! s5-1 #f)))
