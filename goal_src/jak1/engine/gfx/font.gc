@@ -1603,3 +1603,30 @@
     (set! (-> *video-parms* relative-x-scale-reciprical) (/ 1.0 (-> *video-parms* relative-x-scale)))
     (set! (-> *video-parms* relative-y-scale-reciprical) (/ 1.0 (-> *video-parms* relative-y-scale))))
   (none))
+
+;; Added for Archipleago Messenger.
+;; Allows you to pass in both a custom dma-buffer and a custom font-context.
+(defun draw-string-xy-scaled-ctxt ((str string) (buf dma-buffer) (x int) (y int) (font-ctxt font-context) (scale float))
+  "Draw a string at the given xy location, with the given scale."
+  (let* ((scaled-width (* (-> font-ctxt width) scale))
+         (scaled-height (* (-> font-ctxt height) scale))
+         (orig-mat-x-scale (-> font-ctxt mat vector 0 x))
+         (orig-mat-y-scale (-> font-ctxt mat vector 1 y))
+         (orig-vid-parms-x-scale (-> *video-parms* relative-x-scale))
+         (orig-vid-parms-y-scale (-> *video-parms* relative-y-scale)))
+    ;; scaling globals *font-default-matrix*, *video-parms* (based on print-game-text scaling)
+    (*! (-> *font-default-matrix* vector 0 x) scale)
+    (*! (-> *font-default-matrix* vector 1 y) scale)
+    (*! (-> *video-parms* relative-x-scale) scale)
+    (*! (-> *video-parms* relative-y-scale) scale)
+    (set! (-> *video-parms* relative-x-scale-reciprical) (/ 1.0 (-> *video-parms* relative-x-scale)))
+    (set! (-> *video-parms* relative-y-scale-reciprical) (/ 1.0 (-> *video-parms* relative-y-scale)))
+    (draw-string str buf font-ctxt)
+    ;; un-scaling globals *font-default-matrix*, *video-params*
+    (set! (-> *font-default-matrix* vector 0 x) orig-mat-x-scale)
+    (set! (-> *font-default-matrix* vector 1 y) orig-mat-y-scale)
+    (set! (-> *video-parms* relative-x-scale) orig-vid-parms-x-scale)
+    (set! (-> *video-parms* relative-y-scale) orig-vid-parms-y-scale)
+    (set! (-> *video-parms* relative-x-scale-reciprical) (/ 1.0 (-> *video-parms* relative-x-scale)))
+    (set! (-> *video-parms* relative-y-scale-reciprical) (/ 1.0 (-> *video-parms* relative-y-scale))))
+  (none))
