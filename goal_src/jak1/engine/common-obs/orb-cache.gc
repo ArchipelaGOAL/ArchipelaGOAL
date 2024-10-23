@@ -179,10 +179,11 @@
   :trans plat-trans
   :code
     (behavior ((arg0 symbol))
-      (when (not arg0)
-        (sound-play "close-orb-cash")
-        (ap-orb-cache-checked! (the-as uint (-> self entity aid))) ;; Set AP struct to complete this check!
-        )
+      ;; Set AP struct to complete this check!
+      (when (not (ap-orb-cache-checked? (the-as uint (-> self entity aid))))
+        (ap-orb-cache-checked! (the-as uint (-> self entity aid))))
+      (when (not arg0) 
+        (sound-play "close-orb-cash"))
       (ja :group! orb-cache-top-idle-ja :num! (identity (ja-aframe 0.0 0)))
       (new 'stack-no-clear 'vector)
       (set! (-> self basetrans y) (+ 2048.0 (-> self root-pos)))
