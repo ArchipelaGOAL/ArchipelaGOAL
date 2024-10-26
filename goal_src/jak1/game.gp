@@ -2052,6 +2052,7 @@
  "common-obs/plat.gc"
  "common-obs/plat-button.gc"
  "common-obs/plat-eco.gc"
+ "common-obs/linear-plat.gc"
  "common-obs/ropebridge.gc"
  "common-obs/ticky.gc"
  )
