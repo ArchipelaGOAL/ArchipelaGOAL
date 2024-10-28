@@ -76,13 +76,5 @@ jobs:
       metadataSupportedGames: ${{ needs.prep_vars.outputs.supported_games }}
       buildBinaries: ${{ inputs.binary_source == 'build_binaries'}}
       toolingRepo: ${{ needs.prep_vars.outputs.tooling_repo }}
-      metadataName: "ArchipelaGOAL"
-      metadataDescription: "Jak 1 Archipelago Randomizer"
-      metadataSupportedGames: "jak1"
-      metadataAuthors: "markus"
-      metadataTags: "rng,challenge,gameplay-mod"
-      metadataWebsiteUrl: "https://github.com/ArchipelaGOAL/Archipelago/blob/main/worlds/jakanddaxter/docs/setup_en.md"
-      toolingRepo: "OpenGOAL-Mods/OG-Mod-Base"
-      gameAssetsDir: "game/assets"
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
