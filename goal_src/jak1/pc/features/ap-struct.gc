@@ -42,6 +42,13 @@
   (set! (-> *ap-info-jak1* orb-caches-checked (-> *ap-info-jak1* next-orb-cache-index)) actor-id)
   (+! (-> *ap-info-jak1* next-orb-cache-index) 1.0))
 
+(defun ap-orb-cache-checked? ((actor-id uint))
+  (let ((checked #f))
+    (dotimes (i (-> *ap-info-jak1* next-orb-cache-index))
+      (when (= actor-id (-> *ap-info-jak1* orb-caches-checked i))
+        (set! checked #t)))
+    checked))
+
 ;; These will be indexed like game-tasks, so make sure we set the right index!
 
 ;; These are the levels' buzz-tasks in the same order as defined by the archipelago

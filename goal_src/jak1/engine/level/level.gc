@@ -623,6 +623,12 @@
      ;; copy data from the level to the game-info storage.  This will remember permanent level stuff, like
      ;; what you collected/completed.
      (copy-perms-from-level! *game-info* this)
+     ;; og:preserve-this fully clear entity perm status in the level itself (based on reset-actors)
+     ;;  it should be copied back out of game-info on birth to prevent "NG+ glitch"
+     (let ((lev-ents (-> this entity)))
+       (dotimes (idx (-> lev-ents length))
+         (let ((ent (-> lev-ents data idx entity)))
+           (update-perm! (-> ent extra perm) 'game (the-as entity-perm-status 1919)))))
      (send-event *camera* 'level-deactivate (-> this name))
      (send-event *target* 'level-deactivate (-> this name))
      ;; remove this BSP from the engine. This will stop us from being drawn.
@@ -1001,6 +1007,8 @@
   (set! *print-login* #f)
   0)
 
+(define-extern *debug-continue-point* string)
+
 (defun play ((use-vis symbol) (init-game symbol))
   "The entry point to the actual game! This allocates the level heaps, loads some data, sets some default parameters and sets the startup level."
   ;; temp
@@ -1008,9 +1016,13 @@
   (format 0 "(play :use-vis ~A :init-game ~A) has been called!~%" use-vis init-game)
   (format 0 "*kernel-boot-message*: ~A~%" *kernel-boot-message*)
   ;;(kernel-shutdown)
-  (let ((startup-level (case *kernel-boot-message*
-                         (('play) (if *debug-segment* 'village1 'title))
-                         (else 'demo))))
+  ;; og:mod-base use custom continue point
+  (let* ((debug-cont (if (and *debug-segment* (nonzero? *debug-continue-point*)) (get-continue-by-name *game-info* *debug-continue-point*)))
+         (startup-level (if debug-cont
+                          (-> debug-cont level)
+                          (case *kernel-boot-message*
+                            (('play) (if *debug-segment* 'village1 'title))
+                            (else 'demo)))))
     (stop 'play)
     (set! (-> *level* vis?) use-vis)
     (set! (-> *level* want-level) #f)
@@ -1042,7 +1054,11 @@
   (on #t)
   (load-dbg "Display started: ~A~%" *dproc*)
   (when init-game
-    (initialize! *game-info* 'game (the-as game-save #f) (the-as string #f)))
+    ;; og:mod-base use custom continue point
+    (initialize! *game-info*
+                 'game
+                 (the-as game-save #f)
+                 (if (and *debug-segment* (nonzero? *debug-continue-point*)) *debug-continue-point* (the string #f))))
   0)
 
 (defun update-sound-banks ()
