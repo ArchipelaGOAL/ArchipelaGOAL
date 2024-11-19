@@ -323,7 +323,8 @@ ExtractedVertices gltf_vertices(const tinygltf::Model& model,
       normals = extract_vec3f(data_ptr, count, byte_stride);
       for (auto& nrm : normals) {
         math::Vector4f nrm4(nrm.x(), nrm.y(), nrm.z(), 0.f);
-        nrm = (w_T_local * nrm4).xyz();
+        // we found that normals aren't normalized if an object is scaled in blender.
+        nrm = (w_T_local * nrm4).xyz().normalized();
       }
       ASSERT(normals.size() == result.size());
     } else {
@@ -576,7 +577,7 @@ void setup_alpha_from_material(const tinygltf::Material& material, DrawMode* mod
 
 void setup_draw_mode_from_sampler(const tinygltf::Sampler& sampler, DrawMode* mode) {
   if (sampler.magFilter == TINYGLTF_TEXTURE_FILTER_NEAREST) {
-    ASSERT(sampler.minFilter == TINYGLTF_TEXTURE_FILTER_NEAREST);
+    ASSERT(sampler.minFilter == TINYGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST);
     mode->set_filt_enable(false);
   } else {
     ASSERT(sampler.minFilter != TINYGLTF_TEXTURE_FILTER_NEAREST);
