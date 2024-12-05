@@ -927,13 +927,16 @@
   ;;   )
   ;;(birth-log "call to birth! on ~A~%" this)
   (custom-nav-mesh-check-and-setup this)
-  (if (= (-> this etype) fuel-cell) (set! (-> this etype) ap-cell)) ;; Replace default etype of fuel-cell with ap-cell for custom model.
   (let* ((entity-type (-> this etype))
          (info (entity-info-lookup entity-type))
          (entity-process (get-process *default-dead-pool* entity-type (if info (-> info heap-size) #x4000))))
     (cond
       ((not entity-process) (birth-log "could not birth because there is no process.~%"))
       ((begin
+         ;; Replace default etype of fuel-cell with ap-cell for custom model.
+         (declare-type fuel-cell process-drawable)
+         (declare-type ap-cell fuel-cell)
+         (set! entity-type (if (= entity-type fuel-cell) ap-cell entity-type))
          (set! (-> entity-process type) entity-type)
          (and entity-type
               (valid? entity-type type #f #f 0)

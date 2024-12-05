@@ -342,7 +342,7 @@
 
 (defpart 2841
   :init-specs
-  ((:texture (new 'static 'texture-id :index #x1e :page #x2))
+  ((:texture (water-ring effects))
    (:num 8.0)
    (:x (meters 0) (meters 9))
    (:y (meters 0.1))
@@ -369,7 +369,7 @@
 
 (defpart 2842
   :init-specs
-  ((:texture (new 'static 'texture-id :index #x1e :page #x2))
+  ((:texture (water-ring effects))
    (:num 8.0)
    (:x (meters 8) (meters 8))
    (:y (meters 0.1))
@@ -766,7 +766,7 @@
 
 (defpart 2320
   :init-specs
-  ((:texture (new 'static 'texture-id :page #x2))
+  ((:texture (bigpuff effects))
    (:num 0.5)
    (:x (meters -1) (meters 2))
    (:y (meters -1) (meters 2))
@@ -792,7 +792,7 @@
 
 (defpart 2319
   :init-specs
-  ((:texture (new 'static 'texture-id :page #x2))
+  ((:texture (bigpuff effects))
    (:num 0.5)
    (:x (meters -1) (meters 2))
    (:y (meters -1) (meters 2))
@@ -824,7 +824,7 @@
 
 (defpart 2287
   :init-specs
-  ((:texture (new 'static 'texture-id :index #xf :page #x2))
+  ((:texture (hotdot effects))
    (:num 12.0)
    (:y (meters 1) (meters 3))
    (:scale-x (meters 0.4) (meters 0.1))
@@ -851,7 +851,7 @@
 
 (defpart 2321
   :init-specs
-  ((:texture (new 'static 'texture-id :index #x1e :page #x2))
+  ((:texture (water-ring effects))
    (:num 8.0)
    (:x (meters 0) (meters 9))
    (:scale-x (meters 16) (meters 8))
@@ -877,7 +877,7 @@
 
 (defpart 2322
   :init-specs
-  ((:texture (new 'static 'texture-id :index #x1e :page #x2))
+  ((:texture (water-ring effects))
    (:num 8.0)
    (:x (meters 8) (meters 8))
    (:scale-x (meters 4.5) (meters 3.5))
@@ -900,7 +900,7 @@
 
 (defpart 2288
   :init-specs
-  ((:texture (new 'static 'texture-id :page #x2))
+  ((:texture (bigpuff effects))
    (:num 16.0)
    (:y (meters 0) (meters 1))
    (:scale-x (meters 12) (meters 6))
