@@ -44,6 +44,43 @@
         (suspend)
         (ja :num! (loop! 0.5)))))
 
+(defstate ap-cell-spline-slider (ap-cell)
+  :trans hide-hud-quick
+  :code
+    (behavior ((arg0 handle) (arg1 float) (arg2 float))
+      (logclear! (-> self mask) (process-mask actor-pause))
+      (ja :group! ap-cell-idle-ja)
+      (if *target* (process-grab? *target*))
+      (hide-hud-quick)
+      (set! *camera-look-through-other* 2)
+      (set! (-> *camera-other-fov* data) 11650.845)
+      (set! (-> *camera-other-trans* quad) (-> *math-camera* trans quad))
+      (set! (-> *camera-other-root* quad) (-> *math-camera* trans quad))
+      (set-time! (-> self state-time))
+      (loop
+        (*! arg2 (- 1.0 (* 0.05 (-> *display* time-adjust-ratio)))) ;; og:preserve-this changed for high fps
+        (when (and (< (fabs arg2) 13.653334) (time-elapsed? (-> self state-time) (seconds 1.5)))
+          (if *target* (process-release? *target*))
+          (go-virtual wait))
+        (set! arg1 (+ arg1 (/ (* arg2 (seconds-per-frame)) (path-distance (-> self path)))))
+        (cond
+          ((< 1.0 arg1) (set! arg1 (+ -1.0 arg1)))
+          ((< arg1 0.0) (set! arg1 (+ 1.0 arg1))))
+        (eval-path-curve! (-> self path) (-> self root trans) arg1 'interp)
+        (+! (-> self root trans y) 8192.0)
+        (set! (-> self root trans y) (fmax 106496.0 (-> self root trans y)))
+        (set! (-> self base quad) (-> self root trans quad))
+        (transform-post)
+        (animate self)
+        (let ((s4-0 (new 'stack-no-clear 'vector)))
+          (vector-! s4-0 (-> self root trans) *camera-other-trans*)
+          (vector-normalize! s4-0 1.0)
+          (forward-down->inv-matrix *camera-other-matrix* s4-0 (new 'static 'vector :y -1.0 :w 1.0)))
+        (set! *camera-look-through-other* 2)
+        (set-letterbox-frames (seconds 0.035))
+        (suspend)
+        (ja :num! (loop! 0.5)))))
+
 (defbehavior fuel-cell-init-as-spline-slider fuel-cell ((arg0 handle) (arg1 float) (arg2 float) (arg3 int))
   (initialize self)
   (set! (-> self fact pickup-type) (pickup-type fuel-cell))
@@ -55,6 +92,19 @@
   (set! (-> self path) (new 'process 'curve-control self 'path -1000000000.0))
   (set! (-> self movie-pos-index) -1)
   (go fuel-cell-spline-slider arg0 arg1 arg2)
+  (none))
+
+(defbehavior ap-cell-init-as-spline-slider ap-cell ((arg0 handle) (arg1 float) (arg2 float) (arg3 int))
+  (initialize self)
+  (set! (-> self fact pickup-type) (pickup-type fuel-cell))
+  (set! (-> self fact pickup-amount) (the float arg3))
+  (initialize-params self 0 1024.0)
+  (logclear! (-> self mask) (process-mask actor-pause))
+  (set! (-> self actor-pause) #f)
+  (set! (-> self entity) (-> arg0 process 0 entity))
+  (set! (-> self path) (new 'process 'curve-control self 'path -1000000000.0))
+  (set! (-> self movie-pos-index) -1)
+  (go ap-cell-spline-slider arg0 arg1 arg2)
   (none))
 
 (deftype robber (process-drawable)
@@ -235,9 +285,10 @@
                (set! (-> v1-3 user-object 1) 1)
                (set! (-> v1-3 user-object 0) (-> self curve-position))
                (let ((f30-0 (if (>= (-> self speed) 0.0) 163840.0 -163840.0)))
-                 (process-spawn fuel-cell
+                 ;; changed for custom ap model.
+                 (process-spawn ap-cell
                                 :init
-                                fuel-cell-init-as-spline-slider
+                                ap-cell-init-as-spline-slider
                                 (process->handle self)
                                 (-> self curve-position)
                                 f30-0

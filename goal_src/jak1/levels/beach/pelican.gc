@@ -399,6 +399,7 @@
                                 (t9-4 (the-as othercam s5-0) (-> gp-1 process 0) 'othercam (the-as pointer #x70004000)))
                               (run-now-in-process s5-0 othercam-init-by-other (-> gp-1 process 0) 4 #f #t)
                               (-> s5-0 ppointer))))
+        ;; TODO - need to fix model.
         (let ((s4-0 (ppointer->handle (process-spawn fuel-cell :init fuel-cell-init-as-clone (process->handle self) 0 :to self)))
               (s5-2 (new 'stack-no-clear 'quaternion)))
           (quaternion-copy! s5-2 (-> self root quat))

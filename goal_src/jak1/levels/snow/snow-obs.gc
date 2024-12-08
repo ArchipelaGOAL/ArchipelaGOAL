@@ -45,6 +45,7 @@
              (ja :num! (seek!)))
            (suspend-for (seconds 4.5)))
           ((= v1-0 1)
+           ;; TODO - need to fix model.
            (let ((gp-2 (ppointer->handle (process-spawn fuel-cell
                                                         :init
                                                         fuel-cell-init-as-clone
@@ -1012,7 +1013,7 @@
   (case arg2
     (('notify)
      (cond
-       ((= (-> arg0 type) fuel-cell)
+       ((= (-> arg0 type) ap-cell) ;; changed for custom ap model.
         (when (= (-> arg3 param 0) 'pickup)
           (set! (-> self pressed?) #t)
           (process-entity-status! self (entity-perm-status bit-3) #t)

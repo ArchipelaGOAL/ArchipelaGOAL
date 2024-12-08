@@ -386,6 +386,7 @@
                                 (t9-8 (the-as othercam s5-1) (-> gp-2 process 0) 'othercam (the-as pointer #x70004000)))
                               (run-now-in-process s5-1 othercam-init-by-other (-> gp-2 process 0) 4 #f #t)
                               (-> s5-1 ppointer))))
+        ;; TODO - need to fix model.
         (let ((s5-3 (ppointer->handle (process-spawn fuel-cell :init fuel-cell-init-as-clone (process->handle self) 55 :to self))))
           (if *target* (logior! (-> *target* mask) (process-mask sleep)))
           (send-event (-> gp-2 process 0) 'anim-mode 'clone-anim)

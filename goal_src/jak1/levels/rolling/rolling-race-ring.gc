@@ -677,6 +677,7 @@
                      (t9-12 (if v1-30 (-> v1-30 extra process)) a1-9))))
                 ((last-ring? self)
                  (let ((gp-2 (ppointer->handle (process-spawn othercam self 4 #f #t :to self)))
+                       ;; TODO - need to fix model.
                        (s5-2 (ppointer->handle (process-spawn fuel-cell :init fuel-cell-init-as-clone (process->handle self) (-> self entity extra perm task) :to self))))
                    (if *target* (logior! (-> *target* mask) (process-mask sleep)))
                    (close-specific-task! (-> self entity extra perm task) (task-status need-reminder))

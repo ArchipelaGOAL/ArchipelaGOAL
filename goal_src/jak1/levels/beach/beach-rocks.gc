@@ -307,6 +307,7 @@
       (ja-channel-set! 1)
       (ja :group! lrocklrg-idle-ja :num! min)
       (let ((gp-2 (ppointer->handle (process-spawn othercam self 7 #f #t :to self)))
+            ;; TODO - need to fix model.
             (s5-1 (ppointer->handle (process-spawn fuel-cell :init fuel-cell-init-as-clone (process->handle self) (-> self entity extra perm task) :to self))))
         (close-specific-task! (-> self entity extra perm task) (task-status need-reminder))
         (set-time! (-> self movie-start))

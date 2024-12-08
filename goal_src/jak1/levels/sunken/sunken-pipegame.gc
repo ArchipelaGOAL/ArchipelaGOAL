@@ -476,7 +476,7 @@
       (case message
         (('notify)
          (case (-> proc type)
-           ((fuel-cell buzzer) (go sunken-pipegame-beat-challenge))))))
+           ((ap-cell buzzer) (go sunken-pipegame-beat-challenge)))))) ;; changed for custom ap model.
   :enter
     (behavior ()
       (sunken-pipegame-method-21 self #f)
