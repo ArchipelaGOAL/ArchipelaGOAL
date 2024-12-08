@@ -112,10 +112,12 @@ void extract_art_groups_from_level(const ObjectFileDB& db,
                                    std::map<std::string, level_tools::ArtData>& art_group_data) {
   if (db.obj_files_by_dgo.count(dgo_name)) {
     const auto& files = db.obj_files_by_dgo.at(dgo_name);
+    MercSwapInfo swapped_info;
     for (const auto& file : files) {
       if (file.name.length() > 3 && !file.name.compare(file.name.length() - 3, 3, "-ag")) {
         const auto& ag_file = db.lookup_record(file);
-        extract_merc(ag_file, tex_db, db.dts, tex_remap, level_data, false, db.version());
+        extract_merc(ag_file, tex_db, db.dts, tex_remap, level_data, false, db.version(),
+                     swapped_info);
         extract_joint_group(ag_file, db.dts, db.version(), art_group_data);
       }
     }
@@ -298,7 +300,8 @@ void extract_common(const ObjectFileDB& db,
             lg::info("Art group {} was requested to be made common, we found it in {}!", file.name,
                      lvl_dgo_name);
             const auto& ag_file = db.lookup_record(file);
-            extract_merc(ag_file, tex_db, db.dts, tex_remap, tfrag_level, false, db.version());
+            MercSwapInfo swapped_info;
+            extract_merc(ag_file, tex_db, db.dts, tex_remap, tfrag_level, false, db.version(), swapped_info);
             extract_joint_group(ag_file, db.dts, db.version(), art_group_data);
             // track found art groups so we don't borther re-processing in a later level
             art_groups_made_common.insert(file.name);
