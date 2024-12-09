@@ -400,7 +400,7 @@
                               (run-now-in-process s5-0 othercam-init-by-other (-> gp-1 process 0) 4 #f #t)
                               (-> s5-0 ppointer))))
         ;; TODO - need to fix model.
-        (let ((s4-0 (ppointer->handle (process-spawn fuel-cell :init fuel-cell-init-as-clone (process->handle self) 0 :to self)))
+        (let ((s4-0 (ppointer->handle (process-spawn ap-cell :init ap-cell-init-as-clone (process->handle self) 0 :to self)))
               (s5-2 (new 'stack-no-clear 'quaternion)))
           (quaternion-copy! s5-2 (-> self root quat))
           (until v1-21

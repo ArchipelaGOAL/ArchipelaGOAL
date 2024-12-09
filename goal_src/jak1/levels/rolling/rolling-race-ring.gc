@@ -678,7 +678,7 @@
                 ((last-ring? self)
                  (let ((gp-2 (ppointer->handle (process-spawn othercam self 4 #f #t :to self)))
                        ;; TODO - need to fix model.
-                       (s5-2 (ppointer->handle (process-spawn fuel-cell :init fuel-cell-init-as-clone (process->handle self) (-> self entity extra perm task) :to self))))
+                       (s5-2 (ppointer->handle (process-spawn ap-cell :init ap-cell-init-as-clone (process->handle self) (-> self entity extra perm task) :to self))))
                    (if *target* (logior! (-> *target* mask) (process-mask sleep)))
                    (close-specific-task! (-> self entity extra perm task) (task-status need-reminder))
                    (logclear! (-> self draw status) (draw-status hidden))
@@ -698,7 +698,13 @@
                      ((handle->process (the-as int gp-2)) (deactivate (-> gp-2 process 0)))
                      (else))
                    (if *target* (logclear! (-> *target* mask) (process-mask sleep)))
-                   (let ((a0-54 (handle->process s5-2))) (if a0-54 (send-event a0-54 'stop-cloning)))))
+                   (let ((a0-54 (handle->process s5-2)))
+                    (when a0-54
+                      (send-event a0-54 'stop-cloning)
+                      (let ((s5-4 (new-stack-vector0)))
+                        (vector<-cspace! s5-4 (joint-node race-ring-lod0-jg fuelcell))
+                        (send-event a0-54 'trans s5-4))))))
+                   ; (let ((a0-54 (handle->process s5-2))) (if a0-54 (send-event a0-54 'stop-cloning)))))
                 (else
                  (entity-birth-no-kill (-> self link next))
                  (let ((a1-22 (new 'stack-no-clear 'event-message-block)))

@@ -1517,7 +1517,8 @@
   :exit
     (behavior ()
       (if (-> self actor-pause) (logior! (-> self mask) (process-mask actor-pause)))
-      (logclear! (-> self skel status) (janim-status spool)))
+      (logclear! (-> self skel status) (janim-status spool))
+      (ja :group! ap-cell-idle-ja))
   :code
     (behavior ((arg0 handle))
       (logclear! (-> self mask) (process-mask actor-pause))
@@ -1557,7 +1558,7 @@
   :code
     (behavior ((arg0 handle))
       (logclear! (-> self mask) (process-mask actor-pause))
-      (clone-anim arg0 3 #t "")
+      (clone-anim arg0 3 #t "") ;; 3 should be main bone, but we don't have one?
       (format #t "ERROR<GMJ>: clone-anim returned in ap-cell~%")
       (deactivate self))
   :post

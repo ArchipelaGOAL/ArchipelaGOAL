@@ -32,9 +32,9 @@
       (cond
         ((zero? (-> self seq))
          ;; TODO - need to fix model.
-         (let ((gp-1 (ppointer->handle (process-spawn fuel-cell
+         (let ((gp-1 (ppointer->handle (process-spawn ap-cell
                                                       :init
-                                                      fuel-cell-init-as-clone
+                                                      ap-cell-init-as-clone
                                                       (process->handle self)
                                                       (-> self entity extra perm task)
                                                       :to
@@ -43,7 +43,13 @@
                                  (the-as art-joint-anim #f)
                                  (the-as art-joint-anim #f)
                                  (the-as (function process-drawable symbol) false-func))
-           (let ((a0-7 (handle->process gp-1))) (if a0-7 (send-event a0-7 'stop-cloning)))))
+           (let ((a0-7 (handle->process gp-1))) 
+            (when a0-7 
+              (send-event a0-7 'stop-cloning)
+              (let ((s5-4 (new-stack-vector0)))
+                (set-vector! s5-4 4485903.0 51184.027 -12815461.0 1.0)
+                (send-event a0-7 'trans s5-4))))))
+           ; (let ((a0-7 (handle->process gp-1))) (if a0-7 (send-event a0-7 'stop-cloning)))))
         (else (suspend) 0))
       (go-virtual pov-camera-done-playing)))
 

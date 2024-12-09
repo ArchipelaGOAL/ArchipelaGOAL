@@ -46,9 +46,9 @@
            (suspend-for (seconds 4.5)))
           ((= v1-0 1)
            ;; TODO - need to fix model.
-           (let ((gp-2 (ppointer->handle (process-spawn fuel-cell
+           (let ((gp-2 (ppointer->handle (process-spawn ap-cell
                                                         :init
-                                                        fuel-cell-init-as-clone
+                                                        ap-cell-init-as-clone
                                                         (process->handle self)
                                                         (-> self entity extra perm task)
                                                         :to
@@ -61,7 +61,18 @@
                                    (the-as (function process-drawable symbol) false-func))
              (remove-setting! 'music-volume)
              (remove-setting! 'sfx-volume)
-             (let ((a0-21 (handle->process gp-2))) (if a0-21 (send-event a0-21 'stop-cloning)))))
+             (let ((a0-21 (handle->process gp-2))) 
+               (when a0-21 
+                 (send-event a0-21 'stop-cloning)
+                 (let ((s5-4 (new-stack-vector0)))
+                     ; (vector<-cspace! s5-4 (joint-node lrocklrg-lod0-jg fuelcell)) (-> this fuel-cell-dest-pos)
+                     (set-vector! s5-4 
+                        (-> self root trans x)
+                        (-> self root trans y)
+                        (-> self root trans z)
+                        (-> self root trans w))
+                     (send-event a0-21 'trans s5-4))))))
+             ; (let ((a0-21 (handle->process gp-2))) (if a0-21 (send-event a0-21 'stop-cloning)))))
           ((= v1-0 2)
            (ja-no-eval :group! snowcam-eggtop-activating-ja :num! (seek!) :frame-num 0.0)
            (until (ja-done? 0)
