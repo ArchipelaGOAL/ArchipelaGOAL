@@ -1474,7 +1474,7 @@
                                                       :to
                                                       pp)))
                ;; TODO - need to fix model.
-               (s5-2 (ppointer->handle (process-spawn ap-cell :init ap-cell-init-as-clone gp-1 (-> pp entity extra perm task) :to pp))))
+               (s5-2 (ppointer->handle (process-spawn fuel-cell :init fuel-cell-init-as-clone gp-1 (-> pp entity extra perm task) :to pp))))
           (let ((v1-13 (handle->process gp-1)))
             (if v1-13 (set! (-> (the-as pov-camera v1-13) notify-handle) (the-as handle s5-2))))
           (while (handle->process gp-1)

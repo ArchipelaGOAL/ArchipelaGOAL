@@ -386,8 +386,9 @@
                                 (t9-8 (the-as othercam s5-1) (-> gp-2 process 0) 'othercam (the-as pointer #x70004000)))
                               (run-now-in-process s5-1 othercam-init-by-other (-> gp-2 process 0) 4 #f #t)
                               (-> s5-1 ppointer))))
-        ;; TODO - need to fix model.
-        (let ((s5-3 (ppointer->handle (process-spawn ap-cell :init ap-cell-init-as-clone (process->handle self) 55 :to self))))
+        ;; For some reason, happy plant needs to be told what his game task ID is.
+        (set! (-> self entity extra perm task) (game-task rolling-plants))
+        (let ((s5-3 (ppointer->handle (process-spawn fuel-cell :init fuel-cell-init-as-clone (process->handle self) (-> self entity extra perm task) :to self))))
           (if *target* (logior! (-> *target* mask) (process-mask sleep)))
           (send-event (-> gp-2 process 0) 'anim-mode 'clone-anim)
           (ja-play-spooled-anim (new 'static
@@ -465,6 +466,13 @@
      (go happy-plant-opened))
     (else (go happy-plant-init)))
   (none))
+
+(defun-debug happy-plant-trigger ()
+  (dotimes (v1-0 100)
+    (format (clear *temp-string*) "dark-plant-~D" v1-0)
+    (let ((proc (the-as dark-plant (process-by-ename *temp-string*))))
+      (when proc
+        (go-process proc dark-plant-gone)))))
 
 (deftype race-time (structure)
   ((digit int8 5))

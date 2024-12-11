@@ -285,7 +285,7 @@
                (set! (-> v1-3 user-object 1) 1)
                (set! (-> v1-3 user-object 0) (-> self curve-position))
                (let ((f30-0 (if (>= (-> self speed) 0.0) 163840.0 -163840.0)))
-                 ;; changed for custom ap model.
+                 ;; Changed for custom ap model.
                  (process-spawn ap-cell
                                 :init
                                 ap-cell-init-as-spline-slider

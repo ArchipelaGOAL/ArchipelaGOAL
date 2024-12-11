@@ -846,8 +846,7 @@
 
 (deftype ap-cell (fuel-cell) 
   ((root collide-shape-moving :override))
-  (:states (ap-cell-clone-anim handle)
-   (ap-cell-spline-slider handle float float)))
+  (:states (ap-cell-spline-slider handle float float)))
 
 (defun fuel-cell-pick-anim ((arg0 process-drawable))
   (let* ((gp-0 (-> arg0 entity extra trans))
@@ -1092,7 +1091,7 @@
       (process-spawn othercam self 10 #f #t :to self)
       (auto-save-command 'auto-save 0 0 *default-pool*)
       (ja-play-spooled-anim (-> self victory-anim)
-                            (the-as art-joint-anim fuel-cell-idle-ja) ;;;;
+                            (the-as art-joint-anim fuel-cell-idle-ja)
                             (the-as art-joint-anim #f)
                             (the-as (function process-drawable symbol) false-func))
       (remove-setting! 'music-volume)
@@ -1518,48 +1517,33 @@
     (behavior ()
       (if (-> self actor-pause) (logior! (-> self mask) (process-mask actor-pause)))
       (logclear! (-> self skel status) (janim-status spool))
-      (ja :group! ap-cell-idle-ja))
+      (let ((s5-0 (new 'stack-no-clear 'vector)))
+        (set-vector! s5-0
+          (-> self root trans x)
+          (-> self root trans y)
+          (-> self root trans z)
+          (-> self root trans w))
+        ;; Spawn a new cell with the same properties, will have the new model.
+        (birth-pickup-at-point s5-0
+                              (pickup-type fuel-cell)
+                              (the float (the-as int (-> self entity extra perm task)))
+                              #f
+                              self
+                              (the-as fact-info #f))
+        ;; Kill everything to do with the old cell.
+        (clear-collide-with-as (-> self root))
+        (logior! (-> self mask) (process-mask actor-pause))
+        (logior! (-> self draw status) (draw-status hidden))
+        (process-entity-status! self (entity-perm-status dead) #t)
+        (stop! (-> self sound))
+        (set! (-> self state-object) #f)
+        (kill-and-free-particles (-> self part))
+        ))
   :code
     (behavior ((arg0 handle))
       (logclear! (-> self mask) (process-mask actor-pause))
       (clone-anim arg0 3 #t "")
       (format #t "ERROR<GMJ>: clone-anim returned in fuel-cell~%")
-      (deactivate self))
-  :post
-    (behavior ()
-      (update-transforms! (-> self root))
-      (animate self)))
-
-(defstate ap-cell-clone-anim (ap-cell)
-  :event
-    (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
-      (case message
-        (('pickup)
-         (when (!= (-> self next-state name) 'pickup)
-           (if (and (> argc 0) (-> block param 0)) (move-to-point! (-> self root) (the-as vector (-> block param 0))))
-           (logclear! (-> self mask) (process-mask actor-pause))
-           (go-virtual pickup #f (the-as handle #f))))
-        (('trans)
-         (set! (-> self root trans quad) (-> (the-as vector (-> block param 0)) quad))
-         (set! (-> self base quad) (-> self root trans quad))
-         (update-transforms! (-> self root)))
-        (('stop-cloning 'notify)
-         (set! (-> self root trans quad) (-> self draw origin quad))
-         (set! (-> self base quad) (-> self root trans quad))
-         (ja-channel-set! 1)
-         (ja :group! ap-cell-idle-ja)
-         (logclear! (-> self draw status) (draw-status hidden))
-         (vector-reset! (-> self draw origin))
-         (go-virtual wait))))
-  :exit
-    (behavior ()
-      (if (-> self actor-pause) (logior! (-> self mask) (process-mask actor-pause)))
-      (logclear! (-> self skel status) (janim-status spool)))
-  :code
-    (behavior ((arg0 handle))
-      (logclear! (-> self mask) (process-mask actor-pause))
-      (clone-anim arg0 3 #t "") ;; 3 should be main bone, but we don't have one?
-      (format #t "ERROR<GMJ>: clone-anim returned in ap-cell~%")
       (deactivate self))
   :post
     (behavior ()
@@ -1575,17 +1559,6 @@
   (set! (-> self actor-pause) #f)
   (sound-play "cell-prize")
   (go fuel-cell-clone-anim arg0)
-  (none))
-
-(defbehavior ap-cell-init-as-clone ap-cell ((arg0 handle) (arg1 int))
-  (initialize self)
-  (set! (-> self fact pickup-type) (pickup-type fuel-cell))
-  (set! (-> self fact pickup-amount) (the float arg1))
-  (initialize-params self 0 (the-as float 1024.0))
-  (logclear! (-> self mask) (process-mask actor-pause))
-  (set! (-> self actor-pause) #f)
-  (sound-play "cell-prize")
-  (go ap-cell-clone-anim arg0)
   (none))
 
 (defskelgroup *buzzer-sg*

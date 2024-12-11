@@ -492,13 +492,13 @@
                                                (-> disp frames (-> disp on-screen) frame debug-buf)
                                                (-> disp frames (-> disp on-screen) frame global-buf)))
                                        (bucket-id debug))
-            ; (if (and (= *master-mode* 'pause) (!= *cheat-mode* 'camera))
-            ;   (draw-string-xy (lookup-text! *common-text* (text-id pause) #f)
-            ;                   s3-1
-            ;                   256
-            ;                   160
-            ;                   (font-color red)
-            ;                   (font-flags shadow kerning middle large)))
+            (if (and (= *master-mode* 'pause) (!= *cheat-mode* 'camera))
+              (draw-string-xy (lookup-text! *common-text* (text-id pause) #f)
+                              s3-1
+                              256
+                              160
+                              (font-color red)
+                              (font-flags shadow kerning middle large)))
             ;; draw console text on screen
             (let ((a3-8 (the int (draw-string *stdcon0* s3-1 *font-context*))))
               (draw-string-xy *stdcon1*
