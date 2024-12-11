@@ -1524,12 +1524,17 @@
           (-> self root trans z)
           (-> self root trans w))
         ;; Spawn a new cell with the same properties, will have the new model.
-        (birth-pickup-at-point s5-0
-                              (pickup-type fuel-cell)
-                              (the float (the-as int (-> self entity extra perm task)))
-                              #f
-                              self
-                              (the-as fact-info #f))
+        (let ((s5-1 (the-as int (-> self entity extra perm task))))
+          (case s5-1
+            ;; Skip Fisherman, Billy, and the Oracles. They spawn extra models for some reason.
+            ;; Why blacklist instead of whitelist? They have the same number of elements, so neither is shorter.
+            ((5 13 14 34 35 36 100 101)) 
+            (else (birth-pickup-at-point s5-0
+              (pickup-type fuel-cell)
+              (the float (the-as int (-> self entity extra perm task)))
+              #f
+              self
+              (the-as fact-info #f)))))
         ;; Kill everything to do with the old cell.
         (clear-collide-with-as (-> self root))
         (logior! (-> self mask) (process-mask actor-pause))
