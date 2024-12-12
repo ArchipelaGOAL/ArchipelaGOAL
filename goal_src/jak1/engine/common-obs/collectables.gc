@@ -1452,6 +1452,10 @@
             (not (logtest? (-> self fact options) (fact-options skip-jump-anim))))
        (set! (-> self jump-pos quad) (-> (the-as vector gp-1) quad))
        (+! (-> self jump-pos y) 4096.0)
+       ;; archipelago - fix "incorrect" movie-pos
+       (case (-> self entity extra perm task)
+        (((game-task rolling-ring-chase-2)) (set-vector! (-> self jump-pos) -1529728.3750 106672.1953 -6446612.0000 1.0))
+        )
        (go-virtual jump))))
   (set! (-> self event-hook) (-> (method-of-object self wait) event))
   (go-virtual wait)
