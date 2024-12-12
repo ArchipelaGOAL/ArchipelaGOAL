@@ -1517,23 +1517,20 @@
     (behavior ()
       (if (-> self actor-pause) (logior! (-> self mask) (process-mask actor-pause)))
       (logclear! (-> self skel status) (janim-status spool))
-      (let ((s5-0 (new 'stack-no-clear 'vector)))
-        (set-vector! s5-0
-          (-> self root trans x)
-          (-> self root trans y)
-          (-> self root trans z)
-          (-> self root trans w))
-        ;; Spawn a new cell with the same properties, will have the new model.
-        (let ((s5-1 (the-as int (-> self entity extra perm task))))
-          (case s5-1
-            ;; Skip these though. They spawn extra models for some reason.
-            ((3 5 10 11 13 14 34 35 36 100 101)) 
-            (else (birth-pickup-at-point (-> self root trans)
-              (pickup-type fuel-cell)
-              (the float s5-1)
-              #f
-              self
-              (the-as fact-info #f)))))
+      ;; Spawn a new cell with the same properties, will have the new model.
+      (let ((s5-0 (the-as int (-> self entity extra perm task))))
+        (case s5-0
+          ;; Skip these though. They spawn extra models for some reason.
+          ((3 5 10 11 13 14 34 35 36 100 101))
+          ;; Blue Rings cell needs to set its movie-pos to root trans since it wasn't set properly in vanilla.
+          ((59)
+            (let ((s5-2 (res-lump-struct (-> self entity) 'movie-pos vector :time (the-as float -1000000000.0))))
+              (when s5-2 
+                (set! (-> s5-2 quad) (-> self root trans quad))
+                (birth-pickup-at-point (-> self root trans) (pickup-type fuel-cell) (the float s5-0) #f self (the-as fact-info #f)))))
+          ;; Everyone else, act casual.
+          (else
+            (birth-pickup-at-point (-> self root trans) (pickup-type fuel-cell) (the float s5-0) #f self (the-as fact-info #f))))
         ;; Kill everything to do with the old cell.
         (clear-collide-with-as (-> self root))
         (logior! (-> self mask) (process-mask actor-pause))
