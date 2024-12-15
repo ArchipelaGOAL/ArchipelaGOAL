@@ -476,7 +476,7 @@
       (case message
         (('notify)
          (case (-> proc type)
-           ((ap-cell buzzer) (go sunken-pipegame-beat-challenge)))))) ;; changed for custom ap model.
+           ((ap-cell ap-buzzer) (go sunken-pipegame-beat-challenge)))))) ;; changed for custom ap model.
   :enter
     (behavior ()
       (sunken-pipegame-method-21 self #f)
@@ -785,7 +785,7 @@
               (-> s0-0 jar-pos z)
               (-> s0-0 jar-pos w))
              (+! (-> s2-1 y) 7168.0)          ;; original y.
-             (+! (-> s0-0 jar-pos y) 11368.0) ;; y += 4200.
+             (+! (-> s0-0 jar-pos y) 11568.0) ;; y += 4400.
              (+! (-> s0-0 far-pos y) 7168.0)
              (+! (-> s0-0 blown-out-far-part-pos y) 4096.0)
              (when (not s1-1)
@@ -808,7 +808,7 @@
               (-> s0-0 jar-pos z)
               (-> s0-0 jar-pos w))
              (+! (-> s2-1 y) 7168.0)          ;; original y.
-             (+! (-> s0-0 jar-pos y) 11368.0) ;; y += 4200.
+             (+! (-> s0-0 jar-pos y) 11568.0) ;; y += 4400.
              (+! (-> s0-0 far-pos y) 7168.0)
              (+! (-> s0-0 blown-out-far-part-pos y) 4096.0)
              (when (not s1-1)

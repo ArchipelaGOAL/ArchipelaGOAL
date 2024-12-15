@@ -1021,7 +1021,7 @@
               (transform-post)
               (fuel-cell-animate)
               (suspend)
-              (ja :num! (loop! f30-1))))))))
+              (ja :num! (loop!))))))))
 
 (defstate pickup (fuel-cell)
   :virtual #t
@@ -1814,7 +1814,7 @@
   (set! (-> self fact options) (-> arg2 options))
   (set! (-> self notify-parent) #t)
   (set! (-> self root trans quad) (-> arg0 quad))
-  (+! (-> self root trans y) 4200.0) ;; Need to adjust position of new model, y += 4200.
+  (+! (-> self root trans y) 4400.0) ;; Need to adjust position of new model, y += 4400.
   (quaternion-identity! (-> self root quat))
   (vector-identity! (-> self root scale))
   (set! (-> self root transv quad) (-> arg1 quad))
