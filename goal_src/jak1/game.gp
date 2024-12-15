@@ -1664,6 +1664,7 @@
 ;; to also generate a collide-mesh, add :gen-mesh #t
 (build-actor "test-actor" :gen-mesh #t)
 (build-actor "ap-cell" :gen-mesh #f)
+(build-actor "ap-buzzer" :gen-mesh #f)
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Game Engine Code

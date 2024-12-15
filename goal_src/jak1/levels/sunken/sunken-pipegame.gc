@@ -746,7 +746,8 @@
     (dotimes (s2-0 3)
       (let* ((s0-0 (-> this prize s2-0))
              (v1-17 (ash 1 s2-0))
-             (s1-1 (logtest? v1-17 (-> this challenges-mask))))
+             (s1-1 (logtest? v1-17 (-> this challenges-mask)))
+             (s2-1 (new 'stack-no-clear 'vector)))
         (eval-path-curve-div! (-> this path) (-> s0-0 jar-pos) (the float (* s2-0 2)) 'interp)
         (eval-path-curve-div! (-> this path) (-> s0-0 far-pos) (the float (+ (* s2-0 2) 1)) 'interp)
         (set! (-> s0-0 sucked-up-jar-part-pos quad) (-> s0-0 jar-pos quad))
@@ -778,12 +779,18 @@
              (set-vector! s4-0 0.0 1146.88 5120.0 1.0)
              (set! (-> s0-0 sucked-up-part) (create-launch-control (-> *part-group-id-table* 449) this))
              (set! (-> s0-0 blown-out-part) (create-launch-control (-> *part-group-id-table* 452) this))
-             (+! (-> s0-0 jar-pos y) 7168.0)
+             (set-vector! s2-1
+              (-> s0-0 jar-pos x)
+              (-> s0-0 jar-pos y)
+              (-> s0-0 jar-pos z)
+              (-> s0-0 jar-pos w))
+             (+! (-> s2-1 y) 7168.0)          ;; original y.
+             (+! (-> s0-0 jar-pos y) 11368.0) ;; y += 4200.
              (+! (-> s0-0 far-pos y) 7168.0)
              (+! (-> s0-0 blown-out-far-part-pos y) 4096.0)
              (when (not s1-1)
                (set! (-> s0-0 actor-handle)
-                     (ppointer->handle (birth-pickup-at-point (-> s0-0 jar-pos) (pickup-type buzzer) 49.0 #f this (the-as fact-info #f))))
+                     (ppointer->handle (birth-pickup-at-point s2-1 (pickup-type buzzer) 49.0 #f this (the-as fact-info #f))))
                (let ((s0-1 (handle->process (-> s0-0 actor-handle))))
                  (when s0-1
                    (send-event s0-1 'movie-pos 1)
@@ -795,12 +802,18 @@
              (set-vector! s4-0 30720.0 1146.88 5120.0 1.0)
              (set! (-> s0-0 sucked-up-part) (create-launch-control (-> *part-group-id-table* 450) this))
              (set! (-> s0-0 blown-out-part) (create-launch-control (-> *part-group-id-table* 453) this))
-             (+! (-> s0-0 jar-pos y) 7168.0)
+             (set-vector! s2-1
+              (-> s0-0 jar-pos x)
+              (-> s0-0 jar-pos y)
+              (-> s0-0 jar-pos z)
+              (-> s0-0 jar-pos w))
+             (+! (-> s2-1 y) 7168.0)          ;; original y.
+             (+! (-> s0-0 jar-pos y) 11368.0) ;; y += 4200.
              (+! (-> s0-0 far-pos y) 7168.0)
              (+! (-> s0-0 blown-out-far-part-pos y) 4096.0)
              (when (not s1-1)
                (set! (-> s0-0 actor-handle)
-                     (ppointer->handle (birth-pickup-at-point (-> s0-0 jar-pos) (pickup-type buzzer) 65585.0 #f this (the-as fact-info #f))))
+                     (ppointer->handle (birth-pickup-at-point s2-1 (pickup-type buzzer) 65585.0 #f this (the-as fact-info #f))))
                (let ((s0-2 (handle->process (-> s0-0 actor-handle))))
                  (when s0-2
                    (send-event s0-2 'movie-pos 2)

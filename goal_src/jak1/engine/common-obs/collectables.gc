@@ -1457,41 +1457,6 @@
   (go-virtual wait)
   (none))
 
-(defbehavior ap-cell-init-by-other ap-cell ((arg0 vector) (arg1 vector) (arg2 fact-info) (arg3 entity-actor))
-  (let ((s3-0 (-> arg2 pickup-type))
-        (f30-0 (-> arg2 pickup-spawn-amount)))
-    (set! (-> self entity) arg3)
-    (set! (-> self pickup-type) s3-0)
-    (set! (-> self pickup-amount) f30-0)
-    (initialize self)
-    (set! (-> self fact pickup-type) s3-0)
-    (set! (-> self fact pickup-amount) f30-0))
-  (set! (-> self fact options) (-> arg2 options))
-  (set! (-> self notify-parent) #t)
-  (set! (-> self root trans quad) (-> arg0 quad))
-  (quaternion-identity! (-> self root quat))
-  (vector-identity! (-> self root scale))
-  (set! (-> self root transv quad) (-> arg1 quad))
-  (initialize-params self 0 (the-as float 1024.0))
-  (logclear! (-> self fact options) (fact-options can-collect))
-  (update-transforms! (-> self root))
-  (let ((gp-1 (res-lump-struct (-> self entity) 'movie-pos structure :time (the-as float -1000000000.0))))
-    (cond
-      ((and *debug-segment* (< (-> *fuel-cell-tune-pos* w) 1000000000.0))
-       (set! (-> self jump-pos quad) (-> *fuel-cell-tune-pos* quad))
-       (+! (-> self jump-pos y) 4096.0)
-       (go-virtual jump))
-      ((and gp-1
-            (not (logtest? (res-lump-value (-> self entity) 'options fact-options :time (the-as float -1000000000.0))
-                           (fact-options skip-jump-anim)))
-            (not (logtest? (-> self fact options) (fact-options skip-jump-anim))))
-       (set! (-> self jump-pos quad) (-> (the-as vector gp-1) quad))
-       (+! (-> self jump-pos y) 4096.0)
-       (go-virtual jump))))
-  (set! (-> self event-hook) (-> (method-of-object self wait) event))
-  (go-virtual wait)
-  (none))
-
 (defstate fuel-cell-clone-anim (fuel-cell)
   :event
     (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
@@ -1570,8 +1535,19 @@
   :bounds (static-spherem 0 1 0 1.6)
   :texture-level 2)
 
+(defskelgroup *ap-buzzer-sg*
+  ap-buzzer
+  ap-buzzer-lod0-jg
+  ap-buzzer-idle-ja
+  ((ap-buzzer-lod0-mg (meters 999999)))
+  :bounds (static-spherem 0 1 0 2.4)
+  :texture-level 2)
+
 (deftype buzzer (eco-collectable)
   ((victory-anim spool-anim)))
+
+(deftype ap-buzzer (buzzer) 
+  ((root collide-shape-moving :override)))
 
 (defmethod animate ((this buzzer))
   (quaternion-rotate-y! (-> this root quat) (-> this root quat) (* 40049.777 (seconds-per-frame)))
@@ -1588,7 +1564,30 @@
   0
   (none))
 
+(defmethod animate ((this ap-buzzer))
+  (let ((a0-2 (-> this skel root-channel 0)))
+    (set! (-> a0-2 param 0) 1.0)
+    (joint-control-channel-group-eval! a0-2 (the-as art-joint-anim #f) num-func-loop!))
+  (if (nonzero? (-> this sound)) (update! (-> this sound)))
+  (if (and *target* (>= (-> *target* fact buzzer) 6.0))
+    (spool-push *art-control* (-> this victory-anim name) 0 this (the-as float -99.0)))
+  (set-vector! (-> this draw color-mult) 0.25 0.25 0.25 1.0)
+  (set-vector! (-> this draw color-emissive) 0.33 0.33 0.33 1.0)
+  0
+  (none))
+
 (defstate wait (buzzer)
+  :virtual #t
+  :code
+    (behavior ()
+      (case (get-reminder (get-task-control (the-as game-task (logand (the int (-> self fact pickup-amount)) #xffff))) 0)
+        ((127) (go-virtual pickup #t (the-as handle #f))))
+      (loop
+        (transform-post)
+        (animate self)
+        (suspend))))
+
+(defstate wait (ap-buzzer)
   :virtual #t
   :code
     (behavior ()
@@ -1674,6 +1673,46 @@
                 (s4-2 (ppointer->process (-> self parent))))
             (s5-3 (if (and (nonzero? s4-2) (type-type? (-> s4-2 type) process)) s4-2) gp-1))))))
 
+(defstate pickup (ap-buzzer)
+  :virtual #t
+  :event
+    (behavior ((proc process) (argc int) (message symbol) (block event-message-block))
+      (case message
+        (('notify) (process-entity-status! self (entity-perm-status dead) #t))))
+  :enter
+    (behavior ((arg0 object) (arg1 handle))
+      (set! (-> self pickup-handle) arg1)
+      (logclear! (-> self mask) (process-mask actor-pause)))
+  :code
+    (behavior ((arg0 object) (arg1 handle))
+      (logclear! (-> self mask) (process-mask actor-pause))
+      (process-entity-status! self (entity-perm-status complete) #t)
+      (sound-play "buzzer-pickup")
+      (runs-on-fly-pickup)
+      (case (-> (level-get-target-inside *level*) name)
+        (('training)
+         (level-hint-spawn (text-id training-buzzer-hint) "asstvb44" (the-as entity #f) *entity-pool* (game-task none)))
+        (('firecanyon)
+         (level-hint-spawn (text-id firecanyon-buzzer-hint) "sksp0096" (the-as entity #f) *entity-pool* (game-task none)))
+        (else (level-hint-spawn (text-id sidekick-hint-buzzer3) "sksp009j" (the-as entity #f) *entity-pool* (game-task none))))
+      (ja-channel-set! 0)
+      (clear-collide-with-as (-> self root))
+      (if (nonzero? (-> self sound)) (stop! (-> self sound)))
+      (when (not arg0)
+        (let ((v1-18 (manipy-spawn (-> self root trans) #f *buzzer-sg* #f :to *entity-pool*)))
+          (send-event (ppointer->process v1-18) 'become-hud-object (ppointer->process (-> *hud-parts* buzzers)))))
+      (let* ((s5-2 (logand (the int (-> self fact pickup-amount)) #xffff))
+             (s4-1 (get-task-control (the-as game-task s5-2)))))
+      (when (-> self notify-parent)
+        (let ((gp-1 (new 'stack-no-clear 'event-message-block)))
+          (set! (-> gp-1 from) self)
+          (set! (-> gp-1 num-params) 1)
+          (set! (-> gp-1 message) 'notify)
+          (set! (-> gp-1 param 0) (the-as uint 'pickup))
+          (let ((s5-3 send-event-function)
+                (s4-2 (ppointer->process (-> self parent))))
+            (s5-3 (if (and (nonzero? s4-2) (type-type? (-> s4-2 type) process)) s4-2) gp-1))))))
+
 (defmethod initialize ((this buzzer))
   (let ((s5-0 (new 'process 'collide-shape-moving this (collide-list-enum hit-by-player))))
     (set! (-> s5-0 dynam) (copy *standard-dynamics* 'process))
@@ -1692,6 +1731,29 @@
   (set! (-> this notify-parent) #f)
   (set! (-> this fact) (new 'process 'fact-info this (pickup-type buzzer) (the-as float 0.0)))
   (initialize-skeleton this *buzzer-sg* '())
+  (set! (-> this part) (create-launch-control (-> *part-group-id-table* 65) this))
+  (set! (-> this sound) (new 'process 'ambient-sound (static-sound-spec "buzzer" :fo-max 40) (-> this root trans)))
+  (set! (-> this victory-anim) (fuel-cell-pick-anim this))
+  this)
+
+(defmethod initialize ((this ap-buzzer))
+  (let ((s5-0 (new 'process 'collide-shape-moving this (collide-list-enum hit-by-player))))
+    (set! (-> s5-0 dynam) (copy *standard-dynamics* 'process))
+    (set! (-> s5-0 reaction) default-collision-reaction)
+    (set! (-> s5-0 no-reaction) (the-as (function collide-shape-moving collide-shape-intersect vector vector none) nothing))
+    (let ((s4-0 (new 'process 'collide-shape-prim-sphere s5-0 (the-as uint 0))))
+      (set! (-> s4-0 prim-core collide-as) (collide-kind powerup blue-eco-suck))
+      (set! (-> s4-0 collide-with) (collide-kind target))
+      (set-vector! (-> s4-0 local-sphere) 0.0 257.6 0.0 4915.2) ;; Need to adjust position of new model, y -= 2200.
+      (set-root-prim! s5-0 s4-0))
+    (set! (-> s5-0 nav-radius) (* 0.75 (-> s5-0 root-prim local-sphere w)))
+    (backup-collide-with-as s5-0)
+    (set! (-> this root) s5-0))
+  (logior! (-> this mask) (process-mask actor-pause))
+  (set! (-> this actor-pause) #t)
+  (set! (-> this notify-parent) #f)
+  (set! (-> this fact) (new 'process 'fact-info this (pickup-type buzzer) (the-as float 0.0)))
+  (initialize-skeleton this *ap-buzzer-sg* '())
   (set! (-> this part) (create-launch-control (-> *part-group-id-table* 65) this))
   (set! (-> this sound) (new 'process 'ambient-sound (static-sound-spec "buzzer" :fo-max 40) (-> this root trans)))
   (set! (-> this victory-anim) (fuel-cell-pick-anim this))
@@ -1721,6 +1783,29 @@
   (set! (-> self fact options) (-> arg2 options))
   (set! (-> self notify-parent) #t)
   (set! (-> self root trans quad) (-> arg0 quad))
+  (quaternion-identity! (-> self root quat))
+  (vector-identity! (-> self root scale))
+  (set! (-> self root transv quad) (-> arg1 quad))
+  (initialize-params self 0 (the-as float 1024.0))
+  (update-transforms! (-> self root))
+  (update-trans! (-> self sound) (-> self root trans))
+  (set! (-> self event-hook) (-> (method-of-object self wait) event))
+  (go-virtual wait)
+  (none))
+
+(defbehavior ap-buzzer-init-by-other ap-buzzer ((arg0 vector) (arg1 vector) (arg2 fact-info) (arg3 entity-actor))
+  (let ((s3-0 (-> arg2 pickup-type))
+        (f30-0 (-> arg2 pickup-spawn-amount)))
+    (set! (-> self entity) arg3)
+    (set! (-> self pickup-type) s3-0)
+    (set! (-> self pickup-amount) f30-0)
+    (initialize self)
+    (set! (-> self fact pickup-type) s3-0)
+    (set! (-> self fact pickup-amount) f30-0))
+  (set! (-> self fact options) (-> arg2 options))
+  (set! (-> self notify-parent) #t)
+  (set! (-> self root trans quad) (-> arg0 quad))
+  (+! (-> self root trans y) 4200.0) ;; Need to adjust position of new model, y += 4200.
   (quaternion-identity! (-> self root quat))
   (vector-identity! (-> self root scale))
   (set! (-> self root transv quad) (-> arg1 quad))
@@ -1877,12 +1962,12 @@
                sv-48)
               ((= v1-25 (pickup-type buzzer))
                (set! (-> s0-0 pickup-spawn-amount) arg2)
-               (set! sv-176 (get-process *pickup-dead-pool* buzzer #x4000))
+               (set! sv-176 (get-process *pickup-dead-pool* ap-buzzer #x4000)) ;; change from buzzer to ap-buzzer for new model.
                (set! v1-71
                      (when sv-176
                        (set! sv-192 (the-as (pointer process) v1-71))
                        (let ((t9-26 (method-of-type buzzer activate))) (t9-26 (the-as buzzer sv-176) arg4 'buzzer (the-as pointer #x70004000)))
-                       (run-now-in-process sv-176 buzzer-init-by-other arg0 s1-0 s0-0 (-> self entity))
+                       (run-now-in-process sv-176 ap-buzzer-init-by-other arg0 s1-0 s0-0 (-> self entity)) ;; change init function.
                        (set! sv-192 (-> sv-176 ppointer))
                        v1-71))
                (set! sv-48 0)

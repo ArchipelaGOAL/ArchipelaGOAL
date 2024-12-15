@@ -507,6 +507,10 @@
 
 (define-extern ap-cell type)
 
+(define-extern buzzer type)
+
+(define-extern ap-buzzer type)
+
 (defmethod print-volume-sizes ((this level-group))
   "Loop through all entities and print their visibility.
    Excludes crate, fuel-cell and springbox."
@@ -933,10 +937,14 @@
     (cond
       ((not entity-process) (birth-log "could not birth because there is no process.~%"))
       ((begin
-         ;; Replace default etype of fuel-cell with ap-cell for custom model.
          (declare-type fuel-cell process-drawable)
          (declare-type ap-cell fuel-cell)
-         (set! entity-type (if (= entity-type fuel-cell) ap-cell entity-type))
+         (declare-type buzzer process-drawable)
+         (declare-type ap-buzzer buzzer)
+         (set! entity-type (cond 
+            ((= entity-type fuel-cell) ap-cell) ; Replace default etype of fuel-cell with ap-cell for custom model.
+            ((= entity-type buzzer) ap-buzzer)  ; Replace default etype of buzzer with ap-buzzer for custom model.
+            (else entity-type)))
          (set! (-> entity-process type) entity-type)
          (and entity-type
               (valid? entity-type type #f #f 0)

@@ -323,6 +323,7 @@
   "ap-cell-ag.go" ;; added
   "money-ag.go"
   "buzzer-ag.go"
+  "ap-buzzer-ag.go" ;; added
   "ecovalve-ag.go"
   "crate-ag.go"
   "speaker-ag.go"
