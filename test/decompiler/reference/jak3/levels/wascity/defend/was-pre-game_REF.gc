@@ -624,8 +624,8 @@
   (let* ((a0-1 (-> arg4 control))
          (v1-1 (vector-! (new 'stack-no-clear 'vector) (-> arg2 x-y-z-sx) (-> a0-1 origin trans)))
          )
-    (set! (-> arg1 vel-sxvel x) (* 0.083333336 (-> v1-1 x)))
-    (set! (-> arg1 vel-sxvel y) (* 0.083333336 (-> v1-1 y)))
+    (set! (-> arg1 vel-sxvel x) (/ (-> v1-1 x) 12))
+    (set! (-> arg1 vel-sxvel y) (/ (-> v1-1 y) 12))
     )
   0
   (none)
@@ -985,9 +985,9 @@
   (let* ((a0-1 (-> arg4 control))
          (v1-1 (vector-! (new 'stack-no-clear 'vector) (-> arg2 x-y-z-sx) (-> a0-1 origin trans)))
          )
-    (set! (-> arg1 vel-sxvel x) (* -0.008333334 (-> v1-1 x)))
-    (set! (-> arg1 vel-sxvel y) (* -0.008333334 (-> v1-1 y)))
-    (set! (-> arg1 vel-sxvel z) (* -0.008333334 (-> v1-1 z)))
+    (set! (-> arg1 vel-sxvel x) (/ (-> v1-1 x) -120))
+    (set! (-> arg1 vel-sxvel y) (/ (-> v1-1 y) -120))
+    (set! (-> arg1 vel-sxvel z) (/ (-> v1-1 z) -120))
     )
   0
   (none)
@@ -1936,7 +1936,7 @@
                        )
                    (sp-group-flag sp13)
                    )
-         (set! (-> *launch-matrix* trans quad) (-> self root trans quad))
+         (vector-copy! (-> *launch-matrix* trans) (-> self root trans))
          (let ((gp-0 (get-process *default-dead-pool* part-tracker-subsampler #x4000 0)))
            (when gp-0
              (let ((t9-1 (method-of-type part-tracker-subsampler activate)))
@@ -1981,7 +1981,7 @@
            )
          )
         (else
-          (set! (-> *launch-matrix* trans quad) (-> self root trans quad))
+          (vector-copy! (-> *launch-matrix* trans) (-> self root trans))
           (let ((gp-1 (get-process *default-dead-pool* part-tracker #x4000 0)))
             (when gp-1
               (let ((t9-4 (method-of-type part-tracker activate)))
@@ -2082,7 +2082,7 @@
                             )
                         (sp-group-flag sp13)
                         )
-              (set! (-> *launch-matrix* trans quad) (-> self root trans quad))
+              (vector-copy! (-> *launch-matrix* trans) (-> self root trans))
               (let ((gp-4 (get-process *default-dead-pool* part-tracker-subsampler #x4000 0)))
                 (when gp-4
                   (let ((t9-10 (method-of-type part-tracker-subsampler activate)))
@@ -2127,7 +2127,7 @@
                 )
               )
              (else
-               (set! (-> *launch-matrix* trans quad) (-> self root trans quad))
+               (vector-copy! (-> *launch-matrix* trans) (-> self root trans))
                (let ((gp-5 (get-process *default-dead-pool* part-tracker #x4000 0)))
                  (when gp-5
                    (let ((t9-13 (method-of-type part-tracker activate)))
@@ -2201,7 +2201,7 @@
                        )
                    (sp-group-flag sp13)
                    )
-         (set! (-> *launch-matrix* trans quad) (-> self root trans quad))
+         (vector-copy! (-> *launch-matrix* trans) (-> self root trans))
          (let ((gp-0 (get-process *default-dead-pool* part-tracker-subsampler #x4000 0)))
            (when gp-0
              (let ((t9-1 (method-of-type part-tracker-subsampler activate)))
@@ -2246,7 +2246,7 @@
            )
          )
         (else
-          (set! (-> *launch-matrix* trans quad) (-> self root trans quad))
+          (vector-copy! (-> *launch-matrix* trans) (-> self root trans))
           (let ((gp-1 (get-process *default-dead-pool* part-tracker #x4000 0)))
             (when gp-1
               (let ((t9-4 (method-of-type part-tracker activate)))
@@ -2311,7 +2311,7 @@
   (set! (-> self start-delay) arg3)
   (set! (-> self gravity) arg4)
   (set! (-> self root) (new 'process 'trsqv))
-  (set! (-> self screen-pos quad) (-> arg1 quad))
+  (vector-copy! (-> self screen-pos) arg1)
   (logclear! (-> self mask) (process-mask actor-pause))
   (initialize-skeleton
     self
@@ -3111,6 +3111,7 @@
 
 ;; definition for method 11 of type was-pre-game
 (defmethod init-from-entity! ((this was-pre-game) (arg0 entity-actor))
+  "Set up a newly created process from the entity that created it."
   (let ((s4-0 (new 'process 'collide-shape-moving this (collide-list-enum usually-hit-by-player))))
     (set! (-> s4-0 dynam) (copy *standard-dynamics* 'process))
     (set! (-> s4-0 reaction) cshape-reaction-default)
@@ -3282,19 +3283,19 @@
             )
         (cond
           ((zero? a0-7)
-           (set-vector! v1-6 0.0 (* 90.0 (+ (-> a1-1 min) (* 0.5 (-> a1-1 size)))) 0.0 1.0)
+           (set-vector! v1-6 0.0 (* 90.0 (+ (-> a1-1 min) (/ (-> a1-1 size) 2))) 0.0 1.0)
            )
           ((= a0-7 1)
-           (set-vector! v1-6 (* 90.0 (+ (-> a1-1 min) (* 0.5 (-> a1-1 size)))) 0.0 0.0 1.0)
+           (set-vector! v1-6 (* 90.0 (+ (-> a1-1 min) (/ (-> a1-1 size) 2))) 0.0 0.0 1.0)
            )
           ((= a0-7 2)
-           (set-vector! v1-6 0.0 (* -90.0 (+ (-> a1-1 min) (* 0.5 (-> a1-1 size)))) 0.0 1.0)
+           (set-vector! v1-6 0.0 (* -90.0 (+ (-> a1-1 min) (/ (-> a1-1 size) 2))) 0.0 1.0)
            )
           ((= a0-7 2)
-           (set-vector! v1-6 0.0 (* 90.0 (+ (-> a1-1 min) (* 0.5 (-> a1-1 size)))) 0.0 1.0)
+           (set-vector! v1-6 0.0 (* 90.0 (+ (-> a1-1 min) (/ (-> a1-1 size) 2))) 0.0 1.0)
            )
           ((= a0-7 3)
-           (set-vector! v1-6 (* -90.0 (+ (-> a1-1 min) (* 0.5 (-> a1-1 size)))) 0.0 0.0 1.0)
+           (set-vector! v1-6 (* -90.0 (+ (-> a1-1 min) (/ (-> a1-1 size) 2))) 0.0 0.0 1.0)
            )
           )
         )
@@ -3345,16 +3346,16 @@
             )
         (cond
           ((zero? a0-7)
-           (set-vector! v1-6 0.0 (* 90.0 (+ (-> a1-1 min) (* 0.5 (-> a1-1 size)))) 0.0 1.0)
+           (set-vector! v1-6 0.0 (* 90.0 (+ (-> a1-1 min) (/ (-> a1-1 size) 2))) 0.0 1.0)
            )
           ((= a0-7 1)
-           (set-vector! v1-6 (* 90.0 (+ (-> a1-1 min) (* 0.5 (-> a1-1 size)))) 0.0 0.0 1.0)
+           (set-vector! v1-6 (* 90.0 (+ (-> a1-1 min) (/ (-> a1-1 size) 2))) 0.0 0.0 1.0)
            )
           ((= a0-7 2)
-           (set-vector! v1-6 0.0 (* -90.0 (+ (-> a1-1 min) (* 0.5 (-> a1-1 size)))) 0.0 1.0)
+           (set-vector! v1-6 0.0 (* -90.0 (+ (-> a1-1 min) (/ (-> a1-1 size) 2))) 0.0 1.0)
            )
           ((= a0-7 3)
-           (set-vector! v1-6 (* -90.0 (+ (-> a1-1 min) (* 0.5 (-> a1-1 size)))) 0.0 0.0 1.0)
+           (set-vector! v1-6 (* -90.0 (+ (-> a1-1 min) (/ (-> a1-1 size) 2))) 0.0 0.0 1.0)
            )
           )
         )

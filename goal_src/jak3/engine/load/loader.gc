@@ -598,7 +598,7 @@
     (set! (-> s4-4 length) 0)
     (dotimes (s3-2 3)
       (when (-> this rec s3-2 name)
-        (mem-copy! (&-> (-> s4-4 (-> s4-4 length)) type) (&-> (-> this rec s3-2) type) 44)
+        (mem-copy! (&-> s4-4 (-> s4-4 length) type) (&-> this rec s3-2 type) 44)
         (+! (-> s4-4 length) 1)
         )
       )
@@ -724,8 +724,8 @@
      (if (>= arg3 (-> this rec 0 priority))
          (return (the-as int #f))
          )
-     (mem-copy! (&-> (-> this rec) 0 type) (&-> (-> this rec 1) type) 44)
-     (mem-copy! (&-> (-> this rec 1) type) (&-> (-> this rec 2) type) 44)
+     (mem-copy! (&-> this rec 0 type) (&-> this rec 1 type) 44)
+     (mem-copy! (&-> this rec 1 type) (&-> this rec 2 type) 44)
      (set! (-> this rec 2 name) #f)
      (set! (-> this rec 2 owner) (the-as handle #f))
      )
@@ -733,7 +733,7 @@
      (if (>= arg3 (-> this rec 1 priority))
          (return (the-as int #f))
          )
-     (mem-copy! (&-> (-> this rec 1) type) (&-> (-> this rec 2) type) 44)
+     (mem-copy! (&-> this rec 1 type) (&-> this rec 2 type) 44)
      (set! (-> this rec 2 name) #f)
      (set! (-> this rec 2 owner) (the-as handle #f))
      )
@@ -747,15 +747,15 @@
     )
   (cond
     ((< arg3 (-> this rec 0 priority))
-     (mem-copy! (&-> (-> this rec 2) type) (&-> (-> this rec 1) type) 44)
-     (mem-copy! (&-> (-> this rec 1) type) (&-> (-> this rec) 0 type) 44)
+     (mem-copy! (&-> this rec 2 type) (&-> this rec 1 type) 44)
+     (mem-copy! (&-> this rec 1 type) (&-> this rec 0 type) 44)
      (set! (-> this rec 0 name) arg0)
      (set! (-> this rec 0 parts) arg1)
      (set! (-> this rec 0 priority) arg3)
      (set! (-> this rec 0 owner) (process->handle arg2))
      )
     ((< arg3 (-> this rec 1 priority))
-     (mem-copy! (&-> (-> this rec 2) type) (&-> (-> this rec 1) type) 44)
+     (mem-copy! (&-> this rec 2 type) (&-> this rec 1 type) 44)
      (set! (-> this rec 1 name) arg0)
      (set! (-> this rec 1 parts) arg1)
      (set! (-> this rec 1 priority) arg3)
@@ -2212,6 +2212,10 @@
     )
   )
 
+;; og:preserve-this added for debugging
+(#when PC_PORT
+(define *gui-kick-str* #f))
+
 (defmethod update-connection ((this gui-control) (arg0 gui-connection) (arg1 process) (arg2 symbol))
   (local-vars (v1-75 symbol))
   (when (and (>= (the-as uint (-> arg0 channel)) (the-as uint 16))
@@ -2253,7 +2257,9 @@
            ((= s3-0 (gui-status ready))
             (case (shr (the-as int (-> arg0 channel)) 4)
               ((1 2)
-               (if (not (paused?))
+               ;; og:preserve-this added condition
+               (if (#if PC_PORT (or *gui-kick-str* (not (paused?)))
+                                (not (paused?)))
                    (str-play-async
                      (-> arg0 name)
                      (-> arg0 id)
@@ -2723,6 +2729,8 @@
     (set! (-> gp-0 cmd 35)
           '((64 . wait) (21 . wait) (22 . wait) (23 . wait) (25 . wait) (19 . wait) (28 . wait) (35 . wait))
           )
+    ;; og:preserve-this added
+    (set! (-> gp-0 cmd (gui-channel subtitle-pc)) '(((the binteger (gui-channel blackout)) . wait)))
     (set! (-> gp-0 group 18) (sound-group))
     (set! (-> gp-0 group 27) (sound-group))
     (set! (-> gp-0 group 31) (sound-group))
