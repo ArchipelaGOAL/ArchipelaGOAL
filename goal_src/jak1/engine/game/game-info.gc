@@ -417,6 +417,13 @@
        ;; The ony thing we need to do is to update the ap-info-jak1 struct
        ;; so that logic elsewhere can check that we received a move.
        (ap-move-received! (the-as uint s5-1)))
+     (-> this fuel))
+    (('ap-trap)
+     ;; got a booby trap!
+     ;; in this case, the amount is actually the ID of the trap effect.
+     (let ((s5-1 (the int amount)))
+       ;; The ony thing we need to do is to call the trap received logic.
+       (ap-trap-received! (the-as uint s5-1)))
      (-> this fuel))))
 
 (defmethod got-buzzer? ((this game-info) (arg0 game-task) (arg1 int))
@@ -671,6 +678,10 @@
      ;; special check for archipelago - move rando
      ;; the amount is actually the ID of the move.
      (ap-adjust (-> (the-as target (-> this process)) game) 'ap-move amount source-handle))
+    (((pickup-type ap-trap))
+     ;; special check for archipelago - booby traps
+     ;; the amount is actually the ID of the trap.
+     (ap-adjust (-> (the-as target (-> this process)) game) 'ap-trap amount source-handle))
     (else
      0.0 ;; don't call ap-pickup-collectable! on any other item type, just return 0.
      )))

@@ -45,6 +45,8 @@
    (version              uint32)
    ;; Connection Status
    (connection-status    uint8)
+   ;; Trap information.
+   (trap-duration       float)
    ;; End marker just to make things look nice in a memory view.
    (end-marker           uint8 4)))
 
@@ -100,6 +102,8 @@
 
 ;; Slightly more complicated functions.
 (define-extern ap-deathlink-received! (function symbol symbol))
+
+(define-extern ap-trap-received! (function uint symbol))
 
 (define-extern ap-setup-options! (function uint uint float float float float float uint symbol))
 

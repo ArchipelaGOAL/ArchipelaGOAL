@@ -58,6 +58,7 @@
   (buzzer)
   (ap-special)
   (ap-move)
+  (ap-trap)
   (eco-pill-random))
 
 (defun pickup-type->string ((arg0 pickup-type))

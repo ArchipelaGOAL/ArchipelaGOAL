@@ -149,6 +149,103 @@
                 (static-attack-info ((deathlink-death #t) (mode chosen-death) (vector (new 'static 'vector :y (meters 1) :w 1.0)) (angle 'up) (control 1.0)))))
   #t)
 
+(defun ap-trap-received! ((trap-id uint))
+  (sound-play "warning" :pitch -0.25)
+  (cond
+    ((= trap-id 1) ;; Trip Trap
+      (process-spawn-function process
+        (lambda :behavior process ()
+          (send-event *target* 'loading)
+          (suspend-for (seconds 30))
+          (send-event *target* 'loading))))
+    ((= trap-id 2) ;; Slippery Trap
+      (process-spawn-function process
+        (lambda :behavior process ()
+          (set! (-> *stone-surface* slope-slip-angle) 16384.0)
+          (set! (-> *stone-surface* slip-factor) 0.7)
+          (set! (-> *stone-surface* transv-max) 1.5)
+          (set! (-> *stone-surface* turnv) 0.5)
+          (set! (-> *stone-surface* nonlin-fric-dist) 4091904.0)
+          (set! (-> *stone-surface* fric) 23756.8)
+          (set! (-> *grass-surface* slope-slip-angle) 16384.0)
+          (set! (-> *grass-surface* slip-factor) 0.7)
+          (set! (-> *grass-surface* transv-max) 1.5)
+          (set! (-> *grass-surface* turnv) 0.5)
+          (set! (-> *grass-surface* nonlin-fric-dist) 4091904.0)
+          (set! (-> *grass-surface* fric) 23756.8)
+          (set! (-> *ice-surface* slip-factor) 0.3)
+          (set! (-> *ice-surface* nonlin-fric-dist) 8183808.0)
+          (set! (-> *ice-surface* fric) 11878.4)
+          (suspend-for (seconds 30))
+          (set! (-> *stone-surface* slope-slip-angle) 8192.0)
+          (set! (-> *stone-surface* slip-factor) 1.0)
+          (set! (-> *stone-surface* transv-max) 1.0)
+          (set! (-> *stone-surface* turnv) 1.0)
+          (set! (-> *stone-surface* nonlin-fric-dist) 5120.0)
+          (set! (-> *stone-surface* fric) 153600.0)
+          (set! (-> *grass-surface* slope-slip-angle) 16384.0)
+          (set! (-> *grass-surface* slip-factor) 1.0)
+          (set! (-> *grass-surface* transv-max) 1.0)
+          (set! (-> *grass-surface* turnv) 1.0)
+          (set! (-> *grass-surface* nonlin-fric-dist) 4096.0)
+          (set! (-> *grass-surface* fric) 122880.0)
+          (set! (-> *ice-surface* slip-factor) 0.7)
+          (set! (-> *ice-surface* nonlin-fric-dist) 4091904.0)
+          (set! (-> *ice-surface* fric) 23756.8)
+          )))
+    ((= trap-id 3) ;; Gravity Trap
+      (process-spawn-function process
+        (lambda :behavior process ()
+          (*! (-> *standard-dynamics* gravity-length) 3.0)
+          (set! (-> *TARGET-bank* fall-far) (meters 2.5))
+          (set! (-> *TARGET-bank* fall-far-inc) (meters 3.5))
+          (suspend-for (seconds 30))
+          (*! (-> *standard-dynamics* gravity-length) 0.333)
+          (set! (-> *TARGET-bank* fall-far) (meters 30))
+          (set! (-> *TARGET-bank* fall-far-inc) (meters 20)))))
+    ((= trap-id 4) ;; Camera Trap
+      (process-spawn-function process
+        (lambda :behavior process ()
+          (send-event *target* 'no-look-around (seconds 30))
+          (send-event *camera* 'change-state cam-circular 0)
+          (suspend-for (seconds 30))
+          (send-event *target* 'no-look-around (seconds 0))
+          (send-event *camera* 'change-state cam-string 0))))
+    ((= trap-id 5) ;; Darkness Trap
+      (process-spawn-function process
+        (lambda :behavior process ()
+          (set! (-> (level-get-target-inside *level*) mood) *darkcave-mood*)
+          (set! (-> (level-get-target-inside *level*) mood-func) update-mood-finalboss)
+          (suspend-for (seconds 30))
+          (set! (-> (level-get-target-inside *level*) mood) *default-mood*)
+          (set! (-> (level-get-target-inside *level*) mood-func) update-mood-default))))
+    ((= trap-id 6) ;; Invisibility Trap - TODO
+      (none))
+    ((= trap-id 7) ;; Ghost Trap - TODO
+      (none))
+    ((= trap-id 8) ;; Amnesia Trap - TODO
+      (none))
+    ((= trap-id 9) ;; Pacifism Trap
+      (process-spawn-function process
+        (lambda :behavior process ()
+          (set! (-> *TARGET-bank* punch-radius) (meters -1.0))
+          (set! (-> *TARGET-bank* spin-radius) (meters -1.0))
+          (set! (-> *TARGET-bank* flop-radius) (meters -1.0))
+          (set! (-> *TARGET-bank* uppercut-radius) (meters -1.0))
+          (suspend-for (seconds 30))
+          (set! (-> *TARGET-bank* punch-radius) (meters 1.3))
+          (set! (-> *TARGET-bank* spin-radius) (meters 2.2))
+          (set! (-> *TARGET-bank* flop-radius) (meters 1.4))
+          (set! (-> *TARGET-bank* uppercut-radius) (meters 1.0)))))
+    ((= trap-id 10) ;; Ecoless Trap
+      (process-spawn-function process
+        (lambda :behavior process ()
+          (send-event *target* 'reset-pickup 'eco)
+          (set! (-> *FACT-bank* eco-full-timeout) (seconds 0.1))
+          (suspend-for (seconds 30))
+          (set! (-> *FACT-bank* eco-full-timeout) (seconds 20.0))))))
+    #t)
+
 (defun ap-setup-options! ((option uint) (bundle uint) (fc float) (mp float) (lt float) (coa float) (ooa float) (goal uint))
   (set! (-> *ap-settings* orbsanity-option) option)
   (set! (-> *ap-settings* orbsanity-bundle) bundle)
