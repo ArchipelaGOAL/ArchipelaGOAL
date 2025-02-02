@@ -15,7 +15,7 @@
 ;; ****************************************************************************
 ;; **** This number must match expected_memory_version in MemoryReader.py! ****
 ;; ****************************************************************************
-(set! (-> *ap-info-jak1* version) 4)
+(set! (-> *ap-info-jak1* version) 5)
 
 ;; These don't need to be indexed like they are game-tasks.
 ;; We can just take them first-come-first-serve.
