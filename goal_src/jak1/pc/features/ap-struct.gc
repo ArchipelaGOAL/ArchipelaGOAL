@@ -156,8 +156,10 @@
       (process-spawn-function process
         (lambda :behavior process ()
           (send-event *target* 'loading)
-          (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
-          (send-event *target* 'loading))))
+          (if (> (-> *ap-info-jak1* trap-duration) 5.0)
+            (dotimes (i (- (/ (the int (-> *ap-info-jak1* trap-duration)) 5) 1))
+              (suspend-for (seconds 5))
+              (send-event *target* 'loading))))))
     ((= trap-id 2) ;; Slippery Trap
       (process-spawn-function process
         (lambda :behavior process ()
@@ -193,7 +195,7 @@
           (set! (-> *ice-surface* nonlin-fric-dist) 4091904.0)
           (set! (-> *ice-surface* fric) 23756.8)
           )))
-    ((= trap-id 3) ;; Gravity Trap
+    ((= trap-id 3) ;; Gravity Trap - Needs tweaking.
       (process-spawn-function process
         (lambda :behavior process ()
           (*! (-> *standard-dynamics* gravity-length) 3.0)
@@ -219,12 +221,30 @@
           (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
           (set! (-> (level-get-target-inside *level*) mood) *default-mood*)
           (set! (-> (level-get-target-inside *level*) mood-func) update-mood-default))))
-    ((= trap-id 6) ;; Invisibility Trap - TODO
-      (none))
-    ((= trap-id 7) ;; Ghost Trap - TODO
-      (none))
-    ((= trap-id 8) ;; Amnesia Trap - TODO
-      (none))
+    ((= trap-id 6) ;; Earthquake Trap
+      (process-spawn-function process
+        (lambda :behavior process ()
+          (suspend-for (seconds 1))
+          (sound-play "explosion" :pitch -1.0)
+          (activate! *camera-smush-control* 4000.0 50 (the int (seconds (-> *ap-info-jak1* trap-duration))) 1.0 1.0))))
+    ((= trap-id 7) ;; Teleport Trap
+      (process-spawn-function process
+        (lambda :behavior process ()
+          (suspend-for (seconds 1))
+          (set! (-> *game-info* current-continue) (get-continue-by-name *game-info* "village1-warp"))
+          (initialize! *game-info* 'die (the-as game-save #f) "village1-warp"))))
+    ((= trap-id 8) ;; Despair Trap
+      (process-spawn-function process
+        (lambda :behavior process ()
+          (let ((curr-lang (the-as language-enum (get-game-language *pc-settings*))))
+            (set-game-language! *pc-settings* (language-enum japanese))
+            (suspend-for (seconds 1))
+            (ambient-hint-spawn "WAR-LO1B" (the-as vector #f) *entity-pool* 'ambient)
+            (if (> (-> *ap-info-jak1* trap-duration) 10.0)
+              (dotimes (i (- (/ (the int (-> *ap-info-jak1* trap-duration)) 10) 1))
+                (suspend-for (seconds 11))
+                (ambient-hint-spawn "WAR-LO1B" (the-as vector #f) *entity-pool* 'ambient)))
+          (set-game-language! *pc-settings* curr-lang)))))
     ((= trap-id 9) ;; Pacifism Trap
       (process-spawn-function process
         (lambda :behavior process ()
