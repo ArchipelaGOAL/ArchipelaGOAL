@@ -156,7 +156,7 @@
       (process-spawn-function process
         (lambda :behavior process ()
           (send-event *target* 'loading)
-          (suspend-for (seconds 30))
+          (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
           (send-event *target* 'loading))))
     ((= trap-id 2) ;; Slippery Trap
       (process-spawn-function process
@@ -176,7 +176,7 @@
           (set! (-> *ice-surface* slip-factor) 0.3)
           (set! (-> *ice-surface* nonlin-fric-dist) 8183808.0)
           (set! (-> *ice-surface* fric) 11878.4)
-          (suspend-for (seconds 30))
+          (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
           (set! (-> *stone-surface* slope-slip-angle) 8192.0)
           (set! (-> *stone-surface* slip-factor) 1.0)
           (set! (-> *stone-surface* transv-max) 1.0)
@@ -199,16 +199,16 @@
           (*! (-> *standard-dynamics* gravity-length) 3.0)
           (set! (-> *TARGET-bank* fall-far) (meters 2.5))
           (set! (-> *TARGET-bank* fall-far-inc) (meters 3.5))
-          (suspend-for (seconds 30))
+          (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
           (*! (-> *standard-dynamics* gravity-length) 0.333)
-          (set! (-> *TARGET-bank* fall-far) (meters 30))
+          (set! (-> *TARGET-bank* fall-far) (meters (-> *ap-info-jak1* trap-duration)))
           (set! (-> *TARGET-bank* fall-far-inc) (meters 20)))))
     ((= trap-id 4) ;; Camera Trap
       (process-spawn-function process
         (lambda :behavior process ()
-          (send-event *target* 'no-look-around (seconds 30))
+          (send-event *target* 'no-look-around (seconds (-> *ap-info-jak1* trap-duration)))
           (send-event *camera* 'change-state cam-circular 0)
-          (suspend-for (seconds 30))
+          (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
           (send-event *target* 'no-look-around (seconds 0))
           (send-event *camera* 'change-state cam-string 0))))
     ((= trap-id 5) ;; Darkness Trap
@@ -216,7 +216,7 @@
         (lambda :behavior process ()
           (set! (-> (level-get-target-inside *level*) mood) *darkcave-mood*)
           (set! (-> (level-get-target-inside *level*) mood-func) update-mood-finalboss)
-          (suspend-for (seconds 30))
+          (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
           (set! (-> (level-get-target-inside *level*) mood) *default-mood*)
           (set! (-> (level-get-target-inside *level*) mood-func) update-mood-default))))
     ((= trap-id 6) ;; Invisibility Trap - TODO
@@ -232,7 +232,7 @@
           (set! (-> *TARGET-bank* spin-radius) (meters -1.0))
           (set! (-> *TARGET-bank* flop-radius) (meters -1.0))
           (set! (-> *TARGET-bank* uppercut-radius) (meters -1.0))
-          (suspend-for (seconds 30))
+          (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
           (set! (-> *TARGET-bank* punch-radius) (meters 1.3))
           (set! (-> *TARGET-bank* spin-radius) (meters 2.2))
           (set! (-> *TARGET-bank* flop-radius) (meters 1.4))
@@ -242,25 +242,25 @@
         (lambda :behavior process ()
           (send-event *target* 'reset-pickup 'eco)
           (set! (-> *FACT-bank* eco-full-timeout) (seconds 0.1))
-          (suspend-for (seconds 30))
+          (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
           (set! (-> *FACT-bank* eco-full-timeout) (seconds 20.0))))))
     #t)
 
-(defun ap-setup-options! ((option uint) (bundle uint) (fc float) (mp float) (lt float) (coa float) (ooa float) (goal uint))
-  (set! (-> *ap-settings* orbsanity-option) option)
-  (set! (-> *ap-settings* orbsanity-bundle) bundle)
-  (set! (-> *ap-settings* fire-canyon-unlock) fc)
-  (set! (-> *ap-settings* mountain-pass-unlock) mp)
-  (set! (-> *ap-settings* lava-tube-unlock) lt)
-  (set! (-> *ap-settings* citizen-orb-amount) coa)
-  (set! (-> *ap-settings* oracle-orb-amount) ooa)
-  (set! (-> *ap-settings* completion-goal) goal)
+(defun ap-setup-options! ((options ap-seed-options))
+  (set! (-> *ap-settings* orbsanity-option) (-> options orbsanity-option))
+  (set! (-> *ap-settings* orbsanity-bundle) (-> options orbsanity-bundle))
+  (set! (-> *ap-settings* fire-canyon-unlock) (-> options fire-canyon-unlock))
+  (set! (-> *ap-settings* mountain-pass-unlock) (-> options mountain-pass-unlock))
+  (set! (-> *ap-settings* lava-tube-unlock) (-> options lava-tube-unlock))
+  (set! (-> *ap-settings* citizen-orb-amount) (-> options citizen-orb-amount))
+  (set! (-> *ap-settings* oracle-orb-amount) (-> options oracle-orb-amount))
+  (set! (-> *ap-settings* trap-duration) (-> options trap-duration))
+  (set! (-> *ap-settings* completion-goal) (-> options completion-goal))
   #t)
 
 (defun ap-set-connection-status! ((status uint))
   (set! (-> *ap-info-jak1* connection-status) status) ;; 0 = default, 1 = success, 2 = failure.
-  #t
-  )
+  #t)
 
 (defun ap-settings-update ()
   "A per frame update for settings related stuff"
@@ -273,5 +273,6 @@
   (set! (-> *ap-info-jak1* lava-tube-unlock) (-> *ap-settings* lava-tube-unlock))
   (set! (-> *ap-info-jak1* citizen-orb-amount) (-> *ap-settings* citizen-orb-amount))
   (set! (-> *ap-info-jak1* oracle-orb-amount) (-> *ap-settings* oracle-orb-amount))
+  (set! (-> *ap-info-jak1* trap-duration) (-> *ap-settings* trap-duration))
   (set! (-> *ap-info-jak1* completion-goal) (-> *ap-settings* completion-goal))
   (none))

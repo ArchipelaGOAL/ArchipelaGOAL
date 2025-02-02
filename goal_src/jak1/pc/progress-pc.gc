@@ -396,6 +396,14 @@
             :option-type (game-option-type completion-goal) 
             :name (text-id completion-goal) 
             :scale #t)
+       (new 'static
+            'game-option
+            :option-type (game-option-type slider)
+            :name (text-id trap-duration)
+            :scale #t
+            :param1 5.0
+            :param2 60.0
+            :slider-step-size 1.0)
        (new 'static 'game-option :option-type (game-option-type button) :name (text-id back) :scale #t)))
 
 (define *item-tracker*
@@ -2317,6 +2325,7 @@
   (set! (-> *seed-options* 5 value-to-modify) (&-> *ap-settings* citizen-orb-amount))
   (set! (-> *seed-options* 6 value-to-modify) (&-> *ap-settings* oracle-orb-amount))
   (set! (-> *seed-options* 7 value-to-modify) (&-> *progress-carousell* int-backup)) ;; this is completion goal.
+  (set! (-> *seed-options* 8 value-to-modify) (&-> *ap-settings* trap-duration))
   ;; input options
   (set! (-> *controller-options* 1 value-to-modify) (&-> *pc-settings* memcard-vibration?))
   (set! (-> *controller-options* 2 value-to-modify) (&-> *pc-settings* stick-deadzone))

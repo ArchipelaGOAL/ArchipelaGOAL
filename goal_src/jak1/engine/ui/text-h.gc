@@ -873,6 +873,7 @@
   (ap-error-connecting #x2079)
   (seed-options #x2080)
   (show-item-messages #x2081)
+  (trap-duration #x2082)
   ;; GAME-TEXT-ID ENUM ENDS
   )
 

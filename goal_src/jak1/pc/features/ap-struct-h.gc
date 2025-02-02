@@ -46,9 +46,24 @@
    ;; Connection Status
    (connection-status    uint8)
    ;; Trap information.
-   (trap-duration       float)
+   (trap-duration        float)
    ;; End marker just to make things look nice in a memory view.
    (end-marker           uint8 4)))
+
+;; This is a structure that allows the AP client to tell the game
+;; what the user has chosen for their seed options. This information
+;; will be stored more permanently in ap-info-jak1.
+(deftype ap-seed-options (structure)
+  (
+    (orbsanity-option     uint8)
+    (orbsanity-bundle     uint32)
+    (fire-canyon-unlock   float)
+    (mountain-pass-unlock float)
+    (lava-tube-unlock     float)
+    (citizen-orb-amount   float)
+    (oracle-orb-amount    float)
+    (trap-duration        float)
+    (completion-goal      uint8)))
 
 (define-extern *ap-info-jak1* ap-info-jak1)
 
@@ -105,7 +120,7 @@
 
 (define-extern ap-trap-received! (function uint symbol))
 
-(define-extern ap-setup-options! (function uint uint float float float float float uint symbol))
+(define-extern ap-setup-options! (function ap-seed-options symbol))
 
 (define-extern ap-set-connection-status! (function uint symbol))
 

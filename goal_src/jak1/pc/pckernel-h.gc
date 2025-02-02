@@ -293,7 +293,8 @@
    (citizen-orb-amount   float)
    (oracle-orb-amount    float)
    (completion-goal      uint8)
-   (item-messages?       symbol))
+   (item-messages?       symbol)
+   (trap-duration        float))
   (:methods
    (new (symbol type) _type_)
    (reset (_type_) none)
@@ -318,6 +319,7 @@
   (set! (-> obj citizen-orb-amount) (the float 90))
   (set! (-> obj oracle-orb-amount) (the float 120))
   (set! (-> obj completion-goal) 112)
+  (set! (-> obj trap-duration) (the float 30))
   (none))
 
 (defmethod reset ((obj pc-settings) (call-handlers symbol))
