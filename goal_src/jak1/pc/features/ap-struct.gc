@@ -225,8 +225,13 @@
       (process-spawn-function process
         (lambda :behavior process ()
           (suspend-for (seconds 1))
-          (sound-play "explosion" :pitch -1.0)
-          (activate! *camera-smush-control* 4000.0 50 (the int (seconds (-> *ap-info-jak1* trap-duration))) 1.0 1.0))))
+          (sound-play "explosion" :pitch -3.0)
+          (activate! *camera-smush-control* 3000.0 50 (the int (seconds (-> *ap-info-jak1* trap-duration))) 1.0 1.0)
+          (dotimes (i (* 100 (the int (-> *ap-info-jak1* trap-duration))))
+            (set! (-> *standard-dynamics* gravity x) (* 3.0 (the float (update! *camera-smush-control*))))
+            (suspend-for (seconds 0.01))
+            (set! (-> *standard-dynamics* gravity z) (* 3.0 (the float (update! *camera-smush-control*))))
+            (suspend-for (seconds 0.01))))))
     ((= trap-id 7) ;; Teleport Trap
       (process-spawn-function process
         (lambda :behavior process ()
@@ -242,7 +247,7 @@
             (ambient-hint-spawn "WAR-LO1B" (the-as vector #f) *entity-pool* 'ambient)
             (if (> (-> *ap-info-jak1* trap-duration) 10.0)
               (dotimes (i (- (/ (the int (-> *ap-info-jak1* trap-duration)) 10) 1))
-                (suspend-for (seconds 11))
+                (suspend-for (seconds 10.5))
                 (ambient-hint-spawn "WAR-LO1B" (the-as vector #f) *entity-pool* 'ambient)))
           (set-game-language! *pc-settings* curr-lang)))))
     ((= trap-id 9) ;; Pacifism Trap
@@ -263,7 +268,14 @@
           (send-event *target* 'reset-pickup 'eco)
           (set! (-> *FACT-bank* eco-full-timeout) (seconds 0.1))
           (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
-          (set! (-> *FACT-bank* eco-full-timeout) (seconds 20.0))))))
+          (set! (-> *FACT-bank* eco-full-timeout) (seconds 20.0)))))
+    ((= trap-id 11) ;; Health Trap
+      (process-spawn-function process
+        (lambda :behavior process ()
+          (let ((curr-hp (-> *target* fact health)))
+            (set! (-> *target* fact health) 0.0)
+            (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
+            (set! (-> *target* fact health) curr-hp))))))
     #t)
 
 (defun ap-setup-options! ((options ap-seed-options))
