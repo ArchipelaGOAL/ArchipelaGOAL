@@ -243,11 +243,14 @@
         (lambda :behavior process ()
           (let ((curr-lang (the-as language-enum (get-game-language *pc-settings*))))
             (set-game-language! *pc-settings* (language-enum japanese))
+            (kill-current-level-hint '() '() 'exit)
             (suspend-for (seconds 1))
             (ambient-hint-spawn "WAR-LO1B" (the-as vector #f) *entity-pool* 'ambient)
             (if (> (-> *ap-info-jak1* trap-duration) 10.0)
               (dotimes (i (- (/ (the int (-> *ap-info-jak1* trap-duration)) 10) 1))
-                (suspend-for (seconds 10.5))
+                (suspend-for (seconds 10.3))
+                (kill-current-level-hint '() '() 'exit)
+                (suspend-for (seconds 0.1))
                 (ambient-hint-spawn "WAR-LO1B" (the-as vector #f) *entity-pool* 'ambient)))
           (set-game-language! *pc-settings* curr-lang)))))
     ((= trap-id 9) ;; Pacifism Trap
@@ -275,7 +278,26 @@
           (let ((curr-hp (-> *target* fact health)))
             (set! (-> *target* fact health) 0.0)
             (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
-            (set! (-> *target* fact health) curr-hp))))))
+            (set! (-> *target* fact health) curr-hp)))))
+    ((= trap-id 12) ;; Ledge Trap
+      (process-spawn-function process
+        (lambda :behavior process ()
+          (set! (-> *collide-edge-work* max-dir-cosa-delta) 999.0)
+          (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
+          (set! (-> *collide-edge-work* max-dir-cosa-delta) 0.6))))
+    ((= trap-id 13) ;; Zoomer Trap
+      (process-spawn-function process
+        (lambda :behavior process ()
+          (send-event *target* 'change-mode 'racing #f)
+          (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
+          (send-event *target* 'end-mode))))
+    ((= trap-id 14) ;; Mirror Trap
+      (process-spawn-function process
+        (lambda :behavior process ()
+          (pc-cheat-toggle-and-tune (-> *pc-settings* cheats) mirror)
+          (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
+          (pc-cheat-toggle-and-tune (-> *pc-settings* cheats) mirror))))
+    )
     #t)
 
 (defun ap-setup-options! ((options ap-seed-options))
