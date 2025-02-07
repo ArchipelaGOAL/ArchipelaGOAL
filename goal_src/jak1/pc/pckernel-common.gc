@@ -173,8 +173,7 @@
   `(begin
     (cpad-clear! 0 r1)
     (logxor! ,cheats-var (pc-cheats ,cheat))
-    ;; (cheats-sound-play (logtest? ,cheats-var (pc-cheats ,cheat)))
-    ))
+    (cheats-sound-play (logtest? ,cheats-var (pc-cheats ,cheat)))))
 
 (defun real-movie? ()
   "are we in an actual cutscene and should letterbox the view?"

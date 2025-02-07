@@ -294,9 +294,9 @@
     ((= trap-id 14) ;; Mirror Trap
       (process-spawn-function process
         (lambda :behavior process ()
-          (pc-cheat-toggle-and-tune (-> *pc-settings* cheats) mirror)
+          (logxor! (-> *pc-settings* cheats) 256) ;; the mirror cheat as a bitflag
           (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
-          (pc-cheat-toggle-and-tune (-> *pc-settings* cheats) mirror))))
+          (logxor! (-> *pc-settings* cheats) 256))))
     )
     #t)
 
