@@ -401,7 +401,7 @@
             :option-type (game-option-type slider)
             :name (text-id trap-duration)
             :scale #t
-            :param1 5.0
+            :param1 0.0
             :param2 60.0
             :slider-step-size 1.0)
        (new 'static 'game-option :option-type (game-option-type button) :name (text-id back) :scale #t)))
