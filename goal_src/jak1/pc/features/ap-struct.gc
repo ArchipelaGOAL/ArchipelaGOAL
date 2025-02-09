@@ -315,8 +315,8 @@
   (set! (-> *ap-settings* completion-goal) (-> options completion-goal))
   #t)
 
-(defun ap-set-connection-status! ((status uint))
-  (set! (-> *ap-info-jak1* connection-status) status) ;; 0 = default, 1 = success, 2 = failure.
+(defun ap-set-connection-status! ((status connection-status))
+  (set! (-> *ap-info-jak1* connection-status) (the-as uint status))
   #t)
 
 (defun ap-settings-update ()

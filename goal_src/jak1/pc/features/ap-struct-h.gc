@@ -65,6 +65,13 @@
     (trap-duration        float)
     (completion-goal      uint8)))
 
+(defenum connection-status
+  :type uint8
+  (default 0)
+  (wait 1)
+  (failure 2)
+  (ready 3))
+
 (define-extern *ap-info-jak1* ap-info-jak1)
 
 (define-extern *ap-string1* string)
@@ -122,7 +129,7 @@
 
 (define-extern ap-setup-options! (function ap-seed-options symbol))
 
-(define-extern ap-set-connection-status! (function uint symbol))
+(define-extern ap-set-connection-status! (function connection-status symbol))
 
 ;; Handles options changes.
 (define-extern ap-settings-update (function none))

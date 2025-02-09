@@ -634,8 +634,9 @@
           (set! (-> gp-0 flags) (font-flags shadow kerning middle middle-vert large))
           (case (-> *ap-info-jak1* connection-status)
             ((0) (print-game-text (lookup-text! *common-text* (text-id ap-connect-and-start) #f) gp-0 #f 128 22))
-            ((1) (print-game-text (lookup-text! *common-text* (text-id ap-connected-start) #f) gp-0 #f 128 22))
+            ((1) (print-game-text (lookup-text! *common-text* (text-id ap-wait-for-items) #f) gp-0 #f 128 22))
             ((2) (print-game-text (lookup-text! *common-text* (text-id ap-error-connecting) #f) gp-0 #f 128 22))
+            ((3) (print-game-text (lookup-text! *common-text* (text-id ap-ready-start) #f) gp-0 #f 128 22))
           ))))
   :code anim-loop
   :post target-no-move-post)
