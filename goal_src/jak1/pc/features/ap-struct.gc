@@ -150,7 +150,8 @@
   #t)
 
 (defun ap-trap-received! ((trap-id uint))
-  (when (> (-> *ap-info-jak1* trap-duration) 0.0)
+  (when (and (> (-> *ap-info-jak1* trap-duration) 0.0)
+          (zero? (get-task-status (game-task intro))))
     (sound-play "warning" :pitch -0.25)
     (cond
       ((= trap-id 1) ;; Trip Trap
@@ -299,7 +300,8 @@
             (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
             (logxor! (-> *pc-settings* cheats) 256))))
     ))
-  (> (-> *ap-info-jak1* trap-duration) 0.0))
+  (and (> (-> *ap-info-jak1* trap-duration) 0.0)
+    (zero? (get-task-status (game-task intro)))))
 
 (defun ap-setup-options! ((options ap-seed-options))
   (set! (-> *ap-settings* orbsanity-option) (-> options orbsanity-option))
