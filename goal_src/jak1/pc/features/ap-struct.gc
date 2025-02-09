@@ -218,11 +218,13 @@
       ((= trap-id 5) ;; Darkness Trap
         (process-spawn-function process
           (lambda :behavior process ()
-            (set! (-> (level-get-target-inside *level*) mood) *darkcave-mood*)
-            (set! (-> (level-get-target-inside *level*) mood-func) update-mood-finalboss)
-            (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
-            (set! (-> (level-get-target-inside *level*) mood) *default-mood*)
-            (set! (-> (level-get-target-inside *level*) mood-func) update-mood-default))))
+            (let ((curr-mood (-> (level-get-target-inside *level*) mood))
+                  (curr-mood-func (-> (level-get-target-inside *level*) mood-func)))
+              (set! (-> (level-get-target-inside *level*) mood) *darkcave-mood*)
+              (set! (-> (level-get-target-inside *level*) mood-func) update-mood-finalboss)
+              (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
+              (set! (-> (level-get-target-inside *level*) mood) curr-mood)
+              (set! (-> (level-get-target-inside *level*) mood-func) curr-mood-func)))))
       ((= trap-id 6) ;; Earthquake Trap
         (process-spawn-function process
           (lambda :behavior process ()
