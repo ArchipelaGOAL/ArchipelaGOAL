@@ -297,6 +297,8 @@
        (auto-save-command 'restore 0 (-> *progress-state* which) this))
       (((progress-screen memcard-saving))
        (set! (-> *progress-state* last-slot-saved) (-> *progress-state* which))
+       (string<-charp (-> *ap-settings* slot-info (-> *progress-state* last-slot-saved) name) (-> *ap-info-jak1* slot-name))
+       (string<-charp (-> *ap-settings* slot-info (-> *progress-state* last-slot-saved) seed) (-> *ap-info-jak1* slot-seed))
        (auto-save-command 'save 0 (-> *progress-state* which) this))
       (((progress-screen memcard-formatting)) (auto-save-command 'format-card 0 0 this))
       (((progress-screen save-game) (progress-screen load-game))

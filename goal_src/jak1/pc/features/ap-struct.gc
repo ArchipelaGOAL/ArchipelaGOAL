@@ -315,6 +315,8 @@
   (set! (-> *ap-settings* oracle-orb-amount) (-> options oracle-orb-amount))
   (set! (-> *ap-settings* trap-duration) (-> options trap-duration))
   (set! (-> *ap-settings* completion-goal) (-> options completion-goal))
+  (charp<-string (-> *ap-info-jak1* slot-name) (-> options slot-name))
+  (charp<-string (-> *ap-info-jak1* slot-seed) (-> options slot-seed))
   #t)
 
 (defun ap-set-connection-status! ((status connection-status))

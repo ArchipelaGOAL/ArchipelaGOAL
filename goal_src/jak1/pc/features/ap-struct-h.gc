@@ -45,6 +45,8 @@
    (version              uint32)
    ;; Connection Status
    (connection-status    uint8)
+   (slot-name            uint8 16)
+   (slot-seed            uint8 8)
    ;; Trap information.
    (trap-duration        float)
    ;; End marker just to make things look nice in a memory view.
@@ -63,7 +65,9 @@
     (citizen-orb-amount   float)
     (oracle-orb-amount    float)
     (trap-duration        float)
-    (completion-goal      uint8)))
+    (completion-goal      uint8)
+    (slot-name            string)
+    (slot-seed            string)))
 
 (defenum connection-status
   :type uint8
