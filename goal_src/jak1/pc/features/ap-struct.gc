@@ -315,6 +315,7 @@
   (set! (-> *ap-settings* oracle-orb-amount) (-> options oracle-orb-amount))
   (set! (-> *ap-settings* trap-duration) (-> options trap-duration))
   (set! (-> *ap-settings* completion-goal) (-> options completion-goal))
+  ;; This is the current slot info, do not copy it to ap-settings yet.
   (charp<-string (-> *ap-info-jak1* slot-name) (-> options slot-name))
   (charp<-string (-> *ap-info-jak1* slot-seed) (-> options slot-seed))
   #t)
@@ -336,4 +337,5 @@
   (set! (-> *ap-info-jak1* oracle-orb-amount) (-> *ap-settings* oracle-orb-amount))
   (set! (-> *ap-info-jak1* trap-duration) (-> *ap-settings* trap-duration))
   (set! (-> *ap-info-jak1* completion-goal) (-> *ap-settings* completion-goal))
+  ;; Do not copy any slot-info from ap-settings to ap-info-jak1.
   (none))

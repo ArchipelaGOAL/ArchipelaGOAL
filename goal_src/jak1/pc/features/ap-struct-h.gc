@@ -36,7 +36,7 @@
    (oracle-orb-amount    float)
    (completion-goal      uint8)
    (completed            uint8)
-   ;; HUD information.
+   ;; HUD information (deprecated).
    (their-item-name      uint8 32)
    (their-item-owner     uint8 32)
    (my-item-name         uint8 32)
