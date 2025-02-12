@@ -508,7 +508,13 @@
                     (or (< (mod (- (-> *display* real-frame-counter) (-> this last-option-index-change)) 1800) 1200)
                         (!= (-> this option-index) s1-0)
                         (-> this in-transition)))
-                (+! (-> arg0 origin y) 18.0)
+                (+! (-> arg0 origin y) 17.0)
+                (set! (-> arg0 origin x) (the float (- 28 (-> this left-x-offset))))
+                (let ((v1-131 arg0)) (set! (-> v1-131 scale) 0.3))
+                (set! (-> arg0 flags) (font-flags shadow kerning middle large))
+                (let ((v1-133 arg0)) (set! (-> v1-133 width) (the float 350)))
+                (print-game-text "~0LSLOT NAME                        SEED~21L" arg0 #f s4-1 22)
+                (+! (-> arg0 origin y) 8.0)
                 (set! (-> arg0 origin x) (the float (- 28 (-> this left-x-offset))))
                 (let ((v1-131 arg0)) (set! (-> v1-131 scale) 0.6))
                 (set! (-> arg0 flags) (font-flags shadow kerning middle large))
@@ -521,7 +527,7 @@
                                   s4-1
                                   22)
                 (set! (-> this particles s2-0 init-pos x) -320.0)
-                (+! (-> arg0 origin y) 23.0))
+                (+! (-> arg0 origin y) 16.0))
                (else
                 (+! (-> arg0 origin y) 18.0)
                 (set! (-> arg0 origin x) (the float (- 28 (-> this left-x-offset))))
