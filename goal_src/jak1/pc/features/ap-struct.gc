@@ -239,9 +239,10 @@
       ((= trap-id 7) ;; Teleport Trap
         (process-spawn-function process
           (lambda :behavior process ()
-            (suspend-for (seconds 1))
-            (set! (-> *game-info* current-continue) (get-continue-by-name *game-info* "village1-warp"))
-            (initialize! *game-info* 'die (the-as game-save #f) "village1-warp"))))
+            (when (not (movie?)) ;; tp can disrupt game state pretty aggressively
+              (suspend-for (seconds 1))
+              (set! (-> *game-info* current-continue) (get-continue-by-name *game-info* "village1-warp"))
+              (initialize! *game-info* 'die (the-as game-save #f) "village1-warp")))))
       ((= trap-id 8) ;; Despair Trap
         (process-spawn-function process
           (lambda :behavior process ()
