@@ -142,7 +142,10 @@
               (1310 joint "camera")
               (1313 want-force-vis beach #f)
               (1313 display-level beach #f)
-              (1313 send-event "warp-gate-switch-3" 'hide))))
+              ;; Teleport Trap may send us away from Geyser Rock while we are ON it.
+              ;; We may want to go back immediately, so don't 'hide this warp gate switch.
+              ;; (1313 send-event "warp-gate-switch-3" 'hide)
+              )))
        (else
         (if arg0 (close-status! (-> this tasks) (task-status need-introduction)))
         (new 'static
