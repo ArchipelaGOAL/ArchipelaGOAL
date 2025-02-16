@@ -15,7 +15,7 @@
 ;; ****************************************************************************
 ;; **** This number must match expected_memory_version in MemoryReader.py! ****
 ;; ****************************************************************************
-(set! (-> *ap-info-jak1* version) 4)
+(set! (-> *ap-info-jak1* version) 5)
 
 ;; These don't need to be indexed like they are game-tasks.
 ;; We can just take them first-come-first-serve.
@@ -149,21 +149,188 @@
                 (static-attack-info ((deathlink-death #t) (mode chosen-death) (vector (new 'static 'vector :y (meters 1) :w 1.0)) (angle 'up) (control 1.0)))))
   #t)
 
-(defun ap-setup-options! ((option uint) (bundle uint) (fc float) (mp float) (lt float) (coa float) (ooa float) (goal uint))
-  (set! (-> *ap-settings* orbsanity-option) option)
-  (set! (-> *ap-settings* orbsanity-bundle) bundle)
-  (set! (-> *ap-settings* fire-canyon-unlock) fc)
-  (set! (-> *ap-settings* mountain-pass-unlock) mp)
-  (set! (-> *ap-settings* lava-tube-unlock) lt)
-  (set! (-> *ap-settings* citizen-orb-amount) coa)
-  (set! (-> *ap-settings* oracle-orb-amount) ooa)
-  (set! (-> *ap-settings* completion-goal) goal)
+(defun ap-trap-received! ((trap-id uint))
+  (when (and (> (-> *ap-info-jak1* trap-duration) 0.0)
+          (zero? (get-task-status (game-task intro))))
+    (sound-play "warning" :pitch -0.25)
+    (cond
+      ((= trap-id 1) ;; Trip Trap
+        (process-spawn-function process
+          (lambda :behavior process ()
+            (send-event *target* 'loading)
+            (if (> (-> *ap-info-jak1* trap-duration) 5.0)
+              (dotimes (i (- (/ (the int (-> *ap-info-jak1* trap-duration)) 5) 1))
+                (suspend-for (seconds 5))
+                (send-event *target* 'loading))))))
+      ((= trap-id 2) ;; Slippery Trap
+        (process-spawn-function process
+          (lambda :behavior process ()
+            (set! (-> *stone-surface* slope-slip-angle) 16384.0)
+            (set! (-> *stone-surface* slip-factor) 0.7)
+            (set! (-> *stone-surface* transv-max) 1.5)
+            (set! (-> *stone-surface* turnv) 0.5)
+            (set! (-> *stone-surface* nonlin-fric-dist) 4091904.0)
+            (set! (-> *stone-surface* fric) 23756.8)
+            (set! (-> *grass-surface* slope-slip-angle) 16384.0)
+            (set! (-> *grass-surface* slip-factor) 0.7)
+            (set! (-> *grass-surface* transv-max) 1.5)
+            (set! (-> *grass-surface* turnv) 0.5)
+            (set! (-> *grass-surface* nonlin-fric-dist) 4091904.0)
+            (set! (-> *grass-surface* fric) 23756.8)
+            (set! (-> *ice-surface* slip-factor) 0.3)
+            (set! (-> *ice-surface* nonlin-fric-dist) 8183808.0)
+            (set! (-> *ice-surface* fric) 11878.4)
+            (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
+            (set! (-> *stone-surface* slope-slip-angle) 8192.0)
+            (set! (-> *stone-surface* slip-factor) 1.0)
+            (set! (-> *stone-surface* transv-max) 1.0)
+            (set! (-> *stone-surface* turnv) 1.0)
+            (set! (-> *stone-surface* nonlin-fric-dist) 5120.0)
+            (set! (-> *stone-surface* fric) 153600.0)
+            (set! (-> *grass-surface* slope-slip-angle) 16384.0)
+            (set! (-> *grass-surface* slip-factor) 1.0)
+            (set! (-> *grass-surface* transv-max) 1.0)
+            (set! (-> *grass-surface* turnv) 1.0)
+            (set! (-> *grass-surface* nonlin-fric-dist) 4096.0)
+            (set! (-> *grass-surface* fric) 122880.0)
+            (set! (-> *ice-surface* slip-factor) 0.7)
+            (set! (-> *ice-surface* nonlin-fric-dist) 4091904.0)
+            (set! (-> *ice-surface* fric) 23756.8)
+            )))
+      ((= trap-id 3) ;; Gravity Trap - Needs tweaking.
+        (process-spawn-function process
+          (lambda :behavior process ()
+            (*! (-> *standard-dynamics* gravity-length) 3.0)
+            (set! (-> *TARGET-bank* fall-far) (meters 2.5))
+            (set! (-> *TARGET-bank* fall-far-inc) (meters 3.5))
+            (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
+            (*! (-> *standard-dynamics* gravity-length) 0.333)
+            (set! (-> *TARGET-bank* fall-far) (meters 30))
+            (set! (-> *TARGET-bank* fall-far-inc) (meters 20)))))
+      ((= trap-id 4) ;; Camera Trap
+        (process-spawn-function process
+          (lambda :behavior process ()
+            (send-event *target* 'no-look-around (seconds (-> *ap-info-jak1* trap-duration)))
+            (send-event *camera* 'change-state cam-circular 0)
+            (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
+            (send-event *target* 'no-look-around (seconds 0))
+            (send-event *camera* 'change-state cam-string 0))))
+      ((= trap-id 5) ;; Darkness Trap
+        (process-spawn-function process
+          (lambda :behavior process ()
+            (let ((curr-lvl (level-get-target-inside *level*))
+                  (curr-mood (-> (level-get-target-inside *level*) mood))
+                  (curr-mood-func (-> (level-get-target-inside *level*) mood-func))
+                  (curr-sky (-> *time-of-day-context* sky)))
+              (set! (-> (level-get-target-inside *level*) mood) *darkness-trap-mood*)
+              (set! (-> (level-get-target-inside *level*) mood-func) update-mood-darkness-trap)
+              (set! (-> *time-of-day-context* sky) #f)
+              (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
+              (set! (-> curr-lvl mood) curr-mood)
+              (set! (-> curr-lvl mood-func) curr-mood-func)
+              (set! (-> *time-of-day-context* sky) curr-sky)))))
+      ((= trap-id 6) ;; Earthquake Trap
+        (process-spawn-function process
+          (lambda :behavior process ()
+            (suspend-for (seconds 1))
+            (sound-play "explosion" :pitch -2.5)
+            (activate! *camera-smush-control* 3000.0 50 (the int (seconds (-> *ap-info-jak1* trap-duration))) 1.0 1.0)
+            (dotimes (i (* 100 (the int (-> *ap-info-jak1* trap-duration))))
+              (set! (-> *standard-dynamics* gravity x) (* 3.0 (the float (update! *camera-smush-control*))))
+              (suspend-for (seconds 0.01))
+              (set! (-> *standard-dynamics* gravity z) (* 3.0 (the float (update! *camera-smush-control*))))
+              (suspend-for (seconds 0.01))))))
+      ((= trap-id 7) ;; Teleport Trap
+        (process-spawn-function process
+          (lambda :behavior process ()
+            (when (not (movie?)) ;; tp can disrupt game state pretty aggressively
+              (suspend-for (seconds 1))
+              (set! (-> *game-info* current-continue) (get-continue-by-name *game-info* "village1-warp"))
+              (initialize! *game-info* 'die (the-as game-save #f) "village1-warp")))))
+      ((= trap-id 8) ;; Despair Trap
+        (process-spawn-function process
+          (lambda :behavior process ()
+            (let ((curr-lang (the-as language-enum (get-game-language *pc-settings*))))
+              (set-game-language! *pc-settings* (language-enum japanese))
+              (kill-current-level-hint '() '() 'exit)
+              (suspend-for (seconds 1))
+              (ambient-hint-spawn "WAR-LO1B" (the-as vector #f) *entity-pool* 'ambient)
+              (if (> (-> *ap-info-jak1* trap-duration) 10.0)
+                (dotimes (i (- (/ (the int (-> *ap-info-jak1* trap-duration)) 10) 1))
+                  (suspend-for (seconds 10.3))
+                  (kill-current-level-hint '() '() 'exit)
+                  (suspend-for (seconds 0.1))
+                  (ambient-hint-spawn "WAR-LO1B" (the-as vector #f) *entity-pool* 'ambient)))
+            (set-game-language! *pc-settings* curr-lang)))))
+      ((= trap-id 9) ;; Pacifism Trap
+        (process-spawn-function process
+          (lambda :behavior process ()
+            (set! (-> *TARGET-bank* punch-radius) (meters -1.0))
+            (set! (-> *TARGET-bank* spin-radius) (meters -1.0))
+            (set! (-> *TARGET-bank* flop-radius) (meters -1.0))
+            (set! (-> *TARGET-bank* uppercut-radius) (meters -1.0))
+            (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
+            (set! (-> *TARGET-bank* punch-radius) (meters 1.3))
+            (set! (-> *TARGET-bank* spin-radius) (meters 2.2))
+            (set! (-> *TARGET-bank* flop-radius) (meters 1.4))
+            (set! (-> *TARGET-bank* uppercut-radius) (meters 1.0)))))
+      ((= trap-id 10) ;; Ecoless Trap
+        (process-spawn-function process
+          (lambda :behavior process ()
+            (send-event *target* 'reset-pickup 'eco)
+            (set! (-> *FACT-bank* eco-full-timeout) (seconds 0.1))
+            (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
+            (set! (-> *FACT-bank* eco-full-timeout) (seconds 20.0)))))
+      ((= trap-id 11) ;; Health Trap
+        (process-spawn-function process
+          (lambda :behavior process ()
+            (let ((curr-hp (-> *target* fact health))
+                  (curr-little-hp (-> *target* fact eco-pill)))
+              (set! (-> *target* fact health) 0.0)
+              (set! (-> *target* fact eco-pill) 0.0)
+              (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
+              (set! (-> *target* fact health) curr-hp)
+              (set! (-> *target* fact eco-pill) curr-little-hp)))))
+      ((= trap-id 12) ;; Ledge Trap
+        (process-spawn-function process
+          (lambda :behavior process ()
+            (set! (-> *collide-edge-work* max-dir-cosa-delta) 999.0)
+            (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
+            (set! (-> *collide-edge-work* max-dir-cosa-delta) 0.6))))
+      ((= trap-id 13) ;; Zoomer Trap
+        (process-spawn-function process
+          (lambda :behavior process ()
+            (send-event *target* 'change-mode 'racing #f)
+            (suspend-for (max (seconds 2) (seconds (-> *ap-info-jak1* trap-duration)))) ;; animation takes more time
+            (send-event *target* 'end-mode))))
+      ((= trap-id 14) ;; Mirror Trap
+        (process-spawn-function process
+          (lambda :behavior process ()
+            (logxor! (-> *pc-settings* cheats) 256) ;; the mirror cheat as a bitflag
+            (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
+            (logxor! (-> *pc-settings* cheats) 256))))
+    ))
+  (and (> (-> *ap-info-jak1* trap-duration) 0.0)
+    (zero? (get-task-status (game-task intro)))))
+
+(defun ap-setup-options! ((options ap-seed-options))
+  (set! (-> *ap-settings* orbsanity-option) (-> options orbsanity-option))
+  (set! (-> *ap-settings* orbsanity-bundle) (-> options orbsanity-bundle))
+  (set! (-> *ap-settings* fire-canyon-unlock) (-> options fire-canyon-unlock))
+  (set! (-> *ap-settings* mountain-pass-unlock) (-> options mountain-pass-unlock))
+  (set! (-> *ap-settings* lava-tube-unlock) (-> options lava-tube-unlock))
+  (set! (-> *ap-settings* citizen-orb-amount) (-> options citizen-orb-amount))
+  (set! (-> *ap-settings* oracle-orb-amount) (-> options oracle-orb-amount))
+  (set! (-> *ap-settings* trap-duration) (-> options trap-duration))
+  (set! (-> *ap-settings* completion-goal) (-> options completion-goal))
+  ;; This is the current slot info, do not copy it to ap-settings yet.
+  (charp<-string (-> *ap-info-jak1* slot-name) (-> options slot-name))
+  (charp<-string (-> *ap-info-jak1* slot-seed) (-> options slot-seed))
   #t)
 
-(defun ap-set-connection-status! ((status uint))
-  (set! (-> *ap-info-jak1* connection-status) status) ;; 0 = default, 1 = success, 2 = failure.
-  #t
-  )
+(defun ap-set-connection-status! ((status connection-status))
+  (set! (-> *ap-info-jak1* connection-status) (the-as uint status))
+  #t)
 
 (defun ap-settings-update ()
   "A per frame update for settings related stuff"
@@ -176,5 +343,7 @@
   (set! (-> *ap-info-jak1* lava-tube-unlock) (-> *ap-settings* lava-tube-unlock))
   (set! (-> *ap-info-jak1* citizen-orb-amount) (-> *ap-settings* citizen-orb-amount))
   (set! (-> *ap-info-jak1* oracle-orb-amount) (-> *ap-settings* oracle-orb-amount))
+  (set! (-> *ap-info-jak1* trap-duration) (-> *ap-settings* trap-duration))
   (set! (-> *ap-info-jak1* completion-goal) (-> *ap-settings* completion-goal))
+  ;; Do not copy any slot-info from ap-settings to ap-info-jak1.
   (none))

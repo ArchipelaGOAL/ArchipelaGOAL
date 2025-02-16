@@ -109,33 +109,34 @@
 
 (defbehavior draw-messages ap-messenger ((bottom float))
   (let* ((active-array (case *hud-collectable-view*
-          (((hud-collectable-view game-totals) 
-            (hud-collectable-view level-totals)) (-> self sent-messages))
+          (((hud-collectable-view game-totals) (hud-collectable-view level-totals)) (-> self sent-messages))
           (((hud-collectable-view original)) (-> self recv-messages))))
-         (active-template (case *hud-collectable-view*
-          (((hud-collectable-view game-totals) 
-            (hud-collectable-view level-totals)) "SENT ~6L~S~0L TO ~3L~S~0L")
-          (((hud-collectable-view original)) "GOT ~6L~S~0L FROM ~3L~S~0L"))))
+         (verb (case *hud-collectable-view*
+          (((hud-collectable-view game-totals) (hud-collectable-view level-totals)) "SENT")
+          (((hud-collectable-view original)) "GOT")))
+         (dir (case *hud-collectable-view*
+          (((hud-collectable-view game-totals) (hud-collectable-view level-totals)) "TO")
+          (((hud-collectable-view original)) "FROM"))))
     (dotimes (i (-> self show-size))
       ;; Don't print at all if no item is here.
       (when (not (string= (-> active-array messages i item-name) ""))
         ;; Print a special format for self-found items.
         (when (string= (-> active-array messages i player-name) "MYSELF")
-          (draw-message 
-            (string-format 
-              "FOUND ~8L~S~0L" 
-              (-> active-array messages i item-name))
-            bottom
-            i))
+          (let ((item (-> active-array messages i item-name)))
+            (substring! *temp-string* item (- (length item) 4) (length item))
+            (cond
+              ((string= *temp-string* "TRAP") (draw-message (string-format "FOUND ~3L~S~0L" item) bottom i))
+              ((string= *temp-string* "PILL") (draw-message (string-format "FOUND ~6L~S~0L" item) bottom i))
+              (else (draw-message (string-format "FOUND ~8L~S~0L" item) bottom i)))))
         ;; Print the usual format for everything else.
         (when (not (string= (-> active-array messages i player-name) "MYSELF"))
-          (draw-message
-            (string-format 
-              active-template 
-              (-> active-array messages i item-name) 
-              (-> active-array messages i player-name))
-            bottom
-            i))))))
+          (let ((item (-> active-array messages i item-name))
+                (player (-> active-array messages i player-name)))
+            (substring! *temp-string* item (- (length item) 4) (length item))
+            (cond
+              ((string= *temp-string* "TRAP") (draw-message (string-format "~S ~3L~S~0L ~S ~12L~S~0L" verb item dir player) bottom i))
+              ((string= *temp-string* "PILL") (draw-message (string-format "~S ~6L~S~0L ~S ~12L~S~0L" verb item dir player) bottom i))
+              (else (draw-message (string-format "~S ~8L~S~0L ~S ~12L~S~0L" verb item dir player) bottom i)))))))))
 
 (defstate ap-messenger-show (ap-messenger)
   :code (behavior ()

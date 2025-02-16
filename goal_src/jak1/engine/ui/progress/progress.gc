@@ -297,6 +297,12 @@
        (auto-save-command 'restore 0 (-> *progress-state* which) this))
       (((progress-screen memcard-saving))
        (set! (-> *progress-state* last-slot-saved) (-> *progress-state* which))
+       ;; When a new game starts, save the current slot-info from ap-info-jak1
+       ;; to the chosen save slot number, in ap-settings. We need to launder these charps first though...
+       (copyn-string<-charp *ap-string1* (-> *ap-info-jak1* slot-name) 16)
+       (copyn-string<-charp *ap-string2* (-> *ap-info-jak1* slot-seed) 8)
+       (set! (-> *ap-settings* slot-info (-> *progress-state* last-slot-saved) name) *ap-string1*)
+       (set! (-> *ap-settings* slot-info (-> *progress-state* last-slot-saved) seed) *ap-string2*)
        (auto-save-command 'save 0 (-> *progress-state* which) this))
       (((progress-screen memcard-formatting)) (auto-save-command 'format-card 0 0 this))
       (((progress-screen save-game) (progress-screen load-game))

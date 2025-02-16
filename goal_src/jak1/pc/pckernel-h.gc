@@ -281,6 +281,10 @@
 ;;;; resets
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(deftype ap-save-slot-info (basic)
+  ((name string)
+   (seed string)))
+
 (deftype ap-settings (basic)
   ((version              uint64)
    (deathlink?           symbol)
@@ -293,7 +297,9 @@
    (citizen-orb-amount   float)
    (oracle-orb-amount    float)
    (completion-goal      uint8)
-   (item-messages?       symbol))
+   (item-messages?       symbol)
+   (trap-duration        float)
+   (slot-info            ap-save-slot-info 4))
   (:methods
    (new (symbol type) _type_)
    (reset (_type_) none)
@@ -318,6 +324,11 @@
   (set! (-> obj citizen-orb-amount) (the float 90))
   (set! (-> obj oracle-orb-amount) (the float 120))
   (set! (-> obj completion-goal) 112)
+  (set! (-> obj trap-duration) (the float 30))
+  (set! (-> obj slot-info 0) (new 'static 'ap-save-slot-info :name "SLOTNAME" :seed "SEEDNO."))
+  (set! (-> obj slot-info 1) (new 'static 'ap-save-slot-info :name "SLOTNAME" :seed "SEEDNO."))
+  (set! (-> obj slot-info 2) (new 'static 'ap-save-slot-info :name "SLOTNAME" :seed "SEEDNO."))
+  (set! (-> obj slot-info 3) (new 'static 'ap-save-slot-info :name "SLOTNAME" :seed "SEEDNO."))
   (none))
 
 (defmethod reset ((obj pc-settings) (call-handlers symbol))

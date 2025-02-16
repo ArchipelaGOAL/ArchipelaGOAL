@@ -1316,6 +1316,241 @@
             (new 'static 'mood-sun)
             (new 'static 'mood-sun))))
 
+(define *darkness-trap-mood-fog-table*
+  (new 'static
+       'mood-fog-table
+       :data
+       (new 'static
+            'inline-array
+            mood-fog
+            8
+            (new 'static
+                 'mood-fog
+                 :fog-color
+                 (new 'static 'vector :w 128.0)
+                 :fog-dists
+                 (new 'static 'vector :x 262144.0 :y 1024000.0 :z 255.0)
+                 :erase-color
+                 (new 'static 'vector :w 128.0))
+            (new 'static
+                 'mood-fog
+                 :fog-color
+                 (new 'static 'vector :w 128.0)
+                 :fog-dists
+                 (new 'static 'vector :x 262144.0 :y 1024000.0 :z 255.0)
+                 :erase-color
+                 (new 'static 'vector :w 128.0))
+            (new 'static
+                 'mood-fog
+                 :fog-color
+                 (new 'static 'vector :w 128.0)
+                 :fog-dists
+                 (new 'static 'vector :x 262144.0 :y 1024000.0 :z 255.0)
+                 :erase-color
+                 (new 'static 'vector :w 128.0))
+            (new 'static
+                 'mood-fog
+                 :fog-color
+                 (new 'static 'vector :w 128.0)
+                 :fog-dists
+                 (new 'static 'vector :x 262144.0 :y 1024000.0 :z 255.0)
+                 :erase-color
+                 (new 'static 'vector :w 128.0))
+            (new 'static
+                 'mood-fog
+                 :fog-color
+                 (new 'static 'vector :w 128.0)
+                 :fog-dists
+                 (new 'static 'vector :x 262144.0 :y 1024000.0 :z 255.0)
+                 :erase-color
+                 (new 'static 'vector :w 128.0))
+            (new 'static
+                 'mood-fog
+                 :fog-color
+                 (new 'static 'vector :w 128.0)
+                 :fog-dists
+                 (new 'static 'vector :x 262144.0 :y 1024000.0 :z 255.0)
+                 :erase-color
+                 (new 'static 'vector :w 128.0))
+            (new 'static
+                 'mood-fog
+                 :fog-color
+                 (new 'static 'vector :w 128.0)
+                 :fog-dists
+                 (new 'static 'vector :x 262144.0 :y 1024000.0 :z 255.0)
+                 :erase-color
+                 (new 'static 'vector :w 128.0))
+            (new 'static
+                 'mood-fog
+                 :fog-color
+                 (new 'static 'vector :w 128.0)
+                 :fog-dists
+                 (new 'static 'vector :x 262144.0 :y 1024000.0 :z 255.0)
+                 :erase-color
+                 (new 'static 'vector :w 128.0)))))
+
+(define *darkness-trap-mood-lights-table*
+  (new 'static
+       'mood-lights-table
+       :data
+       (new 'static
+            'inline-array
+            mood-lights
+            8
+            (new 'static
+                 'mood-lights
+                 :direction
+                 (new 'static 'vector :y -1.0)
+                 :lgt-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :prt-color
+                 (new 'static 'vector :w 1.0)
+                 :amb-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :shadow
+                 (new 'static 'vector :y -1.0))
+            (new 'static
+                 'mood-lights
+                 :direction
+                 (new 'static 'vector :y -1.0)
+                 :lgt-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :prt-color
+                 (new 'static 'vector :w 1.0)
+                 :amb-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :shadow
+                 (new 'static 'vector :y -1.0))
+            (new 'static
+                 'mood-lights
+                 :direction
+                 (new 'static 'vector :y -1.0)
+                 :lgt-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :prt-color
+                 (new 'static 'vector :w 1.0)
+                 :amb-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :shadow
+                 (new 'static 'vector :y -1.0))
+            (new 'static
+                 'mood-lights
+                 :direction
+                 (new 'static 'vector :y -1.0)
+                 :lgt-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :prt-color
+                 (new 'static 'vector :w 1.0)
+                 :amb-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :shadow
+                 (new 'static 'vector :y -1.0))
+            (new 'static
+                 'mood-lights
+                 :direction
+                 (new 'static 'vector :y -1.0)
+                 :lgt-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :prt-color
+                 (new 'static 'vector :w 1.0)
+                 :amb-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :shadow
+                 (new 'static 'vector :y -1.0))
+            (new 'static
+                 'mood-lights
+                 :direction
+                 (new 'static 'vector :y -1.0)
+                 :lgt-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :prt-color
+                 (new 'static 'vector :w 1.0)
+                 :amb-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :shadow
+                 (new 'static 'vector :y -1.0))
+            (new 'static
+                 'mood-lights
+                 :direction
+                 (new 'static 'vector :y -1.0)
+                 :lgt-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :prt-color
+                 (new 'static 'vector :w 1.0)
+                 :amb-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :shadow
+                 (new 'static 'vector :y -1.0))
+            (new 'static
+                 'mood-lights
+                 :direction
+                 (new 'static 'vector :y -1.0)
+                 :lgt-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :prt-color
+                 (new 'static 'vector :w 1.0)
+                 :amb-color
+                 (new 'static 'vector :x 0.3 :y 0.4 :z 0.5 :w 1.0)
+                 :shadow
+                 (new 'static 'vector :y -1.0)))))
+
+(define *darkness-trap-mood-sun-table*
+  (new 'static
+       'mood-sun-table
+       :data
+       (new 'static
+            'inline-array
+            mood-sun
+            8
+            (new 'static
+                 'mood-sun
+                 :sun-color
+                 (new 'static 'vector :x 255.0 :y 225.0 :z 96.0 :w 128.0)
+                 :env-color
+                 (new 'static 'vector :x 127.5 :y 255.0 :z 127.5 :w 255.0))
+            (new 'static
+                 'mood-sun
+                 :sun-color
+                 (new 'static 'vector :x 255.0 :y 225.0 :z 96.0 :w 128.0)
+                 :env-color
+                 (new 'static 'vector :x 127.5 :y 255.0 :z 127.5 :w 255.0))
+            (new 'static
+                 'mood-sun
+                 :sun-color
+                 (new 'static 'vector :x 255.0 :y 225.0 :z 96.0 :w 128.0)
+                 :env-color
+                 (new 'static 'vector :x 127.5 :y 255.0 :z 127.5 :w 255.0))
+            (new 'static
+                 'mood-sun
+                 :sun-color
+                 (new 'static 'vector :x 255.0 :y 225.0 :z 96.0 :w 128.0)
+                 :env-color
+                 (new 'static 'vector :x 127.5 :y 255.0 :z 127.5 :w 255.0))
+            (new 'static
+                 'mood-sun
+                 :sun-color
+                 (new 'static 'vector :x 255.0 :y 225.0 :z 96.0 :w 128.0)
+                 :env-color
+                 (new 'static 'vector :x 127.5 :y 255.0 :z 127.5 :w 255.0))
+            (new 'static
+                 'mood-sun
+                 :sun-color
+                 (new 'static 'vector :x 255.0 :y 225.0 :z 96.0 :w 128.0)
+                 :env-color
+                 (new 'static 'vector :x 127.5 :y 255.0 :z 127.5 :w 255.0))
+            (new 'static
+                 'mood-sun
+                 :sun-color
+                 (new 'static 'vector :x 255.0 :y 225.0 :z 96.0 :w 128.0)
+                 :env-color
+                 (new 'static 'vector :x 127.5 :y 255.0 :z 127.5 :w 255.0))
+            (new 'static
+                 'mood-sun
+                 :sun-color
+                 (new 'static 'vector :x 255.0 :y 225.0 :z 96.0 :w 128.0)
+                 :env-color
+                 (new 'static 'vector :x 127.5 :y 255.0 :z 127.5 :w 255.0)))))
+
 (define *misty-mood-fog-table*
   (new 'static
        'mood-fog-table
@@ -3468,6 +3703,22 @@
 (set! (-> *darkcave-mood* sky-texture-interp) *default-interp-table*)
 
 (set! (-> *darkcave-mood* num-stars) 0.0)
+
+(define *darkness-trap-mood* (new 'global 'mood-context))
+
+(set! (-> *darkness-trap-mood* mood-fog-table) *darkness-trap-mood-fog-table*)
+
+(set! (-> *darkness-trap-mood* mood-lights-table) *darkness-trap-mood-lights-table*)
+
+(set! (-> *darkness-trap-mood* mood-sun-table) *darkness-trap-mood-sun-table*)
+
+(set! (-> *darkness-trap-mood* fog-interp) *default-interp-table*)
+
+(set! (-> *darkness-trap-mood* palette-interp) *village1-palette-interp-table*)
+
+(set! (-> *darkness-trap-mood* sky-texture-interp) *default-interp-table*)
+
+(set! (-> *darkness-trap-mood* num-stars) 0.0)
 
 (define *robocave-mood* (new 'global 'mood-context))
 
