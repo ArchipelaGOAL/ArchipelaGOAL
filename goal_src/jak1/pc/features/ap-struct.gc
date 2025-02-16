@@ -284,10 +284,13 @@
       ((= trap-id 11) ;; Health Trap
         (process-spawn-function process
           (lambda :behavior process ()
-            (let ((curr-hp (-> *target* fact health)))
+            (let ((curr-hp (-> *target* fact health))
+                  (curr-little-hp (-> *target* fact eco-pill)))
               (set! (-> *target* fact health) 0.0)
+              (set! (-> *target* fact eco-pill) 0.0)
               (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
-              (set! (-> *target* fact health) curr-hp)))))
+              (set! (-> *target* fact health) curr-hp)
+              (set! (-> *target* fact eco-pill) curr-little-hp)))))
       ((= trap-id 12) ;; Ledge Trap
         (process-spawn-function process
           (lambda :behavior process ()
