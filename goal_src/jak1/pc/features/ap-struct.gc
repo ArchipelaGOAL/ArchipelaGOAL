@@ -195,8 +195,7 @@
             (set! (-> *grass-surface* fric) 122880.0)
             (set! (-> *ice-surface* slip-factor) 0.7)
             (set! (-> *ice-surface* nonlin-fric-dist) 4091904.0)
-            (set! (-> *ice-surface* fric) 23756.8)
-            )))
+            (set! (-> *ice-surface* fric) 23756.8))))
       ((= trap-id 3) ;; Gravity Trap - Needs tweaking.
         (process-spawn-function process
           (lambda :behavior process ()
@@ -204,7 +203,7 @@
             (set! (-> *TARGET-bank* fall-far) (meters 2.5))
             (set! (-> *TARGET-bank* fall-far-inc) (meters 3.5))
             (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
-            (*! (-> *standard-dynamics* gravity-length) 0.333)
+            (/! (-> *standard-dynamics* gravity-length) 3.0)
             (set! (-> *TARGET-bank* fall-far) (meters 30))
             (set! (-> *TARGET-bank* fall-far-inc) (meters 20)))))
       ((= trap-id 4) ;; Camera Trap
@@ -243,10 +242,13 @@
       ((= trap-id 7) ;; Teleport Trap
         (process-spawn-function process
           (lambda :behavior process ()
-            (when (not (movie?)) ;; tp can disrupt game state pretty aggressively
-              (suspend-for (seconds 1))
-              (set! (-> *game-info* current-continue) (get-continue-by-name *game-info* "village1-warp"))
-              (initialize! *game-info* 'die (the-as game-save #f) "village1-warp")))))
+            (suspend-for (seconds 1))
+            ;; tp can disrupt game state pretty aggressively, protect against it
+            (while (or (movie?)
+                       (logtest? (-> *pc-settings* cheats) 256))
+              (suspend-for (seconds 1)))
+            (set! (-> *game-info* current-continue) (get-continue-by-name *game-info* "village1-warp"))
+            (initialize! *game-info* 'die (the-as game-save #f) "village1-warp"))))
       ((= trap-id 8) ;; Despair Trap
         (process-spawn-function process
           (lambda :behavior process ()
@@ -261,7 +263,8 @@
                   (kill-current-level-hint '() '() 'exit)
                   (suspend-for (seconds 0.1))
                   (ambient-hint-spawn "WAR-LO1B" (the-as vector #f) *entity-pool* 'ambient)))
-            (set-game-language! *pc-settings* curr-lang)))))
+            (if (!= curr-lang (language-enum japanese)) ;; don't accidentally set jp forever
+              (set-game-language! *pc-settings* curr-lang))))))
       ((= trap-id 9) ;; Pacifism Trap
         (process-spawn-function process
           (lambda :behavior process ()
@@ -289,7 +292,7 @@
               (set! (-> *target* fact health) 0.0)
               (set! (-> *target* fact eco-pill) 0.0)
               (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
-              (set! (-> *target* fact health) curr-hp)
+              (set! (-> *target* fact health) curr-hp) ;; double health trap is funny, leave it be
               (set! (-> *target* fact eco-pill) curr-little-hp)))))
       ((= trap-id 12) ;; Ledge Trap
         (process-spawn-function process
