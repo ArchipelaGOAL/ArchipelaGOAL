@@ -231,9 +231,10 @@
               (set! (-> (level-get-target-inside *level*) mood-func) update-mood-darkness-trap)
               (set! (-> *time-of-day-context* sky) #f)
               (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
-              (set! (-> curr-lvl mood) curr-mood)
-              (set! (-> curr-lvl mood-func) curr-mood-func)
-              (set! (-> *time-of-day-context* sky) curr-sky)))))
+              (when (!= (-> curr-lvl mood) *darkness-trap-mood*) ;; don't accidentally set darkness forever
+                (set! (-> curr-lvl mood) curr-mood)
+                (set! (-> curr-lvl mood-func) curr-mood-func)
+                (set! (-> *time-of-day-context* sky) curr-sky))))))
       ((= trap-id 6) ;; Earthquake Trap
         (process-spawn-function process
           (lambda :behavior process ()
@@ -262,14 +263,14 @@
               (kill-current-level-hint '() '() 'exit)
               (suspend-for (seconds 1))
               (ambient-hint-spawn "WAR-LO1B" (the-as vector #f) *entity-pool* 'ambient)
-              (if (> (-> *ap-info-jak1* trap-duration) 10.0)
+              (when (> (-> *ap-info-jak1* trap-duration) 10.0)
                 (dotimes (i (- (/ (the int (-> *ap-info-jak1* trap-duration)) 10) 1))
                   (suspend-for (seconds 10.3))
                   (kill-current-level-hint '() '() 'exit)
                   (suspend-for (seconds 0.1))
                   (ambient-hint-spawn "WAR-LO1B" (the-as vector #f) *entity-pool* 'ambient)))
-            (if (!= curr-lang (language-enum japanese)) ;; don't accidentally set jp forever
-              (set-game-language! *pc-settings* curr-lang))))))
+              (when (!= curr-lang (language-enum japanese)) ;; don't accidentally set jp forever
+                (set-game-language! *pc-settings* curr-lang))))))
       ((= trap-id 9) ;; Pacifism Trap
         (process-spawn-function process
           (lambda :behavior process ()
@@ -308,6 +309,7 @@
       ((= trap-id 13) ;; Zoomer Trap
         (process-spawn-function process
           (lambda :behavior process ()
+            (while (movie?) (suspend-for (seconds 1))) ;; cutscenes take over the camera, wait till they finish
             (send-event *target* 'change-mode 'racing #f)
             (suspend-for (max (seconds 2) (seconds (-> *ap-info-jak1* trap-duration)))) ;; animation takes more time
             (send-event *target* 'end-mode))))
