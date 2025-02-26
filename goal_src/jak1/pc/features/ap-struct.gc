@@ -231,7 +231,7 @@
               (set! (-> (level-get-target-inside *level*) mood-func) update-mood-darkness-trap)
               (set! (-> *time-of-day-context* sky) #f)
               (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
-              (when (!= (-> curr-lvl mood) *darkness-trap-mood*) ;; don't accidentally set darkness forever
+              (when (!= curr-mood *darkness-trap-mood*) ;; don't accidentally set darkness forever
                 (set! (-> curr-lvl mood) curr-mood)
                 (set! (-> curr-lvl mood-func) curr-mood-func)
                 (set! (-> *time-of-day-context* sky) curr-sky))))))
