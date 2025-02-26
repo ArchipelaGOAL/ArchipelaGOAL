@@ -6,6 +6,8 @@
 
 (define *ap-string2* (new 'global 'string 256 (the string #f)))
 
+(define *ap-block-tp* #f)
+
 ;; Init arrays
 ;;(set! (-> *ap-info-jak1* cells) (new 'static 'boxed-array :type uint32 :length 101 :allocated-length 101))
 ;;(set! (-> *ap-info-jak1* buzzers) (new 'static 'boxed-array :type uint32 :length 112 :allocated-length 112))
@@ -201,10 +203,12 @@
         (process-spawn-function process
           (lambda :behavior process ()
             (*! (-> *standard-dynamics* gravity-length) 3.0)
+            (*! (-> *target* control dynam gravity-length) 3.0)
             (set! (-> *TARGET-bank* fall-far) (meters 2.5))
             (set! (-> *TARGET-bank* fall-far-inc) (meters 3.5))
             (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
             (/! (-> *standard-dynamics* gravity-length) 3.0)
+            (/! (-> *target* control dynam gravity-length) 3.0)
             (set! (-> *TARGET-bank* fall-far) (meters 30))
             (set! (-> *TARGET-bank* fall-far-inc) (meters 20)))))
       ((= trap-id 4) ;; Camera Trap
@@ -246,8 +250,7 @@
           (lambda :behavior process ()
             (suspend-for (seconds 1))
             ;; tp can disrupt game state pretty aggressively, protect against it
-            (while (or (movie?)
-                       (logtest? (-> *pc-settings* cheats) 256))
+            (while (or *ap-block-tp* (movie?))
               (suspend-for (seconds 1)))
             (set! (-> *game-info* current-continue) (get-continue-by-name *game-info* "village1-warp"))
             (initialize! *game-info* 'die (the-as game-save #f) "village1-warp"))))
@@ -311,9 +314,11 @@
       ((= trap-id 14) ;; Mirror Trap
         (process-spawn-function process
           (lambda :behavior process ()
+            (set! *ap-block-tp* #t)
             (logxor! (-> *pc-settings* cheats) 256) ;; the mirror cheat as a bitflag
             (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
-            (logxor! (-> *pc-settings* cheats) 256))))
+            (logxor! (-> *pc-settings* cheats) 256)
+            (set! *ap-block-tp* #f))))
     ))
   (and (> (-> *ap-info-jak1* trap-duration) 0.0)
        (zero? (get-task-status (game-task intro)))

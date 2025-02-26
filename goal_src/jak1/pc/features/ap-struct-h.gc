@@ -82,6 +82,8 @@
 
 (define-extern *ap-string2* string)
 
+(define-extern *ap-block-tp* symbol)
+
 ;; These functions add the entity's ID to the corresponding array
 ;; so that AP knows what we checked in-game.
 (define-extern ap-cell-checked! (function uint uint))
