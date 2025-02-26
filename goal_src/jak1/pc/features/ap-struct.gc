@@ -151,7 +151,8 @@
 
 (defun ap-trap-received! ((trap-id uint))
   (when (and (> (-> *ap-info-jak1* trap-duration) 0.0)
-          (zero? (get-task-status (game-task intro))))
+             (zero? (get-task-status (game-task intro)))
+             (< (get-task-status (game-task finalboss-movies)) 4))
     (sound-play "warning" :pitch -0.25)
     (cond
       ((= trap-id 1) ;; Trip Trap
@@ -209,6 +210,7 @@
       ((= trap-id 4) ;; Camera Trap
         (process-spawn-function process
           (lambda :behavior process ()
+            (while (movie?) (suspend-for (seconds 1))) ;; cutscenes take over the camera, wait till they finish
             (send-event *target* 'no-look-around (seconds (-> *ap-info-jak1* trap-duration)))
             (send-event *camera* 'change-state cam-circular 0)
             (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
@@ -314,7 +316,8 @@
             (logxor! (-> *pc-settings* cheats) 256))))
     ))
   (and (> (-> *ap-info-jak1* trap-duration) 0.0)
-    (zero? (get-task-status (game-task intro)))))
+       (zero? (get-task-status (game-task intro)))
+       (< (get-task-status (game-task finalboss-movies)) 4)))
 
 (defun ap-setup-options! ((options ap-seed-options))
   (set! (-> *ap-settings* orbsanity-option) (-> options orbsanity-option))
