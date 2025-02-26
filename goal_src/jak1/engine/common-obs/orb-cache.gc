@@ -130,11 +130,11 @@
   :event plat-event
   :enter
     (behavior ()
-      (set! *ap-block-tp* #t))
+      (+! *ap-block-tp* 1))
   :exit
     (behavior ()
       (process-entity-status! self (entity-perm-status bit-3) #f)
-      (set! *ap-block-tp* #f))
+      (-! *ap-block-tp* 1))
   :trans plat-trans
   :code
     (behavior ((arg0 symbol))
