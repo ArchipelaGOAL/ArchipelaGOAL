@@ -128,9 +128,13 @@
 
 (defstate orb-cache-top-activate (orb-cache-top)
   :event plat-event
+  :enter
+    (behavior ()
+      (+! *ap-block-tp* 1))
   :exit
     (behavior ()
-      (process-entity-status! self (entity-perm-status bit-3) #f))
+      (process-entity-status! self (entity-perm-status bit-3) #f)
+      (-! *ap-block-tp* 1))
   :trans plat-trans
   :code
     (behavior ((arg0 symbol))

@@ -830,6 +830,8 @@
       (quaternion-copy! (-> self control quat) (-> self control unknown-quaternion00))
       (rot->dir-targ! (-> self control))
       (set! (-> self racer rot y) (y-angle (-> self control)))
+      ;; zoomer meters in citadel can produce bogus textures if zoomer trap too far away from lava tube.
+      ;; but you still need citadel on this list because end of lava tube is part of citadel's level.
       (when *target*
         (when (or (= (-> *target* current-level name) 'lavatube)
                   (= (-> *target* current-level name) 'firecanyon)
