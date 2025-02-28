@@ -26,10 +26,16 @@
   (+! (-> *ap-info-jak1* next-cell-index) 1.0))
 
 (defun ap-buzzer-checked! ((buzzer-id uint))
+  (process-spawn-function process
+    (lambda :behavior process ()
+      (auto-save-command 'auto-save 0 0 *default-pool*))) ;; buzzers don't normally get auto-save.
   (set! (-> *ap-info-jak1* buzzers-checked (-> *ap-info-jak1* next-buzzer-index)) buzzer-id)
   (+! (-> *ap-info-jak1* next-buzzer-index) 1.0))
 
 (defun ap-special-checked! ((special-id uint))
+  (process-spawn-function process
+    (lambda :behavior process ()
+      (auto-save-command 'auto-save 0 0 *default-pool*))) ;; specials should get auto-save.
   (set! (-> *ap-info-jak1* specials-checked (-> *ap-info-jak1* next-special-index)) special-id)
   (+! (-> *ap-info-jak1* next-special-index) 1.0))
 
@@ -41,6 +47,9 @@
     checked))
 
 (defun ap-orb-cache-checked! ((actor-id uint))
+  (process-spawn-function process
+    (lambda :behavior process ()
+      (auto-save-command 'auto-save 0 0 *default-pool*))) ;; caches don't normally get auto-save.
   (set! (-> *ap-info-jak1* orb-caches-checked (-> *ap-info-jak1* next-orb-cache-index)) actor-id)
   (+! (-> *ap-info-jak1* next-orb-cache-index) 1.0))
 
@@ -50,6 +59,12 @@
       (when (= actor-id (-> *ap-info-jak1* orb-caches-checked i))
         (set! checked #t)))
     checked))
+
+(defun ap-orb-bundle-checked! ((level-idx uint) (money-count uint))
+  (process-spawn-function process
+    (lambda :behavior process ()
+      (auto-save-command 'auto-save 0 0 *default-pool*))) ;; money don't normally get auto-save.
+  (set! (-> *ap-info-jak1* collected-bundle level-idx) money-count))
 
 ;; These will be indexed like game-tasks, so make sure we set the right index!
 

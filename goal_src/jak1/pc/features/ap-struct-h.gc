@@ -98,6 +98,8 @@
 
 (define-extern ap-orb-cache-checked? (function uint symbol))
 
+(define-extern ap-orb-bundle-checked! (function uint uint uint))
+
 ;; There's no ap-cell-received functions becuse we would just be tracking
 ;; the count of a single number. *game-info* is doing that already.
 

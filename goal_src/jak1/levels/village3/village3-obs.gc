@@ -131,7 +131,7 @@
       (loop
         (when (and *target*
                    (and (< (vector-vector-distance (vector<-cspace! (new 'stack-no-clear 'vector) (joint-node gondola-lod0-jg main)) (target-pos 0))
-                           81920.0)
+                           61440.0)
                         (not (movie?))
                         (not (level-hint-displayed?))
                         (time-elapsed? (-> self state-time) (seconds 3))
@@ -148,34 +148,51 @@
           (let ((s3-0 (get-reminder (get-task-control (game-task village3-button)) 2))
                 (s4-1 (and *cheat-mode* (cpad-hold? 0 l3)))
                 (s5-1 (vector<-cspace! (new 'stack-no-clear 'vector) (joint-node gondola-lod0-jg main))))
+            ;; make the gondola a location check with a corresponding item required for unlock. reuse village3-button for this purpose.
+            ;; the first cond is for aesthetics, the second is for button prompts, checks, and activation.
             (cond
               ((not (or s4-1 (task-closed? (game-task village3-button) (task-status need-hint)))))
-              ;; make the gondola a location check with a corresponding item required for unlock.
-              ;; reuse village3-button for this purpose.
-              ((and (not (ap-special-received? (the-as uint (game-task village3-button)))) (not s4-1))
-               (if (not (ap-special-checked? (the-as uint (game-task village3-button))))
-                 (ap-special-checked! (the-as uint (game-task village3-button))))
-               ;; keira tells you the gondola is broken, come back later.
-               (level-hint-spawn (text-id gondola-need-cells) "asstvb75" (the-as entity #f) *entity-pool* (game-task none)))
+              ((not (ap-special-received? (the-as uint (game-task village3-button))))
+                ;; keira tells you the gondola is broken, come back later.
+                (level-hint-spawn (text-id gondola-need-cells) "asstvb75" (the-as entity #f) *entity-pool* (game-task none)))
               (else
-               (if (not (ap-special-checked? (the-as uint (game-task village3-button))))
-                 (ap-special-checked! (the-as uint (game-task village3-button))))
-               ;; keira tells you the gondola is working again.
-               (level-hint-spawn (text-id gondola-enough-cells) "asstvb76" (the-as entity #f) *entity-pool* (game-task none))
-               (let ((s4-3 (new 'stack-no-clear 'event-message-block)))
-                 (set! (-> s4-3 from) self)
-                 (set! (-> s4-3 num-params) 0)
-                 (set! (-> s4-3 message) 'update)
-                 (let ((s3-1 send-event-function)
-                       (v1-36 (entity-actor-lookup (-> self entity) 'alt-actor 0)))
-                   (s3-1 (if v1-36 (-> v1-36 extra process)) s4-3)))
-               (let ((s4-4 (new 'stack-no-clear 'event-message-block)))
-                 (set! (-> s4-4 from) self)
-                 (set! (-> s4-4 num-params) 0)
-                 (set! (-> s4-4 message) 'update)
-                 (let ((s3-2 send-event-function)
-                       (v1-40 (entity-actor-lookup (-> self entity) 'alt-actor 1)))
-                   (s3-2 (if v1-40 (-> v1-40 extra process)) s4-4)))
+                ;; keira tells you the gondola is working again.
+                (level-hint-spawn (text-id gondola-enough-cells) "asstvb76" (the-as entity #f) *entity-pool* (game-task none))
+                ;; show the gearbox moving.
+                (let ((s4-3 (new 'stack-no-clear 'event-message-block)))
+                  (set! (-> s4-3 from) self)
+                  (set! (-> s4-3 num-params) 0)
+                  (set! (-> s4-3 message) 'update)
+                  (let ((s3-1 send-event-function)
+                        (v1-36 (entity-actor-lookup (-> self entity) 'alt-actor 0)))
+                    (s3-1 (if v1-36 (-> v1-36 extra process)) s4-3)))
+                (let ((s4-4 (new 'stack-no-clear 'event-message-block)))
+                  (set! (-> s4-4 from) self)
+                  (set! (-> s4-4 num-params) 0)
+                  (set! (-> s4-4 message) 'update)
+                  (let ((s3-2 send-event-function)
+                        (v1-40 (entity-actor-lookup (-> self entity) 'alt-actor 1)))
+                    (s3-2 (if v1-40 (-> v1-40 extra process)) s4-4)))))
+            (cond
+              ((not (or s4-1 (task-closed? (game-task village3-button) (task-status need-hint)))))
+              ((not (ap-special-checked? (the-as uint (game-task village3-button))))
+                ;; you haven't checked the gondola.
+                ;; show the check prompt.
+                (let ((s5-2 (new 'stack 'font-context *font-default-matrix* 32 160 0.0 (font-color default) (font-flags shadow kerning))))
+                  (let ((v1-59 s5-2)) (set! (-> v1-59 width) (the float 440)))
+                  (let ((v1-60 s5-2)) (set! (-> v1-60 height) (the float 80)))
+                  (set! (-> s5-2 flags) (font-flags shadow kerning large))
+                  (print-game-text (lookup-text! *common-text* (text-id ap-press-to-check) #f) s5-2 #f 128 22))
+                (when (cpad-pressed? 0 circle)
+                  (ap-special-checked! (the-as uint (game-task village3-button)))
+                  (suspend-for (seconds 1))))
+              ((and (ap-special-checked? (the-as uint (game-task village3-button)))
+                    (not (ap-special-received? (the-as uint (game-task village3-button))))))
+                ;; you checked the gondola, but you don't have the gondola.
+                ;; do nothing.
+              (else
+               ;; you checked the gondola, and you have the gondola.
+               ;; show the use prompt.
                (when (and (< (vector-vector-xz-distance s5-1 (-> *target* control trans)) 18432.0)
                           (and (not (and (logtest? (-> *target* control unknown-surface00 flags) (surface-flags jump))
                                          (not (logtest? (-> *target* control status) (cshape-moving-flags onsurf)))))

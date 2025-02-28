@@ -291,14 +291,13 @@
                             (nonzero? bundle-size)
                             (nonzero? money-in-level)
                             (zero? (mod money-in-level bundle-size)))
-                   (set! (-> *ap-info-jak1* collected-bundle level-idx) money-in-level))
+                   (ap-orb-bundle-checked! (the-as uint level-idx) money-in-level))
                  ;; If Global Orbsanity is on and we have a multiple of the bundle size, set the Orbsanity checks.
                  (when (and (= (-> *ap-info-jak1* orbsanity-option) 2)
                             (nonzero? bundle-size)
                             (nonzero? money-in-total)
                             (zero? (mod money-in-total bundle-size)))
-                   (set! (-> *ap-info-jak1* collected-bundle 16) money-in-total) ;; 16 == Global
-                   )
+                   (ap-orb-bundle-checked! (the-as uint 16) money-in-total)) ;; 16 == Global
                  ;; If Orbsanity is off, just increment current money.
                  (when (zero? (-> *ap-info-jak1* orbsanity-option))
                    (+! (-> this money) amount))))))))
