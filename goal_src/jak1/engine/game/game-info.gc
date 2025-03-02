@@ -286,6 +286,9 @@
                (let ((money-in-total (the uint8 (-> this money-total)))
                      (money-in-level (-> this money-per-level level-idx))
                      (bundle-size (-> *ap-info-jak1* orbsanity-bundle)))
+                 ;; trigger an auto-save every 20 orbs
+                 (when (zero? (mod money-in-total 20)) 
+                   (ap-auto-save!))
                  ;; If Level Orbsanity is on and we have a multiple of the bundle size, set the Orbsanity checks.
                  (when (and (= (-> *ap-info-jak1* orbsanity-option) 1)
                             (nonzero? bundle-size)
