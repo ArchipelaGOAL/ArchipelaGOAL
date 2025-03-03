@@ -273,8 +273,7 @@
           (lambda :behavior process ()
             (suspend-for (seconds 1))
             ;; tp can disrupt game state pretty aggressively, protect against it
-            (while (or (nonzero? *ap-block-tp*) (movie?))
-              (suspend-for (seconds 1)))
+            (while (or (nonzero? *ap-block-tp*) (movie?)) (suspend-for (seconds 1)))
             (set! (-> *game-info* current-continue) (get-continue-by-name *game-info* "village1-warp"))
             (initialize! *game-info* 'die (the-as game-save #f) "village1-warp"))))
       ((= trap-id 8) ;; Despair Trap
@@ -338,11 +337,13 @@
       ((= trap-id 14) ;; Mirror Trap
         (process-spawn-function process
           (lambda :behavior process ()
-            (+! *ap-block-tp* 1)
+            ;; do not turn mirror mode on or off unless the sound loader rpc (1) is not busy
+            (while (nonzero? (rpc-busy? 1)) (suspend-for (seconds 1))) 
             (logxor! (-> *pc-settings* cheats) 256) ;; the mirror cheat as a bitflag
             (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
-            (logxor! (-> *pc-settings* cheats) 256)
-            (-! *ap-block-tp* 1))))
+            ;; kernel will hang if we do not wait for all sounds to fade in/out
+            (while (nonzero? (rpc-busy? 1)) (suspend-for (seconds 1)))
+            (logxor! (-> *pc-settings* cheats) 256))))
     ))
   (and (> (-> *ap-info-jak1* trap-duration) 0.0)
        (zero? (get-task-status (game-task intro)))
