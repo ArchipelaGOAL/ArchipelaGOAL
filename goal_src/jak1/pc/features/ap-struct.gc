@@ -8,6 +8,8 @@
 
 (define *ap-block-tp* 0)
 
+(define *auto-saving?* #f)
+
 ;; Init arrays
 ;;(set! (-> *ap-info-jak1* cells) (new 'static 'boxed-array :type uint32 :length 101 :allocated-length 101))
 ;;(set! (-> *ap-info-jak1* buzzers) (new 'static 'boxed-array :type uint32 :length 112 :allocated-length 112))
@@ -26,10 +28,14 @@
   (+! (-> *ap-info-jak1* next-cell-index) 1.0))
 
 (defun ap-buzzer-checked! ((buzzer-id uint))
+  ;; buzzers don't normally get auto-save, but they should.
+  (ap-auto-save!)
   (set! (-> *ap-info-jak1* buzzers-checked (-> *ap-info-jak1* next-buzzer-index)) buzzer-id)
   (+! (-> *ap-info-jak1* next-buzzer-index) 1.0))
 
 (defun ap-special-checked! ((special-id uint))
+   ;; specials should get auto-save.
+  (ap-auto-save!) 
   (set! (-> *ap-info-jak1* specials-checked (-> *ap-info-jak1* next-special-index)) special-id)
   (+! (-> *ap-info-jak1* next-special-index) 1.0))
 
@@ -41,6 +47,8 @@
     checked))
 
 (defun ap-orb-cache-checked! ((actor-id uint))
+  ;; caches don't normally get auto-save, but they should.
+  (ap-auto-save!)
   (set! (-> *ap-info-jak1* orb-caches-checked (-> *ap-info-jak1* next-orb-cache-index)) actor-id)
   (+! (-> *ap-info-jak1* next-orb-cache-index) 1.0))
 
@@ -50,6 +58,20 @@
       (when (= actor-id (-> *ap-info-jak1* orb-caches-checked i))
         (set! checked #t)))
     checked))
+
+(defun ap-orb-bundle-checked! ((level-idx uint) (money-count uint))
+  ;; money doesn't normally get auto-save, but it should, but only do it every 20 orbs (in game-info).
+  (set! (-> *ap-info-jak1* collected-bundle level-idx) money-count))
+
+(defun ap-auto-save! ()
+  (process-spawn-function process
+    (lambda :behavior process ()
+      (when (not *auto-saving?*)
+        (true! *auto-saving?*)
+        (auto-save-command 'auto-save 0 0 *default-pool*)
+        (suspend-for (seconds 1))
+        (false! *auto-saving?*))))
+  *auto-saving?*)
 
 ;; These will be indexed like game-tasks, so make sure we set the right index!
 
@@ -251,8 +273,7 @@
           (lambda :behavior process ()
             (suspend-for (seconds 1))
             ;; tp can disrupt game state pretty aggressively, protect against it
-            (while (or (nonzero? *ap-block-tp*) (movie?))
-              (suspend-for (seconds 1)))
+            (while (or (nonzero? *ap-block-tp*) (movie?)) (suspend-for (seconds 1)))
             (set! (-> *game-info* current-continue) (get-continue-by-name *game-info* "village1-warp"))
             (initialize! *game-info* 'die (the-as game-save #f) "village1-warp"))))
       ((= trap-id 8) ;; Despair Trap
@@ -316,11 +337,13 @@
       ((= trap-id 14) ;; Mirror Trap
         (process-spawn-function process
           (lambda :behavior process ()
-            (+! *ap-block-tp* 1)
+            ;; do not turn mirror mode on or off unless the sound loader rpc (1) is not busy
+            (while (nonzero? (rpc-busy? 1)) (suspend-for (seconds 1))) 
             (logxor! (-> *pc-settings* cheats) 256) ;; the mirror cheat as a bitflag
             (suspend-for (seconds (-> *ap-info-jak1* trap-duration)))
-            (logxor! (-> *pc-settings* cheats) 256)
-            (-! *ap-block-tp* 1))))
+            ;; kernel will hang if we do not wait for all sounds to fade in/out
+            (while (nonzero? (rpc-busy? 1)) (suspend-for (seconds 1)))
+            (logxor! (-> *pc-settings* cheats) 256))))
     ))
   (and (> (-> *ap-info-jak1* trap-duration) 0.0)
        (zero? (get-task-status (game-task intro)))

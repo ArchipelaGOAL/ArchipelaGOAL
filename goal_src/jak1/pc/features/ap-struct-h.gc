@@ -84,6 +84,8 @@
 
 (define-extern *ap-block-tp* int)
 
+(define-extern *auto-saving?* symbol)
+
 ;; These functions add the entity's ID to the corresponding array
 ;; so that AP knows what we checked in-game.
 (define-extern ap-cell-checked! (function uint uint))
@@ -97,6 +99,10 @@
 (define-extern ap-orb-cache-checked! (function uint uint))
 
 (define-extern ap-orb-cache-checked? (function uint symbol))
+
+(define-extern ap-orb-bundle-checked! (function uint uint uint))
+
+(define-extern ap-auto-save! (function symbol))
 
 ;; There's no ap-cell-received functions becuse we would just be tracking
 ;; the count of a single number. *game-info* is doing that already.
