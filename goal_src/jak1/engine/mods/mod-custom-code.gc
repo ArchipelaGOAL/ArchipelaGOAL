@@ -22,7 +22,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (deftype ap-message (structure)
-  ((item-name string)
+  ((verb string)
+   (item-name string)
+   (dir string)
    (player-name string)))
 
 (deftype ap-message-array (inline-array-class)
@@ -34,6 +36,7 @@
 (deftype ap-messenger (process)
   ((sent-messages ap-message-array)
    (recv-messages ap-message-array)
+   (both-messages ap-message-array)
    (show-size int)
    (max-size int)
    (state-time time-frame))
@@ -49,14 +52,25 @@
   (set! (-> self max-size) 10)
   (set! (-> self sent-messages) (new 'process 'ap-message-array (-> self max-size)))
   (dotimes (i (-> self max-size))
+    (set! (-> self sent-messages messages i verb) (new 'process 'string 32 (the string #f)))
     (set! (-> self sent-messages messages i item-name) (new 'process 'string 32 (the string #f)))
+    (set! (-> self sent-messages messages i dir) (new 'process 'string 32 (the string #f)))
     (set! (-> self sent-messages messages i player-name) (new 'process 'string 32 (the string #f))))
-  (set! (-> self recv-messages) (new 'process 'ap-message-array (-> self max-size)))
   (set! (-> self sent-messages target-index) 0)
+  (set! (-> self recv-messages) (new 'process 'ap-message-array (-> self max-size)))
   (dotimes (i (-> self max-size))
+    (set! (-> self sent-messages messages i verb) (new 'process 'string 32 (the string #f)))
     (set! (-> self recv-messages messages i item-name) (new 'process 'string 32 (the string #f)))
+    (set! (-> self sent-messages messages i dir) (new 'process 'string 32 (the string #f)))
     (set! (-> self recv-messages messages i player-name) (new 'process 'string 32 (the string #f))))
   (set! (-> self recv-messages target-index) 0)
+  (set! (-> self both-messages) (new 'process 'ap-message-array (-> self max-size)))
+  (dotimes (i (-> self max-size))
+    (set! (-> self sent-messages messages i verb) (new 'process 'string 32 (the string #f)))
+    (set! (-> self both-messages messages i item-name) (new 'process 'string 32 (the string #f)))
+    (set! (-> self sent-messages messages i dir) (new 'process 'string 32 (the string #f)))
+    (set! (-> self both-messages messages i player-name) (new 'process 'string 32 (the string #f))))
+   (set! (-> self both-messages target-index) 0)
   (go ap-messenger-show))
 
 ;; This method is an important override! Without it, our data structures
@@ -65,20 +79,33 @@
 (defmethod relocate ((this ap-messenger) (offset int))
   (when (nonzero? (-> this sent-messages))
     (dotimes (i (-> this max-size))
+      (when (nonzero? (-> this sent-messages messages i verb)) (&+! (-> this sent-messages messages i verb) offset))
       (when (nonzero? (-> this sent-messages messages i item-name)) (&+! (-> this sent-messages messages i item-name) offset))
+      (when (nonzero? (-> this sent-messages messages i dir)) (&+! (-> this sent-messages messages i dir) offset))
       (when (nonzero? (-> this sent-messages messages i player-name)) (&+! (-> this sent-messages messages i player-name) offset)))
     (&+! (-> this sent-messages) offset))
   (when (nonzero? (-> this recv-messages))
     (dotimes (i (-> this max-size))
+      (when (nonzero? (-> this sent-messages messages i verb)) (&+! (-> this sent-messages messages i verb) offset))
       (when (nonzero? (-> this recv-messages messages i item-name)) (&+! (-> this recv-messages messages i item-name) offset))
+      (when (nonzero? (-> this sent-messages messages i dir)) (&+! (-> this sent-messages messages i dir) offset))
       (when (nonzero? (-> this recv-messages messages i player-name)) (&+! (-> this recv-messages messages i player-name) offset)))
     (&+! (-> this recv-messages) offset))
+    (when (nonzero? (-> this both-messages))
+    (dotimes (i (-> this max-size))
+      (when (nonzero? (-> this sent-messages messages i verb)) (&+! (-> this sent-messages messages i verb) offset))
+      (when (nonzero? (-> this both-messages messages i item-name)) (&+! (-> this both-messages messages i item-name) offset))
+      (when (nonzero? (-> this sent-messages messages i dir)) (&+! (-> this sent-messages messages i dir) offset))
+      (when (nonzero? (-> this both-messages messages i player-name)) (&+! (-> this both-messages messages i player-name) offset)))
+    (&+! (-> this both-messages) offset))
   (call-parent-method this offset))
 
 (defun shift-messages ((target-array ap-message-array) (show-size int) (max-size int))
   (dotimes (i max-size)
     (when (< i (- max-size 1))
+      (set! (-> target-array messages i verb) (-> target-array messages (+ i 1) verb))
       (set! (-> target-array messages i item-name) (-> target-array messages (+ i 1) item-name))
+      (set! (-> target-array messages i dir) (-> target-array messages (+ i 1) dir))
       (set! (-> target-array messages i player-name) (-> target-array messages (+ i 1) player-name))))
   (if (> (-> target-array target-index) show-size)
     (-! (-> target-array target-index) 1)))
@@ -88,16 +115,33 @@
 (defmethod append-messages ((this ap-messenger) (direction symbol) (item-name string) (player-name string))
   (let* ((target-array (case direction
           (('sent) (-> this sent-messages))
-          (('recv) (-> this recv-messages)))))
+          (('recv) (-> this recv-messages))))
+         (verb (case direction
+          (('sent) "SENT")
+          (('recv) "GOT")))
+         (dir (case direction
+          (('sent) "TO")
+          (('recv) "FROM"))))
     ;; Don't go over the upper bound!
     (if (= (-> target-array target-index) (-> this max-size)) 
       (set! (-> target-array target-index) (- (-> this max-size) 1)))
     ;; Add the new information to the target index.
+    (set! (-> target-array messages (-> target-array target-index) verb) verb)
     (set! (-> target-array messages (-> target-array target-index) item-name) item-name)
+    (set! (-> target-array messages (-> target-array target-index) dir) dir)
     (set! (-> target-array messages (-> target-array target-index) player-name) player-name)
     ;; Incremement target-index to the next available empty space.
     (if (< (-> target-array target-index) (- (-> this max-size) 1))
-      (+! (-> target-array target-index) 1)))
+      (+! (-> target-array target-index) 1))
+    ;; Do all the same things with the both array.
+    (if (= (-> this both-messages target-index) (-> this max-size)) 
+      (set! (-> this both-messages target-index) (- (-> this max-size) 1)))
+    (set! (-> this both-messages messages (-> this both-messages target-index) verb) verb)
+    (set! (-> this both-messages messages (-> this both-messages target-index) item-name) item-name)
+    (set! (-> this both-messages messages (-> this both-messages target-index) dir) dir)
+    (set! (-> this both-messages messages (-> this both-messages target-index) player-name) player-name)
+    (if (< (-> this both-messages target-index) (- (-> this max-size) 1))
+      (+! (-> this both-messages target-index) 1)))
   (none))
 
 (defun draw-message ((message string) (bottom float) (index int))
@@ -109,14 +153,9 @@
 
 (defbehavior draw-messages ap-messenger ((bottom float))
   (let* ((active-array (case *hud-collectable-view*
-          (((hud-collectable-view game-totals) (hud-collectable-view level-totals)) (-> self sent-messages))
-          (((hud-collectable-view original)) (-> self recv-messages))))
-         (verb (case *hud-collectable-view*
-          (((hud-collectable-view game-totals) (hud-collectable-view level-totals)) "SENT")
-          (((hud-collectable-view original)) "GOT")))
-         (dir (case *hud-collectable-view*
-          (((hud-collectable-view game-totals) (hud-collectable-view level-totals)) "TO")
-          (((hud-collectable-view original)) "FROM"))))
+          (((hud-collectable-view game-totals)) (-> self both-messages))
+          (((hud-collectable-view level-totals)) (-> self sent-messages))
+          (((hud-collectable-view original)) (-> self recv-messages)))))
     (dotimes (i (-> self show-size))
       ;; Don't print at all if no item is here.
       (when (not (string= (-> active-array messages i item-name) ""))
@@ -130,7 +169,9 @@
               (else (draw-message (string-format "FOUND ~8L~S~0L" item) bottom i)))))
         ;; Print the usual format for everything else.
         (when (not (string= (-> active-array messages i player-name) "MYSELF"))
-          (let ((item (-> active-array messages i item-name))
+          (let ((verb (-> active-array messages i verb))
+                (item (-> active-array messages i item-name))
+                (dir (-> active-array messages i dir))
                 (player (-> active-array messages i player-name)))
             (substring! *temp-string* item (- (length item) 4) (length item))
             (cond
@@ -145,20 +186,24 @@
       (when (or (paused?) (not (-> *ap-settings* item-messages?)))
         (go ap-messenger-hide))
       (case *hud-collectable-view*
-        (((hud-collectable-view game-totals) (hud-collectable-view level-totals))
-          ;; Silently shift the messages in the inactive queue.
-          (when (> (-> self recv-messages target-index) (-> self show-size))
-            (shift-messages (-> self recv-messages) (-> self show-size) (-> self max-size)))
+        (((hud-collectable-view game-totals))
+          ;; Silently shift the messages in the inactive queues.
+          (when (> (-> self recv-messages target-index) (-> self show-size)) (shift-messages (-> self recv-messages) (-> self show-size) (-> self max-size)))
+          (when (> (-> self sent-messages target-index) (-> self show-size)) (shift-messages (-> self sent-messages) (-> self show-size) (-> self max-size)))
           ;; Visually shift the messages in the active queue.
-          (when (> (-> self sent-messages target-index) (-> self show-size))
-            (go ap-messenger-scroll)))
+          (when (> (-> self both-messages target-index) (-> self show-size)) (go ap-messenger-scroll)))
+        (((hud-collectable-view level-totals))
+          ;; Silently shift the messages in the inactive queues.
+          (when (> (-> self recv-messages target-index) (-> self show-size)) (shift-messages (-> self recv-messages) (-> self show-size) (-> self max-size)))
+          (when (> (-> self both-messages target-index) (-> self show-size)) (shift-messages (-> self both-messages) (-> self show-size) (-> self max-size)))
+          ;; Visually shift the messages in the active queue.
+          (when (> (-> self sent-messages target-index) (-> self show-size)) (go ap-messenger-scroll)))
         (((hud-collectable-view original)) 
-          ;; Silently shift the messages in the inactive queue.
-          (when (> (-> self sent-messages target-index) (-> self show-size))
-            (shift-messages (-> self sent-messages) (-> self show-size) (-> self max-size)))
+          ;; Silently shift the messages in the inactive queues.
+          (when (> (-> self sent-messages target-index) (-> self show-size)) (shift-messages (-> self sent-messages) (-> self show-size) (-> self max-size)))
+          (when (> (-> self both-messages target-index) (-> self show-size)) (shift-messages (-> self both-messages) (-> self show-size) (-> self max-size)))
           ;; Visually shift the messages in the active queue.
-          (when (> (-> self recv-messages target-index) (-> self show-size))
-            (go ap-messenger-scroll))))
+          (when (> (-> self recv-messages target-index) (-> self show-size)) (go ap-messenger-scroll))))
       (suspend))))
 
 (defstate ap-messenger-hide (ap-messenger)
@@ -166,11 +211,10 @@
     (loop
       (when (and (not (paused?)) (-> *ap-settings* item-messages?))
         (go ap-messenger-show))
-      ;; When hidden, both arrays should be updated in the background.
-      (when (> (-> self recv-messages target-index) (-> self show-size))
-        (shift-messages (-> self recv-messages) (-> self show-size) (-> self max-size)))
-      (when (> (-> self sent-messages target-index) (-> self show-size))
-        (shift-messages (-> self sent-messages) (-> self show-size) (-> self max-size)))
+      ;; When hidden, all arrays should be updated in the background.
+      (when (> (-> self both-messages target-index) (-> self show-size)) (shift-messages (-> self both-messages) (-> self show-size) (-> self max-size)))
+      (when (> (-> self recv-messages target-index) (-> self show-size)) (shift-messages (-> self recv-messages) (-> self show-size) (-> self max-size)))
+      (when (> (-> self sent-messages target-index) (-> self show-size)) (shift-messages (-> self sent-messages) (-> self show-size) (-> self max-size)))
       (suspend))))
 
 (defstate ap-messenger-scroll (ap-messenger)
@@ -180,8 +224,8 @@
     (loop
       (if (time-passed? (seconds 0.25))
         (let* ((active-array (case *hud-collectable-view*
-            (((hud-collectable-view game-totals)
-              (hud-collectable-view level-totals)) (-> self sent-messages))
+            (((hud-collectable-view game-totals)) (-> self both-messages))
+            (((hud-collectable-view level-totals)) (-> self sent-messages))
             (((hud-collectable-view original)) (-> self recv-messages)))))
           ;; If the queue still has items, restart the scrolling, else go back to show.
           (if (> (-> active-array target-index) (+ (-> self show-size) 1))
@@ -193,8 +237,8 @@
       (suspend)))
   :exit (behavior ()
     (let* ((active-array (case *hud-collectable-view*
-        (((hud-collectable-view game-totals)
-          (hud-collectable-view level-totals)) (-> self sent-messages))
+        (((hud-collectable-view game-totals)) (-> self both-messages))
+        (((hud-collectable-view level-totals)) (-> self sent-messages))
         (((hud-collectable-view original)) (-> self recv-messages)))))
       (shift-messages active-array (-> self show-size) (-> self max-size)))))
 
