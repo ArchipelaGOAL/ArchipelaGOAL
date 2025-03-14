@@ -153,9 +153,9 @@
 
 (defbehavior draw-messages ap-messenger ((bottom float))
   (let* ((active-array (case *hud-collectable-view*
-          (((hud-collectable-view game-totals)) (-> self both-messages))
+          (((hud-collectable-view game-totals)) (-> self recv-messages))
           (((hud-collectable-view level-totals)) (-> self sent-messages))
-          (((hud-collectable-view original)) (-> self recv-messages)))))
+          (((hud-collectable-view original)) (-> self both-messages)))))
     (dotimes (i (-> self show-size))
       ;; Don't print at all if no item is here.
       (when (not (string= (-> active-array messages i item-name) ""))
@@ -188,10 +188,10 @@
       (case *hud-collectable-view*
         (((hud-collectable-view game-totals))
           ;; Silently shift the messages in the inactive queues.
-          (when (> (-> self recv-messages target-index) (-> self show-size)) (shift-messages (-> self recv-messages) (-> self show-size) (-> self max-size)))
           (when (> (-> self sent-messages target-index) (-> self show-size)) (shift-messages (-> self sent-messages) (-> self show-size) (-> self max-size)))
+          (when (> (-> self both-messages target-index) (-> self show-size)) (shift-messages (-> self both-messages) (-> self show-size) (-> self max-size)))
           ;; Visually shift the messages in the active queue.
-          (when (> (-> self both-messages target-index) (-> self show-size)) (go ap-messenger-scroll)))
+          (when (> (-> self recv-messages target-index) (-> self show-size)) (go ap-messenger-scroll)))
         (((hud-collectable-view level-totals))
           ;; Silently shift the messages in the inactive queues.
           (when (> (-> self recv-messages target-index) (-> self show-size)) (shift-messages (-> self recv-messages) (-> self show-size) (-> self max-size)))
@@ -201,9 +201,9 @@
         (((hud-collectable-view original)) 
           ;; Silently shift the messages in the inactive queues.
           (when (> (-> self sent-messages target-index) (-> self show-size)) (shift-messages (-> self sent-messages) (-> self show-size) (-> self max-size)))
-          (when (> (-> self both-messages target-index) (-> self show-size)) (shift-messages (-> self both-messages) (-> self show-size) (-> self max-size)))
+          (when (> (-> self recv-messages target-index) (-> self show-size)) (shift-messages (-> self recv-messages) (-> self show-size) (-> self max-size)))
           ;; Visually shift the messages in the active queue.
-          (when (> (-> self recv-messages target-index) (-> self show-size)) (go ap-messenger-scroll))))
+          (when (> (-> self both-messages target-index) (-> self show-size)) (go ap-messenger-scroll))))
       (suspend))))
 
 (defstate ap-messenger-hide (ap-messenger)
@@ -224,9 +224,9 @@
     (loop
       (if (time-passed? (seconds 0.25))
         (let* ((active-array (case *hud-collectable-view*
-            (((hud-collectable-view game-totals)) (-> self both-messages))
+            (((hud-collectable-view game-totals)) (-> self recv-messages))
             (((hud-collectable-view level-totals)) (-> self sent-messages))
-            (((hud-collectable-view original)) (-> self recv-messages)))))
+            (((hud-collectable-view original)) (-> self both-messages)))))
           ;; If the queue still has items, restart the scrolling, else go back to show.
           (if (> (-> active-array target-index) (+ (-> self show-size) 1))
             (go ap-messenger-scroll)
@@ -237,9 +237,9 @@
       (suspend)))
   :exit (behavior ()
     (let* ((active-array (case *hud-collectable-view*
-        (((hud-collectable-view game-totals)) (-> self both-messages))
+        (((hud-collectable-view game-totals)) (-> self recv-messages))
         (((hud-collectable-view level-totals)) (-> self sent-messages))
-        (((hud-collectable-view original)) (-> self recv-messages)))))
+        (((hud-collectable-view original)) (-> self both-messages)))))
       (shift-messages active-array (-> self show-size) (-> self max-size)))))
 
 (defun ap-messenger-run ()
