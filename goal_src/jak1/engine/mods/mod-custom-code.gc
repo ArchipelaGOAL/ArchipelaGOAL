@@ -134,14 +134,18 @@
     (if (< (-> target-array target-index) (- (-> this max-size) 1))
       (+! (-> target-array target-index) 1))
     ;; Do all the same things with the both array.
-    (if (= (-> this both-messages target-index) (-> this max-size)) 
-      (set! (-> this both-messages target-index) (- (-> this max-size) 1)))
-    (set! (-> this both-messages messages (-> this both-messages target-index) verb) verb)
-    (set! (-> this both-messages messages (-> this both-messages target-index) item-name) item-name)
-    (set! (-> this both-messages messages (-> this both-messages target-index) dir) dir)
-    (set! (-> this both-messages messages (-> this both-messages target-index) player-name) player-name)
-    (if (< (-> this both-messages target-index) (- (-> this max-size) 1))
-      (+! (-> this both-messages target-index) 1)))
+    ;; Finding your own item is a special case, as you will receive both a 'sent and 'recv message for the same item.
+    ;; In this case, to prevent duplicates, do not add the 'sent copy to the both-messages queue.
+    (when (not (and (= direction 'sent) 
+                    (string= player-name "MYSELF")))
+      (if (= (-> this both-messages target-index) (-> this max-size)) 
+        (set! (-> this both-messages target-index) (- (-> this max-size) 1)))
+      (set! (-> this both-messages messages (-> this both-messages target-index) verb) verb)
+      (set! (-> this both-messages messages (-> this both-messages target-index) item-name) item-name)
+      (set! (-> this both-messages messages (-> this both-messages target-index) dir) dir)
+      (set! (-> this both-messages messages (-> this both-messages target-index) player-name) player-name)
+      (if (< (-> this both-messages target-index) (- (-> this max-size) 1))
+        (+! (-> this both-messages target-index) 1))))
   (none))
 
 (defun draw-message ((message string) (bottom float) (index int))
