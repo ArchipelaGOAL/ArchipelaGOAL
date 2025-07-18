@@ -416,13 +416,17 @@
     (('jump 'up 'up-forward)
      (when (and (not (logtest? (-> self control root-prim prim-core action) (collide-action racer flut)))
                 (not (and (= (-> self game mode) 'play) (>= 0.0 (-> self fact health)))))
-       (if (and (cpad-pressed? (-> self control unknown-cpad-info00 number) circle) (can-feet?)) (go target-attack-air #f))
+       (if (and (cpad-pressed? (-> self control unknown-cpad-info00 number) circle) 
+                (can-feet?)
+                (or (zero? (-> *ap-info-jak1* moverando-enabled)) (ap-move-received? (the-as uint 14838)))) ;; handle misty teetertotter launch
+           (go target-attack-air #f))
        (if (and (cpad-pressed? (-> self control unknown-cpad-info00 number) square)
                 (< (vector-dot (-> self control dynam gravity-normal) (-> self control transv)) 26624.0)
                 (and (< -61440.0 (vector-dot (-> self control dynam gravity-normal) (-> self control transv)))
                      (time-elapsed? (-> self control unknown-dword36) (the-as time-frame (-> *TARGET-bank* stuck-timeout)))
                      (not (logtest? (-> self state-flags) (state-flags prevent-attack)))
-                     (not (logtest? (-> self control unknown-surface01 flags) (surface-flags prevent-attacks-during-launch-jump surf08)))))
+                     (not (logtest? (-> self control unknown-surface01 flags) (surface-flags prevent-attacks-during-launch-jump surf08))))
+                (or (zero? (-> *ap-info-jak1* moverando-enabled)) (ap-move-received? (the-as uint 14507)))) ;; handle misty teetertotter launch
          (go target-flop
              (the-as float 65502.96)
              (the-as float -163840.0)
