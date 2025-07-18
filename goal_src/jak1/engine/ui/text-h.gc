@@ -724,6 +724,9 @@
   (icelandic #x111a)
   (polish #x111b)
   (lithuanian #x111c)
+  (czech #x111d)
+  (croatian #x111e)
+  (galician #x111f)
   (scene-0 #x1200)
   (scene-255 #x12ff)
   (hint-0 #x1300)
@@ -790,11 +793,14 @@
   (input-opts-binds-unknown #x1615)
   (progress-no-other-resolution-options #x1616)
   (input-opts-controller-led-reflect-heat #x1617)
+  (input-opts-controller-pressure-sensitivity #x1618)
+  (input-opts-analog-sensitivity #x1619)
   ;; mod text mod-base-change
   (pad-triangle #x2000)
   (pad-circle #x2001)
   (pad-x #x2002)
   (pad-square #x2003)
+
   (warp-to-home #x2004)
   (warp-to-home-confirm #x2005)
   (archipelago-options #x2006)
@@ -875,6 +881,8 @@
   (show-item-messages #x2081)
   (trap-duration #x2082)
   (ap-ready-start #x2083)
+
+  (save-and-load-game #x3000)
   ;; GAME-TEXT-ID ENUM ENDS
   )
 
