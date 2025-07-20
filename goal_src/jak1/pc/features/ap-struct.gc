@@ -221,7 +221,7 @@
             (set! (-> *ice-surface* slip-factor) 0.7)
             (set! (-> *ice-surface* nonlin-fric-dist) 4091904.0)
             (set! (-> *ice-surface* fric) 23756.8))))
-      ((= trap-id 3) ;; Gravity Trap - Needs tweaking.
+      ((= trap-id 3) ;; Gravity Trap
         (process-spawn-function process
           (lambda :behavior process ()
             (*! (-> *standard-dynamics* gravity-length) 3.0)
