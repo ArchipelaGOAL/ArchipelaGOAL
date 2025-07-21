@@ -115,7 +115,15 @@
   (darkjak-bomb1)
   (darkjak-invinc)
   (darkjak-giant)
-  (board-training))
+  (board-training)
+  ;; <ap:preserve-this> added the following for archipelago
+  (pass-purple)
+  (pass-black)
+  (pass-air-train)
+  (lens)
+  (gear)
+  (shard)
+  )
 
 ;; DECOMP BEGINS
 

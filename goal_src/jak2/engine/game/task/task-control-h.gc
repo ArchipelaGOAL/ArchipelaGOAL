@@ -240,6 +240,13 @@
   (add-darkjak-2 20)
   (add-darkjak-3 21)
   (add-board-training 22)
+  ;; <ap:preserve-this> added the following for archipelago
+  (add-pass-purple 23)
+  (add-pass-black 24)
+  (add-pass-air-train 25)
+  (add-lens 26)
+  (add-gear 27)
+  (add-shard 28)
   )
 
 ;; NOTE - for settings

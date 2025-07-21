@@ -69,7 +69,7 @@
 
 
 (define *talker-speech*
-  (new 'static 'inline-array talker-speech-class 465
+  (new 'static 'inline-array talker-speech-class 468
     (new 'static 'talker-speech-class :name "none")
     (new 'static 'talker-speech-class
       :name "hal001"
@@ -3533,6 +3533,40 @@
       :flags #x2
       :speech #x1d0
       :delay (seconds 2)
+      :neg #x1
+      :on-close #f
+      )
+    ;; <ap:preserve-this> added the following for archipelago
+    (new 'static 'talker-speech-class
+      :name "lens001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1d1
+      :text-message (text-id mountain-lens-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+      )
+    (new 'static 'talker-speech-class
+      :name "gear001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1d2
+      :text-message (text-id mountain-gear-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+      )
+    (new 'static 'talker-speech-class
+      :name "shard001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1d3
+      :text-message (text-id mountain-shard-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
       :neg #x1
       :on-close #f
       )

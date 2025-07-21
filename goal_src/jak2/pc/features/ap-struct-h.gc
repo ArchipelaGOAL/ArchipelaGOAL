@@ -12,14 +12,12 @@
     (side-missions-checked           uint32 24)
 
     ;; End Marker
-    (end-marker           uint8 4)
-    )
-
-    
-)
+    (end-marker           uint8 4)))
 
 (define-extern *ap-info-jak2* ap-info-jak2)
 
 (define-extern ap-mission-checked! (function uint uint))
 
 (define-extern ap-side-mission-checked! (function uint uint))
+
+(define-extern ap-item-received! (function symbol symbol))

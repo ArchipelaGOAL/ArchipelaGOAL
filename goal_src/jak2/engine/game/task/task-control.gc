@@ -74,7 +74,8 @@
      (set! (-> *game-info* features) (game-feature gun gun-yellow gun-red gun-blue gun-dark))
      )
     (else
-      (set! (-> *game-info* features) (game-feature))
+      ;; <ap:preserve-this> comment out the clearing of game-features, we need persistence.
+      ;; (set! (-> *game-info* features) (game-feature))
       0
       )
     )
@@ -1040,6 +1041,25 @@
      )
     (((game-task-node-command add-darkjak-3))
      (logior! (-> *game-info* features) (game-feature darkjak-giant))
+     )
+    ;; <ap:preserve-this> added the following for archipelago
+    (((game-task-node-command add-pass-purple))
+     (logior! (-> *game-info* features) (game-feature pass-purple))
+     )
+    (((game-task-node-command add-pass-black))
+     (logior! (-> *game-info* features) (game-feature pass-black))
+     )
+    (((game-task-node-command add-pass-air-train))
+     (logior! (-> *game-info* features) (game-feature pass-air-train))
+     )
+    (((game-task-node-command add-lens))
+     (logior! (-> *game-info* features) (game-feature lens))
+     )
+    (((game-task-node-command add-gear))
+     (logior! (-> *game-info* features) (game-feature gear))
+     )
+    (((game-task-node-command add-shard))
+     (logior! (-> *game-info* features) (game-feature shard))
      )
     )
   0
