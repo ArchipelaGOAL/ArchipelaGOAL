@@ -2673,7 +2673,7 @@
         (part-tracker "group-gungame-laser-beam" entity "gun" joint "laser" track #t duration (frame-range (160 245)))
         )
       (10000
-        (unless (task-closed? "sewer-enemy-resolution") (talker-spawn "miss012"))
+        ;; (unless (task-closed? "sewer-enemy-resolution") (talker-spawn "miss012")) ;; <ap:preserve-this> removed talker spawn.
         (task-close! "sewer-enemy-resolution")
         (send-event *target* 'change-mode 'gun #f (unbox 1))
         )
@@ -2764,7 +2764,7 @@
                    :parts 4
                    :command-list '((0 (fadein (frame-time (new 'static 'bfloat :data 10.0))))
                      (10000
-                       (unless (task-closed? "sewer-escort-get-gun") (talker-spawn "miss014"))
+                       ;; (unless (task-closed? "sewer-escort-get-gun") (talker-spawn "miss014")) ;; <ap:preserve-this> removed talker spawn.
                        (task-close! "sewer-escort-get-gun")
                        (send-event *target* 'change-mode 'gun #f (unbox 4))
                        )

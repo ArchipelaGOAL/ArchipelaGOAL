@@ -187,7 +187,7 @@
                    :parts 13
                    :command-list '((0 (kill "hide-part-2") (fadein (frame-time-30 5)))
                      (10000
-                       (unless (task-closed? "ruins-enemy-introduction") (talker-spawn "miss013"))
+                       ;; (unless (task-closed? "ruins-enemy-introduction") (talker-spawn "miss013")) ;; <ap:preserve-this> removed talker spawn.
                        (task-close! "ruins-enemy-introduction")
                        )
                      )

@@ -1561,7 +1561,7 @@
           )
         )
       (10000
-        (unless (task-closed? "atoll-battle-resolution") (talker-spawn "miss008"))
+        ;; (unless (task-closed? "atoll-battle-resolution") (talker-spawn "miss008")) ;; <ap:preserve-this> removed talker spawn.
         (task-close! "atoll-battle-resolution")
         )
       )

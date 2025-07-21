@@ -23,7 +23,7 @@
                        (fadein (frame-time-30 5))
                        )
                      (10000
-                       (unless (task-closed? "fortress-dump-deal") (talker-spawn "miss006"))
+                       ;; (unless (task-closed? "fortress-dump-deal") (talker-spawn "miss006")) ;; <ap:preserve-this> removed talker spawn.
                        (task-close! "fortress-dump-deal")
                        )
                      )

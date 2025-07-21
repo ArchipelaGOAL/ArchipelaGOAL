@@ -485,7 +485,7 @@
                        )
                      (1955 (fadeout (frame-time-30 5)))
                      (10000
-                       (unless (task-closed? "castle-boss-introduction") (talker-spawn "miss004"))
+                       ;; (unless (task-closed? "castle-boss-introduction") (talker-spawn "miss004")) ;; <ap:preserve-this> removed talker spawn.
                        (task-close! "castle-boss-introduction")
                        )
                      )

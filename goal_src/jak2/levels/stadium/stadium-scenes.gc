@@ -2501,7 +2501,7 @@
           )
         )
       (10000
-        (unless (task-closed? "stadium-race-class1-race") (talker-spawn "miss009"))
+        ;; (unless (task-closed? "stadium-race-class1-race") (talker-spawn "miss009")) ;; <ap:preserve-this> removed talker spawn.
         (task-close! "stadium-race-class1-race")
         )
       )

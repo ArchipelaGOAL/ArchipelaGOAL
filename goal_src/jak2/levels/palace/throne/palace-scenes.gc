@@ -607,7 +607,7 @@
     :parts 21
     :command-list '((0 (fadein (seconds 1)) (apply ,(lambda :behavior scene-player () (set-setting! 'rain 'abs 0.0 0) (none))))
       (10000
-        (unless (task-closed? "palace-sneak-in-meeting") (talker-spawn "miss010"))
+        ;; (unless (task-closed? "palace-sneak-in-meeting") (talker-spawn "miss010")) ;; <ap:preserve-this> removed talker spawn.
         (task-close! "palace-sneak-in-meeting")
         )
       )

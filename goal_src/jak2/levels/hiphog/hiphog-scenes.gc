@@ -1188,7 +1188,7 @@
                        )
                      (2695 (fadeout (seconds (new 'static 'bfloat :data 0.166))))
                      (10000
-                       (unless (task-closed? "city-krew-delivery-resolution") (talker-spawn "miss011"))
+                       ;; (unless (task-closed? "city-krew-delivery-resolution") (talker-spawn "miss011")) ;; <ap:preserve-this> removed talker spawn.
                        (task-close! "city-krew-delivery-resolution")
                        )
                      )
@@ -1312,7 +1312,7 @@
                          )
                        )
                      (10000
-                       (unless (task-closed? "city-meet-brutter-introduction") (talker-spawn "miss003"))
+                       ;; (unless (task-closed? "city-meet-brutter-introduction") (talker-spawn "miss003")) ;; <ap:preserve-this> removed talker spawn.
                        (task-close! "city-meet-brutter-introduction")
                        )
                      )
@@ -1444,7 +1444,7 @@
                          )
                        )
                      (10000
-                       (unless (task-closed? "city-keira-delivery-introduction") (talker-spawn "miss007"))
+                       ;; (unless (task-closed? "city-keira-delivery-introduction") (talker-spawn "miss007")) ;; <ap:preserve-this> removed talker spawn.
                        (task-close! "city-keira-delivery-introduction")
                        )
                      )
@@ -1719,7 +1719,7 @@
                          )
                        )
                      (10000
-                       (unless (task-closed? "city-krew-collection-resolution") (talker-spawn "miss002"))
+                       ;; (unless (task-closed? "city-krew-collection-resolution") (talker-spawn "miss002")) ;; <ap:preserve-this> removed talker spawn.
                        (task-close! "city-krew-collection-resolution")
                        )
                      )
