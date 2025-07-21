@@ -1071,7 +1071,7 @@
               )
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-sidekick)
+            ;; :add (game-task-node-command add-sidekick) ;; <ap:preserve-this> removed mission reward.
             )
           (new 'static 'game-task-node-info
             :level 'fortress
@@ -1220,7 +1220,7 @@
             :borrow '()
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-darkjak)
+            ;; :add (game-task-node-command add-darkjak) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-city-save-kid)
             )
           (new 'static 'game-task-node-info
@@ -1709,7 +1709,7 @@
             :borrow '((hideout 0 ltrnysam special))
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-pass-red)
+            ;; :add (game-task-node-command add-pass-red) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-fortress-dump)
             )
           (new 'static 'game-task-node-info
@@ -1869,7 +1869,7 @@
             :borrow '((ctywide 0 lpackage display) (hiphog 0 lguard special))
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-gun-red)
+            ;; :add (game-task-node-command add-gun-red) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-city-krew-delivery)
             )
           (new 'static 'game-task-node-info
@@ -2468,7 +2468,7 @@
             :borrow '()
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-gun-yellow)
+            ;; :add (game-task-node-command add-gun-yellow) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-city-get-yellow-gun)
             )
           (new 'static 'game-task-node-info
@@ -2736,7 +2736,7 @@
             :borrow '((hideout 0 ltrnysam special))
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-pass-yellow)
+            ;; :add (game-task-node-command add-pass-yellow) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-atoll-battle)
             )
           (new 'static 'game-task-node-info
@@ -3136,7 +3136,7 @@
             :borrow '((hiphog 0 lguard special))
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-pass-green)
+            ;; :add (game-task-node-command add-pass-green) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-talk-to-krew)
             )
           (new 'static 'game-task-node-info
@@ -3301,7 +3301,7 @@
             :borrow '()
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-board)
+            ;; :add (game-task-node-command add-board) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-stadium-board1)
             )
           (new 'static 'game-task-node-info
@@ -3357,7 +3357,7 @@
             :borrow '()
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-board-training)
+            ;; :add (game-task-node-command add-board-training) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-stadium-board1)
             )
           (new 'static 'game-task-node-info
@@ -3377,7 +3377,7 @@
             :borrow '()
             :open? #f
             :on-close #f
-            :add (game-task-node-command sub-board)
+            ;; :add (game-task-node-command sub-board) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-stadium-board1)
             )
           (new 'static 'game-task-node-info
@@ -3601,7 +3601,7 @@
             :borrow '((ctywide 0 lsack display) (hiphog 0 lguard special))
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-gun-up-1)
+            ;; :add (game-task-node-command add-gun-up-1) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-city-krew-collection)
             )
           (new 'static 'game-task-node-info
@@ -4306,7 +4306,7 @@
             :borrow '((hideout 0 ltrnysam special))
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-gun-blue)
+            ;; :add (game-task-node-command add-gun-blue) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-talk-to-torn)
             )
           (new 'static 'game-task-node-info
@@ -4606,7 +4606,7 @@
             :borrow '((hideout 0 ltrnysam special))
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-board)
+            ;; :add (game-task-node-command add-board) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-forest-scouts)
             )
           (new 'static 'game-task-node-info
@@ -5197,7 +5197,7 @@
             :borrow '((hiphog 0 lguard special))
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-gun-up-2)
+            ;; :add (game-task-node-command add-gun-up-2) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-talk-to-krew)
             )
           (new 'static 'game-task-node-info
@@ -6591,7 +6591,7 @@
             :borrow '()
             :open? #f
             :on-close #f
-            :add (game-task-node-command sub-sidekick)
+            ;; :add (game-task-node-command sub-sidekick) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-tomb-poles)
             )
           (new 'static 'game-task-node-info
@@ -6736,7 +6736,7 @@
             :borrow '()
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-sidekick)
+            ;; :add (game-task-node-command add-sidekick) ;; <ap:preserve-this> removed mission reward.
             )
           (new 'static 'game-task-node-info
             :level 'tomb
@@ -7040,7 +7040,7 @@
             :borrow '((hiphog 0 lguard special))
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-gun-dark)
+            ;; :add (game-task-node-command add-gun-dark) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-city-get-dark-gun)
             )
           (new 'static 'game-task-node-info
@@ -8642,7 +8642,7 @@
             :borrow '()
             :open? #f
             :on-close #f
-            :add (game-task-node-command add-gun-up-3)
+            ;; :add (game-task-node-command add-gun-up-3) ;; <ap:preserve-this> removed mission reward.
             )
           (new 'static 'game-task-node-info
             :level 'castle
@@ -9556,7 +9556,7 @@
             :borrow '()
             :open? (lambda ((arg0 game-task-node-info)) (>= (-> *game-info* gem) 25.0))
             :on-close #f
-            :add (game-task-node-command add-darkjak-0)
+            ;; :add (game-task-node-command add-darkjak-0) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-go-to-oracle)
             )
           (new 'static 'game-task-node-info
@@ -9642,7 +9642,7 @@
             :borrow '()
             :open? (lambda ((arg0 game-task-node-info)) (>= (-> *game-info* gem) 200.0))
             :on-close #f
-            :add (game-task-node-command add-darkjak-1)
+            ;; :add (game-task-node-command add-darkjak-1) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-go-to-oracle)
             )
           (new 'static 'game-task-node-info
@@ -9728,7 +9728,7 @@
             :borrow '()
             :open? (lambda ((arg0 game-task-node-info)) (>= (-> *game-info* gem) 200.0))
             :on-close #f
-            :add (game-task-node-command add-darkjak-2)
+            ;; :add (game-task-node-command add-darkjak-2) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-go-to-oracle)
             )
           (new 'static 'game-task-node-info
@@ -9814,7 +9814,7 @@
             :borrow '()
             :open? (lambda ((arg0 game-task-node-info)) (>= (-> *game-info* gem) 100.0))
             :on-close #f
-            :add (game-task-node-command add-darkjak-3)
+            ;; :add (game-task-node-command add-darkjak-3) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-go-to-oracle)
             )
           (new 'static 'game-task-node-info

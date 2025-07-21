@@ -103,7 +103,7 @@
   )
 
 (defun string->talker-speech ((arg0 string))
-  (dotimes (s5-0 465)
+  (dotimes (s5-0 talker-speech-length)  ;; <ap:preserve-this> use length from constant.
     (let ((s4-0 (-> *talker-speech* s5-0)))
       (if (string= arg0 (-> s4-0 name))
           (return s4-0)

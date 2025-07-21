@@ -67,9 +67,10 @@
     )
   )
 
+(defconstant talker-speech-length 468) ;; <ap:preserve-this> bump length for new talkers.
 
 (define *talker-speech*
-  (new 'static 'inline-array talker-speech-class 468
+  (new 'static 'inline-array talker-speech-class talker-speech-length ;; <ap:preserve-this> use length from constant.
     (new 'static 'talker-speech-class :name "none")
     (new 'static 'talker-speech-class
       :name "hal001"
