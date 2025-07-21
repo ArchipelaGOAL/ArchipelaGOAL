@@ -1143,6 +1143,7 @@
       :flags #x40
       :speech #x7e
       :text-message (text-id gun-upgrade-speed)
+      :text-duration #x5dc ;; <ap:preserve-this> added text duration for ap items.
       :delay (seconds 3)
       :neg #x1
       :on-close #f
@@ -1186,6 +1187,7 @@
       :flags #x40
       :speech #x82
       :text-message (text-id pass-red-acquired)
+      :text-duration #x5dc ;; <ap:preserve-this> added text duration for ap items.
       :delay (seconds 3)
       :neg #x1
       :on-close #f
