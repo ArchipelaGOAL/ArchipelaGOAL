@@ -1221,7 +1221,7 @@
       :speech #x85
       :text-message (text-id pass-palace-acquired)
       :text-duration #x5dc
-      :delay (seconds 10)
+      :delay (seconds 3) ;; <ap:preserve-this> who wants to wait 10 seconds? honestly.
       :neg #x1
       :on-close #f
       )
