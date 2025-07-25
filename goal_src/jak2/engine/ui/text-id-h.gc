@@ -588,6 +588,13 @@
   (scene-subtitles-disabled #x30e)
   (board-name #x30f)
   (progress-unknown-continue #x310)
+  (ruby-key-acquired #x311)
+  (heart-of-mar-acquired #x312)
+  (time-map-acquired #x313)
+  (precursor-stone-acquired #x314)
+  (life-seed-acquired #x315)
+  (titan-suit-acquired #x316)
+  (gun-turret-acquired #x317)
 
   ;; PC port IDs START
   (discord-rpc-not-in-mission #x1100)
@@ -848,6 +855,13 @@
   (progress-controller-options-enable-pressure-sensitivity #x134a)
   (progress-controller-options-swap-r1-r2 #x134b)
   (progress-controller-options-enable-trigger-effects #x134c)
+  (progress-ks-source-ruby-key #x134d)
+  (progress-ks-source-heart-of-mar #x134e)
+  (progress-ks-source-time-map #x134f)
+  (progress-ks-source-precursor-stone #x1350)
+  (progress-ks-source-life-seed #x1351)
+  (progress-ks-source-titan-suit #x1352)
+  (progress-ks-source-gun-turret #x1353)
   ;; mod text
   (pad-triangle #x2000)
   (pad-circle #x2001)

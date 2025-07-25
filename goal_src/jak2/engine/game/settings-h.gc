@@ -123,6 +123,13 @@
   (lens)
   (gear)
   (shard)
+  (ruby-key)
+  (heart-of-mar)
+  (time-map)
+  (precursor-stone)
+  (life-seed)
+  (titan-suit)
+  (gun-turret)
   )
 
 ;; DECOMP BEGINS

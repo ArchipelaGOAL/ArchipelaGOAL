@@ -247,6 +247,13 @@
   (add-lens 26)
   (add-gear 27)
   (add-shard 28)
+  (add-ruby-key 29)
+  (add-heart-of-mar 30)
+  (add-time-map 31)
+  (add-precursor-stone 32)
+  (add-life-seed 33)
+  (add-titan-suit 34)
+  (add-gun-turret 35)
   )
 
 ;; NOTE - for settings

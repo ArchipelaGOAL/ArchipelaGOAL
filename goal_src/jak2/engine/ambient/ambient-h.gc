@@ -3573,5 +3573,82 @@
       :neg #x1
       :on-close #f
       )
+    (new 'static 'talker-speech-class
+      :name "ruby001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1d4
+      :text-message (text-id ruby-key-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3) 
+      :neg #x1
+      :on-close #f
+      )
+    (new 'static 'talker-speech-class
+      :name "heart001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1d5
+      :text-message (text-id heart-of-mar-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+      )
+    (new 'static 'talker-speech-class
+      :name "time001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1d6
+      :text-message (text-id time-map-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
     )
+    (new 'static 'talker-speech-class
+      :name "stone001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1d7
+      :text-message (text-id precursor-stone-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
+    (new 'static 'talker-speech-class
+      :name "seed001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1d8
+      :text-message (text-id life-seed-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+      )
+    (new 'static 'talker-speech-class
+      :name "suit001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1d9
+      :text-message (text-id titan-suit-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
+    (new 'static 'talker-speech-class
+      :name "turret001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1da
+      :text-message (text-id gun-turret-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+      )
   )
+)
