@@ -25,131 +25,136 @@
     (('gun-yellow) 
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-gun-yellow))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "miss012"))))
+        (script-eval '(talker-spawn "miss012")) ;; blaster mod
+        ))
     (('gun-red) 
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-gun-red))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "miss011"))))
+        (script-eval '(talker-spawn "miss011")) ;; scatter gun
+        ))
     (('gun-blue) 
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-gun-blue))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "miss013"))))
+        (script-eval '(talker-spawn "miss013")) ;; vulcan barrel
+        ))
     (('gun-dark) 
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-gun-dark))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "miss014"))))
+        (script-eval '(talker-spawn "miss014")) ;; peace maker
+        ))
     (('board) 
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-board))))
         (eval-add dummy-node)
-        ;; (script-eval '(talker-spawn "miss014")) ;; TODO
-        ))
+         (script-eval '(talker-spawn "board001")) ;; jetboard
+      ))
     (('darkjak) 
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-darkjak))))
         (eval-add dummy-node)
-        ;; (script-eval '(talker-spawn "miss014")) ;; TODO
+         (script-eval '(talker-spawn "dark001")) ;; dark jak
         ))
     (('gun-upgrade-speed)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-gun-up-1))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "miss002"))))
+        (script-eval '(talker-spawn "miss002")))) ;; gun speed upgrade
     (('gun-upgrade-ammo)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-gun-up-2))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "miss003"))))
+        (script-eval '(talker-spawn "miss003")))) ;; gun ammo upgrade
     (('gun-upgrade-damage)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-gun-up-3))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "miss004"))))
+        (script-eval '(talker-spawn "miss004")))) ;; gun damage upgrade
     (('pass-red)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-pass-red))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "miss006"))))
+        (script-eval '(talker-spawn "miss006")))) ;; red security pass
     (('pass-green)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-pass-green))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "miss007"))))
+        (script-eval '(talker-spawn "miss007")))) ;; green security pass
     (('pass-yellow)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-pass-yellow))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "miss008"))))
+        (script-eval '(talker-spawn "miss008")))) ;; yellow security pass
     (('darkjak-bomb0)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-darkjak-0))))
         (eval-add dummy-node)
-        ;; (script-eval '(talker-spawn "miss014")) ;; TODO
+         (script-eval '(talker-spawn "dark002")) ;; dark bomb
         ))
     (('darkjak-bomb1)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-darkjak-1))))
         (eval-add dummy-node)
-        ;; (script-eval '(talker-spawn "miss014")) ;; TODO
+         (script-eval '(talker-spawn "dark003")) ;; dark blast
         ))
     (('darkjak-invinc)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-darkjak-2))))
         (eval-add dummy-node)
-        ;; (script-eval '(talker-spawn "miss014")) ;; TODO
+         (script-eval '(talker-spawn "dark004")) ;; dark invincibility
         ))
     (('darkjak-giant)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-darkjak-3))))
         (eval-add dummy-node)
-        ;; (script-eval '(talker-spawn "miss014")) ;; TODO
+         (script-eval '(talker-spawn "dark005")) ;; dark giant
         ))
     (('pass-purple)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-pass-purple))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "miss009"))))
+        (script-eval '(talker-spawn "miss009")))) ;; palace/purple security pass
     (('pass-black)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-pass-black))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "miss010"))))
+        (script-eval '(talker-spawn "miss010")))) ;; weapons factory/black security pass
     (('pass-air-train)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-pass-air-train))))
         (eval-add dummy-node)
-        ;; (script-eval '(talker-spawn "miss014")) ;; TODO
+        (script-eval '(talker-spawn "air001")) ;; air train pass
         ))
     (('lens)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-lens))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "lens001"))))
+        (script-eval '(talker-spawn "lens001")))) ;; mountain lens
     (('gear)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-gear))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "gear001"))))
+        (script-eval '(talker-spawn "gear001")))) ;; mountain gear
     (('shard)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-shard))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "shard001"))))
+        (script-eval '(talker-spawn "shard001")))) ;; mountain shard
     (('ruby-key)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-ruby-key))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "ruby001"))))
+        (script-eval '(talker-spawn "ruby001")) ;; ruby key
+        ))
     (('heart-of-mar)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-heart-of-mar))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "heart001"))
+        (script-eval '(talker-spawn "heart001")) ;; heart of mar
         ))
     (('time-map)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-time-map))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "time001")) ;; TODO
+        (script-eval '(talker-spawn "time001")) ;; time map
         ))
     (('precursor-stone)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-precursor-stone))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "stone001")) ;; TODO
+        (script-eval '(talker-spawn "stone001")) ;; precursor stone
         ))
     (('life-seed)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-life-seed))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "seed001")) ;; TODO
+        (script-eval '(talker-spawn "seed001")) ;; life seed
         ))
     (('titan-suit)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-titan-suit))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "suit001")) ;; TODO
+        (script-eval '(talker-spawn "suit001")) ;; titan suit
         ))
     (('gun-turret)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-gun-turret))))
         (eval-add dummy-node)
-        (script-eval '(talker-spawn "turret001")) ;; TODO
+        (script-eval '(talker-spawn "turret001")) ;; gun turret
         ))
     )
   (auto-save-command 'save 0 0 *default-pool* #f)

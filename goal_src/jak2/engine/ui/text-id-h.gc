@@ -595,6 +595,13 @@
   (life-seed-acquired #x315)
   (titan-suit-acquired #x316)
   (gun-turret-acquired #x317)
+  (board-acquired #x318)
+  (dark-jak-acquired #x319)
+  (dark-bomb-acquired #x31a)
+  (dark-blast-acquired #x31b)
+  (dark-invinc-acquired #x31c)
+  (dark-giant-acquired #x31d)
+  (pass-air-train-acquired #x31e)
 
   ;; PC port IDs START
   (discord-rpc-not-in-mission #x1100)
@@ -862,6 +869,11 @@
   (progress-ks-source-life-seed #x1351)
   (progress-ks-source-titan-suit #x1352)
   (progress-ks-source-gun-turret #x1353)
+  (progress-ks-source-dark-jak #x1355)
+  (progress-ks-source-dark-invinc #x1356)
+  (progress-ks-source-dark-giant #x1357)
+  (progress-ks-source-air-train-pass #x1358)
+
   ;; mod text
   (pad-triangle #x2000)
   (pad-circle #x2001)

@@ -67,7 +67,7 @@
     )
   )
 
-(defconstant talker-speech-length 468) ;; <ap:preserve-this> bump length for new talkers.
+(defconstant talker-speech-length 500) ;; <ap:preserve-this> bump length for new talkers.
 
 (define *talker-speech*
   (new 'static 'inline-array talker-speech-class talker-speech-length ;; <ap:preserve-this> use length from constant.
@@ -3650,5 +3650,82 @@
       :neg #x1
       :on-close #f
       )
+    (new 'static 'talker-speech-class
+      :name "board001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1db
+      :text-message (text-id board-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
+    (new 'static 'talker-speech-class
+      :name "dark001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1dc
+      :text-message (text-id dark-jak-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
+    (new 'static 'talker-speech-class
+      :name "dark002"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1dd
+      :text-message (text-id dark-bomb-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
+    (new 'static 'talker-speech-class
+      :name "dark003"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1de
+      :text-message (text-id dark-blast-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
+    (new 'static 'talker-speech-class
+      :name "dark004"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1df
+      :text-message (text-id dark-invinc-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
+    (new 'static 'talker-speech-class
+      :name "dark005"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1e0
+      :text-message (text-id dark-giant-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
+    (new 'static 'talker-speech-class
+      :name "air001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1e1
+      :text-message (text-id pass-air-train-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
   )
 )
