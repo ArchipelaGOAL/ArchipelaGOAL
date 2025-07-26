@@ -157,6 +157,42 @@
         (script-eval '(talker-spawn "turret001")) ;; gun turret
         ))
     )
-  (auto-save-command 'save 0 0 *default-pool* #f)
+  ;; (auto-save-command 'save 0 0 *default-pool* #f) ;; <ap:todo> Fails compilation because ap-struct declared too early. Any way to fix this?
   #t
+  )
+
+(defun ap-route-slums-to-port? ()
+  (or (logtest? (-> *game-info* features) (game-feature pass-red))                 ;; direct route.
+      (logtesta? (-> *game-info* features) (game-feature pass-green pass-yellow))  ;; through stadium town and farms.
+      (logtesta? (-> *game-info* features) (game-feature pass-air-train board))    ;; pumping station -> grind rails -> landing pad -> port.
+      )
+  )
+
+(defun ap-route-slums-to-stadium? ()
+  (or (logtest? (-> *game-info* features) (game-feature pass-green))                         ;; direct route.
+      (logtesta? (-> *game-info* features) (game-feature pass-red pass-yellow))              ;; through port and farms.
+      (logtesta? (-> *game-info* features) (game-feature pass-air-train board pass-yellow))  ;; pumping station + yellow pass.
+      )
+  )
+
+(defun ap-route-slums-to-market? ()
+  (or (logtesta? (-> *game-info* features) (game-feature pass-green pass-yellow))            ;; through stadium.
+      (logtesta? (-> *game-info* features) (game-feature pass-red pass-yellow))              ;; through port.
+      (logtesta? (-> *game-info* features) (game-feature pass-air-train board pass-yellow))  ;; pumping station + yellow pass.
+      )
+  )
+
+(defun ap-route-port-to-stadium? ()
+  (or (logtest? (-> *game-info* features) (game-feature pass-yellow))                        ;; direct route.
+      (logtesta? (-> *game-info* features) (game-feature pass-red pass-green))               ;; through slums.
+      (logtesta? (-> *game-info* features) (game-feature pass-air-train board pass-green))   ;; pumping station + green pass.
+      )
+  )
+
+(defun ap-route-port-to-market? ()
+  (logtest? (-> *game-info* features) (game-feature pass-yellow))  ;; there is no way into the market without yellow pass.
+  )
+
+(defun ap-route-market-to-stadium? ()
+  (logtest? (-> *game-info* features) (game-feature pass-yellow))  ;; there is no way OUT OF the market without yellow pass.
   )

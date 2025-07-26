@@ -43,7 +43,9 @@
   :trans (behavior ()
     (cond
       ((logtest? (actor-option user17) (-> self fact options))
-       (if (task-complete? *game-info* (game-task atoll-sig))
+       ;; <ap:preserve-this> replace if statement to check for atoll-battle.
+       ;; (if (task-complete? *game-info* (game-task atoll-sig))
+       (if (task-node-open? (game-task-node atoll-battle-rescue))
            (go-virtual running)
            (go-virtual dormant-down)
            )

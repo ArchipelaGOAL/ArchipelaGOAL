@@ -1167,7 +1167,9 @@
               :on-fail #f
               )
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (logtest? (-> *game-info* features) (game-feature darkjak)))
             :on-close #f
             :description (text-id progress-missions-talk-to-kor)
             )
@@ -1797,7 +1799,12 @@
             :on-open #f
             :info #f
             :borrow '((ctywide 0 lpackage display) (hideout 0 ltrnysam special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (or (logtest? (-> *game-info* features) (game-feature pass-red))
+                  (logtesta? (-> *game-info* features) (game-feature pass-green pass-yellow))
+                  )
+              )
             :on-close '(task-close! "city-vehicle-training-resolution")
             :description (text-id progress-missions-talk-to-torn)
             )
@@ -1906,7 +1913,12 @@
             :on-open #f
             :info #f
             :borrow '((hiphog 0 lguard special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature gun-red))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-city-red-gun-training)
             )
@@ -2064,7 +2076,12 @@
             :on-open #f
             :info #f
             :borrow '((hiphog 0 lguard special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature gun))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-talk-to-krew)
             )
@@ -2339,7 +2356,12 @@
             :on-open #f
             :info #f
             :borrow '((hiphog 0 lguard special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature gun))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-talk-to-krew)
             )
@@ -2499,7 +2521,12 @@
             :on-open #f
             :info #f
             :borrow '((hideout 0 ltrnysam special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature gun))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-talk-to-torn)
             )
@@ -2615,7 +2642,9 @@
             :on-open #f
             :info #f
             :borrow '((hideout 0 ltrnysam special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (logtest? (-> *game-info* features) (game-feature gun)))
             :on-close #f
             :description (text-id progress-missions-talk-to-torn)
             )
@@ -2773,7 +2802,13 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            ;; (only these 3 guns activate the upside-down platform at the start of temple.)
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-market?)
+                   (logtest? (-> *game-info* features) (game-feature gun-red gun-yellow gun-blue))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-talk-to-onin)
             )
@@ -2949,7 +2984,13 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            ;; (only these 3 guns activate the upside-down platform at the start of temple.)
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-market?)
+                   (logtest? (-> *game-info* features) (game-feature gun-red gun-yellow gun-blue))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-mountain-gear)
             )
@@ -3038,7 +3079,13 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            ;; (only these 3 guns activate the upside-down platform at the start of temple.)
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-market?)
+                   (logtest? (-> *game-info* features) (game-feature gun-red gun-yellow gun-blue))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-mountain-shard)
             )
@@ -3134,7 +3181,14 @@
             :on-open #f
             :info #f
             :borrow '((hiphog 0 lguard special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (or (logtest? (-> *game-info* features) (game-feature pass-yellow))
+                       (logtesta? (-> *game-info* features) (game-feature pass-red pass-green))
+                       )
+                   )
+              )
             :on-close #f
             ;; :add (game-task-node-command add-pass-green) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-talk-to-krew)
@@ -3257,7 +3311,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-stadium?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -3518,7 +3574,9 @@
             :on-open #f
             :info #f
             :borrow '((hiphog 0 ltess special) (ctywide 0 lsack display))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-port?))
             :on-close #f
             :description (text-id progress-missions-talk-to-krew)
             )
@@ -3626,7 +3684,12 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature gun-yellow))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-city-yellow-gun-training)
             )
@@ -3738,7 +3801,12 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature gun))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-talk-to-vin)
             )
@@ -3898,7 +3966,14 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (or (logtesta? (-> *game-info* features) (game-feature gun pass-red))
+                       (logtesta? (-> *game-info* features) (game-feature gun pass-green pass-yellow))
+                       )
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-talk-to-vin)
             )
@@ -4018,7 +4093,12 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-stadium?)
+                   (logtest? (-> *game-info* features) (game-feature gun))
+                   )
+              )
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -4076,7 +4156,12 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-stadium?)
+                   (logtest? (-> *game-info* features) (game-feature gun))
+                   )
+              )
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -4304,7 +4389,9 @@
             :on-open #f
             :info #f
             :borrow '((hideout 0 ltrnysam special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (logtest? (-> *game-info* features) (game-feature gun)))
             :on-close #f
             ;; :add (game-task-node-command add-gun-blue) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-talk-to-torn)
@@ -4471,7 +4558,12 @@
               :on-fail #f
               )
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-market?)
+                   (logtest? (-> *game-info* features) (game-feature board))
+                   )
+              )
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -4699,7 +4791,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (logtest? (-> *game-info* features) (game-feature pass-red)))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -4824,7 +4918,13 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            ;; (board is required at dig, but can also be used to get there via pumping station.)
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature board))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-talk-to-kor)
             )
@@ -4900,7 +5000,12 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature board))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-talk-to-vin)
             )
@@ -5010,7 +5115,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-port?))
             :on-close #f
             :description (text-id progress-missions-talk-to-kor)
             )
@@ -5101,9 +5208,17 @@
               :on-fail #f
               )
             :borrow '((ctywide 0 lportrun display))
+            ;; <ap:preserve-this> modify this open hook to include archipelago items.
             :open? (lambda ((arg0 game-task-node-info))
               (let ((v1-1 (level-get-target-inside *level*)))
-                (the-as symbol (and v1-1 (logtest? (-> v1-1 info level-flags) 1) (!= (-> v1-1 name) 'ctysluma)))
+                (the-as symbol 
+                  (and v1-1 
+                       (logtest? (-> v1-1 info level-flags) 1) 
+                       (!= (-> v1-1 name) 'ctysluma)
+                       (ap-route-slums-to-port?)
+                       (logtest? (-> *game-info* features) (game-feature board))
+                       )
+                  )
                 )
               )
             :on-close #f
@@ -5195,7 +5310,13 @@
             :on-open #f
             :info #f
             :borrow '((hiphog 0 lguard special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (ap-route-port-to-market?)
+                   (logtest? (-> *game-info* features) (game-feature gun))
+                   )
+              )
             :on-close #f
             ;; :add (game-task-node-command add-gun-up-2) ;; <ap:preserve-this> removed mission reward.
             :description (text-id progress-missions-talk-to-krew)
@@ -5343,7 +5464,12 @@
             :on-open #f
             :info #f
             :borrow '((hiphog 0 lguard special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature board))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-talk-to-krew)
             )
@@ -5446,7 +5572,13 @@
             :on-open #f
             :info #f
             :borrow '((hiphog 0 ltess special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (ap-route-port-to-market?)
+                   (logtest? (-> *game-info* features) (game-feature gun))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-talk-to-sig)
             )
@@ -5515,7 +5647,12 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-market?)
+                   (logtest? (-> *game-info* features) (game-feature gun darkjak))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-check-bazaar)
             )
@@ -5642,7 +5779,10 @@
             :on-open #f
             :info #f
             :borrow '((garage 0 lgarcsta #f))
-            :open? (lambda ((arg0 game-task-node-info)) (!= *kernel-boot-message* 'preview))
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            ;; :open? (lambda ((arg0 game-task-node-info)) (!= *kernel-boot-message* 'preview))
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-stadium?))
             :on-close #f
             :description (text-id progress-missions-talk-to-mechanic)
             )
@@ -5792,7 +5932,10 @@
               :on-fail #f
               )
             :borrow '()
-            :open? (lambda ((arg0 game-task-node-info)) (!= *kernel-boot-message* 'preview))
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            ;; :open? (lambda ((arg0 game-task-node-info)) (!= *kernel-boot-message* 'preview))
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (logtest? (-> *game-info* features) (game-feature gun board)))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -5959,7 +6102,13 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? (lambda ((arg0 game-task-node-info)) (!= *kernel-boot-message* 'preview))
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            ;; :open? (lambda ((arg0 game-task-node-info)) (!= *kernel-boot-message* 'preview))
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-market?)
+                   (logtest? (-> *game-info* features) (game-feature board))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-talk-to-onin)
             )
@@ -6079,7 +6228,9 @@
             :on-open #f
             :info #f
             :borrow '((hideout 0 ltrnysam special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (logtesta? (-> *game-info* features) (game-feature gun pass-red)))
             :on-close #f
             :description (text-id progress-missions-talk-to-torn)
             )
@@ -6185,7 +6336,9 @@
             :on-open #f
             :info #f
             :borrow '((onintent 0 ltentob display))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-market?))
             :on-close #f
             :description (text-id progress-missions-talk-to-onin)
             )
@@ -6367,7 +6520,13 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-market?)
+                   (logtest? (-> *game-info* features) (game-feature gun-red gun-yellow gun-blue))
+                   (logtesta? (-> *game-info* features) (game-feature board lens gear shard))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-go-to-canyon)
             )
@@ -6532,7 +6691,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-market?))
             :on-close #f
             :description (text-id progress-missions-go-to-tomb)
             )
@@ -6646,7 +6807,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-market?))
             :on-close #f
             :description (text-id progress-missions-tomb-water)
             )
@@ -6685,7 +6848,12 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-market?)
+                   (logtest? (-> *game-info* features) (game-feature gun))
+                   )
+              )
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -6734,7 +6902,12 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-market?)
+                   (logtest? (-> *game-info* features) (game-feature gun))
+                   )
+              )
             :on-close #f
             ;; :add (game-task-node-command add-sidekick) ;; <ap:preserve-this> removed mission reward.
             )
@@ -6787,7 +6960,9 @@
             :on-open #f
             :info #f
             :borrow '((hideout 0 ltrnysam special) (prison 0 lprsncst special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (logtesta? (-> *game-info* features) (game-feature gun board)))
             :on-close #f
             :description (text-id progress-missions-talk-to-torn)
             )
@@ -6875,7 +7050,12 @@
             :on-open #f
             :info #f
             :borrow '((hiphog 0 lguard special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature gun))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-talk-to-krew)
             )
@@ -7126,7 +7306,9 @@
             :on-open #f
             :info #f
             :borrow '((garage 0 lsamergd #f))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-stadium?))
             :on-close '(task-close! "stadium-race-class3-select-bush")
             :description (text-id progress-missions-talk-to-keira)
             )
@@ -7279,7 +7461,9 @@
             :on-open #f
             :info #f
             :borrow '((hideout 0 lysamsam special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (logtesta? (-> *game-info* features) (game-feature pass-red gun-blue)))
             :on-close #f
             :description (text-id progress-missions-talk-to-torn)
             )
@@ -7385,7 +7569,12 @@
             :on-open #f
             :info #f
             :borrow '((hiphog 0 lerltess special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature pass-yellow))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-talk-to-krew)
             )
@@ -7518,7 +7707,12 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature board))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-talk-to-vin)
             )
@@ -7590,7 +7784,8 @@
               :on-fail #f
               )
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) #f) ;; <ap:todo> Add Mech
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -7808,7 +8003,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? (lambda ((arg0 game-task-node-info)) (task-node-close! (game-task-node city-play-onin-game-post-game)) #t)
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            ;; :open? (lambda ((arg0 game-task-node-info)) (task-node-close! (game-task-node city-play-onin-game-post-game)) #t)
+            :open? (lambda ((arg0 game-task-node-info)) #f) ;; <ap:todo> Add Life Seed
             :on-close #f
             :description (text-id progress-missions-talk-to-onin)
             )
@@ -7988,7 +8185,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            ;; (switches on drill platform can only be hit with these two guns.)
+            :open? (lambda ((arg0 game-task-node-info)) #f) ;; <ap:todo> Add Mech
             :on-close #f
             :description (text-id progress-missions-talk-to-kor)
             )
@@ -8129,7 +8328,12 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-market?)
+                   (logtesta? (-> *game-info* features) (game-feature gun pass-yellow))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-talk-to-brutter)
             )
@@ -8243,7 +8447,9 @@
             :on-open #f
             :info #f
             :borrow '((garage 0 lsamergd special))
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-stadium?))
             :on-close '(task-close! "stadium-race-class2-select-bush")
             :description (text-id progress-missions-talk-to-keira)
             )
@@ -8364,7 +8570,8 @@
             :task (game-task palace-sneak-in)
             :name "palace-sneak-in-introduction"
             :when-open #f
-            :flags (game-task-node-flag auto-close save-on-life abs-task-mask intro-wait city-wait task-manager)
+            ;; <ap:preserve-this> removed auto-close flag.
+            :flags (game-task-node-flag save-on-life abs-task-mask intro-wait city-wait task-manager)
             :parent-node (new 'static 'array game-task-node 4
               (game-task-node stadium-race-class1-resolution)
               (game-task-node none)
@@ -8394,7 +8601,12 @@
               :on-fail #f
               )
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-market?)
+                   (logtesta? (-> *game-info* features) (game-feature gun board pass-purple))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-palace-sneak-in)
             )
@@ -8537,7 +8749,9 @@
               :on-fail #f
               )
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (logtesta? (-> *game-info* features) (game-feature gun board pass-black)))
             :on-close #f
             :description (text-id progress-missions-castle-break-in)
             )
@@ -8640,7 +8854,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (logtesta? (-> *game-info* features) (game-feature gun board pass-black)))
             :on-close #f
             ;; :add (game-task-node-command add-gun-up-3) ;; <ap:preserve-this> removed mission reward.
             )
@@ -8704,7 +8920,7 @@
               :on-fail #f
               )
             :borrow '()
-            :open? #f
+            :open? (lambda ((arg0 game-task-node-info)) #f) ;; <ap:todo> Add ???
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -8864,7 +9080,7 @@
             :on-open #f
             :info #f
             :borrow '((ctywide 1 lwideb special) (hiphog 0 lwhack special))
-            :open? #f
+            :open? (lambda ((arg0 game-task-node-info)) #f) ;; <ap:todo> Add ???
             :on-close #f
             :description (text-id progress-missions-under-find-sig)
             )
@@ -8922,7 +9138,7 @@
             :on-open #f
             :info #f
             :borrow '((ctywide 1 lwideb special))
-            :open? #f
+            :open? (lambda ((arg0 game-task-node-info)) #f) ;; <ap:todo> Add ???
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -9061,7 +9277,7 @@
               :on-fail #f
               )
             :borrow '((ctywide 1 lwideb special))
-            :open? #f
+            :open? (lambda ((arg0 game-task-node-info)) #f) ;; <ap:todo> Add ???
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -9193,7 +9409,7 @@
               :on-fail #f
               )
             :borrow '((ctywide 1 lwideb special))
-            :open? #f
+            :open? (lambda ((arg0 game-task-node-info)) #f) ;; <ap:todo> Add ???
             :on-close #f
             :description (text-id progress-missions-check-consite)
             )
@@ -9271,7 +9487,7 @@
               :on-fail #f
               )
             :borrow '((ctywide 1 lwideb special))
-            :open? #f
+            :open? (lambda ((arg0 game-task-node-info)) #f) ;; <ap:todo> Add ???
             :on-close #f
             :description (text-id progress-missions-nest-get-to-gun)
             )
@@ -9322,7 +9538,7 @@
             :on-open #f
             :info #f
             :borrow '((ctywide 1 lwideb special))
-            :open? #f
+            :open? (lambda ((arg0 game-task-node-info)) #f) ;; <ap:todo> Add ???
             :on-close #f
             :description (text-id progress-missions-nest-attack)
             )
@@ -9374,7 +9590,7 @@
             :on-open #f
             :info #f
             :borrow '((ctywide 1 lwideb special))
-            :open? #f
+            :open? (lambda ((arg0 game-task-node-info)) #f) ;; <ap:todo> Add ???
             :on-close #f
             :description (text-id progress-missions-nest-boss)
             )
@@ -9437,7 +9653,7 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            :open? (lambda ((arg0 game-task-node-info)) #f) ;; <ap:todo> Add ???
             :on-close #f
             )
           (new 'static 'game-task-node-info

@@ -41,6 +41,15 @@
         (orb-placer-maintenance)
         )
       
+      (format *stdcon0* "~S task-mask: (~S)~%"
+        (current-level-name)
+        (begin
+          (clear *temp-string*)
+          (bit-enum->string task-mask (-> (level-get-target-inside *level*) task-mask) *temp-string*)
+          *temp-string*
+          )
+        )
+
       (none)
       )
 

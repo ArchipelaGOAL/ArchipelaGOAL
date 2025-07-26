@@ -21,3 +21,15 @@
 (define-extern ap-side-mission-checked! (function uint uint))
 
 (define-extern ap-item-received! (function symbol symbol))
+
+(define-extern ap-route-slums-to-port? (function symbol))
+
+(define-extern ap-route-slums-to-stadium? (function symbol))
+
+(define-extern ap-route-slums-to-market? (function symbol))
+
+(define-extern ap-route-port-to-stadium? (function symbol))
+
+(define-extern ap-route-port-to-market? (function symbol))
+
+(define-extern ap-route-market-to-stadium? (function symbol))
