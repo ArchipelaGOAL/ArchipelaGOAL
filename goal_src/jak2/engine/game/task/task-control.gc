@@ -134,9 +134,9 @@
             (let ((node-open? (open? node)))
               (if (and (logtest? (-> node flags) (game-task-node-flag task-manager))
                        (and (-> node info) (or node-open? (and (logtest? (-> node flags) (game-task-node-flag closed))
-                                                               (not (task-node-closed? (-> node info final-node)))
-                                                               )
-                                               )
+                                     (not (task-node-closed? (-> node info final-node)))
+                                     )
+                                )
                             )
                        )
                   (script-eval '(task-manager) :key node)
@@ -282,7 +282,7 @@
           "ruins-smlcollision-task2.mb"
           "ruins-support-task2.mb"
           )
-       (and (task-complete? *game-info* (game-task ruins-tower))
+       (and ;; (task-complete? *game-info* (game-task ruins-tower)) ;; <ap:preserve-this> remove requirement to complete ruins-tower before ruins-enemy.
             (task-node-closed? (game-task-node ruins-enemy-introduction))
             )
        )
@@ -355,7 +355,7 @@
     (('sewer 'sewerb 'sewesc 'sewescb)
      (prototypes-game-visible-set!
        '("sewer-c-connect-door.mb")
-       (not (and (task-complete? *game-info* (game-task sewer-enemy))
+       (not (and ;; (task-complete? *game-info* (game-task sewer-enemy)) ;; <ap:preserve-this> remove requirement to complete sewer-enemy before sewer-board.
                  (task-node-closed? (game-task-node sewer-board-introduction))
                  (not (task-complete? *game-info* (game-task sewer-board)))
                  )
@@ -363,7 +363,7 @@
        )
      (prototypes-game-visible-set!
        '("sewer-hover-door.mb")
-       (and (task-complete? *game-info* (game-task sewer-enemy))
+       (and ;; (task-complete? *game-info* (game-task sewer-enemy)) ;; <ap:preserve-this> remove requirement to complete sewer-enemy before sewer-board.
             (task-node-closed? (game-task-node sewer-board-introduction))
             (not (task-complete? *game-info* (game-task sewer-board)))
             )
@@ -371,7 +371,9 @@
      (cond
        ((= arg0 'debug)
         )
-       ((task-complete? *game-info* (game-task sewer-board))
+       ;; <ap:preserve-this> check sewer-escort-introduction task node to set water level to correct height.
+       ;; ((task-complete? *game-info* (game-task sewer-board))
+       ((task-node-closed? (game-task-node sewer-escort-introduction))
         (set! *ocean-height-hack* (ocean-height-hack sewer-lo))
         (set-height! *ocean-map-sewer* -368050.2)
         )
@@ -1155,13 +1157,14 @@
                    )
                )
               )
-            (when (logtest? (-> node flags) (game-task-node-flag closed))
-              (dotimes (v1-31 4)
-                (if (nonzero? (-> node parent-node v1-31))
-                    (logior! (-> game-nodes (-> node parent-node v1-31) flags) (game-task-node-flag closed))
-                    )
-                )
-              )
+            ;; <ap:preserve-this> remove more percentage warping code. (screw this one in particular.)
+            ;; (when (logtest? (-> node flags) (game-task-node-flag closed))
+            ;;   (dotimes (v1-31 4)
+            ;;     (if (nonzero? (-> node parent-node v1-31))
+            ;;         (logior! (-> game-nodes (-> node parent-node v1-31) flags) (game-task-node-flag closed))
+            ;;         )
+            ;;     )
+            ;;   )
             )
           )
         )

@@ -1667,13 +1667,14 @@
                 :scene #f
                 )
               )
-            :flags (game-task-node-flag save-on-life)
+            :flags (game-task-node-flag save-on-life abs-task-mask) ;; <ap:preserve-this> Add appropriate task-mask for fortress dump.
             :parent-node (new 'static 'array game-task-node 4
               (game-task-node atoll-water-exit)
               (game-task-node none)
               (game-task-node none)
               (game-task-node none)
               )
+            :task-mask (task-mask task1) ;; <ap:preserve-this> Add appropriate task-mask for fortress dump.
             :on-open #f
             :info #f
             :borrow '((hideout 0 ltrnysam special))
@@ -4083,7 +4084,8 @@
                 :scene #f
                 )
               )
-            :flags (game-task-node-flag auto-close save-on-life)
+            ;; <ap:preserve-this> removed auto-close flag.
+            :flags (game-task-node-flag save-on-life)
             :parent-node (new 'static 'array game-task-node 4
               (game-task-node city-power-post-win)
               (game-task-node none)
@@ -5454,13 +5456,14 @@
                 :scene #f
                 )
               )
-            :flags (game-task-node-flag save-on-life)
+            :flags (game-task-node-flag save-on-life abs-task-mask) ;; <ap:preserve-this> Add appropriate task-mask for sewer drain.
             :parent-node (new 'static 'array game-task-node 4
               (game-task-node city-meet-brutter-resolution)
               (game-task-node none)
               (game-task-node none)
               (game-task-node none)
               )
+            :task-mask (task-mask task1) ;; <ap:preserve-this> Add appropriate task-mask for sewer drain.
             :on-open #f
             :info #f
             :borrow '((hiphog 0 lguard special))
@@ -7040,13 +7043,14 @@
                 :scene #f
                 )
               )
-            :flags (game-task-node-flag save-on-life)
+            :flags (game-task-node-flag save-on-life abs-task-mask) ;; <ap:preserve-this> Add appropriate task-mask for sewer escort.
             :parent-node (new 'static 'array game-task-node 4
               (game-task-node fortress-save-friends-resolution)
               (game-task-node none)
               (game-task-node none)
               (game-task-node none)
               )
+            :task-mask (task-mask task2) ;; <ap:preserve-this> Add appropriate task-mask for sewer escort.
             :on-open #f
             :info #f
             :borrow '((hiphog 0 lguard special))

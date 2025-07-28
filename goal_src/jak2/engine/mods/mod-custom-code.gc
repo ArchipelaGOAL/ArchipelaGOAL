@@ -41,12 +41,57 @@
         (orb-placer-maintenance)
         )
       
+      ;; <ap:note> comment this out/in to see active task-masks for the current level.
       (format *stdcon0* "~S task-mask: (~S)~%"
         (current-level-name)
         (begin
           (clear *temp-string*)
           (bit-enum->string task-mask (-> (level-get-target-inside *level*) task-mask) *temp-string*)
           *temp-string*
+          )
+        )
+
+      ;; <ap:todo> move all door code overrides from run-every-frame to a separate process.
+
+      ;; <ap:preserve-this> airlock doors in Jak 2 each contain logic determining which level geometry they will load
+      ;; based on the mission tree state. This logic is baked into their objects, not just the actor state machines.
+      ;; Barg's and Alex's best known way to override this behavior is to run code every frame, for each door, 
+      ;; and alter the command list baked into them. We cannot modify the car of the command list, so this may 
+      ;; involve SQL injection-like code to halt the car of the list, then we inject the desired code in the cdr.
+
+      ;; oracle
+      (let ((cty-ora-door (entity-by-name "oracle-door-3")))
+        (when cty-ora-door
+          (set! (cdr (res-lump-struct cty-ora-door 'on-notice pair)) '(#t '(oracle)))
+          )
+        )
+
+      ;; sewer
+      (let ((cty-sew-out-door (entity-by-name "com-airlock-outer-13")))
+        (when cty-sew-out-door
+          (set! (cdr (res-lump-struct cty-sew-out-door 'on-activate pair))   '(((and (task-closed? "sewer-enemy-introduction") (not (task-complete? 15))) (want-load 'sewerb 'ctyindb 'ctywide)) ((and (task-closed? "sewer-board-introduction") (not (task-complete? 40))) (want-load 'sewerb 'ctyindb 'ctywide)) ((and (task-closed? "sewer-escort-introduction") (not (task-complete? 53))) (want-load 'sewescb 'ctyindb 'ctywide))))
+          (set! (cdr (res-lump-struct cty-sew-out-door 'on-cross pair))      '(((and (task-closed? "sewer-enemy-introduction") (not (task-complete? 15))) (want-sound 'ctywide1 'ctywide2 'sewer1) '(want-vis 'sewer)) ((and (task-closed? "sewer-board-introduction") (not (task-complete? 40))) (want-sound 'ctywide1 'ctywide2 'sewer1) '(want-vis 'sewer)) ((and (task-closed? "sewer-escort-introduction") (not (task-complete? 53))) (want-sound 'ctywide1 'ctywide2 'sewer4) '(want-vis 'sewesc))))
+          (set! (cdr (res-lump-struct cty-sew-out-door 'on-deactivate pair)) '(((and (task-closed? "sewer-enemy-introduction") (not (task-complete? 15))) (want-display 'sewerb #f) (want-sound 'ctywide1 'ctywide2 'ctywide3)) ((and (task-closed? "sewer-board-introduction") (not (task-complete? 40))) (want-display 'sewerb #f) (want-sound 'ctywide1 'ctywide2 'ctywide3)) ((and (task-closed? "sewer-escort-introduction") (not (task-complete? 53))) (want-display 'sewescb #f) (want-sound 'ctywide1 'ctywide2 'ctywide3))))
+          (set! (cdr (res-lump-struct cty-sew-out-door 'on-enter pair))      '(((and (task-closed? "sewer-enemy-introduction") (not (task-complete? 15))) (want-display 'sewerb 'display) (want-sound 'ctywide1 'ctywide2 'sewer1)) ((and (task-closed? "sewer-board-introduction") (not (task-complete? 40))) (want-display 'sewerb 'display) (want-sound 'ctywide1 'ctywide2 'sewer1)) ((and (task-closed? "sewer-escort-introduction") (not (task-complete? 53))) (want-display 'sewescb 'display) (want-sound 'ctywide1 'ctywide2 'sewer4))))
+          (set! (cdr (res-lump-struct cty-sew-out-door 'on-notice pair))     '(((and (task-closed? "sewer-enemy-introduction") (not (task-complete? 15))) '(sewerb)) ((and (task-closed? "sewer-board-introduction") (not (task-complete? 40))) '(sewerb)) ((and (task-closed? "sewer-escort-introduction") (not (task-complete? 53))) '(sewescb))))
+          )
+        )
+
+      ;; fortress
+      (let ((cty-for-out-door (entity-by-name "fort-entry-gate-17"))
+            (cty-fordump-in-door (entity-by-name "fort-entry-gate-4"))
+            (cty-forresc-in-door (entity-by-name "fort-entry-gate-7")))
+        (when cty-for-out-door
+          (set! (cdr (res-lump-struct cty-for-out-door 'on-activate pair)) '(((and (task-closed? "fortress-dump-introduction") (not (task-complete? 11))) (want-load 'ctysluma 'ctywide 'fordumpa)) ((and (task-closed? "fortress-save-friends-introduction") (not (task-complete? 52))) (want-load 'ctysluma 'ctywide 'forresca))))
+          (set! (cdr (res-lump-struct cty-for-out-door 'on-cross pair))    '(((and (task-closed? "fortress-dump-introduction") (not (task-complete? 11))) (want-vis 'fordumpa)) ((and (task-closed? "fortress-save-friends-introduction") (not (task-complete? 52))) (want-vis 'forresca))))
+          (set! (cdr (res-lump-struct cty-for-out-door 'on-enter pair))    '(((and (task-closed? "fortress-dump-introduction") (not (task-complete? 11))) (want-display 'fordumpa 'display) (want-sound 'ctywide1 'ctywide2 'fordump1)) ((and (task-closed? "fortress-save-friends-introduction") (not (task-complete? 52))) (want-display 'forresca 'display) (want-sound 'ctywide1 'ctywide2 'forresc1))))
+          (set! (cdr (res-lump-struct cty-for-out-door 'on-notice pair))   '(((and (task-closed? "fortress-dump-introduction") (not (task-complete? 11))) '(fordumpa)) ((and (task-closed? "fortress-save-friends-introduction") (not (task-complete? 52))) '(forresca))))
+          )
+        (when cty-fordump-in-door
+          (set! (cdr (res-lump-struct cty-fordump-in-door 'on-deactivate pair)) '((want-sound 'fordump1 'fordump2 'fordump3)))
+          )
+        (when cty-forresc-in-door
+          (set! (cdr (res-lump-struct cty-forresc-in-door 'on-deactivate pair)) '((want-sound 'ctywide1 'forresc1 'forresc2)))
           )
         )
 
