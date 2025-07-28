@@ -216,3 +216,17 @@
 (defun ap-route-market-to-stadium? ()
   (logtest? (-> *game-info* features) (game-feature pass-yellow))  ;; there is no way OUT OF the market without yellow pass.
   )
+
+(defun ap-route-slums-to-landing? ()
+  (or (logtest? (-> *game-info* features) (game-feature board))                                   ;; pumping station.
+      (logtesta? (-> *game-info* features) (game-feature pass-red pass-air-train))                ;; through port.
+      (logtesta? (-> *game-info* features) (game-feature pass-green pass-yellow pass-air-train))  ;; through stadium town and farms.
+      )
+  )
+
+(defun ap-route-slums-to-nest? ()
+  (or (logtesta? (-> *game-info* features) (game-feature board pass-air-train))                   ;; pumping station.
+      (logtesta? (-> *game-info* features) (game-feature pass-red pass-air-train))                ;; through port.
+      (logtesta? (-> *game-info* features) (game-feature pass-green pass-yellow pass-air-train))  ;; through stadium town and farms.
+      )
+  )

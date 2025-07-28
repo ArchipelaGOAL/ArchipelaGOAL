@@ -3495,7 +3495,7 @@
           )
         )
       (1160 (fadeout (frame-time (new 'static 'bfloat :data 10.0))))
-      (10000 (task-close! "city-play-onin-game-resolution") (task-close! "canyon-insert-items-introduction"))
+      (10000 (task-close! "city-play-onin-game-resolution")) ;; (task-close! "canyon-insert-items-introduction")) <ap:preserve-this> don't start canyon mission.
       )
     :cut-list '(121 251 366 536 681 761 866 936 1021 1101)
     :wait-ground-time (seconds 1)

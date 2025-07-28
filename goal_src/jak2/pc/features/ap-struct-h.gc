@@ -33,3 +33,7 @@
 (define-extern ap-route-port-to-market? (function symbol))
 
 (define-extern ap-route-market-to-stadium? (function symbol))
+
+(define-extern ap-route-slums-to-landing? (function symbol))
+
+(define-extern ap-route-slums-to-nest? (function symbol))
