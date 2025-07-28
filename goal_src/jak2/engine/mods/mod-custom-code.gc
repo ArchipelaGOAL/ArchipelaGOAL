@@ -95,6 +95,13 @@
           )
         )
 
+      ;; mountain
+       (let ((cty-mtn-out-door (entity-by-name "com-airlock-outer-32")))
+          (when cty-mtn-out-door
+            (set! (cdr (res-lump-struct cty-mtn-out-door 'on-notice pair))   '(((or (task-closed? "mountain-lens-introduction") (task-closed? "forest-scouts-introduction") (task-closed? "forest-hunt-introduction") (task-closed? "forest-protect-introduction") (task-closed? "canyon-insert-items-introduction")) '(ctyfarma))))
+            )
+        )
+
       (none)
       )
 
