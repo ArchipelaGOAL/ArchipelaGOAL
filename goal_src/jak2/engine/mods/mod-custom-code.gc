@@ -95,19 +95,46 @@
           )
         )
 
-      ;; mountain
+      ;; mountain (affects forest, canyon)
       (let ((cty-mtn-out-door (entity-by-name "com-airlock-outer-32")))
          (when cty-mtn-out-door
            (set! (cdr (res-lump-struct cty-mtn-out-door 'on-notice pair)) '(((or (task-closed? "mountain-lens-introduction") (task-closed? "forest-scouts-introduction") (task-closed? "forest-hunt-introduction") (task-closed? "forest-protect-introduction") (task-closed? "canyon-insert-items-introduction")) '(ctyfarma))))
            )
        )
 
-      ;; hiphog
+      ;; hiphog (affects gungame, under)
       (let ((cty-hh-out-door (entity-by-name "hip-door-a-6")))
         (when cty-hh-out-door
           (set! (cdr (res-lump-struct cty-hh-out-door 'on-notice pair)) '((#t '(hiphog))))
         )
       )
+
+      ;; vinroom (affects strip, drill)
+      (let ((cty-vin-door (entity-by-name "vin-door-ctyinda-1"))
+            (vinroom-warp (entity-by-name "warp-gate-21")))
+        (when cty-vin-door
+          (set! (cdr (res-lump-struct cty-vin-door 'on-notice pair)) '(#t '(vinroom)))
+        )
+        (when vinroom-warp
+          (set! (cdr (res-lump-struct vinroom-warp 'on-notice pair)) '(((and (task-closed? "strip-rescue-introduction") (not (task-complete? 16))) '("strip-warp" (want-load 'vinroom 'strip) (strip))) ((and (task-closed? "drill-eggs-introduction") (not (task-complete? 26))) '("drill1-warp" (want-load 'vinroom 'drillmid) (drillmid))) ((and (task-closed? "city-power-introduction") (not (task-complete? 27))) #f) ((and (task-closed? "strip-grenade-introduction") (not (task-complete? 36))) '("strip-warp" (want-load 'vinroom 'strip) (strip))) ((and (task-closed? "drill-ship-introduction") (not (task-complete? 37))) '("drill-warp-gunship" (want-load 'vinroom 'drillmid) (drillmid))) ((and (task-closed? "strip-drop-introduction") (not (task-complete? 58))) '("strip-warp" (want-load 'vinroom 'strip) (strip))) ((and (task-closed? "drill-mech-introduction") (not (task-complete? 61))) '("drill3-warp" (want-load 'vinroom 'drillmid) (drillmid))) (else '("strip-warp" (want-load 'vinroom 'strip) (strip)))))
+        )
+      )
+
+      ;; dig
+      (let ((dig-elev (entity-by-name "cpad-elevator-1"))
+            (region-544 (region-lookup-by-id 544))
+            (region-549 (region-lookup-by-id 549)))
+        (when dig-elev
+          (set! (cdr (res-lump-struct dig-elev 'on-notice pair)) '(#t))
+          )
+        (when region-544
+          (set! (-> region-544 on-enter) '(cond ((and (task-closed? "dig-knock-down-introduction") (not (task-complete? 35))) (want-load 'dig1 'caspad #f) (want-sound 'dig1 'dig2 'dig3)) (else (want-load 'dig3a 'caspad #f) (want-sound 'dig6 'dig7 'dig8))))
+          )
+        (when region-549
+          (set! (-> region-549 on-enter) '(cond ((and (task-closed? "dig-knock-down-introduction") (not (task-complete? 35))) (want-display 'dig1 'display)) (else (want-display 'dig3a 'display))))
+          (set! (-> region-549 on-exit) '(cond ((and (task-closed? "dig-knock-down-introduction") (not (task-complete? 35))) (want-display 'dig1 #f)) (else (want-display 'dig3a #f))))
+          )
+        )
 
       (none)
       )

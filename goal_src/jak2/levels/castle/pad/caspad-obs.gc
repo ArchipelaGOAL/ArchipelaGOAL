@@ -136,7 +136,11 @@
 
 (defmethod activate-elevator ((this cpad-elevator))
   "Puts the elevator initially into the correct state. This is typically based upon game completion"
-  (if (task-node-closed? (game-task-node dig-knock-down-introduction))
+  ;; <ap:preserve-this> allow elevator to always be active.
+  ;; (if (task-node-closed? (game-task-node dig-knock-down-introduction))
+  (if (or (task-node-closed? (game-task-node dig-knock-down-introduction))
+          (task-node-closed? (game-task-node dig-find-totem-introduction))
+          )
       (go (method-of-object this arrived))
       (go (method-of-object this dormant))
       )
