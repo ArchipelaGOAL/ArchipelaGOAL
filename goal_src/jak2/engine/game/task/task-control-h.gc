@@ -254,6 +254,10 @@
   (add-life-seed 33)
   (add-titan-suit 34)
   (add-gun-turret 35)
+  (add-seal-piece-1 36)
+  (add-seal-piece-2 37)
+  (add-seal-piece-3 38)
+  (add-rift-rider 39)
   )
 
 ;; NOTE - for settings

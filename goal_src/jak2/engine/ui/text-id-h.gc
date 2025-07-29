@@ -602,6 +602,10 @@
   (dark-invinc-acquired #x31c)
   (dark-giant-acquired #x31d)
   (pass-air-train-acquired #x31e)
+  (seal-piece-1-acquired #x31f)
+  (seal-piece-2-acquired #x320)
+  (seal-piece-3-acquired #x321)
+  (rift-rider-acquired #x322)
 
   ;; PC port IDs START
   (discord-rpc-not-in-mission #x1100)
@@ -873,6 +877,10 @@
   (progress-ks-source-dark-invinc #x1356)
   (progress-ks-source-dark-giant #x1357)
   (progress-ks-source-air-train-pass #x1358)
+  (progress-ks-source-seal-piece-1 #x1359)
+  (progress-ks-source-seal-piece-2 #x135a)
+  (progress-ks-source-seal-piece-3 #x135b)
+  (progress-ks-source-rift-rider #x135c)
 
   ;; mod text
   (pad-triangle #x2000)

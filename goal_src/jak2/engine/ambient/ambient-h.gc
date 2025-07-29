@@ -3727,5 +3727,49 @@
       :neg #x1
       :on-close #f
     )
+    (new 'static 'talker-speech-class
+      :name "seal001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1e2
+      :text-message (text-id seal-piece-1-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
+    (new 'static 'talker-speech-class
+      :name "seal002"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1e3
+      :text-message (text-id seal-piece-2-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
+    (new 'static 'talker-speech-class
+      :name "seal003"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1e4
+      :text-message (text-id seal-piece-3-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
+    (new 'static 'talker-speech-class
+      :name "car001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1e5
+      :text-message (text-id rift-rider-acquired)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
   )
 )

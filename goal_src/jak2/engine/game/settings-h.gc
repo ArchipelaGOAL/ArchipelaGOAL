@@ -130,6 +130,10 @@
   (life-seed)
   (titan-suit)
   (gun-turret)
+  (seal-piece-1)
+  (seal-piece-2)
+  (seal-piece-3)
+  (rift-rider)
   )
 
 ;; DECOMP BEGINS

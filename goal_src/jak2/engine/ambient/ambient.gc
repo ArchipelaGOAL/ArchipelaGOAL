@@ -208,6 +208,10 @@
 
 (defbehavior talker-init talker ((arg0 talker-speech-class) (arg1 vector) (arg2 region))
   (set! (-> self trans quad) (-> arg1 quad))
+  (let ((name (-> arg0 name)))
+    (case-str name
+      (("lens001" "shard001" "gear001" "ruby001" "heart001" "time001" "stone001" "seed001" "suit001" "turret001" "board001" "dark001" "dark002" "dark003" "dark004" "dark005" "air001" "seal001" "seal002" "seal003" "car001")
+        (set! name "miss001")))
   (let ((v1-2 (shr (the-as int (-> arg0 channel)) 4)))
     (if (not (or (or (= v1-2 4) (= v1-2 5))
                  (or (not (-> *setting-control* user-current play-hints))
@@ -216,7 +220,7 @@
                  )
              )
         (set! (-> self voice-id)
-              (add-process *gui-control* self (-> arg0 channel) (gui-action queue) (-> arg0 name) 81920.0 0)
+        (add-process *gui-control* self (-> arg0 channel) (gui-action queue) name 81920.0 0)
               )
         )
     )
@@ -234,13 +238,14 @@
                                        (gui-channel message)
                                        )
                                    (gui-action play)
-                                   (-> arg0 name)
+                                   name
                                    81920.0
                                    0
                                    )
             )
       )
     )
+  )
   (set! (-> self message) arg0)
   (set! (-> self region) arg2)
   (set! (-> self total-time) 0)

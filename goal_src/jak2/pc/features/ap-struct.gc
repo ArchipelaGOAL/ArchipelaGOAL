@@ -156,6 +156,26 @@
         (eval-add dummy-node)
         (script-eval '(talker-spawn "turret001")) ;; gun turret
         ))
+    (('seal-piece-1)
+      (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-seal-piece-1))))
+        (eval-add dummy-node)
+        (script-eval '(talker-spawn "seal001")) ;; seal piece 1
+        ))
+    (('seal-piece-2)
+      (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-seal-piece-2))))
+        (eval-add dummy-node)
+        (script-eval '(talker-spawn "seal002")) ;; seal piece 2
+        ))
+    (('seal-piece-3)
+      (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-seal-piece-3))))
+        (eval-add dummy-node)
+        (script-eval '(talker-spawn "seal003")) ;; seal piece 3
+        ))
+    (('rift-rider)
+      (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-rift-rider))))
+        (eval-add dummy-node)
+        (script-eval '(talker-spawn "car001")) ;; rift rider
+        ))
     )
   ;; (auto-save-command 'save 0 0 *default-pool* #f) ;; <ap:todo> Fails compilation because ap-struct declared too early. Any way to fix this?
   #t
