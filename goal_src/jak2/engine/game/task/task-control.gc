@@ -357,7 +357,9 @@
     (('ctypal)
      (prototypes-game-visible-set!
        '("ctyp-statue-wall-breakable.mb")
-       (not (task-node-closed? (game-task-node canyon-insert-items-shard)))
+       ;; <ap:preserve-this> change this to check for tomb access.
+       ;; (not (task-node-closed? (game-task-node canyon-insert-items-shard)))
+       (not (task-node-closed? (game-task-node tomb-poles-introduction)))
        )
      (prototypes-game-visible-set!
        '("ctyp-statue-rubble-a.mb" "ctyp-statue-rubble-b.mb" "ctyp-statue-rubble-big-a.mb")

@@ -146,10 +146,11 @@
         (when air-train-land
           (set! (cdr (res-lump-struct air-train-land 'on-notice pair)) '(((not (has-air-train?)) 'hide) (else '("ctyport-warp" (scene-play '("caspad-air-train-in" "city-air-train-out")) #f (want-anim "caspad-air-train-in")))))
           )
-        (when air-train-nest
-          (set! (cdr (res-lump-struct air-train-nest 'on-notice pair)) '((cond ((not (has-air-train?)) 'hide) (else '("ctyport-warp" (scene-play '("nest-air-train-in" "city-air-train-out")) #f (want-anim "nest-air-train-in"))))))
-          )
-      )
+        ;; <ap:todo> this one does not work.
+        ;; (when air-train-nest
+        ;;   (set! (cdr (res-lump-struct air-train-nest 'on-notice pair)) '((cond ((not (has-air-train?)) 'hide) (else '("ctyport-warp" (scene-play '("nest-air-train-in" "city-air-train-out")) #f (want-anim "nest-air-train-in"))))))
+        ;;   )
+        )
 
       (none)
       )

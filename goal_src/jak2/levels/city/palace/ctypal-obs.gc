@@ -145,8 +145,11 @@ This commonly includes things such as:
 (defstate idle (ctypal-broke-wall)
   :virtual #t
   :trans (behavior ()
-    (when (task-node-closed? (game-task-node canyon-insert-items-resolution))
-      (format 0 "~A canyon-insert-items-resolution done~%" (-> self name))
+    ;; <ap:preserve-this> check for the opening of the tomb instead.
+    ;; (when (task-node-closed? (game-task-node canyon-insert-items-resolution))
+    ;;   (format 0 "~A canyon-insert-items-resolution done~%" (-> self name))
+    (when (task-node-closed? (game-task-node tomb-poles-introduction))
+      (format 0 "~A tomb-poles-introduction done~%" (-> self name))
       (process-drawable-from-entity! self (the-as entity-actor (-> self ent)))
       (go-virtual done)
       )
