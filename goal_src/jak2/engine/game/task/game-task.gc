@@ -6530,7 +6530,7 @@
             ;; (board has enough speed to bypass floating platform that needs gun.) 
             :open? (lambda ((arg0 game-task-node-info)) 
               (and (ap-route-slums-to-market?)
-                   (logtesta? (-> *game-info* features) (game-feature board lens gear shard))
+                   (logtesta? (-> *game-info* features) (game-feature board seal-piece-1 seal-piece-2 seal-piece-3))
                    )
               )
             :on-close #f
@@ -6699,7 +6699,10 @@
             :borrow '()
             ;; <ap:preserve-this> added open hook to check for archipelago items.
             :open? (lambda ((arg0 game-task-node-info)) 
-              (ap-route-slums-to-market?))
+              (and (ap-route-slums-to-market?)
+                   (logtesta? (-> *game-info* features) (game-feature lens gear shard))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-go-to-tomb)
             )
@@ -6815,7 +6818,10 @@
             :borrow '()
             ;; <ap:preserve-this> added open hook to check for archipelago items.
             :open? (lambda ((arg0 game-task-node-info)) 
-              (ap-route-slums-to-market?))
+              (and (ap-route-slums-to-market?)
+                   (logtesta? (-> *game-info* features) (game-feature lens gear shard))
+                   )
+              )
             :on-close #f
             :description (text-id progress-missions-tomb-water)
             )
@@ -6911,7 +6917,7 @@
             ;; <ap:preserve-this> added open hook to check for archipelago items.
             :open? (lambda ((arg0 game-task-node-info)) 
               (and (ap-route-slums-to-market?)
-                   (logtest? (-> *game-info* features) (game-feature gun))
+                   (logtesta? (-> *game-info* features) (game-feature gun lens gear shard))
                    )
               )
             :on-close #f
@@ -9316,7 +9322,7 @@
             ;; <ap:preserve-this> added open hook to check for archipelago items.
             :open? (lambda ((arg0 game-task-node-info)) 
               (and (ap-route-slums-to-stadium?)
-                   (logtesta? (-> *game-info* features) (game-feature gun heart-of-mar time-map))
+                   (logtesta? (-> *game-info* features) (game-feature gun heart-of-mar time-map rift-rider))
                    )
               )
             :on-close #f
@@ -9646,7 +9652,7 @@
             ;; <ap:preserve-this> added open hook to check for archipelago items.
             :open? (lambda ((arg0 game-task-node-info)) 
               (and (ap-route-slums-to-nest?)
-                   (logtesta? (-> *game-info* features) (game-feature gun precursor-stone darkjak))
+                   (logtesta? (-> *game-info* features) (game-feature gun precursor-stone darkjak rift-rider heart-of-mar time-map))
                    )
               )
             :on-close #f
