@@ -3322,6 +3322,12 @@
         )
   )
 
+(let ((ap-scon (-> *script-form* 85)))
+  (set! (-> ap-scon name) 'has-air-train?)
+  (set! (-> ap-scon spec) '((return macro (boolean)) (function macro (symbol))))
+  (set! (-> ap-scon func) (lambda ((arg0 script-context)) (logtest? (-> *game-info* features) (game-feature pass-air-train))))
+  )
+
 (let ((v1-182 (new 'global 'script-context (process->ppointer pp) pp (the-as vector #f))))
   (set! (-> v1-182 side-effect?) #f)
   (set! *syntax-context* v1-182)

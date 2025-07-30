@@ -136,6 +136,21 @@
           )
         )
 
+      ;; air trains
+      (let ((air-train-port (entity-by-name "air-train-1"))
+            (air-train-land (entity-by-name "air-train-3"))
+            (air-train-nest (entity-by-name "air-train-4")))
+        (when air-train-port
+          (set! (cdr (res-lump-struct air-train-port 'on-notice pair)) '(((not (has-air-train?)) 'hide) ((task-closed? "dig-knock-down-introduction") '("caspad-warp" (scene-play '("city-air-train-in-caspad" "caspad-air-train-out")) #f (want-anim "city-air-train-in-caspad"))) ((task-closed? "dig-find-totem-introduction") '("caspad-warp" (scene-play '("city-air-train-in-caspad" "caspad-air-train-out")) #f (want-anim "city-air-train-in-caspad"))) ((task-closed? "nest-get-to-gun-introduction") '("nest-warp" (scene-play '("city-air-train-in-nest" "nest-air-train-out")) #f (want-anim "city-air-train-in-nest")))  (else '("caspad-warp" (scene-play '("city-air-train-in-caspad" "caspad-air-train-out")) #f (want-anim "city-air-train-in-caspad")))))
+          )
+        (when air-train-land
+          (set! (cdr (res-lump-struct air-train-land 'on-notice pair)) '(((not (has-air-train?)) 'hide) (else '("ctyport-warp" (scene-play '("caspad-air-train-in" "city-air-train-out")) #f (want-anim "caspad-air-train-in")))))
+          )
+        (when air-train-nest
+          (set! (cdr (res-lump-struct air-train-nest 'on-notice pair)) '((cond ((not (has-air-train?)) 'hide) (else '("ctyport-warp" (scene-play '("nest-air-train-in" "city-air-train-out")) #f (want-anim "nest-air-train-in"))))))
+          )
+      )
+
       (none)
       )
 
