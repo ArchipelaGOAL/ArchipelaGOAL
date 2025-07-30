@@ -43,15 +43,15 @@
       
       ;; <ap:note> comment this out/in to show to testers.
       (when *debug-segment*
-        (format *stdcon0* "~4LArchipelaGOAL II - Test Build~0L~%Found a bug? Send us a screenshot with this information!~%~%")
-        (format *stdcon0* "~4Lgame-features:~0L ~S~%"
+        (format *stdcon* "~4LArchipelaGOAL II - Test Build~0L~%Found a bug? Send us a screenshot with this information!~%~%")
+        (format *stdcon* "~4Lgame features:~0L ~S~%"
           (begin
             (clear *temp-string*)
             (bit-enum->string game-feature (-> *game-info* features) *temp-string*)
             *temp-string*
             )
           )
-        (format *stdcon0* "~4Lcurrent-level:~0L ~S~%~4Ltask-masks:~0L    ~S~%"
+        (format *stdcon* "~4Lcurrent level:~0L ~S~%~4Ltask masks:~0L    ~S~%"
           (current-level-name)
           (begin
             (clear *temp-string*)
