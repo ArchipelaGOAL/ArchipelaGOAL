@@ -43,15 +43,15 @@
       
       ;; <ap:note> comment this out/in to show to testers.
       (when *debug-segment*
-        (format *stdcon* "~4LArchipelaGOAL II - Test Build~0L~%Found a bug? Send us a screenshot with this information!~%~%")
-        (format *stdcon* "~4Lgame features:~0L ~S~%"
+        (format *stdcon0* "~%~4LArchipelaGOAL II - Test Build~0L~%Found a bug? Send us a screenshot with this information!~%~%")
+        (format *stdcon0* "~4Lgame features:~0L ~S~%"
           (begin
             (clear *temp-string*)
             (bit-enum->string game-feature (-> *game-info* features) *temp-string*)
             *temp-string*
             )
           )
-        (format *stdcon* "~4Lcurrent level:~0L ~S~%~4Ltask masks:~0L    ~S~%"
+        (format *stdcon0* "~4Lcurrent level:~0L ~S~%~4Ltask masks:~0L    ~S~%"
           (current-level-name)
           (begin
             (clear *temp-string*)
@@ -59,7 +59,28 @@
             *temp-string*
             )
           )
-        )
+        (format *stdcon0* "~4Lcurrent tasks:~0L~%~%")
+        (let ((level (level-get-target-inside *level*)))
+          (when level
+            (let ((lvlname (-> level info taskname))
+                  (subtasks (-> *game-info* sub-task-list)))
+              (dotimes (i (-> subtasks length))
+                (when (nonzero? i)
+                  (let ((subtask (-> subtasks i)))
+                    (when (= (-> subtask level) lvlname)
+                      (case lvlname
+                        (('city) ;; too many missions in city, we need to only display open ones.
+                          (if (open? subtask) 
+                            (format *stdcon0* "  ~17L~S~0L~%" (-> subtask name))))
+                        (else
+                          (cond
+                            ((logtest? (-> subtask flags) (game-task-node-flag closed))
+                              (format *stdcon0* "  ~15L~S~0L~%" (-> subtask name)))
+                            ((open? subtask)
+                              (format *stdcon0* "  ~17L~S~0L~%" (-> subtask name)))
+                            (else
+                              (format *stdcon0* "  ~19L~S~0L~%" (-> subtask name)))))))))))))
+          )
 
       ;; <ap:todo> move all door code overrides from run-every-frame to a separate process.
 

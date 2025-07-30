@@ -2271,7 +2271,7 @@
       (set! (-> self post-hook) #f))
     (until #f
       (if *debug-segment*
-          (format *stdcon* "task-manager: alive task ~A~%" (game-task->string (-> self node-info task)))
+          (format *stdcon0* "task-manager: alive task ~A~%" (game-task->string (-> self node-info task)))
           )
       (suspend)
       )
@@ -2280,7 +2280,7 @@
   ;; og:preserve-this added this so we can see it during the code-hook
   :post (behavior ()
     (if *debug-segment*
-        (format *stdcon* "task-manager: alive in code task ~A~%" (game-task->string (-> self node-info task)))
+        (format *stdcon0* "task-manager: alive in code task ~A~%" (game-task->string (-> self node-info task)))
         )
     )
   )
