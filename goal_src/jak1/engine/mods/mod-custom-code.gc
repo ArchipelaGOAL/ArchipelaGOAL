@@ -197,12 +197,12 @@
                   (if (= (-> *ap-info-jak1* completion-goal) (the-as uint (game-task max)))
                     100.0
                     (-> *ap-info-jak1* lava-tube-unlock)))
-                  (draw-message (string-format "~S ~3L~S~0L ~S ~12L~S~0L" verb item dir player) bottom i)
-                  (draw-message (string-format "~S ~6L~S~0L ~S ~12L~S~0L" verb item dir player) bottom i)))
+                  (draw-message (string-format "~S ~6L~S~0L ~S ~12L~S~0L" verb item dir player) bottom i)
+                  (draw-message (string-format "~S ~8L~S~0L ~S ~12L~S~0L" verb item dir player) bottom i)))
               ((or (string= *temp-string* "ORBS") (string= *temp-string* " ORB"))
                 (if (> (-> *game-info* money) (+ (* 6 (-> *ap-info-jak1* oracle-orb-amount)) (* 9 (-> *ap-info-jak1* citizen-orb-amount))))
-                  (draw-message (string-format "~S ~3L~S~0L ~S ~12L~S~0L" verb item dir player) bottom i)
-                  (draw-message (string-format "~S ~6L~S~0L ~S ~12L~S~0L" verb item dir player) bottom i)))
+                  (draw-message (string-format "~S ~6L~S~0L ~S ~12L~S~0L" verb item dir player) bottom i)
+                  (draw-message (string-format "~S ~8L~S~0L ~S ~12L~S~0L" verb item dir player) bottom i)))
               (else (draw-message (string-format "~S ~8L~S~0L ~S ~12L~S~0L" verb item dir player) bottom i)))))))))
 
 (defstate ap-messenger-show (ap-messenger)
