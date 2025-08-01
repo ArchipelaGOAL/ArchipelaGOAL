@@ -338,6 +338,10 @@
    )
   )
 
+(deftype menu-go-home-qr-option (menu-qr-option)
+  ((next-state  symbol)
+   )
+  )
 
 (deftype menu-sub-menu-qr-option (menu-qr-option)
   ((next-state  symbol)

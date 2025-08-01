@@ -290,6 +290,7 @@
     :options (new 'static 'boxed-array :type menu-option
       (new 'static 'menu-restart-mission-qr-option :name (text-id progress-root-restart-mission) :scale #t)
       (new 'static 'menu-quit-qr-option :name (text-id progress-quit) :scale #t)
+      (new 'static 'menu-go-home-qr-option :name (text-id progress-go-home) :scale #t)
       )
     )
   )

@@ -606,6 +606,7 @@
   (seal-piece-2-acquired #x320)
   (seal-piece-3-acquired #x321)
   (rift-rider-acquired #x322)
+  (progress-go-home #x323)
 
   ;; PC port IDs START
   (discord-rpc-not-in-mission #x1100)

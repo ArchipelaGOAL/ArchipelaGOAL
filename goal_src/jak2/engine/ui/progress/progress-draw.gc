@@ -6199,7 +6199,7 @@
     (let ((v1-4 arg1))
       (set! (-> v1-4 scale) 0.75)
       )
-    (+! (-> arg1 origin y) 45.0)
+    (+! (-> arg1 origin y) 25.0)
     (set! (-> arg1 height) 35.0)
     (let ((s4-0 (&-> *progress-state* yes-no-choice)))
       (set! a0-12
@@ -6256,6 +6256,80 @@
        )
       (else
         (draw-decoration this arg1 f30-0 (text-id progress-restart-quit) #f 0.95)
+        )
+      )
+    )
+  0
+  (none)
+  )
+
+(defmethod draw-option ((this menu-go-home-qr-option) (arg0 progress) (arg1 font-context) (arg2 int) (arg3 symbol))
+  (local-vars (a0-12 string))
+  (let ((f30-0 (* 2.0 (- 0.5 (-> arg0 menu-transition)))))
+    (if (< f30-0 0.0)
+        (set! f30-0 0.0)
+        )
+    (set! (-> arg1 alpha) f30-0)
+    (let ((v1-4 arg1))
+      (set! (-> v1-4 scale) 0.75)
+      )
+    (+! (-> arg1 origin y) 45.0)
+    (set! (-> arg1 height) 35.0)
+    (let ((s4-0 (&-> *progress-state* yes-no-choice)))
+      (set! a0-12
+            (cond
+              ((and (= (-> *progress-state* qr-options-item-selected) 2) (-> *progress-state* qr-options-item-picked))
+               (let ((a0-3 arg1))
+                 (set! (-> a0-3 color) (font-color progress-force-selected))
+                 )
+               (draw-highlight (the int (+ -2.0 (-> arg1 origin y))) 50 f30-0)
+               (print-game-text (lookup-text! *common-text* (-> this name) #f) arg1 #f 44 (bucket-id progress))
+               (+! (-> arg1 origin y) 25.0)
+               (let ((v1-18 arg1))
+                 (set! (-> v1-18 scale) 0.6)
+                 )
+               (cond
+                 ((-> s4-0 0)
+                  (format
+                    (clear *temp-string*)
+                    "~33L~S~32L ~S"
+                    (lookup-text! *common-text* (text-id progress-yes) #f)
+                    (lookup-text! *common-text* (text-id progress-no) #f)
+                    )
+                  (set! a0-12 *temp-string*)
+                  )
+                 (else
+                   (format
+                     (clear *temp-string*)
+                     "~32L~S ~33L~S~1L"
+                     (lookup-text! *common-text* (text-id progress-yes) #f)
+                     (lookup-text! *common-text* (text-id progress-no) #f)
+                     )
+                   (set! a0-12 *temp-string*)
+                   )
+                 )
+               a0-12
+               )
+              (else
+                (if (and (= (-> arg0 option-index) arg2) (= (-> *progress-state* qr-options-item-selected) 2))
+                    (draw-highlight (the int (+ -2.0 (-> arg1 origin y))) 26 f30-0)
+                    )
+                (format (clear *temp-string*) "~S" (lookup-text! *common-text* (-> this name) #f))
+                *temp-string*
+                )
+              )
+            )
+      )
+    (print-game-text a0-12 arg1 #f 44 (bucket-id progress))
+    (cond
+      ((text-language? french) ;; og:preserve-this text-language patch
+       (draw-decoration this arg1 f30-0 (text-id progress-go-home) #f 0.8)
+       )
+      ((text-language? german) ;; og:preserve-this text-language patch
+       (draw-decoration this arg1 f30-0 (text-id progress-go-home) #f 0.7)
+       )
+      (else
+        (draw-decoration this arg1 f30-0 (text-id progress-go-home) #f 0.95)
         )
       )
     )
