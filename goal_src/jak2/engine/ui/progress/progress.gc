@@ -3709,6 +3709,7 @@
   "Handle progress menu navigation logic."
   (-> *progress-state* qr-options-restart)
   (-> *progress-state* qr-options-quit)
+  (-> *progress-state* qr-options-go-home)
   (cond
     ((= (-> *progress-state* qr-options-item-picked) #f)
      (set! (-> arg0 selected-option) #f)
@@ -3812,6 +3813,14 @@
         (update-restart-quit this arg0 #t)
         )
        ((and (= (-> *progress-state* qr-options-item-selected) 1) (cpad-pressed? 0 right l-analog-right))
+        (sound-play "generic-beep")
+        (update-restart-quit this arg0 #t)
+        )
+       ((and (= (-> *progress-state* qr-options-item-selected) 2) (cpad-pressed? 0 left l-analog-left))
+        (sound-play "generic-beep")
+        (update-restart-quit this arg0 #t)
+        )
+       ((and (= (-> *progress-state* qr-options-item-selected) 2) (cpad-pressed? 0 right l-analog-right))
         (sound-play "generic-beep")
         (update-restart-quit this arg0 #t)
         )
