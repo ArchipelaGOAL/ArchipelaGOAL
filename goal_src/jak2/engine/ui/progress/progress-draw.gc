@@ -6323,14 +6323,12 @@
     (print-game-text a0-12 arg1 #f 44 (bucket-id progress))
     (cond
       ((text-language? french) ;; og:preserve-this text-language patch
-       (draw-decoration this arg1 f30-0 (text-id progress-go-home) #f 0.8)
+       (draw-decoration this arg1 f30-0 (text-id progress-restart-quit) #f 0.8)
        )
       ((text-language? german) ;; og:preserve-this text-language patch
-       (draw-decoration this arg1 f30-0 (text-id progress-go-home) #f 0.7)
+       (draw-decoration this arg1 f30-0 (text-id progress-restart-quit) #f 0.7)
        )
-      (else
-        (draw-decoration this arg1 f30-0 (text-id progress-go-home) #f 0.95)
-        )
+        (draw-decoration this arg1 f30-0 (text-id progress-restart-quit) #f 0.95)
       )
     )
   0
