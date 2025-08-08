@@ -1387,7 +1387,8 @@
             :info #f
             :borrow '()
             :open? #f
-            :on-close #f
+            ;; <ap:preserve-this> just get this out of the way.
+            :on-close '(task-close! "city-vehicle-training-resolution")
             :description (text-id progress-missions-talk-to-torn)
             )
           (new 'static 'game-task-node-info
