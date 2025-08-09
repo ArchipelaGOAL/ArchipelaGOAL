@@ -1387,7 +1387,8 @@
             :info #f
             :borrow '()
             :open? #f
-            :on-close #f
+            ;; <ap:preserve-this> just get this out of the way.
+            :on-close '(task-close! "city-vehicle-training-resolution")
             :description (text-id progress-missions-talk-to-torn)
             )
           (new 'static 'game-task-node-info
@@ -4487,7 +4488,12 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature gun-blue))
+                   )
+              )
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -7251,7 +7257,12 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature gun-dark))
+                   )
+              )
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -10309,7 +10320,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-port?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -10383,7 +10396,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-port?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -10531,7 +10546,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-stadium?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -10605,10 +10622,14 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? (lambda ((arg0 game-task-node-info)) (or (not (task-node-closed? (game-task-node forest-scouts-resolution)))
-                                                     (task-node-closed? (game-task-node city-escort-kid-resolution))
-                                                     )
-                    )
+            ;; <ap:preserve-this> replaced open hook to check for archipelago items.
+            ;; :open? (lambda ((arg0 game-task-node-info)) 
+            ;;   (or (not (task-node-closed? (game-task-node forest-scouts-resolution)))
+            ;;       (task-node-closed? (game-task-node city-escort-kid-resolution))
+            ;;       )
+            ;;   )
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (logtesta? (-> *game-info* features) (game-feature pass-red pass-yellow)))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -10681,7 +10702,12 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature pass-yellow))
+                   )
+              )
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -10755,7 +10781,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-market?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -10829,7 +10857,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-market?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -10909,7 +10939,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (logtesta? (-> *game-info* features) (game-feature pass-red pass-yellow)))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -10982,7 +11014,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-market?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -11056,7 +11090,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-market?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -11130,7 +11166,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-stadium?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -11204,7 +11242,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-stadium?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -11277,7 +11317,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-port?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -11351,7 +11393,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-stadium?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -11425,7 +11469,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (logtest? (-> *game-info* features) (game-feature pass-red)))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -11498,7 +11544,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-market?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -11571,7 +11619,12 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-market?)
+                   (logtest? (-> *game-info* features) (game-feature pass-yellow))
+                   )
+              )
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -11644,7 +11697,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (logtest? (-> *game-info* features) (game-feature pass-green)))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -11718,7 +11773,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-stadium?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -11792,7 +11849,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-market?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -11866,7 +11925,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-market?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -11940,7 +12001,12 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (and (ap-route-slums-to-port?)
+                   (logtest? (-> *game-info* features) (game-feature pass-yellow))
+                   )
+              )
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -12014,7 +12080,9 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            ;; <ap:preserve-this> added open hook to check for archipelago items.
+            :open? (lambda ((arg0 game-task-node-info)) 
+              (ap-route-slums-to-port?))
             :on-close #f
             )
           (new 'static 'game-task-node-info
@@ -12075,7 +12143,7 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            :open? #f ;; ^^ TODO
             :on-close '(begin
                (when (task-closed? "stadium-race-class3-resolution")
                  (task-open! "stadium-burning-bush-race-class3-introduction")
@@ -12157,7 +12225,7 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            :open? #f ;; ^^ TODO
             :on-close '(begin
                (when (task-closed? "stadium-board1-resolution")
                  (task-open! "stadium-burning-bush-race-board-introduction")
@@ -12234,7 +12302,7 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            :open? #f ;; ^^ TODO
             :on-close '(begin
                (when (task-closed? "stadium-board1-resolution")
                  (task-open! "stadium-burning-bush-race-board-introduction")
@@ -12311,7 +12379,7 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? #f
+            :open? #f ;; ^^ TODO
             :on-close '(begin
                (when (task-closed? "stadium-board1-resolution")
                  (task-open! "stadium-burning-bush-race-board-introduction")
@@ -12388,7 +12456,7 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? (lambda ((arg0 game-task-node-info)) (logtest? (-> *game-info* secrets) (game-secrets reverse-races)))
+            :open? (lambda ((arg0 game-task-node-info)) (logtest? (-> *game-info* secrets) (game-secrets reverse-races))) ;; ^^ TODO
             :on-close '(begin
                (task-open! "stadium-burning-bush-race-board-introduction")
                (task-open! "stadium-burning-bush-race-class2-introduction")
@@ -12459,7 +12527,7 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? (lambda ((arg0 game-task-node-info)) (logtest? (-> *game-info* secrets) (game-secrets reverse-races)))
+            :open? (lambda ((arg0 game-task-node-info)) (logtest? (-> *game-info* secrets) (game-secrets reverse-races))) ;; ^^ TODO
             :on-close '(begin
                (task-open! "stadium-burning-bush-race-board-introduction")
                (task-open! "stadium-burning-bush-race-class3-introduction")
@@ -12530,7 +12598,7 @@
             :on-open #f
             :info #f
             :borrow '()
-            :open? (lambda ((arg0 game-task-node-info)) (logtest? (-> *game-info* secrets) (game-secrets reverse-races)))
+            :open? (lambda ((arg0 game-task-node-info)) (logtest? (-> *game-info* secrets) (game-secrets reverse-races))) ;; ^^ TODO
             :on-close '(begin
                (task-open! "stadium-burning-bush-race-board-introduction")
                (task-open! "stadium-burning-bush-race-class3-introduction")
