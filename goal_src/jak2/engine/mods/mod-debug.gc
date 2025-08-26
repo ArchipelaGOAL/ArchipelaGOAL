@@ -25,6 +25,13 @@
 
       (debug-menu-append-item modding-tools-menu (new-dm-submenu "Orb Placer" orb-placer-menu))
       )
+    
+    ;; ArchipelaGOAL submenu
+    (let ((archipelagoal-menu (new 'debug 'debug-menu ctx "ArchipelaGOAL")))
+      (debug-menu-append-item archipelagoal-menu (new-dm-bool "Show Test Build Info" *show-test-build-info* dm-boolean-toggle-pick-func))
+      (debug-menu-append-item modding-tools-menu (new-dm-submenu "ArchipelaGOAL" archipelagoal-menu))
+      )
+    
     (new-dm-submenu "Modding Tools" modding-tools-menu)
     )
   )
