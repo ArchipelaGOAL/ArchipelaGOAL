@@ -2,15 +2,42 @@
 (in-package goal)
 
 (define *ap-info-jak2* (new 'static 'ap-info-jak2))
+(pc-get-archipelago-struct)
 
+;; Debug: Print initialization status
+(format 0 "Archipelago struct initialized at address: ~X~%" *ap-info-jak2*)
+
+;; Initialize connection status to default (0)
+(set! (-> *ap-info-jak2* connection-status) (ap-connection-status default))
 
 ;; Setup markers
 (charp<-string (-> *ap-info-jak2* end-marker) "end")
 
+;; Debug: Verify end marker was set
+(string<-charp (clear *temp-string*) (the-as (pointer uint8) (-> *ap-info-jak2* end-marker)))
+(format 0 "Archipelago end marker set to: ~S~%" *temp-string*)
+
 ;; ****************************************************************************
 ;; **** This number must match expected_memory_version in MemoryReader.py! ****
 ;; ****************************************************************************
-(set! (-> *ap-info-jak2* version) 1)
+(set! (-> *ap-info-jak2* version) 2)
+
+;; Debug: Verify version was set
+(format 0 "Archipelago version set to: ~D~%" (-> *ap-info-jak2* version))
+
+;; Debug: Print structure size for memory reader alignment
+(format 0 "Archipelago structure size: ~D bytes~%" (size-of ap-info-jak2))
+
+;; NOTE: Array field offsets cannot be calculated using & operator in GOAL
+;; If memory reader needs exact offsets, they should be calculated manually:
+;; - version: offset 0 (uint32 = 4 bytes)
+;; - next-mission-index: offset 4 (uint = 4 bytes)
+;; - next-side-mission-index: offset 8 (uint = 4 bytes)
+;; - missions-checked: offset 12 (uint32[70] = 280 bytes)
+;; - side-missions-checked: offset 292 (uint32[24] = 96 bytes)
+;; - connection-status: offset 388 (ap-connection-status/uint32 = 4 bytes)
+;; - end-marker: offset 392 (uint8[4] = 4 bytes)
+(format 0 "Structure layout documented in comments above for memory reader~%")
 
 (defun ap-mission-checked! ((mission-id uint))
   (set! (-> *ap-info-jak2* missions-checked (-> *ap-info-jak2* next-mission-index)) mission-id)
@@ -20,34 +47,67 @@
   (set! (-> *ap-info-jak2* side-missions-checked (-> *ap-info-jak2* next-side-mission-index)) side-mission-id)
   (+! (-> *ap-info-jak2* next-side-mission-index) 1.0))
 
+(defun ap-set-connection-status! ((status ap-connection-status))
+  "Set the Archipelago connection status. Returns the status that was set."
+  (set! (-> *ap-info-jak2* connection-status) status)
+  status)
+
+(defun ap-draw-connection-status ()
+  "Draw the current Archipelago connection status on screen every frame"
+  ;; Safety check: only draw if both required globals are initialized
+  (when (and *ap-info-jak2* *common-text*)
+    (case (-> *ap-info-jak2* connection-status)
+      (((ap-connection-status default))
+       (format *stdcon0* "~%~4L~S~0L~%" (lookup-text! *common-text* (text-id ap-connecting) #f)))
+      (((ap-connection-status wait))
+       (format *stdcon0* "~%~4L~S~0L~%" (lookup-text! *common-text* (text-id ap-waiting-for-items) #f)))
+      (((ap-connection-status failure))
+       (format *stdcon0* "~%~4L~S~0L~%" (lookup-text! *common-text* (text-id ap-connection-failed) #f)))
+      ;; No message for ready status - connection is successful
+      ))
+  (none))
+
+
+;; Debug function to test connection status display
+(defun ap-debug-test-connection-status ()
+  "Cycle through connection status values for testing display"
+  (case (-> *ap-info-jak2* connection-status)
+    (((ap-connection-status default)) (ap-set-connection-status! (ap-connection-status wait)))
+    (((ap-connection-status wait)) (ap-set-connection-status! (ap-connection-status failure)))
+    (((ap-connection-status failure)) (ap-set-connection-status! (ap-connection-status ready)))
+    (((ap-connection-status ready)) (ap-set-connection-status! (ap-connection-status default)))
+    (else (ap-set-connection-status! (ap-connection-status default))))
+  (format 0 "Archipelago connection status set to: ~D~%" (-> *ap-info-jak2* connection-status))
+  (none))
+
 (defun ap-item-received! ((item symbol))
   (case item
-    (('gun-yellow) 
+    (('gun-yellow)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-gun-yellow))))
         (eval-add dummy-node)
         (script-eval '(talker-spawn "miss012")) ;; blaster mod
         ))
-    (('gun-red) 
+    (('gun-red)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-gun-red))))
         (eval-add dummy-node)
         (script-eval '(talker-spawn "miss011")) ;; scatter gun
         ))
-    (('gun-blue) 
+    (('gun-blue)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-gun-blue))))
         (eval-add dummy-node)
         (script-eval '(talker-spawn "miss013")) ;; vulcan barrel
         ))
-    (('gun-dark) 
+    (('gun-dark)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-gun-dark))))
         (eval-add dummy-node)
         (script-eval '(talker-spawn "miss014")) ;; peace maker
         ))
-    (('board) 
+    (('board)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-board))))
         (eval-add dummy-node)
          (script-eval '(talker-spawn "board001")) ;; jetboard
       ))
-    (('darkjak) 
+    (('darkjak)
       (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-darkjak))))
         (eval-add dummy-node)
          (script-eval '(talker-spawn "dark001")) ;; dark jak

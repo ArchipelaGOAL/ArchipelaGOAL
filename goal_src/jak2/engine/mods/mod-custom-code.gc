@@ -37,9 +37,13 @@
         (input-display-off)
         )
 
+
       (when *debug-segment*
         (orb-placer-maintenance)
         )
+      
+      ;; Draw Archipelago connection status
+      (ap-draw-connection-status)
       
       ;; <ap:note> comment this out/in to show to testers.
       (when (and *debug-segment* *show-test-build-info*)

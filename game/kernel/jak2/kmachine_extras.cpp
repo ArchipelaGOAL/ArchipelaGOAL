@@ -203,8 +203,14 @@ void init_autosplit_struct() {
 }
 
 void init_archipelago_struct() {
-  g_archipelago_block_jak2.pointer_to_symbol =
-      (u64)g_ee_main_mem + (u64)intern_from_c("*ap-info-jak2*")->value();
+  auto symbol_val = intern_from_c("*ap-info-jak2*")->value();
+  g_archipelago_block_jak2.pointer_to_symbol = (u64)g_ee_main_mem + (u64)symbol_val;
+  
+  // Debug output
+  printf("Archipelago: symbol value: 0x%lx\n", (u64)symbol_val);
+  printf("Archipelago: g_ee_main_mem: 0x%p\n", g_ee_main_mem);
+  printf("Archipelago: final pointer: 0x%lx\n", g_archipelago_block_jak2.pointer_to_symbol);
+  printf("Archipelago: marker string: %s\n", g_archipelago_block_jak2.marker);
 }
 
 
