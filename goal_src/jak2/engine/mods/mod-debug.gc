@@ -29,6 +29,33 @@
     ;; ArchipelaGOAL submenu
     (let ((archipelagoal-menu (new 'debug 'debug-menu ctx "ArchipelaGOAL")))
       (debug-menu-append-item archipelagoal-menu (new-dm-bool "Show Test Build Info" *show-test-build-info* dm-boolean-toggle-pick-func))
+      
+      ;; Archipelago Debug Functions
+      (debug-menu-append-item archipelagoal-menu (new-dm-func "Show Mission Completion Status" #f ap-debug-show-task-states))
+      (debug-menu-append-item archipelagoal-menu (new-dm-func "Test Mission Completion Detection" #f ap-debug-test-mission-completion))
+      (debug-menu-append-item archipelagoal-menu (new-dm-func "Show Memory Structure Status" #f 
+                                                      (lambda ()
+                                                        (format 0 "~%~%===============================================~%")
+                                                        (format 0 "ARCHIPELAGO MEMORY STRUCTURE STATUS~%")
+                                                        (format 0 "===============================================~%")
+                                                        (format 0 "Archipelago struct address: ~X~%" *ap-info-jak2*)
+                                                        (format 0 "Structure version: ~D~%" (-> *ap-info-jak2* version))
+                                                        (format 0 "Connection status: ~D (~A)~%"
+                                                          (-> *ap-info-jak2* connection-status)
+                                                          (case (-> *ap-info-jak2* connection-status)
+                                                            (((ap-connection-status default)) "Connecting")
+                                                            (((ap-connection-status wait)) "Waiting for items")
+                                                            (((ap-connection-status failure)) "Connection failed")
+                                                            (((ap-connection-status ready)) "Ready")
+                                                            (else "Unknown")))
+                                                        (format 0 "Next mission index: ~D~%" (-> *ap-info-jak2* next-mission-index))
+                                                        (format 0 "Next side mission index: ~D~%" (-> *ap-info-jak2* next-side-mission-index))
+                                                        (format 0 "Structure size: ~D bytes~%" (size-of ap-info-jak2))
+                                                        (format 0 "===============================================~%~%")
+                                                        (none))))
+      (debug-menu-append-item archipelagoal-menu (new-dm-func "Toggle Archipelago Debug Mode" #f ap-debug-test-connection-status))
+      (debug-menu-append-item archipelagoal-menu (new-dm-func "Force Mission Complete (for testing)" #f ap-debug-test-task-resolution))
+      
       (debug-menu-append-item modding-tools-menu (new-dm-submenu "ArchipelaGOAL" archipelagoal-menu))
       )
     

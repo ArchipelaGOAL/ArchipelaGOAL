@@ -4,8 +4,12 @@
 (define *ap-info-jak2* (new 'static 'ap-info-jak2))
 (pc-get-archipelago-struct)
 
-;; Debug: Print initialization status
+;; Debug: Print initialization status with prominent visibility
+(format 0 "============================================~%")
+(format 0 "ARCHIPELAGO SYSTEM INITIALIZING~%")
+(format 0 "============================================~%")
 (format 0 "Archipelago struct initialized at address: ~X~%" *ap-info-jak2*)
+(format 0 "Memory struct size: ~D bytes~%" (size-of ap-info-jak2))
 
 ;; Initialize connection status to default (0)
 (set! (-> *ap-info-jak2* connection-status) (ap-connection-status default))
@@ -24,6 +28,9 @@
 
 ;; Debug: Verify version was set
 (format 0 "Archipelago version set to: ~D~%" (-> *ap-info-jak2* version))
+(format 0 "============================================~%")
+(format 0 "ARCHIPELAGO INITIALIZATION COMPLETE~%")
+(format 0 "============================================~%")
 
 ;; Debug: Print structure size for memory reader alignment
 (format 0 "Archipelago structure size: ~D bytes~%" (size-of ap-info-jak2))
@@ -40,12 +47,26 @@
 (format 0 "Structure layout documented in comments above for memory reader~%")
 
 (defun ap-mission-checked! ((mission-id uint))
+  (format 0 "~%~%*************************************************~%")
+  (format 0 "*** ARCHIPELAGO MISSION COMPLETION DETECTED ***~%")
+  (format 0 "*************************************************~%")
+  (format 0 "Mission ID: ~D~%" mission-id)
+  (format 0 "Index in array: ~D~%" (-> *ap-info-jak2* next-mission-index))
+  (format 0 "Total missions tracked: ~D~%" (+ (-> *ap-info-jak2* next-mission-index) 1))
+  (format 0 "*************************************************~%~%")
   (set! (-> *ap-info-jak2* missions-checked (-> *ap-info-jak2* next-mission-index)) mission-id)
-  (+! (-> *ap-info-jak2* next-mission-index) 1.0))
+  (+! (-> *ap-info-jak2* next-mission-index) 1))
 
 (defun ap-side-mission-checked! ((side-mission-id uint))
+  (format 0 "~%~%**************************************************~%")
+  (format 0 "*** ARCHIPELAGO SIDE MISSION COMPLETION DETECTED ***~%")
+  (format 0 "**************************************************~%")
+  (format 0 "Side Mission ID: ~D~%" side-mission-id)
+  (format 0 "Index in array: ~D~%" (-> *ap-info-jak2* next-side-mission-index))
+  (format 0 "Total side missions tracked: ~D~%" (+ (-> *ap-info-jak2* next-side-mission-index) 1))
+  (format 0 "**************************************************~%~%")
   (set! (-> *ap-info-jak2* side-missions-checked (-> *ap-info-jak2* next-side-mission-index)) side-mission-id)
-  (+! (-> *ap-info-jak2* next-side-mission-index) 1.0))
+  (+! (-> *ap-info-jak2* next-side-mission-index) 1))
 
 (defun ap-set-connection-status! ((status ap-connection-status))
   "Set the Archipelago connection status. Returns the status that was set."
@@ -67,6 +88,48 @@
       ))
   (none))
 
+;; Debug function to manually test mission completion tracking
+(defun ap-debug-test-mission-completion ()
+  "Test function to manually trigger mission completion debug output"
+  (format 0 "~%~%===============================================~%")
+  (format 0 "TESTING ARCHIPELAGO MISSION COMPLETION SYSTEM~%")
+  (format 0 "===============================================~%")
+  (format 0 "Current mission index: ~D~%" (-> *ap-info-jak2* next-mission-index))
+  (format 0 "Current side mission index: ~D~%" (-> *ap-info-jak2* next-side-mission-index))
+  (format 0 "Testing mission completion...~%")
+  (ap-mission-checked! (the-as uint 1))  ;; fortress-escape
+  (format 0 "Testing side mission completion...~%")
+  (ap-side-mission-checked! (the-as uint 100))  ;; dummy side mission
+  (format 0 "===============================================~%")
+  (format 0 "TEST COMPLETE - Check output above~%")
+  (format 0 "===============================================~%~%")
+  (none))
+
+;; Debug function to manually test task resolution close
+(defun ap-debug-test-task-resolution ()
+  "Test function to manually call task-resolution-close! to see debug output"
+  (format 0 "~%~%===============================================~%")
+  (format 0 "TESTING TASK-RESOLUTION-CLOSE! DIRECTLY~%")
+  (format 0 "===============================================~%")
+  (format 0 "Calling task-resolution-close! with fortress-escape...~%")
+  (task-resolution-close! (game-task fortress-escape))
+  (format 0 "===============================================~%")
+  (format 0 "TEST COMPLETE - Check output above~%")
+  (format 0 "===============================================~%~%")
+  (none))
+
+;; Debug function to show current task states
+(defun ap-debug-show-task-states ()
+  "Show current completion state of some key missions"
+  (format 0 "~%~%===============================================~%")
+  (format 0 "CURRENT TASK STATES~%")
+  (format 0 "===============================================~%")
+  (format 0 "fortress-escape complete?: ~A~%" (task-complete? *game-info* (game-task fortress-escape)))
+  (format 0 "city-help-kid complete?: ~A~%" (task-complete? *game-info* (game-task city-help-kid)))
+  (format 0 "city-vehicle-training complete?: ~A~%" (task-complete? *game-info* (game-task city-vehicle-training)))
+  (format 0 "Game task counter: ~D~%" (-> *game-info* task-counter))
+  (format 0 "===============================================~%~%")
+  (none))
 
 ;; Debug function to test connection status display
 (defun ap-debug-test-connection-status ()
@@ -77,7 +140,18 @@
     (((ap-connection-status failure)) (ap-set-connection-status! (ap-connection-status ready)))
     (((ap-connection-status ready)) (ap-set-connection-status! (ap-connection-status default)))
     (else (ap-set-connection-status! (ap-connection-status default))))
-  (format 0 "Archipelago connection status set to: ~D~%" (-> *ap-info-jak2* connection-status))
+  (format 0 "~%~%===============================================~%")
+  (format 0 "ARCHIPELAGO DEBUG MODE TOGGLE~%")
+  (format 0 "===============================================~%")
+  (format 0 "Connection status changed to: ~D~%" (-> *ap-info-jak2* connection-status))
+  (format 0 "Status meaning: ~A~%" 
+    (case (-> *ap-info-jak2* connection-status)
+      (((ap-connection-status default)) "Connecting to Archipelago")
+      (((ap-connection-status wait)) "Waiting for items from other players")
+      (((ap-connection-status failure)) "Connection failed - check client")
+      (((ap-connection-status ready)) "Connected and ready")
+      (else "Unknown status")))
+  (format 0 "===============================================~%~%")
   (none))
 
 (defun ap-item-received! ((item symbol))

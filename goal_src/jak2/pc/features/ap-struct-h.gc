@@ -40,6 +40,12 @@
 
 (define-extern ap-debug-test-connection-status (function none))
 
+(define-extern ap-debug-test-mission-completion (function none))
+
+(define-extern ap-debug-test-task-resolution (function none))
+
+(define-extern ap-debug-show-task-states (function none))
+
 (define-extern ap-route-slums-to-port? (function symbol))
 
 (define-extern ap-route-slums-to-stadium? (function symbol))
