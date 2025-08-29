@@ -468,6 +468,7 @@ This gives us more freedom to write code how we want.
      (archipelagoal-ii-item-tracker)))
 
 (defmacro archipelagoal-ii-item-tracker ()
+  ;; TODO: Review and reorder items to match the typical acquisition order in base Jak 2 gameplay for better user experience
   `(progress-new-generic-scrolling-page (text-id progress-menu-item-tracker)
      ;; Weapons
      (new 'static 'menu-generic-boolean-option
