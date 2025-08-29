@@ -310,6 +310,9 @@
         (eval-add dummy-node)
         (script-eval '(talker-spawn "car001")) ;; rift rider
         ))
+    (('dark-eco-pill)
+     (script-eval '(talker-spawn "136d")) ;; dark eco pill filler item
+     )
     )
   ;; (auto-save-command 'save 0 0 *default-pool* #f) ;; <ap:todo> Fails compilation because ap-struct declared too early. Any way to fix this?
   #t

@@ -901,6 +901,7 @@
   (progress-menu-item-tracker #x136a)
   (progress-unlocked #x136b)
   (progress-locked #x136c)
+  (ap-filler-dark-eco-pill #x136d)
 
   ;; mod text
   (pad-triangle #x2000)
