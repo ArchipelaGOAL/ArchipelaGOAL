@@ -606,7 +606,13 @@
   (seal-piece-2-acquired #x320)
   (seal-piece-3-acquired #x321)
   (rift-rider-acquired #x322)
+<<<<<<< HEAD
   (progress-go-home #x323)
+=======
+  (ap-connecting #x323)
+  (ap-waiting-for-items #x324)
+  (ap-connection-failed #x325)
+>>>>>>> remotes/stealth-archipelagoal-ii/jak2
 
   ;; PC port IDs START
   (discord-rpc-not-in-mission #x1100)
@@ -882,6 +888,24 @@
   (progress-ks-source-seal-piece-2 #x135a)
   (progress-ks-source-seal-piece-3 #x135b)
   (progress-ks-source-rift-rider #x135c)
+  
+  ;; ArchipelaGOAL item tracker text IDs
+  (progress-memcard-blaster #x135f)
+  (progress-memcard-scatter-gun #x1360)
+  (progress-memcard-vulcan-fury #x1361)
+  (progress-memcard-peace-maker #x1362)
+  (progress-memcard-jet-board #x1363)
+  (progress-memcard-titan-suit #x1364)
+  (progress-memcard-dark-jak #x1365)
+  (progress-memcard-dark-bomb #x1366)
+  (progress-memcard-dark-blast #x1367)
+  (progress-memcard-dark-giant #x1368)
+  
+  (progress-menu-archipelagoal-ii #x1369)
+  (progress-menu-item-tracker #x136a)
+  (progress-unlocked #x136b)
+  (progress-locked #x136c)
+  (ap-filler-dark-eco-pill #x136d)
 
   ;; mod text
   (pad-triangle #x2000)

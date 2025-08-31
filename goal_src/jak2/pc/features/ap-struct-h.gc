@@ -1,6 +1,15 @@
 ;;-*-Lisp-*-
 (in-package goal)
 
+;; Connection status enum for Archipelago
+(defenum ap-connection-status
+  :type uint32
+  (default 0)
+  (wait 1)
+  (failure 2)
+  (ready 3)
+  )
+
 (deftype ap-info-jak2 (structure)
     (;; Memory Struct Version
     (version              uint32)
@@ -10,6 +19,9 @@
     (next-side-mission-index         uint)
     (missions-checked                uint32 70)
     (side-missions-checked           uint32 24)
+
+    ;; Connection Status (added at end for compatibility)
+    (connection-status               ap-connection-status)
 
     ;; End Marker
     (end-marker           uint8 4)))
@@ -21,6 +33,18 @@
 (define-extern ap-side-mission-checked! (function uint uint))
 
 (define-extern ap-item-received! (function symbol symbol))
+
+(define-extern ap-set-connection-status! (function ap-connection-status ap-connection-status))
+
+(define-extern ap-draw-connection-status (function none))
+
+(define-extern ap-debug-test-connection-status (function none))
+
+(define-extern ap-debug-test-mission-completion (function none))
+
+(define-extern ap-debug-test-task-resolution (function none))
+
+(define-extern ap-debug-show-task-states (function none))
 
 (define-extern ap-route-slums-to-port? (function symbol))
 

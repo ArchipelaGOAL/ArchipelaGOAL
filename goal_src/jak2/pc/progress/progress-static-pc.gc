@@ -463,6 +463,138 @@ This gives us more freedom to write code how we want.
           (load-level-text-files (the-as int (-> *pc-settings* text-language)))
           (pc-settings-save))))
 
+(defmacro game-options-pc-archipelagoal-ii ()
+  `(progress-new-generic-link (text-id progress-menu-archipelagoal-ii)
+     (archipelagoal-ii-item-tracker)))
+
+(defmacro archipelagoal-ii-item-tracker ()
+  ;; TODO: Review and reorder items to match the typical acquisition order in base Jak 2 gameplay for better user experience
+  `(progress-new-generic-scrolling-page (text-id progress-menu-item-tracker)
+     ;; Weapons
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-memcard-blaster)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature gun-yellow)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-memcard-scatter-gun)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature gun-red)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-memcard-vulcan-fury)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature gun-blue)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-memcard-peace-maker)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature gun-dark)))
+       :should-disable? (lambda () #t))
+     ;; Equipment
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-memcard-jet-board)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature board)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-memcard-titan-suit)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature titan-suit)))
+       :should-disable? (lambda () #t))
+     ;; Dark Jak Powers
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-memcard-dark-jak)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature darkjak)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-memcard-dark-bomb)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature darkjak-bomb0)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-memcard-dark-blast)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature darkjak-bomb1)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-memcard-dark-giant)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature darkjak-giant)))
+       :should-disable? (lambda () #t))
+     ;; Key Items
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-ks-source-ruby-key)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature ruby-key)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-ks-source-heart-of-mar)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature heart-of-mar)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-ks-source-time-map)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature time-map)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-ks-source-precursor-stone)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature precursor-stone)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-ks-source-life-seed)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature life-seed)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-ks-source-air-train-pass)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature pass-air-train)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-ks-source-seal-piece-1)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature seal-piece-1)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-ks-source-seal-piece-2)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature seal-piece-2)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-ks-source-seal-piece-3)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature seal-piece-3)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-ks-source-rift-rider)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature rift-rider)))
+       :should-disable? (lambda () #t))))
+
 (defmacro misc-options-pc-discord-rpc ()
   `(new 'static 'menu-generic-boolean-option
         :name (text-id progress-discord-rpc)
@@ -495,6 +627,7 @@ This gives us more freedom to write code how we want.
 
 (define *game-options-pc*
   (progress-new-generic-scrolling-page (text-id progress-root-game-options)
+    (game-options-pc-archipelagoal-ii)
     (game-options-pc-input-options)
     (game-options-pc-subtitle-toggle)
     (game-options-pc-hint-subtitle-toggle)
@@ -508,6 +641,7 @@ This gives us more freedom to write code how we want.
 
 (define *game-options-title-pc*
   (progress-new-generic-scrolling-page (text-id progress-root-game-options)
+    (game-options-pc-archipelagoal-ii)
     (game-options-pc-input-options)
     (game-options-pc-subtitle-toggle)
     (game-options-pc-hint-subtitle-toggle)
