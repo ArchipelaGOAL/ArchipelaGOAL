@@ -16,17 +16,21 @@
   "Given a field name in the archipelago struct, and a [[game-task]] name to check, sets either a 0 or a 1"
   `(begin
     (if (!= (-> this ,field-name) (if (task-complete? *game-info* (game-task ,task-name)) 1 0))
-      (format 0 "ARCHIPELAGO for ~A~%" (quote ,task-name)))
+      (format 0 "ARCHIPELAGO MISSION COMPLETED: ~A (enum value: ~D)~%" (quote ,task-name) (game-task ,task-name)))
     (set! (-> this ,field-name) (if (task-complete? *game-info* (game-task ,task-name)) 1 0))))
 
 (defmacro archipelago-flag-task-node-closed! (field-name task-node-name)
-  "Given a field name in the archi[e;agp struct, and a [[game-task-node]] name to check, sets either a 0 or a 1"
+  "Given a field name in the archipelago struct, and a [[game-task-node]] name to check, sets either a 0 or a 1"
   `(begin
     (if (!= (-> this ,field-name) (if (task-node-closed? (game-task-node ,task-node-name)) 1 0))
-      (format 0 "ARCHIPELAGO for ~A~%" (quote ,task-node-name)))
+      (format 0 "ARCHIPELAGO TASK NODE CLOSED: ~A (enum value: ~D)~%" (quote ,task-node-name) (game-task-node ,task-node-name)))
     (set! (-> this ,field-name) (if (task-node-closed? (game-task-node ,task-node-name)) 1 0))))
 
 (defmethod update! ((this archipelago-info))
+  ;; Add heartbeat debug every 5 seconds (300 frames at 60fps)
+  (when (= (mod (-> *display* frame-counter) 300) 0)
+    (format 0 "ARCHIPELAGO HEARTBEAT: Frame ~D, System running~%" (-> *display* frame-counter)))
+  
   ;; general statistics
   ;; when we are blacked out in loads the value of these are temporarily 0, and that messes with the auto splitter.
   (let ((in-blackout? (>= (-> *game-info* blackout-time) (current-time))))

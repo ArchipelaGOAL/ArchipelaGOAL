@@ -37,12 +37,16 @@
         (input-display-off)
         )
 
+
       (when *debug-segment*
         (orb-placer-maintenance)
         )
       
+      ;; Draw Archipelago connection status
+      (ap-draw-connection-status)
+      
       ;; <ap:note> comment this out/in to show to testers.
-      (when *debug-segment*
+      (when (and *debug-segment* *show-test-build-info*)
         (format *stdcon0* "~%~4LArchipelaGOAL II - Test Build~0L~%Found a bug? Send us a screenshot with this information!~%~%")
         (format *stdcon0* "~4Lgame features:~0L ~S~%"
           (begin

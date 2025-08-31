@@ -3771,5 +3771,16 @@
       :neg #x1
       :on-close #f
     )
+    (new 'static 'talker-speech-class
+      :name "136d"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1e6
+      :text-message (text-id ap-filler-dark-eco-pill)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
   )
 )
