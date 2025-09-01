@@ -68,6 +68,17 @@
   (set! (-> *ap-info-jak2* side-missions-checked (-> *ap-info-jak2* next-side-mission-index)) side-mission-id)
   (+! (-> *ap-info-jak2* next-side-mission-index) 1))
 
+(defun ap-orb-checked! ((actor-id uint))
+  (format 0 "~%~%*************************************************~%")
+  (format 0 "*** ARCHIPELAGO PRECURSOR ORB COLLECTION DETECTED ***~%")
+  (format 0 "*************************************************~%")
+  (format 0 "Orb ID: ~D~%" actor-id)
+  (format 0 "Index in array: ~D~%" (-> *ap-info-jak2* next-orb-index))
+  (format 0 "Total orbs tracked: ~D~%" (+ (-> *ap-info-jak2* next-orb-index) 1))
+  (format 0 "*************************************************~%~%")
+  (set! (-> *ap-info-jak2* orbs-checked (-> *ap-info-jak2* next-orb-index)) actor-id)
+  (+! (-> *ap-info-jak2* next-orb-index) 1))
+
 (defun ap-set-connection-status! ((status ap-connection-status))
   "Set the Archipelago connection status. Returns the status that was set."
   (set! (-> *ap-info-jak2* connection-status) status)

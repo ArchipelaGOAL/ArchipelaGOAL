@@ -190,6 +190,23 @@
 
       (none)
       )
+    
+    (defun runs-on-orb-pickup ((orb-id uint) (parent process-tree))
+      ;; Code here runs on any precursor orb pickup
+
+      (format 0 "~%~%*************************************************~%")
+      (format 0 "*** ARCHIPELAGO PRECURSOR ORB COLLECTION DETECTED ***~%")
+      (format 0 "*************************************************~%")
+      (format 0 "Orb ID: ~D~%" orb-id)
+      (format 0 "Index in array: ~D~%" (-> *ap-info-jak2* next-orb-index))
+      (format 0 "Total orbs tracked: ~D~%" (+ (-> *ap-info-jak2* next-orb-index) 1))
+      (format 0 "*************************************************~%~%")
+
+      ;; Mark the orb as collected in the ap-info structure
+      (ap-orb-checked! orb-id)
+
+      (none)
+    )
 
     (defun runs-on-gem-pickup ()
       ;; Code here runs on any scout fly pickup

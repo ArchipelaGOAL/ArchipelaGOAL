@@ -285,12 +285,10 @@
   "320": "Brutter's Seal Piece Acquired",
   "321": "Onin's Seal Piece Acquired",
   "322": "Rift Rider Acquired",
-<<<<<<< HEAD
   "323": "Go to Hideout",
-=======
-  "323": "ArchipelaGOAL: Connecting...",
-  "324": "ArchipelaGOAL: Waiting for Items...",
-  "325": "ArchipelaGOAL: Connection Failed!",
+  "324": "ArchipelaGOAL: Connecting...",
+  "325": "ArchipelaGOAL: Waiting for Items...",
+  "326": "ArchipelaGOAL: Connection Failed!",
   "1369": "ArchipelaGOAL-II",
   "136a": "Item Tracker",
   "136b": "Unlocked",
@@ -307,7 +305,6 @@
   "1366": "Dark Bomb",
   "1367": "Dark Blast",
   "1368": "Dark Giant",
->>>>>>> remotes/stealth-archipelagoal-ii/jak2
 
   "134c": "Trigger Effects",
   "2000": "<PAD_TRIANGLE>",

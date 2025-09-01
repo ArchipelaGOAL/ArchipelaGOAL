@@ -20,6 +20,10 @@
     (missions-checked                uint32 70)
     (side-missions-checked           uint32 24)
 
+    ;; Precursor Orb Information
+    (next-orb-index                       uint)
+    (orbs-checked                    uint32 286)
+
     ;; Connection Status (added at end for compatibility)
     (connection-status               ap-connection-status)
 
@@ -31,6 +35,8 @@
 (define-extern ap-mission-checked! (function uint uint))
 
 (define-extern ap-side-mission-checked! (function uint uint))
+
+(define-extern ap-orb-checked! (function uint uint))
 
 (define-extern ap-item-received! (function symbol symbol))
 
