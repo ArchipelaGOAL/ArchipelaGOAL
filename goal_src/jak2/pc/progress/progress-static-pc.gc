@@ -472,66 +472,72 @@ This gives us more freedom to write code how we want.
   `(progress-new-generic-scrolling-page (text-id progress-menu-item-tracker)
      ;; Weapons
      (new 'static 'menu-generic-boolean-option
-       :name (text-id progress-memcard-blaster)
-       :truthy-text (text-id progress-unlocked)
-       :falsey-text (text-id progress-locked)
-       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature gun-yellow)))
-       :should-disable? (lambda () #t))
-     (new 'static 'menu-generic-boolean-option
-       :name (text-id progress-memcard-scatter-gun)
+       :name (text-id progress-ks-source-gun-red)
        :truthy-text (text-id progress-unlocked)
        :falsey-text (text-id progress-locked)
        :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature gun-red)))
        :should-disable? (lambda () #t))
      (new 'static 'menu-generic-boolean-option
-       :name (text-id progress-memcard-vulcan-fury)
+       :name (text-id progress-ks-source-gun-yellow)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature gun-yellow)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-ks-source-gun-blue)
        :truthy-text (text-id progress-unlocked)
        :falsey-text (text-id progress-locked)
        :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature gun-blue)))
        :should-disable? (lambda () #t))
      (new 'static 'menu-generic-boolean-option
-       :name (text-id progress-memcard-peace-maker)
+       :name (text-id progress-ks-source-gun-dark)
        :truthy-text (text-id progress-unlocked)
        :falsey-text (text-id progress-locked)
        :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature gun-dark)))
        :should-disable? (lambda () #t))
      ;; Equipment
      (new 'static 'menu-generic-boolean-option
-       :name (text-id progress-memcard-jet-board)
+       :name (text-id progress-ks-source-board)
        :truthy-text (text-id progress-unlocked)
        :falsey-text (text-id progress-locked)
        :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature board)))
        :should-disable? (lambda () #t))
      (new 'static 'menu-generic-boolean-option
-       :name (text-id progress-memcard-titan-suit)
+       :name (text-id progress-ks-source-titan-suit)
        :truthy-text (text-id progress-unlocked)
        :falsey-text (text-id progress-locked)
        :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature titan-suit)))
        :should-disable? (lambda () #t))
      ;; Dark Jak Powers
      (new 'static 'menu-generic-boolean-option
-       :name (text-id progress-memcard-dark-jak)
+       :name (text-id progress-ks-source-dark-jak)
        :truthy-text (text-id progress-unlocked)
        :falsey-text (text-id progress-locked)
        :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature darkjak)))
        :should-disable? (lambda () #t))
      (new 'static 'menu-generic-boolean-option
-       :name (text-id progress-memcard-dark-bomb)
+       :name (text-id progress-ks-source-darkjak-bomb0)
        :truthy-text (text-id progress-unlocked)
        :falsey-text (text-id progress-locked)
        :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature darkjak-bomb0)))
        :should-disable? (lambda () #t))
      (new 'static 'menu-generic-boolean-option
-       :name (text-id progress-memcard-dark-blast)
+       :name (text-id progress-ks-source-darkjak-bomb1)
        :truthy-text (text-id progress-unlocked)
        :falsey-text (text-id progress-locked)
        :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature darkjak-bomb1)))
        :should-disable? (lambda () #t))
      (new 'static 'menu-generic-boolean-option
-       :name (text-id progress-memcard-dark-giant)
+       :name (text-id progress-ks-source-dark-giant)
        :truthy-text (text-id progress-unlocked)
        :falsey-text (text-id progress-locked)
        :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature darkjak-giant)))
+       :should-disable? (lambda () #t))
+     (new 'static 'menu-generic-boolean-option
+       :name (text-id progress-ks-source-dark-invinc)
+       :truthy-text (text-id progress-unlocked)
+       :falsey-text (text-id progress-locked)
+       :get-value-fn (lambda () (logtest? (-> *game-info* features) (game-feature darkjak-invinc)))
        :should-disable? (lambda () #t))
      ;; Key Items
      (new 'static 'menu-generic-boolean-option

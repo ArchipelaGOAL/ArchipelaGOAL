@@ -67,7 +67,7 @@
     )
   )
 
-(defconstant talker-speech-length 500) ;; <ap:preserve-this> bump length for new talkers.
+(defconstant talker-speech-length 700) ;; <ap:preserve-this> bump length for new talkers.
 
 (define *talker-speech*
   (new 'static 'inline-array talker-speech-class talker-speech-length ;; <ap:preserve-this> use length from constant.
@@ -3777,6 +3777,39 @@
       :flags #x40
       :speech #x1e6
       :text-message (text-id ap-filler-dark-eco-pill)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
+    (new 'static 'talker-speech-class
+      :name "health001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1e7
+      :text-message (text-id ap-filler-health-pickup)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
+    (new 'static 'talker-speech-class
+      :name "ammo001"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1e8
+      :text-message (text-id ap-filler-ammo-red)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
+    (new 'static 'talker-speech-class
+      :name "ammo002"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1e9
+      :text-message (text-id ap-filler-ammo-yellow)
       :text-duration #x5dc
       :delay (seconds 3)
       :neg #x1
