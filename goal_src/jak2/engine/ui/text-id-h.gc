@@ -894,6 +894,7 @@
   (ap-filler-health-pickup #x328)
   (ap-filler-ammo-red #x329)
   (ap-filler-ammo-yellow #x330)
+  (ap-filler-ammo-blue #x331)
 
   ;; mod text
   (pad-triangle #x2000)

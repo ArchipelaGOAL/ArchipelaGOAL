@@ -258,10 +258,6 @@
   (add-seal-piece-2 37)
   (add-seal-piece-3 38)
   (add-rift-rider 39)
-  (add-dark-eco 40)
-  (add-health-pickup 41)
-  (add-ammo-red 42)
-  (add-ammo-yellow 43)
   )
 
 ;; NOTE - for settings
