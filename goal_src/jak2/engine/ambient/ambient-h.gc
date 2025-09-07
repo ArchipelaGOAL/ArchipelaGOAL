@@ -3826,5 +3826,16 @@
       :neg #x1
       :on-close #f
     )
+    (new 'static 'talker-speech-class
+      :name "ammo004"
+      :channel (gui-channel alert)
+      :flags #x40
+      :speech #x1f1
+      :text-message (text-id ap-filler-ammo-dark)
+      :text-duration #x5dc
+      :delay (seconds 3)
+      :neg #x1
+      :on-close #f
+    )
   )
 )

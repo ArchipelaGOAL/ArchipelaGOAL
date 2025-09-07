@@ -906,6 +906,7 @@
   (ap-filler-ammo-red #x2143)
   (ap-filler-ammo-yellow #x2144)
   (ap-filler-ammo-blue #x2145)
+  (ap-filler-ammo-dark #x2146)
 )
 ;; ---text-id
 
