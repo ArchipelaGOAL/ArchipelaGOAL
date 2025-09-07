@@ -67,7 +67,8 @@
   (format 0 "**************************************************~%~%")
   (set! (-> *ap-info-jak2* side-missions-checked (-> *ap-info-jak2* next-side-mission-index)) side-mission-id)
   (+! (-> *ap-info-jak2* next-side-mission-index) 1))
-
+;; TODO: ap orb location stuff
+#|
 (defun ap-orb-checked! ((actor-id uint))
   (format 0 "~%~%*************************************************~%")
   (format 0 "*** ARCHIPELAGO PRECURSOR ORB COLLECTION DETECTED ***~%")
@@ -78,7 +79,7 @@
   (format 0 "*************************************************~%~%")
   (set! (-> *ap-info-jak2* orbs-checked (-> *ap-info-jak2* next-orb-index)) actor-id)
   (+! (-> *ap-info-jak2* next-orb-index) 1))
-
+|#
 (defun ap-set-connection-status! ((status ap-connection-status))
   "Set the Archipelago connection status. Returns the status that was set."
   (set! (-> *ap-info-jak2* connection-status) status)
@@ -322,8 +323,10 @@
         (script-eval '(talker-spawn "car001")) ;; rift rider
         ))
     (('dark-eco-pill)
-     (script-eval '(talker-spawn "136d")) ;; dark eco pill filler item
-     )
+     (let ((dummy-node (new 'static 'game-task-node-info :add (game-task-node-command add-dark-eco))))
+      (script-eval '(talker-spawn "pill001")) ;; dark eco pill filler item
+      (send-event *target* 'get-pickup (pickup-type eco-pill-dark) 1.0)
+     ))
     )
   ;; (auto-save-command 'save 0 0 *default-pool* #f) ;; <ap:todo> Fails compilation because ap-struct declared too early. Any way to fix this?
   #t

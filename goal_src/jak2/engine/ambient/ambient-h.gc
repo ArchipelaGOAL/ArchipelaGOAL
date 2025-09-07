@@ -3772,7 +3772,7 @@
       :on-close #f
     )
     (new 'static 'talker-speech-class
-      :name "136d"
+      :name "pill001"
       :channel (gui-channel alert)
       :flags #x40
       :speech #x1e6

@@ -349,6 +349,8 @@
   (:methods
     (initialize! (_type_ symbol game-save string) _type_)
     (give (_type_ symbol float handle) float)
+    ;; TODO: ap orb location things
+    ;; (ap-give (_type_ symbol float handle) float)
     (task-complete? (_type_ game-task) symbol)
     (subtask-index-by-name (_type_ string) int)
     (set-subtask-hook! (_type_ game-task-node int function) function)

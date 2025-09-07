@@ -674,6 +674,7 @@
          )
        )
      )
+    ;; TODO: ap: orb location stuff, and memory reader things?
     (('test-pickup)
      (let ((a1-6 (-> arg3 param 0)))
        (pickup-collectable! (-> self fact) (the-as pickup-type a1-6) 0.0 (the-as handle #f))

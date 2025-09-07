@@ -1188,6 +1188,8 @@
     (((game-task-node-command add-rift-rider))
       (logior! (-> *game-info* features) (game-feature rift-rider))
      )
+    (((game-task-node-command add-dark-eco))
+      (logior! (-> *game-info* features) (game-feature dark-eco)))
     )
   0
   )

@@ -258,6 +258,7 @@
   (add-seal-piece-2 37)
   (add-seal-piece-3 38)
   (add-rift-rider 39)
+  (add-dark-eco 40)
   )
 
 ;; NOTE - for settings

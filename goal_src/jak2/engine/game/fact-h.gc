@@ -278,6 +278,8 @@
     (drop-pickup (_type_ symbol process-tree fact-info int) (pointer process))
     (reset! (_type_ symbol) none)
     (pickup-collectable! (_type_ pickup-type float handle) float)
+    ;; TODO: ap orb location stuff
+    ;;(ap-pickup-collectable! (_type_ pickup-type float handle) float)
     )
   )
 
