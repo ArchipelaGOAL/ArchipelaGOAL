@@ -22,7 +22,7 @@
 (define *level-text-file-load-flag* #t)
 
 (when (zero? (-> *common-text-heap* base))
-  (kheap-alloc *common-text-heap* (* 72 1024))
+  (kheap-alloc *common-text-heap* (* 72 1024)) ;; <ap:preserve-this> bump this to 72K for more custom text space. 
   )
 
 (kmemclose)

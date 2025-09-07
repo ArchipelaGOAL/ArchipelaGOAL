@@ -54,5 +54,5 @@
 ;; One of the reasons we didn't do this is because it makes it obvious which strings are remaining,
 ;; but there are better ways to keep track or check if strings are missing.
 (#when PC_PORT
-  (kheap-alloc (define *fallback-text-heap* (new 'global 'kheap)) (* 48 1024)) ;; 48K heap, should be plenty
+  (kheap-alloc (define *fallback-text-heap* (new 'global 'kheap)) (* 72 1024)) ;; <ap:preserve-this> bumped this to 72K heap, should be plenty
   (define *fallback-text* (the-as game-text-info #f)))
