@@ -323,26 +323,7 @@
         (script-eval '(talker-spawn "car001")) ;; rift rider
         ))
     (('dark-eco-pill)
-<<<<<<< HEAD
       (sound-play "pill-pickup") ;; dark eco pill filler item
-      (send-event *target* 'get-pickup (pickup-type eco-pill-dark) 5.0)
-     )
-    (('health-pack)
-      (sound-play "get-green-eco") ;; health pickup filler item
-      (send-event *target* 'get-pickup (pickup-type health) 2.0)
-     )
-    (('ammo-red)
-      (sound-play "ammo-pickup") ;; scatter gun ammo filler item
-      (send-event *target* 'get-pickup (pickup-type ammo-red) 5.0)
-     )
-    (('ammo-yellow)
-      (sound-play "ammo-pickup") ;; blaster ammo filler item
-      (send-event *target* 'get-pickup (pickup-type ammo-yellow) 10.0)
-     )
-    (('ammo-blue)
-      (sound-play "ammo-pickup") ;; vulcan fury filler item
-=======
-      (sound-play "pill-pickup")
       (send-event *target* 'get-pickup (pickup-type eco-pill-dark) 5.0)
      )
     (('health-pack)
@@ -359,7 +340,6 @@
      )
     (('ammo-blue)
       (sound-play "ammo-pickup")
->>>>>>> remotes/archipelagoal/jak2-ap-narra
       (send-event *target* 'get-pickup (pickup-type ammo-blue) 10.0)
      )
     (('ammo-dark)
