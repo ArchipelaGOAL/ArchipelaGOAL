@@ -93,7 +93,15 @@
       ;; Barg's and Alex's best known way to override this behavior is to run code every frame, for each door, 
       ;; and alter the command list baked into them. We need to modify the car and cdr of the command list separately, 
       ;; so sometimes the car is a "cond" and we only need to modify its body (the cdr). Other times its a "cond" but
-      ;; we want a "when" so we modify the car. 
+      ;; we want a "when" so we modify the car.
+
+      ;; city
+      (let ((cty-cable-door (entity-by-name "com-airlock-outer-15")))
+        (when cty-cable-door
+          (set! (cdr (res-lump-struct cty-cable-door 'on-activate pair))   '(((focus-test? *target* pilot) #f) ((and (task-closed? "palace-cable-introduction") (not (task-complete? 28))) (want-load 'ctygenb 'ctywide 'palshaft)) ((task-closed? "palace-boss-resolution") #f) ((task-closed? "nest-boss-resolution") (want-load 'ctygenb 'ctywide 'palshaft))))
+          (set! (cdr (res-lump-struct cty-cable-door 'on-notice pair))     '(((focus-test? *target* pilot) #f) ((and (task-closed? "palace-cable-introduction") (not (task-complete? 28))) (want-load 'ctygenb 'ctywide 'palshaft)) ((task-closed? "palace-boss-resolution") #f) ((task-closed? "nest-boss-resolution") (want-load 'ctygenb 'ctywide 'palshaft))))
+          )
+        )
 
       ;; oracle
       (let ((cty-ora-door (entity-by-name "oracle-door-3")))
