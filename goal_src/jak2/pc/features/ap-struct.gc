@@ -24,7 +24,7 @@
 ;; ****************************************************************************
 ;; **** This number must match expected_memory_version in MemoryReader.py! ****
 ;; ****************************************************************************
-(set! (-> *ap-info-jak2* version) 2)
+(set! (-> *ap-info-jak2* version) 3)
 
 ;; Debug: Verify version was set
 (format 0 "Archipelago version set to: ~D~%" (-> *ap-info-jak2* version))
@@ -323,23 +323,23 @@
         (script-eval '(talker-spawn "car001")) ;; rift rider
         ))
     (('dark-eco-pill)
-      (script-eval '(talker-spawn "pill001")) ;; dark eco pill filler item
+      (sound-play "pill-pickup")
       (send-event *target* 'get-pickup (pickup-type eco-pill-dark) 5.0)
      )
     (('health-pack)
-      (script-eval '(talker-spawn "health001")) ;; health pickup filler item
+      (sound-play "get-green-eco")
       (send-event *target* 'get-pickup (pickup-type health) 2.0)
      )
     (('ammo-red)
-      (script-eval '(talker-spawn "ammo001")) ;; scatter gun ammo filler item
+      (sound-play "ammo-pickup")
       (send-event *target* 'get-pickup (pickup-type ammo-red) 5.0)
      )
     (('ammo-yellow)
-      (script-eval '(talker-spawn "ammo002")) ;; blaster ammo filler item
+      (sound-play "ammo-pickup")
       (send-event *target* 'get-pickup (pickup-type ammo-yellow) 10.0)
      )
     (('ammo-blue)
-      (script-eval '(talker-spawn "ammo003")) ;; vulcan fury filler item
+      (sound-play "ammo-pickup")
       (send-event *target* 'get-pickup (pickup-type ammo-blue) 10.0)
     )
     )

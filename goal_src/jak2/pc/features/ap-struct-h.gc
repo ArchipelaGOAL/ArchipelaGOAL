@@ -17,11 +17,11 @@
     ;; Mission/Side Mission Information
     (next-mission-index              uint)
     (next-side-mission-index         uint)
-    (missions-checked                uint32 70)
-    (side-missions-checked           uint32 24)
+    (missions-checked                uint32 75)
+    (side-missions-checked           uint32 35)
 
     ;; Precursor Orb Information
-    (next-orb-index                       uint)
+    (next-orb-index                  uint)
     (orbs-checked                    uint32 286)
 
     ;; Connection Status (added at end for compatibility)
