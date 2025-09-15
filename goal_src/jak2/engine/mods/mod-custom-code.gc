@@ -95,6 +95,15 @@
       ;; so sometimes the car is a "cond" and we only need to modify its body (the cdr). Other times its a "cond" but
       ;; we want a "when" so we modify the car.
 
+      ;; prevent the player from leaving the prison while the game is compiling. 
+      (if (= 'debug *cheat-mode*)
+        (let ((region-356 (region-lookup-by-id 356)))
+          (when (and region-356 (point-in-region-debug! region-356 (target-pos 0)))
+            (send-event *target* 'shove #f (static-attack-info ((id (new-attack-id)) (shove-back (meters 3)) (shove-up (meters 1)))))
+            )
+          )
+        )
+
       ;; city
       (let ((cty-cable-door (entity-by-name "com-airlock-outer-15")))
         (when cty-cable-door
