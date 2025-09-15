@@ -53,6 +53,20 @@ void ReplServer::ping_response(int socket) {
   }
 }
 
+void ReplServer::reply_all_ack() {
+  std::string ping = fmt::format("OK!");
+  std::vector<int> sockets_to_scan(client_sockets.begin(), client_sockets.end());
+  for (const int& sock : sockets_to_scan) {
+    auto resp = write_to_socket(sock, ping.c_str(), ping.size());
+    if (resp == -1) {
+      lg::warn("[nREPL:{}] Client Disconnected: {}", tcp_port, address_to_string(addr),
+               ntohs(addr.sin_port), sock);
+      close_socket(sock);
+      client_sockets.erase(sock);
+    }
+  }
+}
+
 std::optional<std::string> ReplServer::get_msg() {
   // Clear the sockets we are listening on
   FD_ZERO(&read_sockets);

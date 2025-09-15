@@ -20,6 +20,7 @@ class ReplServer : public XSocketServer {
   void post_init() override;
 
   std::optional<std::string> get_msg();
+  void reply_all_ack();
 
  private:
   int max_clients = 50;
