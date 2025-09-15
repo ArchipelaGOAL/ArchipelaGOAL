@@ -327,22 +327,22 @@
       (send-event *target* 'get-pickup (pickup-type eco-pill-dark) 5.0)
      )
     (('health-pack)
-      (sound-play "get-green-eco")
+      (sound-play "get-green-eco") ;; health filler item
       (send-event *target* 'get-pickup (pickup-type health) 2.0)
      )
     (('ammo-red)
-      (sound-play "ammo-pickup")
+      (sound-play "ammo-pickup") ;; red ammo filler item
       (send-event *target* 'get-pickup (pickup-type ammo-red) 5.0)
      )
-    (('ammo-yellow)
+    (('ammo-yellow) ;; yellow ammo filler item
       (sound-play "ammo-pickup")
       (send-event *target* 'get-pickup (pickup-type ammo-yellow) 10.0)
      )
-    (('ammo-blue)
+    (('ammo-blue) ;; blue ammo filler item
       (sound-play "ammo-pickup")
       (send-event *target* 'get-pickup (pickup-type ammo-blue) 10.0)
      )
-    (('ammo-dark)
+    (('ammo-dark) ;; dark ammo filler item
       (sound-play "ammo-pickup") ;; vulcan fury filler item
       (send-event *target* 'get-pickup (pickup-type ammo-dark) 1.0)
      )
