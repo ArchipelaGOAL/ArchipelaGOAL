@@ -104,9 +104,13 @@
         )
 
       ;; oracle
-      (let ((cty-ora-door (entity-by-name "oracle-door-3")))
-        (when cty-ora-door
-          (set! (cdr (res-lump-struct cty-ora-door 'on-notice pair)) '(#t '(oracle)))
+      (let ((cty-ora-out-door (entity-by-name "oracle-door-3"))
+            (cty-ora-in-door (entity-by-name "oracle-door-1")))
+        (when cty-ora-out-door
+          (set! (cdr (res-lump-struct cty-ora-out-door 'on-notice pair)) '(#t '(oracle)))
+          )
+        (when cty-ora-in-door
+          (set! (cdr (res-lump-struct cty-ora-in-door 'on-notice pair)) '(#t '(ctyslumc ctywide)))
           )
         )
 

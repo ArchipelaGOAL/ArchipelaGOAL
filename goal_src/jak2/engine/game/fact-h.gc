@@ -384,6 +384,12 @@
               (when v1-17
                 (let ((a0-15 (-> s2-0 elt-count)))
                   (set! (-> sv-16 pickup-type) (the-as pickup-type (-> (the-as (pointer int32) v1-17))))
+                  ;; <ap:preserve-this> if the pickup type is any kind of ammo, change it to be ammo-random.
+                  ;; ammo-random will prioritize/select ammo from a weapon you already have. 
+                  (case (-> (the-as (pointer int32) v1-17))
+                    ((13 14 15 16) 
+                     (set! (-> sv-16 pickup-type) (pickup-type ammo-random)))
+                    )
                   (set! (-> sv-16 pickup-amount) (if (< (the-as uint 1) a0-15)
                                                      (the float (-> (the-as (pointer int32) v1-17) 1))
                                                      arg2
