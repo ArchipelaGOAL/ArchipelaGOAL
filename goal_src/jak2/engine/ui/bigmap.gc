@@ -875,29 +875,8 @@
      (set-pos! this (target-pos 0))
      (set! (-> this scroll y) (the float (max 0 (+ (* (-> this pos y) 2) -208))))
      (set-vector! (-> this draw-offset) -2621440.0 -4456448.0 16384.0 0.000030517578)
-     (cond
-       ((logtest? (game-feature pass-red) (-> *game-info* features))
-        (cond
-          ((and (logtest? (game-feature pass-green) (-> *game-info* features))
-                (logtest? (game-feature pass-yellow) (-> *game-info* features))
-                )
-           (set! (-> this load-index) (the-as uint 24))
-           )
-          ((logtest? (game-feature pass-green) (-> *game-info* features))
-           (set! (-> this load-index) (the-as uint 23))
-           )
-          ((logtest? (game-feature pass-yellow) (-> *game-info* features))
-           (set! (-> this load-index) (the-as uint 22))
-           )
-          (else
-            (set! (-> this load-index) (the-as uint 21))
-            )
-          )
-        )
-       (else
-         (set! (-> this load-index) (the-as uint 20))
-         )
-       )
+     ;; <ap:preserve-this> show the whole haven city map regardless of security passes. 
+     (set! (-> this load-index) (the-as uint 24))
      )
     (else
       (set! (-> this scroll y) 0.0)
