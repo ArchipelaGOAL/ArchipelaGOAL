@@ -166,6 +166,23 @@
   (format 0 "===============================================~%~%")
   (none))
 
+(defun ap-verify-game-completed! ((arg0 uint))
+  (cond
+    ((= (-> *ap-info-jak2* completion-goal-type) (ap-completion-type mission-count))
+      (+! (-> *ap-info-jak2* completion-goal-progress) 1)
+      (if (= (-> *ap-info-jak2* completion-goal-progress) (-> *ap-info-jak2* completion-goal-value))
+        (set! (-> *ap-info-jak2* completed) 1)
+        )
+      )
+    ((= (-> *ap-info-jak2* completion-goal-type) (ap-completion-type specific-mission))
+      (if (= (the-as uint arg0) (-> *ap-info-jak2* completion-goal-value))
+        (set! (-> *ap-info-jak2* completed) 1)
+        )
+      )
+    )
+  #t
+  )
+
 (defun ap-item-received! ((item symbol))
   (case item
     (('gun-yellow)
