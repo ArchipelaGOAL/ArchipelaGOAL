@@ -18,6 +18,16 @@
   (mission-count 2)
   )
 
+
+;; Holds what the user has chosen for their seed options.
+(deftype ap-seed-options (structure)
+  (
+    (slot-name            string)
+    (slot-seed            string)
+    (completion-type      uint8)
+    (completion-value     uint8)
+    ))
+
 (deftype ap-info-jak2 (structure)
   (
     ;; Memory Struct Version
@@ -83,3 +93,5 @@
 (define-extern ap-route-slums-to-landing? (function symbol))
 
 (define-extern ap-route-slums-to-nest? (function symbol))
+
+(define-extern ap-setup-options! (function ap-seed-options symbol))
