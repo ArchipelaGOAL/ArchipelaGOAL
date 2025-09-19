@@ -39,7 +39,6 @@
     ;; Completion Information
     (completion-goal-type            ap-completion-type)
     (completion-goal-value           uint32)
-    (completion-goal-progress        uint32)
     (completed                       uint8)
 
     ;; End Marker
