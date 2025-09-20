@@ -166,6 +166,25 @@
   (format 0 "===============================================~%~%")
   (none))
 
+(defun ap-verify-game-completed! ((arg0 uint))
+  (cond
+    ((= (-> *ap-info-jak2* completion-goal-type) (ap-completion-type mission-count))
+      (if (= (+ (-> *ap-info-jak2* next-mission-index)
+                (-> *ap-info-jak2* next-side-mission-index))
+             (-> *ap-info-jak2* completion-goal-value))
+        (set! (-> *ap-info-jak2* completed) 1)
+        )
+      )
+    ((= (-> *ap-info-jak2* completion-goal-type) (ap-completion-type specific-mission))
+      (if (= (the-as uint arg0) 
+             (-> *ap-info-jak2* completion-goal-value))
+        (set! (-> *ap-info-jak2* completed) 1)
+        )
+      )
+    )
+  #t
+  )
+
 (defun ap-item-received! ((item symbol))
   (case item
     (('gun-yellow)
@@ -400,3 +419,10 @@
       (logtesta? (-> *game-info* features) (game-feature pass-green pass-yellow pass-air-train))  ;; through stadium town and farms.
       )
   )
+
+(defun ap-setup-options! ((options ap-seed-options))
+  (set! (-> *ap-info-jak2* completion-goal-type) (the-as ap-completion-type (-> options completion-type)))
+  (set! (-> *ap-info-jak2* completion-goal-value) (-> options completion-value))
+  ;; <ap:todo> handle these later: (charp<-string (-> *ap-info-jak2* slot-name) (-> options slot-name))
+  ;; <ap:todo> handle these later: (charp<-string (-> *ap-info-jak2* slot-seed) (-> options slot-seed))
+  #t)

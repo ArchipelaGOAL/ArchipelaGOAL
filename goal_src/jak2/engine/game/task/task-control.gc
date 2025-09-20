@@ -640,6 +640,7 @@
                   (ap-side-mission-checked! (the-as uint arg0))
                   (ap-mission-checked! (the-as uint arg0))))
             (close! node 'event)
+            (ap-verify-game-completed! (the-as uint arg0))
             (return #t)
             )
           )

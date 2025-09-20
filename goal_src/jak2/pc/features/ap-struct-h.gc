@@ -10,8 +10,27 @@
   (ready 3)
   )
 
+;; Completion goal enum for Archipelago
+(defenum ap-completion-type
+  :type uint32
+  (default 0)
+  (specific-mission 1)
+  (mission-count 2)
+  )
+
+
+;; Holds what the user has chosen for their seed options.
+(deftype ap-seed-options (structure)
+  (
+    (slot-name            string)
+    (slot-seed            string)
+    (completion-type      uint8)
+    (completion-value     uint8)
+    ))
+
 (deftype ap-info-jak2 (structure)
-    (;; Memory Struct Version
+  (
+    ;; Memory Struct Version
     (version              uint32)
 
     ;; Mission/Side Mission Information
@@ -24,8 +43,13 @@
     (next-orb-index                  uint)
     (orbs-checked                    uint32 286)
 
-    ;; Connection Status (added at end for compatibility)
+    ;; Connection Status
     (connection-status               ap-connection-status)
+
+    ;; Completion Information
+    (completion-goal-type            ap-completion-type)
+    (completion-goal-value           uint32)
+    (completed                       uint8)
 
     ;; End Marker
     (end-marker           uint8 4)))
@@ -37,6 +61,8 @@
 (define-extern ap-side-mission-checked! (function uint uint))
 
 (define-extern ap-orb-checked! (function uint uint))
+
+(define-extern ap-verify-game-completed! (function uint symbol))
 
 (define-extern ap-item-received! (function symbol symbol))
 
@@ -67,3 +93,5 @@
 (define-extern ap-route-slums-to-landing? (function symbol))
 
 (define-extern ap-route-slums-to-nest? (function symbol))
+
+(define-extern ap-setup-options! (function ap-seed-options symbol))
