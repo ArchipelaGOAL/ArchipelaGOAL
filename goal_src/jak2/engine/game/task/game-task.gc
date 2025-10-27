@@ -4570,6 +4570,7 @@
                    )
               )
             :on-close #f
+            :description (text-id progress-missions-talk-to-shadow) ;; <ap:preserve-this> added for burning bushes
             )
           (new 'static 'game-task-node-info
             :level 'forest
@@ -4800,6 +4801,7 @@
             :open? (lambda ((arg0 game-task-node-info)) 
               (logtest? (-> *game-info* features) (game-feature pass-red)))
             :on-close #f
+            :description (text-id progress-missions-talk-to-shadow) ;; <ap:preserve-this> added for burning bushes
             )
           (new 'static 'game-task-node-info
             :level 'city
@@ -5231,6 +5233,7 @@
                 )
               )
             :on-close #f
+            :description (text-id progress-missions-city-port-run) ;; <ap:preserve-this> added for burning bushes
             )
           (new 'static 'game-task-node-info
             :level 'city
@@ -5948,6 +5951,7 @@
             :open? (lambda ((arg0 game-task-node-info)) 
               (logtest? (-> *game-info* features) (game-feature gun board)))
             :on-close #f
+            :description (text-id burningbush-incoming-call) ;; <ap:preserve-this> added for burning bushes
             )
           (new 'static 'game-task-node-info
             :level 'city
@@ -6036,7 +6040,7 @@
                                                    )
                     )
             :on-close '(task-close! "city-protect-water-slums-get-seal")
-            :description (text-id progress-missions-check-water-slums) ;; <ap:preserve-this> added
+            :description (text-id progress-missions-check-water-slums) ;; <ap:preserve-this> added for burning bushes
             )
           (new 'static 'game-task-node-info
             :level 'city
@@ -7815,6 +7819,7 @@
             :open? (lambda ((arg0 game-task-node-info)) 
               (logtesta? (-> *game-info* features) (game-feature gun titan-suit)))
             :on-close #f
+            :description (text-id burningbush-incoming-call) ;; <ap:preserve-this> added for burning bushes
             )
           (new 'static 'game-task-node-info
             :level 'ruins
@@ -8968,6 +8973,7 @@
             :open? (lambda ((arg0 game-task-node-info)) 
               (ap-route-slums-to-port?))
             :on-close #f
+            :description (text-id burningbush-incoming-call) ;; <ap:preserve-this> added for burning bushes
             )
           (new 'static 'game-task-node-info
             :level 'city
@@ -9347,6 +9353,7 @@
                    )
               )
             :on-close #f
+            :description (text-id burningbush-incoming-call) ;; <ap:preserve-this> added for burning bushes
             )
           (new 'static 'game-task-node-info
             :level 'stadium
