@@ -399,6 +399,17 @@
             )
           )
         )
+      
+      ;; nest
+      (let ((region-738 (region-lookup-by-id 738)))
+        (when region-738
+          (set! (-> region-738 on-enter) 
+            '(begin 
+              (when (task-open? "nest-enter-introduction") (task-close! "nest-enter-resolution"))
+              (when (task-open? "nest-boss-introduction") (scene-play "nest-kor-boss-fight-intro-b")))
+            )
+          )
+        )
 
       (none)
       )

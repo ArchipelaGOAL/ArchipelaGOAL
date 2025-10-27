@@ -190,17 +190,26 @@
       :forbid-when (lambda () (task-node-closed? (game-task-node atoll-sig-resolution)))
       )
     (static-taskable-menu-entry
-      :task-node (game-task-node sewer-enemy-blow-up-turrets)
+      :task-node (game-task-node sewer-enemy-introduction)
       :event-idx 0
       :continue "hiphog-start"
       :text-id (text-id progress-missions-sewer-enemy)
       :allow-when (lambda () 
         (or (task-node-open? (game-task-node sewer-enemy-introduction))
-            (task-node-open? (game-task-node sewer-enemy-talk-to-krew))
             (task-node-open? (game-task-node sewer-enemy-blow-up-turrets))
+            (task-node-open? (game-task-node sewer-enemy-talk-to-krew))
             )
         )
       :forbid-when (lambda () (task-node-closed? (game-task-node sewer-enemy-resolution)))
+      )
+    (static-taskable-menu-entry
+      :task-node (game-task-node sewer-enemy-talk-to-krew)
+      :event-idx 0
+      :continue "hiphog-start"
+      :text-id (text-id progress-missions-sewer-enemy)
+      :exclusive? #t
+      :allow-when (lambda () (task-node-open? (game-task-node sewer-enemy-talk-to-krew)))
+      :forbid-when (lambda () (task-node-closed? (game-task-node sewer-enemy-talk-to-krew)))
       )
     (static-taskable-menu-entry
       :task-node (game-task-node city-keira-delivery-introduction)

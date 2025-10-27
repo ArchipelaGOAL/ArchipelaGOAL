@@ -36,17 +36,18 @@
           )
         )
       )
-    (let* ((page (-> this page)) ;; current page
-            (start-idx (* page *tm-items-per-page*)) ;; start index of the current page
-            (end-idx (+ start-idx *tm-items-per-page*)) ;; exclusive end index for the current page, used to check if there's a next page
+    (let* ((page (-> this page))                          ;; current page
+            (start-idx (* page *tm-items-per-page*))      ;; start index of the current page
+            (end-idx (+ start-idx *tm-items-per-page*))   ;; exclusive end index for the current page, used to check if there's a next page
             (have-next-page? (< end-idx available-count)) ;; is there a next page?
-            (have-prev-page? (> page 0)) ;; is there a previous page?
+            (have-prev-page? (> page 0))                  ;; is there a previous page?
             (items-this-page (min *tm-items-per-page* (- available-count start-idx))) ;; amount of items in this page (only destination options is counted)
-            (extra-options (cond ((and have-prev-page? have-next-page?) 2) ;; add 2 if have next and previous pages
-                                  (have-prev-page? 1) ;; add 1 if only have previous page 
-                                  (have-next-page? 1) ;; add 1 if only have next page
-                                  (else 0))) ;; no extra option
-            (total-items (+ items-this-page extra-options)) ;; total entries displayed on screen
+            (extra-options (cond 
+              ((and have-prev-page? have-next-page?) 2)           ;; add 2 if have next and previous pages
+              (have-prev-page? 1)                                 ;; add 1 if only have previous page 
+              (have-next-page? 1)                                 ;; add 1 if only have next page
+              (else 0)))                                          ;; no extra option
+            (total-items (+ items-this-page extra-options))    ;; total entries displayed on screen
             )
       (when (not (paused?))
         (cond
@@ -267,6 +268,9 @@
   :enter (behavior ()
     (set-setting! 'minimap 'clear 0.0 (minimap-flag minimap))
     (set-time! (-> self state-time))
+    (if (available-to-use? self)
+      (set! (-> self selected) 0)
+      )
     )
   :exit (behavior ()
     (remove-setting! 'minimap)
