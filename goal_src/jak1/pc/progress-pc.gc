@@ -329,6 +329,11 @@
        (new 'static 
             'game-option 
             :option-type (game-option-type on-off) 
+            :name (text-id ecorando)
+            :scale #t)
+       (new 'static 
+            'game-option 
+            :option-type (game-option-type on-off) 
             :name (text-id show-item-messages) 
             :scale #t)
        (new 'static
@@ -2369,7 +2374,8 @@
   ;; archipelago options
   (set! (-> *archipelago-options* 2 value-to-modify) (&-> *ap-settings* deathlink?))
   (set! (-> *archipelago-options* 3 value-to-modify) (&-> *ap-settings* moverando?))
-  (set! (-> *archipelago-options* 4 value-to-modify) (&-> *ap-settings* item-messages?))
+  (set! (-> *archipelago-options* 4 value-to-modify) (&-> *ap-settings* ecorando?))
+  (set! (-> *archipelago-options* 5 value-to-modify) (&-> *ap-settings* item-messages?))
   ;; seed options
   (set! (-> *seed-options* 0 value-to-modify) (&-> *progress-carousell* int-backup)) ;; remember, carousell menus map to this backup variable, not directly to the setting variable. 
   (set! (-> *seed-options* 1 value-to-modify) (&-> *progress-carousell* int-backup)) ;; above was orbsanity option, this is orbsanity bundle.
@@ -3384,7 +3390,10 @@
                      (text-id ap-jump-kick)
                      (text-id ap-punch)
                      (text-id ap-punch-uppercut)
-                     (text-id ap-kick)))
+                     (text-id ap-kick)
+                     (text-id ap-blue-eco)
+                     (text-id ap-red-eco)
+                     (text-id ap-yellow-eco)))
          (moves (new 'static
                      'boxed-array
                      :type
@@ -3400,10 +3409,13 @@
                      #x5b34 ;; 23348
                      #x5b35 ;; 23349
                      #x5b36 ;; 23350
+                     #x5de6 ;; 24038
+                     #x5de7 ;; 24039
+                     #x5de8 ;; 24040
                      )))
     (dotimes (i (length texts))
       (set! (-> arg0 origin x) (the float (- 50 (-> this left-x-offset))))
-      (set! (-> arg0 origin y) (* 15.0 i))
+      (set! (-> arg0 origin y) (* 13.0 i))
       (let ((v1-2 arg0)) (set! (-> v1-2 scale) 0.5))
       (let ((v1-3 arg0)) (set! (-> v1-3 width) (the float 300)))
       (let ((v1-4 arg0)) (set! (-> v1-4 height) (the float 40)))
