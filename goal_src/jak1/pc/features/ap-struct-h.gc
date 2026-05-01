@@ -24,6 +24,7 @@
    (orb-caches-checked   uint32 16) ;; we don't use all 16, but they are there for future use.
    (moves-received       uint8 16) ;; we don't use all 16, but they are there for future use.
    (moverando-enabled    uint8) ;; this enables/disabled the setting.
+   (ecorando-enabled     uint8) ;; this enables/disabled the setting.
    ;; Orbsanity information.
    (orbsanity-option     uint8) ;; this enables/disabled the setting.
    (orbsanity-bundle     uint32) ;; bundle size.

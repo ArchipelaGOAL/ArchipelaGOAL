@@ -154,6 +154,9 @@
     ((= move-id 23348) (the-as uint 8)) ;; Punch
     ((= move-id 23349) (the-as uint 9)) ;; Punch Uppercut
     ((= move-id 23350) (the-as uint 10)) ;; Kick
+    ((= move-id 24038) (the-as uint 11)) ;; Blue Eco
+    ((= move-id 24039) (the-as uint 12)) ;; Red Eco
+    ((= move-id 24040) (the-as uint 13)) ;; Yellow Eco
     ))
 
 (defun ap-move-received! ((move-id uint))
@@ -372,6 +375,7 @@
   "A per frame update for settings related stuff"
   (set! (-> *ap-info-jak1* deathlink-enabled) (if (-> *ap-settings* deathlink?) 1 0))
   (set! (-> *ap-info-jak1* moverando-enabled) (if (-> *ap-settings* moverando?) 1 0))
+  (set! (-> *ap-info-jak1* ecorando-enabled) (if (-> *ap-settings* ecorando?) 1 0))
   (set! (-> *ap-info-jak1* orbsanity-option) (-> *ap-settings* orbsanity-option))
   (set! (-> *ap-info-jak1* orbsanity-bundle) (-> *ap-settings* orbsanity-bundle))
   (set! (-> *ap-info-jak1* fire-canyon-unlock) (-> *ap-settings* fire-canyon-unlock))
