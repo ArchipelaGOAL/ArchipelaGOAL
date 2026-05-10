@@ -579,6 +579,22 @@
                  (-> this eco-level)
                  0.0 ;; we don't have this kind of eco.
                  )))
+     ;; Archipelago - Prevent orb collection
+     (when (!= (-> *ap-info-jak1* ecorando-enabled) 0)
+       ;; Blue Eco
+       (when (and (= kind (pickup-type eco-blue)) (not(ap-move-received? (the-as uint 24038))))
+         (return 0.0)
+       )
+       ;; Red Eco
+       (when (and (= kind (pickup-type eco-red)) (not(ap-move-received? (the-as uint 24039))))
+         (return 0.0)
+       )
+       ;; Yellow Eco
+       (when (and (= kind (pickup-type eco-yellow)) (not(ap-move-received? (the-as uint 24040))))
+         (return 0.0)
+       )
+     )
+     ;; Archipelago End
      ;; new type of eco. Reset and use the new type.
      (when (!= (-> this eco-type) kind)
        ;; as far as I can tell, the eco-level isn't really used other than just 1 or 0.

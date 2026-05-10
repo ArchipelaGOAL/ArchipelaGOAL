@@ -49,6 +49,8 @@
    (slot-seed            uint8 8)
    ;; Trap information.
    (trap-duration        float)
+   ;; Eco randomizer information.
+   (ecorando-enabled     uint8) ;; this enables/disabled the setting.
    ;; End marker just to make things look nice in a memory view.
    (end-marker           uint8 4)))
 
