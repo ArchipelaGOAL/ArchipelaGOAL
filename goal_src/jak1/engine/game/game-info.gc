@@ -377,11 +377,9 @@
      (+! (-> this money) amount))
     (('fuel-cell)
      ;; got a power cell!
-     ;; in this case, the amount is NOT the index of the power cell. it's just a generic, id-less, game-task-less cell.
-     (let ((s5-1 (the int amount)))
-       ;; The ony thing we need to do is increment power cells by 1.
-       (+! (-> this fuel) 1.0))
-     (-> this fuel))
+     ;; in this case, the amount is NOT the index of the power cell. 
+     ;; it's just 1 or more generic, id-less, game-task-less cells.
+     (+! (-> this fuel) (if (zero? amount) 1.0 amount)))
     (('buzzer)
      ;; got a scout fly. In this case, the amount is actually two 16 bit numbers
      ;; the lower 16 bits are the task, and the upper is which buzzer
