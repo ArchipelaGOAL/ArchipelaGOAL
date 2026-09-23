@@ -133,7 +133,8 @@
 
 (defun ap-special-received! ((special-id uint))
   (send-event (ppointer->process (-> *hud-parts* fuel-cell)) 'show)
-  (sound-play "buzzer-pickup" :pitch 0.166)
+  (if (zero? (get-task-status (game-task intro))) 
+    (sound-play "buzzer-pickup" :pitch 0.166))
   (set! (-> *ap-info-jak1* specials-received (ap-special-task-to-index special-id)) (the uint 1)))
 
 (defun ap-special-received? ((special-id uint))
@@ -158,7 +159,8 @@
 
 (defun ap-move-received! ((move-id uint))
   (send-event (ppointer->process (-> *hud-parts* fuel-cell)) 'show)
-  (sound-play "buzzer-pickup" :pitch 0.166)
+  (if (zero? (get-task-status (game-task intro)))
+    (sound-play "buzzer-pickup" :pitch 0.166))
   (set! (-> *ap-info-jak1* moves-received (ap-move-id-to-index move-id)) (the uint 1)))
 
 (defun ap-move-received? ((move-id uint))
@@ -366,7 +368,11 @@
 
 (defun ap-set-connection-status! ((status connection-status))
   (set! (-> *ap-info-jak1* connection-status) (the-as uint status))
-  #t)
+  (cond
+    ((= status (connection-status ready))
+     (sound-play "buzzer-pickup" :pitch 0.166)
+     #t)
+    (else #f)))
 
 (defun ap-settings-update ()
   "A per frame update for settings related stuff"
