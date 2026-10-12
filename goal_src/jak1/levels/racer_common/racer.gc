@@ -111,6 +111,8 @@
         ((6)
          (if (or (task-closed? (game-task village2-levitator) (task-status need-hint))
                  (and *cheat-mode* (cpad-hold? 0 l3))
+                 ;; Always spawn the Zoomer in PB
+                 #t
                  (and *target* (logtest? (-> *target* control root-prim prim-core action) (collide-action racer))))
            (goto cfg-77)))
         ((5)

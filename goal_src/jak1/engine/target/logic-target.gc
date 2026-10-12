@@ -602,8 +602,89 @@
     (if (and (-> self current-level) (>= (-> *level-task-data-remap* length) (-> self current-level info index)))
       (+! (-> *game-info* in-level-time (-> *level-task-data-remap* (+ (-> self current-level info index) -1)))
           (- (current-time) (-> *display* old-base-frame-counter))))
-    (if (and (or (not gp-0) (!= (-> gp-0 name) (-> self current-level name))) (-> self current-level))
-      (send-event self 'level-enter (-> self current-level name))))
+    (when (and (or (not gp-0) (!= (-> gp-0 name) (-> self current-level name))) (-> self current-level))
+      (send-event self 'level-enter (-> self current-level name))
+
+      ;; training -> training-start
+      ;; village1
+      ;; beach -> beach-start
+      ;; jungle -> jungle-start
+      ;; misty -> misty-start
+
+      ;; Leaving to main menu seems to trigger this as well ("going to village1")
+
+      ;; village2
+      ;; sunken -> sunken-start
+      ;; swamp -> swamp-start
+      ;; rolling -> rolling-start
+      ;;  -> racer.gc -> wait-for-start -> (6) has the condition for the racer to appear (Logic: moles + DMG cannot be done until hub 2 is accessible)
+
+      ;; village3
+      ;; snow -> snow-start
+      ;; maincave -> maincave-start
+      ;; (robocave -> robocave-start)
+      ;; (darkcave -> darkcave-start)
+
+      ;; Problem: When dying, the target gets init'd again, setting current-level to #f, then it's init again to the current position, and then the continue is loaded
+
+      (format #t "GAMEPLAY: going ~A~% to ~A~%" (-> gp-0 name) (-> self current-level name))
+      ;; SB replaced by Misty
+      (when (and (= (-> gp-0 name) 'village1) (= (-> self current-level name) 'beach))
+        (set-continue! *game-info* "misty-start")
+        (initialize! *game-info* 'die (the-as game-save #f) (the-as string #f))
+        (format #t "GAMEPLAY: init ~A~% to ~A~%" (-> gp-0 name) (-> self current-level name))
+
+        (return 0)
+
+        (set! (-> self current-level) (level-get *level* 'misty))
+        
+        (send-event self 'level-enter 'misty)
+        (return 0)
+        ;; TODO - keep eco
+        ;;  (process-spawn-function process
+        ;;    (lambda ()
+        ;;       (suspend)
+        ;;       (start 'play (get-continue-by-name *game-info* "misty-start"))
+        ;;      (none))
+        ;;    :from
+        ;;    *4k-dead-pool*)
+
+        ;; (start 'play (get-continue-by-name *game-info* "misty-start"))
+      )
+
+      (return 0)
+      (when (and (= (-> gp-0 name) 'misty) (= (-> self current-level name) 'village1))
+        (set-continue! *game-info* "village1-beach")
+        (initialize! *game-info* 'die (the-as game-save #f) (the-as string #f))
+      )
+
+      ;; Training replaced by SC
+      ;; Enter training (not from Misty)
+      ;; TODO - find out a better way for "not not"
+      (when (and (not (not gp-0)) (!= (-> gp-0 name) 'misty) (= (-> self current-level name) 'training))
+        (set-continue! *game-info* "maincave-start")
+        (initialize! *game-info* 'die (the-as game-save #f) (the-as string #f))
+      )
+
+      (when (and (= (-> gp-0 name) 'maincave) (= (-> self current-level name) 'village3))
+        (set-continue! *game-info* "village1-warp")
+        (initialize! *game-info* 'die (the-as game-save #f) (the-as string #f))
+      )
+
+      ;; Misty replaced by Training - TODO: What if Beach is Misty, meaning we're still leaving from village1?
+      (when (and (= (-> gp-0 name) 'village1) (= (-> self current-level name) 'misty))
+        (format #t "continue at training%")
+        (set-continue! *game-info* "training-start")
+        (initialize! *game-info* 'die (the-as game-save #f) (the-as string #f))
+      )
+
+      ;; Leave training (don't care about the destination)
+      (when (= (-> gp-0 name) 'training)
+        (set-continue! *game-info* "village1-beach") ;; should be next to the boat instead
+        (initialize! *game-info* 'die (the-as game-save #f) (the-as string #f))
+      )
+      )
+    )
   0
   (none))
 
