@@ -255,7 +255,26 @@
              :lev0 'village1
              :disp0 'display
              :lev1 'misty
-             :disp1 #f))
+             :disp1 #f)
+        (new 'static
+             'continue-point
+             :name "village1-beach"
+             :level 'village1
+             :trans
+             (new 'static 'vector :x -441338.6875 :y 38819.9453 :z -143476.2500 :w 1.0)
+             :quat
+             (new 'static 'quaternion :y 0.1231 :w 0.9923)
+             :camera-trans
+             (new 'static 'vector :x -442636.0312 :y 59905.2304 :z -194665.0312 :w 1.0)
+             :camera-rot
+             (new 'static 'array float 9  0.9996 0.0000 -0.0246  0.0029 0.9926 0.1208  0.0244 -0.1209 0.9923)
+             :load-commands
+             '()
+             :vis-nick 'vi1
+             :lev0 'village1
+             :disp0 'display
+             :lev1 'beach
+             :disp1 'display))
        :tasks
        '(10 11 12 13 14 75)
        :priority #xc8
