@@ -364,9 +364,17 @@
   (set! (-> *ap-settings* oracle-orb-amount) (-> options oracle-orb-amount))
   (set! (-> *ap-settings* trap-duration) (-> options trap-duration))
   (set! (-> *ap-settings* completion-goal) (-> options completion-goal))
+  ;; Ecorando setting will be enabled by the AP client calling ap-setup-ecorando! below.
+  ;; Disabled by default so that old apworlds are not stuck without Eco.
+  (set! (-> *ap-settings* ecorando?) #f)
   ;; This is the current slot info, do not copy it to ap-settings yet.
   (charp<-string (-> *ap-info-jak1* slot-name) (-> options slot-name))
   (charp<-string (-> *ap-info-jak1* slot-seed) (-> options slot-seed))
+  #t)
+
+(defun ap-setup-ecorando! ((enabled? symbol))
+  "Enable/disable Ecorando. Called by the AP client to sync the in-game setting to the slot setting."
+  (set! (-> *ap-settings* ecorando?) enabled?)
   #t)
 
 (defun ap-set-connection-status! ((status connection-status))

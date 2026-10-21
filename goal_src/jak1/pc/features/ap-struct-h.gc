@@ -143,6 +143,8 @@
 
 (define-extern ap-setup-options! (function ap-seed-options symbol))
 
+(define-extern ap-ap-setup-ecorando! (function symbol symbol))
+
 (define-extern ap-set-connection-status! (function connection-status symbol))
 
 ;; Handles options changes.
