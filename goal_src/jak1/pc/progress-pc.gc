@@ -3414,8 +3414,23 @@
                      #x5de8 ;; 24040
                      )))
     (dotimes (i (length texts))
+      ;; If Ecorando is not enabled, don't show Eco as potential moves.
+      (when (= (-> *ap-info-jak1* ecorando-enabled) 0)
+        (case (-> texts i)
+          (((text-id ap-blue-eco) (text-id ap-red-eco) (text-id ap-yellow-eco))
+            (when (= (-> *ap-info-jak1* ecorando-enabled) 0)
+              (continue)
+            )
+          )
+        )
+      )
+
       (set! (-> arg0 origin x) (the float (- 50 (-> this left-x-offset))))
-      (set! (-> arg0 origin y) (* 13.0 i))
+      ;; If Ecorando is enabled, the font must be a bit smaller so all entries fit.
+      (if (= (-> *ap-info-jak1* ecorando-enabled) 0)
+        (set! (-> arg0 origin y) (* 15.0 i))
+        (set! (-> arg0 origin y) (* 13.0 i))
+      )
       (let ((v1-2 arg0)) (set! (-> v1-2 scale) 0.5))
       (let ((v1-3 arg0)) (set! (-> v1-3 width) (the float 300)))
       (let ((v1-4 arg0)) (set! (-> v1-4 height) (the float 40)))
