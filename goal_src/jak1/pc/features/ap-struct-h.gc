@@ -51,6 +51,8 @@
    (trap-duration        float)
    ;; Eco randomizer information.
    (ecorando-enabled     uint8) ;; this enables/disabled the setting.
+   ;; Level Rando information
+   (randomized-levels    uint8 8)
    ;; End marker just to make things look nice in a memory view.
    (end-marker           uint8 4)))
 
@@ -149,3 +151,6 @@
 
 ;; Handles options changes.
 (define-extern ap-settings-update (function none))
+
+
+(define-extern ap-rando-transition-level (function basic basic symbol))

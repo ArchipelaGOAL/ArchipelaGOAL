@@ -274,6 +274,44 @@
              :lev0 'village1
              :disp0 'display
              :lev1 'beach
+             :disp1 'display)
+        (new 'static
+             'continue-point
+             :name "village1-misty"
+             :level 'village1
+             :trans
+             (new 'static 'vector :x -130084.3281 :y 10097.3525 :z 424674.7812 :w 1.0)
+             :quat
+             (new 'static 'quaternion :y 0.9822 :w -0.1877)
+             :camera-trans
+             (new 'static 'vector :x -128889.6171 :y 30977.6171 :z 475097.8750 :w 1.0)
+             :camera-rot
+             (new 'static 'array float 9  -0.9997 -0.0000 0.0233  -0.0028 0.9927 -0.1204  -0.0232 -0.1204 -0.9924)
+             :load-commands
+             '()
+             :vis-nick 'vi1
+             :lev0 'village1
+             :disp0 'display
+             :lev1 'beach
+             :disp1 #f)
+         (new 'static
+             'continue-point
+             :name "village1-jungle"
+             :level 'village1
+             :trans
+             (new 'static 'vector :x 812166.2500 :y 92169.0000 :z -600452.5000 :w 1.0)
+             :quat
+             (new 'static 'quaternion :y -0.6698 :w  0.7425)
+             :camera-trans
+             (new 'static 'vector :x 862775.0625 :y 113241.0312 :z -608211.6250 :w 1.0)
+             :camera-rot
+             (new 'static 'array float 9  0.1515 -0.0000 0.9884  -0.1189 0.9927 0.0182  -0.981232 -0.1203 0.1504)
+             :load-commands
+             '()
+             :vis-nick 'vi1
+             :lev0 'village1
+             :disp0 'display
+             :lev1 'jungle
              :disp1 'display))
        :tasks
        '(10 11 12 13 14 75)
@@ -777,6 +815,63 @@
              :lev0 'village2
              :disp0 'display
              :lev1 'rolling
+             :disp1 #f)
+        (new 'static
+             'continue-point
+             :name "village2-rolling"
+             :level 'village2
+             :trans
+             (new 'static 'vector :x 778244.1250 :y 45632.3398 :z -6675727.0000 :w 1.0)
+             :quat
+             (new 'static 'quaternion :y -0.4344 :w -0.9007)
+             :camera-trans
+             (new 'static 'vector :x 742081.1250 :y 66763.4375 :z -6711969.0000 :w 1.0)
+             :camera-rot
+             (new 'static 'array float 9 0.7084 0.0 -0.7057  0.0860 0.9925 0.0864  0.7004 -0.1219 0.7031)
+             :load-commands
+             '()
+             :vis-nick 'vi2
+             :lev0 'village2
+             :disp0 'display
+             :lev1 'rolling
+             :disp1 'display)
+        (new 'static
+             'continue-point
+             :name "village2-sunken"
+             :level 'village2
+             :trans
+             (new 'static 'vector :x 2120243.0000 :y 16384.0332 :z -6681245.5000 :w 1.0)
+             :quat
+             (new 'static 'quaternion :y -0.7016 :w 0.7124)
+             :camera-trans
+             (new 'static 'vector :x 2171361.7500 :y 37478.7773 :z -6678006.5000 :w 1.0)
+             :camera-rot
+             (new 'static 'array float 9 -0.0637 0.0 0.9979  -0.1205 0.9926 -0.0077  -0.9906 -0.1207 -0.0633)
+             :load-commands
+             '()
+             :vis-nick 'vi2
+             :lev0 'village2
+             :disp0 'display
+             :lev1 'sunken
+             :disp1 'special)
+        (new 'static
+             'continue-point
+             :name "village2-swamp"
+             :level 'village2
+             :trans
+             (new 'static 'vector :x 1790604.7500 :y 9313.9531 :z -7189857.0000 :w 1.0)
+             :quat
+             (new 'static 'quaternion :y -0.0776 :w -0.9969)
+             :camera-trans
+             (new 'static 'vector :x 1792543.3750 :y 30270.5917 :z -7240456.5000 :w 1.0)
+             :camera-rot
+             (new 'static 'array float 9 0.9992 0.0 0.0391  -0.0047 0.9925 0.1214  -0.0388 -0.1215 0.9918)
+             :load-commands
+             '()
+             :vis-nick 'vi2
+             :lev0 'village2
+             :disp0 'display
+             :lev1 'swamp
              :disp1 #f))
        :tasks
        '(31 32 34 35 76)
@@ -1386,6 +1481,44 @@
              (new 'static 'vector :x 4381844.0 :y 218599.83 :z -14551361.0 :w 1.0)
              :camera-rot
              (new 'static 'array float 9 0.442 0.0 -0.8969 0.1099 0.9924 0.0541 0.8902 -0.1225 0.4387)
+             :load-commands
+             '()
+             :vis-nick 'vi3
+             :lev0 'village3
+             :disp0 'display
+             :lev1 'snow
+             :disp1 #f)
+        (new 'static
+             'continue-point
+             :name "village3-maincave"
+             :level 'village3
+             :trans
+             (new 'static 'vector :x 4477999.0000 :y 185998.0937 :z -13594343.0000 :w 1.0)
+             :quat
+             (new 'static 'quaternion :y 0.9980 :w 0.0621)
+             :camera-trans
+             (new 'static 'vector :x 4465106.0000 :y 207061.2500 :z -13544788.0000 :w 1.0)
+             :camera-rot
+             (new 'static 'array float 9 -0.9675 0.0 -0.2526  0.0304 0.9926 -0.1167  0.2508 -0.1206 -0.9604)
+             :load-commands
+             '()
+             :vis-nick 'vi3
+             :lev0 'village3
+             :disp0 'display
+             :lev1 'maincave
+             :disp1 'display)
+        (new 'static
+             'continue-point
+             :name "village3-snow"
+             :level 'village3
+             :trans
+             (new 'static 'vector :x 4473879.5000 :y 187631.5625 :z -14506473.0000 :w 1.0)
+             :quat
+             (new 'static 'quaternion :y -0.9928 :w -0.1189)
+             :camera-trans
+             (new 'static 'vector :x 4455520.0000 :y 208557.0312 :z -14459328.0000 :w 1.0)
+             :camera-rot
+             (new 'static 'array float 9 -0.9322 0.0 -0.3617  0.0438 0.9926 -0.1130  0.3590 -0.1212 -0.9253)
              :load-commands
              '()
              :vis-nick 'vi3

@@ -370,6 +370,16 @@
   ;; This is the current slot info, do not copy it to ap-settings yet.
   (charp<-string (-> *ap-info-jak1* slot-name) (-> options slot-name))
   (charp<-string (-> *ap-info-jak1* slot-seed) (-> options slot-seed))
+
+  ;; Static level rando, will be overridden by client
+  (set! (-> *ap-info-jak1* randomized-levels 0) 0)
+  (set! (-> *ap-info-jak1* randomized-levels 1) 1)
+  (set! (-> *ap-info-jak1* randomized-levels 2) 2)
+  (set! (-> *ap-info-jak1* randomized-levels 3) 3)
+  (set! (-> *ap-info-jak1* randomized-levels 4) 4)
+  (set! (-> *ap-info-jak1* randomized-levels 5) 5)
+  (set! (-> *ap-info-jak1* randomized-levels 6) 6)
+  (set! (-> *ap-info-jak1* randomized-levels 7) 7)
   #t)
 
 (defun ap-setup-ecorando! ((enabled? symbol))
@@ -401,3 +411,139 @@
   (set! (-> *ap-info-jak1* completion-goal) (-> *ap-settings* completion-goal))
   ;; Do not copy any slot-info from ap-settings to ap-info-jak1.
   (none))
+
+
+
+;; Custom AP Level Randomizer code
+
+(defun ap-get-level-start-checkpoint ((id uint))
+"Returns the starting checkpoint for a given level id."
+  (case id
+    ((0)
+      "jungle-start")
+    ((1)
+      "beach-start")
+    ((2)
+      "misty-start")
+    ((3)
+      "rolling-start")
+    ((4)
+      "sunken-start")
+    ((5)
+      "swamp-start")
+    ((6)
+      "maincave-start")
+    ((7)
+      "snow-start")
+    (else
+      "village1-hut")
+  )
+)
+
+(defun ap-get-level-leave-checkpoint ((id int))
+"Returns the leaving checkpoint for a given level id, i.e. a checkpoint in the hub near the level."
+  (case id
+    ((0)
+      "village1-jungle")
+    ((1)
+      "village1-beach")
+    ((2)
+      "village1-misty")
+    ((3)
+      "village2-rolling")
+    ((4)
+      "village2-sunken")
+    ((5)
+      "village2-swamp")
+    ((6)
+      "village3-maincave")
+    ((7)
+      "village3-snow")
+    (else
+      "village1-hut")
+  )
+)
+
+(defun ap-is-hub-level? ((level basic))
+"Returns #t if the level is a hub level (To determine whether Jak is currently entering/leaving a level)."
+  (case level
+    (('village1 'village2 'village3)
+      #t)
+    (else
+      #f)
+  )
+)
+
+(defun ap-get-level-id ((level basic))
+"Given a level name, returns the level id for the randomization."
+  (case level
+    (('jungle)
+      0)
+    (('beach)
+      1)
+    (('misty)
+      2)
+    (('rolling)
+      3)
+    (('sunken)
+      4)
+    (('swamp)
+      5)
+    (('maincave)
+      6)
+    (('snow)
+      7)
+    (else
+     (format 0 "!!! Invalid level for ap-get-level-id: ~A~%" level)
+      0)
+  )
+)
+
+(defun ap-get-original-level-id ((randomized-id int))
+"Given a randomized level id, returns the original level id (to figure out where the level exit is)."
+  (dotimes (i 8)
+    (when (= (-> *ap-info-jak1* randomized-levels i) randomized-id)
+      (return i)
+    )
+  )
+  0
+)
+
+(defun ap-continue-at-checkpoint ((checkpoint string))
+  (process-spawn-function process
+  (lambda :behavior process ((eco-type pickup-type) (eco-timeout-remaining seconds))
+  (let ((current-level-name (-> *target* current-level name)))
+    (when (> eco-timeout-remaining 0)
+    ;; Wait until we're in the next level
+    (while (= (-> *target* current-level name) current-level-name)
+      (suspend)
+    )
+    ;; Pickup 1 eco orb so that everything is initialized correctly (like blue eco suck)
+    (pickup-collectable! (-> *target* fact) eco-type 1.0 (the-as handle #f))
+    ;; Set correct timeout based on the remaining time, plus 1 second
+    (set! (-> *target* fact eco-timeout) (+ eco-timeout-remaining (seconds 1)))
+  )))
+  (-> *target* fact eco-type)
+  (- (-> *target* fact eco-timeout) (- (-> *display* game-frame-counter) (-> *target* fact eco-pickup-time)))
+  )
+
+  (set-continue! *game-info* checkpoint)
+  (initialize! *game-info* 'die (the-as game-save #f) (the-as string #f))
+)
+
+(defun ap-rando-transition-level ((prev-level-name basic) (next-level-name basic))
+  ;; TODO - check if the level is regular, then don't teleport
+  (let ((is-entering-level (ap-is-hub-level? prev-level-name))
+        (is-leaving-level (ap-is-hub-level? next-level-name)))
+    (when is-entering-level
+      (ap-continue-at-checkpoint (ap-get-level-start-checkpoint (-> *ap-info-jak1* randomized-levels (ap-get-level-id next-level-name))))
+      (return #t)
+    )
+
+    (when is-leaving-level
+      (ap-continue-at-checkpoint (ap-get-level-leave-checkpoint (ap-get-original-level-id (ap-get-level-id prev-level-name))))
+      (return #t)
+    )
+  )
+  #f
+)
