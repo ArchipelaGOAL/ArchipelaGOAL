@@ -174,10 +174,10 @@
                         (v1-40 (entity-actor-lookup (-> self entity) 'alt-actor 1)))
                     (s3-2 (if v1-40 (-> v1-40 extra process)) s4-4)))))
             (cond
-              ((not (or s4-1 (task-closed? (game-task village3-button) (task-status need-hint)))))
-              ((not (ap-special-checked? (the-as uint (game-task village3-button))))
+              ((not (or arg0 s4-1 (task-closed? (game-task village3-button) (task-status need-hint)))))
+              ((and (not arg0) (not (ap-special-checked? (the-as uint (game-task village3-button)))))
                 ;; you haven't checked the gondola.
-                ;; show the check prompt.
+                ;; show the check prompt, but only when on the ground, ready to move up.
                 (let ((s5-2 (new 'stack 'font-context *font-default-matrix* 32 160 0.0 (font-color default) (font-flags shadow kerning))))
                   (let ((v1-59 s5-2)) (set! (-> v1-59 width) (the float 440)))
                   (let ((v1-60 s5-2)) (set! (-> v1-60 height) (the float 80)))
@@ -187,9 +187,10 @@
                   (ap-special-checked! (the-as uint (game-task village3-button)))
                   (suspend-for (seconds 1))))
               ((and (ap-special-checked? (the-as uint (game-task village3-button)))
-                    (not (ap-special-received? (the-as uint (game-task village3-button))))))
+                    (not (ap-special-received? (the-as uint (game-task village3-button))))
+                    (not arg0)))
                 ;; you checked the gondola, but you don't have the gondola.
-                ;; do nothing.
+                ;; do nothing when you want to travel up.
               (else
                ;; you checked the gondola, and you have the gondola.
                ;; show the use prompt.
@@ -242,6 +243,9 @@
         (load-state-want-vis 'sno)
         (set-continue! *game-info* "snow-start"))
       (process-entity-status! self (entity-perm-status bit-3) #f)
+      ;; AP - Actually, go to random level
+      (ap-rando-transition-level 'village3 'snow)
+      ;; AP END
       (go-virtual idle #t))
   :post
     (behavior ()
@@ -278,6 +282,9 @@
         (load-state-want-vis 'vi3)
         (set-continue! *game-info* "village3-farside"))
       (process-entity-status! self (entity-perm-status bit-3) #f)
+      ;; AP - Actually, go to random level
+      (ap-rando-transition-level 'snow 'village3)
+      ;; AP END
       (go-virtual idle #f))
   :post
     (-> (method-of-type gondola ride-up)

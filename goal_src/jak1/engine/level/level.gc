@@ -1259,6 +1259,15 @@
                    (= (-> s4-1 nickname) (-> *load-state* vis-nick))
                    (!= (-> s4-1 name) (-> *game-info* current-continue level))
                    (-> *level* border?))
+
+          ;; AP - Level Rando START
+          (let ((prev-level-name (-> *game-info* current-continue level))
+                (next-level-name (-> s4-1 name)))
+            (when (ap-rando-transition-level prev-level-name next-level-name)
+              (return 0))
+          )
+          ;; AP - Level Rando END
+
           (let ((s3-0 (the-as continue-point (car (-> s4-1 info continues)))))
             (let* ((s2-0 (target-pos 0))
                    (s4-2 (-> s4-1 info continues))

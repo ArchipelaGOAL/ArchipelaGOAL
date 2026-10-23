@@ -1127,6 +1127,9 @@
           (none))
         :to
         self)
+      ;; AP - Actually, go to random level
+      (ap-rando-transition-level 'village1 'misty)
+      ;; AP END
       (go fishermans-boat-docked-misty))
   :post
     (behavior ()
@@ -1197,6 +1200,9 @@
       (set! (-> self propeller enable) #t)
       (fishermans-boat-play-sounds)
       (process-entity-status! self (entity-perm-status complete) #t)
+      ;; AP - Actually, go to random level
+      (ap-rando-transition-level 'misty 'village1)
+      ;; AP END
       (go fishermans-boat-docked-village))
   :post
     (behavior ()
