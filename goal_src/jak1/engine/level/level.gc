@@ -1273,7 +1273,8 @@
                    (s4-2 (-> s4-1 info continues))
                    (s1-0 (the-as continue-point (car s4-2))))
               (while (not (null? s4-2))
-                (if (and (< (vector-vector-distance s2-0 (-> s1-0 trans)) (vector-vector-distance s2-0 (-> s3-0 trans)))
+                ;; AP - Do not set an ap-only continue point as the "closest" to not change default game behavior.
+                (if (and (not (-> s1-0 ap-only)) (< (vector-vector-distance s2-0 (-> s1-0 trans)) (vector-vector-distance s2-0 (-> s3-0 trans)))
                          (zero? (-> s1-0 flags)))
                   (set! s3-0 s1-0))
                 (set! s4-2 (cdr s4-2))

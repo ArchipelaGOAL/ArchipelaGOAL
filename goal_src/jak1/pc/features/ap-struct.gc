@@ -481,7 +481,7 @@
 
 (defun ap-is-level-randomized? ((level-id int))
 "Returns true if the given level-id is mapped to a different level."
-  (= (-> *ap-info-jak1* randomized-levels level-id) level-id)
+  (!= (-> *ap-info-jak1* randomized-levels level-id) level-id)
 )
 
 (defun ap-get-level-id ((level basic))

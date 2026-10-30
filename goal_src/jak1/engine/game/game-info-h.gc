@@ -107,7 +107,10 @@
    (lev0          symbol)
    (disp0         symbol)
    (lev1          symbol)
-   (disp1         symbol))
+   (disp1         symbol)
+   ;; ap-only is #t for added level rando checkpoints.
+   ;; They're never considered as the "nearest continue point" for respawns when entering a level.
+   (ap-only       symbol))
   (:methods
    (debug-draw! (_type_) none)))
 

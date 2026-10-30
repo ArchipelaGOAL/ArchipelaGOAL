@@ -274,7 +274,8 @@
              :lev0 'village1
              :disp0 'display
              :lev1 'beach
-             :disp1 'display)
+             :disp1 'display
+             :ap-only #t)
         (new 'static
              'continue-point
              :name "village1-misty"
@@ -293,7 +294,8 @@
              :lev0 'village1
              :disp0 'display
              :lev1 'beach
-             :disp1 #f)
+             :disp1 #f
+             :ap-only #t)
          (new 'static
              'continue-point
              :name "village1-jungle"
@@ -312,7 +314,8 @@
              :lev0 'village1
              :disp0 'display
              :lev1 'jungle
-             :disp1 'display))
+             :disp1 'display
+             :ap-only #t))
        :tasks
        '(10 11 12 13 14 75)
        :priority #xc8
@@ -834,7 +837,8 @@
              :lev0 'village2
              :disp0 'display
              :lev1 'rolling
-             :disp1 'display)
+             :disp1 'display
+             :ap-only #t)
         (new 'static
              'continue-point
              :name "village2-sunken"
@@ -853,7 +857,8 @@
              :lev0 'village2
              :disp0 'display
              :lev1 'sunken
-             :disp1 'special)
+             :disp1 'special
+             :ap-only #t)
         (new 'static
              'continue-point
              :name "village2-swamp"
@@ -872,7 +877,8 @@
              :lev0 'village2
              :disp0 'display
              :lev1 'swamp
-             :disp1 #f))
+             :disp1 #f
+             :ap-only #t))
        :tasks
        '(31 32 34 35 76)
        :priority #xc8
@@ -1506,7 +1512,8 @@
              :lev0 'village3
              :disp0 'display
              :lev1 'maincave
-             :disp1 'display)
+             :disp1 'display
+             :ap-only #t)
         (new 'static
              'continue-point
              :name "village3-snow"
@@ -1525,7 +1532,8 @@
              :lev0 'village3
              :disp0 'display
              :lev1 'snow
-             :disp1 #f))
+             :disp1 #f
+             :ap-only #t))
        :tasks
        '(96 97 98 99 100 101 74 77)
        :priority #xc8
