@@ -155,6 +155,9 @@
     ((= move-id 23348) (the-as uint 8)) ;; Punch
     ((= move-id 23349) (the-as uint 9)) ;; Punch Uppercut
     ((= move-id 23350) (the-as uint 10)) ;; Kick
+    ((= move-id 24038) (the-as uint 11)) ;; Blue Eco
+    ((= move-id 24039) (the-as uint 12)) ;; Red Eco
+    ((= move-id 24040) (the-as uint 13)) ;; Yellow Eco
     ))
 
 (defun ap-move-received! ((move-id uint))
@@ -361,9 +364,17 @@
   (set! (-> *ap-settings* oracle-orb-amount) (-> options oracle-orb-amount))
   (set! (-> *ap-settings* trap-duration) (-> options trap-duration))
   (set! (-> *ap-settings* completion-goal) (-> options completion-goal))
+  ;; Ecorando setting will be enabled by the AP client calling ap-setup-ecorando! below.
+  ;; Disabled by default so that old apworlds are not stuck without Eco.
+  (set! (-> *ap-settings* ecorando?) #f)
   ;; This is the current slot info, do not copy it to ap-settings yet.
   (charp<-string (-> *ap-info-jak1* slot-name) (-> options slot-name))
   (charp<-string (-> *ap-info-jak1* slot-seed) (-> options slot-seed))
+  #t)
+
+(defun ap-setup-ecorando! ((enabled? symbol))
+  "Enable/disable Ecorando. Called by the AP client to sync the in-game setting to the slot setting."
+  (set! (-> *ap-settings* ecorando?) enabled?)
   #t)
 
 (defun ap-set-connection-status! ((status connection-status))
@@ -378,6 +389,7 @@
   "A per frame update for settings related stuff"
   (set! (-> *ap-info-jak1* deathlink-enabled) (if (-> *ap-settings* deathlink?) 1 0))
   (set! (-> *ap-info-jak1* moverando-enabled) (if (-> *ap-settings* moverando?) 1 0))
+  (set! (-> *ap-info-jak1* ecorando-enabled) (if (-> *ap-settings* ecorando?) 1 0))
   (set! (-> *ap-info-jak1* orbsanity-option) (-> *ap-settings* orbsanity-option))
   (set! (-> *ap-info-jak1* orbsanity-bundle) (-> *ap-settings* orbsanity-bundle))
   (set! (-> *ap-info-jak1* fire-canyon-unlock) (-> *ap-settings* fire-canyon-unlock))

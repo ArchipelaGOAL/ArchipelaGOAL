@@ -49,6 +49,8 @@
    (slot-seed            uint8 8)
    ;; Trap information.
    (trap-duration        float)
+   ;; Eco randomizer information.
+   (ecorando-enabled     uint8) ;; this enables/disabled the setting.
    ;; End marker just to make things look nice in a memory view.
    (end-marker           uint8 4)))
 
@@ -140,6 +142,8 @@
 (define-extern ap-trap-received! (function uint symbol))
 
 (define-extern ap-setup-options! (function ap-seed-options symbol))
+
+(define-extern ap-setup-ecorando! (function symbol symbol))
 
 (define-extern ap-set-connection-status! (function connection-status symbol))
 
