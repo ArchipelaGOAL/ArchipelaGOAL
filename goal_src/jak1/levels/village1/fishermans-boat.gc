@@ -636,8 +636,9 @@
 (defbehavior fishermans-boat-leave-dock? fishermans-boat ()
   (let ((gp-0 #f))
     (when (and (< (vector-vector-distance (target-pos 0) (-> self rbody position)) 6144.0)
-               (or (ap-special-received? (the-as uint (game-task jungle-fishgame))) (and *cheat-mode* (cpad-hold? 0 l3))
-               ;; Make sure the boat can always be taken back to the main island
+               (or (ap-special-received? (the-as uint (game-task jungle-fishgame)))
+                   (and *cheat-mode* (cpad-hold? 0 l3))
+                   ;; AP - Make sure the boat can always be taken back to the main island.
                    (= (-> *target* current-level name) 'misty))
                (not (level-hint-displayed?))
                (time-elapsed? (-> self state-time) (seconds 3))
@@ -1127,9 +1128,8 @@
           (none))
         :to
         self)
-      ;; AP - Actually, go to random level
+      ;; AP - Go to random level if applicable
       (ap-rando-transition-level 'village1 'misty)
-      ;; AP END
       (go fishermans-boat-docked-misty))
   :post
     (behavior ()
@@ -1200,9 +1200,8 @@
       (set! (-> self propeller enable) #t)
       (fishermans-boat-play-sounds)
       (process-entity-status! self (entity-perm-status complete) #t)
-      ;; AP - Actually, go to random level
+      ;; AP - Go to random level if applicable
       (ap-rando-transition-level 'misty 'village1)
-      ;; AP END
       (go fishermans-boat-docked-village))
   :post
     (behavior ()

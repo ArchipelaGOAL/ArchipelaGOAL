@@ -243,9 +243,8 @@
         (load-state-want-vis 'sno)
         (set-continue! *game-info* "snow-start"))
       (process-entity-status! self (entity-perm-status bit-3) #f)
-      ;; AP - Actually, go to random level
+      ;; AP - Go to random level if applicable
       (ap-rando-transition-level 'village3 'snow)
-      ;; AP END
       (go-virtual idle #t))
   :post
     (behavior ()
@@ -282,9 +281,8 @@
         (load-state-want-vis 'vi3)
         (set-continue! *game-info* "village3-farside"))
       (process-entity-status! self (entity-perm-status bit-3) #f)
-      ;; AP - Actually, go to random level
+      ;; AP - Go to random level if applicable
       (ap-rando-transition-level 'snow 'village3)
-      ;; AP END
       (go-virtual idle #f))
   :post
     (-> (method-of-type gondola ride-up)
