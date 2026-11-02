@@ -301,6 +301,17 @@
         (print-game-text *temp-string* gp-0 #f 128 22))))
   (when (not *ap-messenger*)
     (set! *ap-messenger* (ap-messenger-run)))
+
+    ;; Unlock Citadel door from the inside to prevent softlock in randomizer preventing Jak from leaving.
+    ;; based on https://opengoal.dev/docs/developing/modding_examples/checkpoint_randomizer/#citadel-softlock
+    (if (and (= (-> *target* current-level name) 'citadel) (entity-by-name "citb-iris-door-21"))
+      ;; we break the link between the citadel door's state and the warp gate switch,
+      ;; and then manually open the door
+      (let ((citb-iris-door-21 (the eco-door (-> (entity-by-name "citb-iris-door-21") extra process))))
+        (set! (-> citb-iris-door-21 state-actor) #f)
+        (set! (-> citb-iris-door-21 locked) #f)
+      )
+    )
   (none))
 
 (defun runs-on-orb-pickup ((parent process-tree))
