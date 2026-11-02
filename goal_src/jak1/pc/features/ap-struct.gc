@@ -475,7 +475,7 @@
 )
 
 (defun ap-is-randomizable-level? ((level basic))
-"Returns #t if the level should be randomized."
+"Returns #t if the level could be randomized (and is not a hub/connector level)."
   (case level
     (('jungle 'beach 'misty 'rolling 'sunken 'swamp 'maincave 'snow 'citadel)
       #t)
@@ -562,6 +562,8 @@ Returns #t if Jak is teleported. If #f is returned, this function did nothing."
         (is-leaving-level (ap-is-hub-level? next-level-name))
         (prev-level-id (ap-get-level-id prev-level-name))
         (next-level-id (ap-get-level-id next-level-name)))
+    ;; (format 0 "!!! Transition from: ~A~%" prev-level-name)
+    ;; (format 0 "!!! Transition to: ~A~%" next-level-name)
     ;; Teleport to the randomized level checkpoint if leaving hub, entering a randomizable level, and the level is actually different.
     (when (and is-entering-level (ap-is-randomizable-level? next-level-name) (ap-is-level-randomized? next-level-id))
       (ap-continue-at-checkpoint (ap-get-level-start-checkpoint (-> *ap-info-jak1* randomized-levels next-level-id)))
