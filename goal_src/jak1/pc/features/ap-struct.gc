@@ -372,7 +372,7 @@
   (charp<-string (-> *ap-info-jak1* slot-seed) (-> options slot-seed))
 
   ;; Static level rando, will be overridden by AP client.
-  (dotimes (i 8)
+  (dotimes (i 16)
     (set! (-> *ap-info-jak1* randomized-levels i) i)
   )
   #t)
@@ -414,22 +414,24 @@
 (defun ap-get-level-start-checkpoint ((id uint))
 "Returns the starting checkpoint for a given level id."
   (case id
-    ((0)
+    (((ap-level-id jungle))
       "jungle-start")
-    ((1)
+    (((ap-level-id beach))
       "beach-start")
-    ((2)
+    (((ap-level-id misty))
       "misty-start")
-    ((3)
+    (((ap-level-id rolling))
       "rolling-start")
-    ((4)
+    (((ap-level-id sunken))
       "sunken-start")
-    ((5)
+    (((ap-level-id swamp))
       "swamp-start")
-    ((6)
+    (((ap-level-id maincave))
       "maincave-start")
-    ((7)
+    (((ap-level-id snow))
       "snow-start")
+    (((ap-level-id citadel))
+      "citadel-start")
     (else
       "village1-hut")
   )
@@ -438,22 +440,24 @@
 (defun ap-get-level-leave-checkpoint ((id int))
 "Returns the leaving checkpoint for a given level id, i.e. a checkpoint in the hub near the level."
   (case id
-    ((0)
+    (((ap-level-id jungle))
       "village1-jungle")
-    ((1)
+    (((ap-level-id beach))
       "village1-beach")
-    ((2)
+    (((ap-level-id misty))
       "village1-misty")
-    ((3)
+    (((ap-level-id rolling))
       "village2-rolling")
-    ((4)
+    (((ap-level-id sunken))
       "village2-sunken")
-    ((5)
+    (((ap-level-id swamp))
       "village2-swamp")
-    ((6)
+    (((ap-level-id maincave))
       "village3-maincave")
-    ((7)
+    (((ap-level-id snow))
       "village3-snow")
+    (((ap-level-id citadel))
+      "lavatube-end")
     (else
       "village1-hut")
   )
@@ -462,7 +466,8 @@
 (defun ap-is-hub-level? ((level basic))
 "Returns #t if the level is a hub level (To determine whether Jak is currently entering/leaving a level)."
   (case level
-    (('village1 'village2 'village3)
+    ;; Lavatube counts as a hub level here as Jak enters citadel from it.
+    (('village1 'village2 'village3 'lavatube)
       #t)
     (else
       #f)
@@ -472,7 +477,7 @@
 (defun ap-is-randomizable-level? ((level basic))
 "Returns #t if the level should be randomized."
   (case level
-    (('jungle 'beach 'misty 'rolling 'sunken 'swamp 'maincave 'snow 'hut)
+    (('jungle 'beach 'misty 'rolling 'sunken 'swamp 'maincave 'snow 'citadel)
       #t)
     (else
       #f)
@@ -488,21 +493,23 @@
 "Given a level name, returns the level id for the randomization."
   (case level
     (('jungle)
-      0)
+      (ap-level-id jungle))
     (('beach)
-      1)
+      (ap-level-id beach))
     (('misty)
-      2)
+      (ap-level-id misty))
     (('rolling)
-      3)
+      (ap-level-id rolling))
     (('sunken)
-      4)
+      (ap-level-id sunken))
     (('swamp)
-      5)
+      (ap-level-id swamp))
     (('maincave)
-      6)
+      (ap-level-id maincave))
     (('snow)
-      7)
+      (ap-level-id snow))
+    (('citadel)
+      (ap-level-id citadel))
     (else
      (format 0 "!!! Invalid level for ap-get-level-id: ~A~%" level)
       0)
@@ -511,7 +518,7 @@
 
 (defun ap-get-original-level-id ((randomized-id int))
 "Given a randomized level id, returns the original level id (to figure out where the level exit is)."
-  (dotimes (i 8)
+  (dotimes (i 16)
     (when (= (-> *ap-info-jak1* randomized-levels i) randomized-id)
       (return i)
     )

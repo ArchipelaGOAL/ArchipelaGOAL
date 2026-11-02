@@ -2060,6 +2060,45 @@
              :lev0 'lavatube
              :disp0 'display
              :lev1 'citadel
+             :disp1 'display)
+        (new 'static
+             'continue-point
+             :name "citadel-entrance"
+             :level 'lavatube ;; AP - treat this as a "lavatube" level as it's outside of citadel.
+             :trans
+             (new 'static 'vector :x 11443969.0 :y -154216.03 :z -18472782.0 :w 1.0)
+             :quat
+             (new 'static 'quaternion :y -0.9728 :w 0.2314)
+             :camera-trans
+             (new 'static 'vector :x 11436929.0 :y -134244.36 :z -18426254.0 :w 1.0)
+             :camera-rot
+             (new 'static 'array float 9 -0.9898 0.0 -0.1424 0.0173 0.9925 -0.1207 0.1413 -0.1219 -0.9824)
+             :load-commands
+             '()
+             :vis-nick 'lav
+             :lev0 'lavatube
+             :disp0 'display
+             :lev1 'citadel
+             :disp1 'display)
+        (new 'static
+             'continue-point
+             :name "citadel-warp"
+             :level 'lavatube ;; AP - treat this as a "lavatube" level as it's outside of citadel.
+             :flags (continue-flags warp)
+             :trans
+             (new 'static 'vector :x 11454895.0 :y -161791.6 :z -18204690.0 :w 1.0)
+             :quat
+             (new 'static 'quaternion :y 0.7511 :w 0.6601)
+             :camera-trans
+             (new 'static 'vector :x 11406872.0 :y -141278.0 :z -18194638.0 :w 1.0)
+             :camera-rot
+             (new 'static 'array float 9 -0.1989 0.0 -0.98 0.1179 0.9927 -0.0239 0.9728 -0.1203 -0.1974)
+             :load-commands
+             '()
+             :vis-nick 'lav
+             :lev0 'lavatube
+             :disp0 'display
+             :lev1 'citadel
              :disp1 'display))
        :tasks
        '(89 90)
@@ -2113,45 +2152,6 @@
              :disp0 'display
              :lev1 'lavatube
              :disp1 #f)
-        (new 'static
-             'continue-point
-             :name "citadel-entrance"
-             :level 'citadel
-             :trans
-             (new 'static 'vector :x 11443969.0 :y -154216.03 :z -18472782.0 :w 1.0)
-             :quat
-             (new 'static 'quaternion :y -0.9728 :w 0.2314)
-             :camera-trans
-             (new 'static 'vector :x 11436929.0 :y -134244.36 :z -18426254.0 :w 1.0)
-             :camera-rot
-             (new 'static 'array float 9 -0.9898 0.0 -0.1424 0.0173 0.9925 -0.1207 0.1413 -0.1219 -0.9824)
-             :load-commands
-             '()
-             :vis-nick 'cit
-             :lev0 'citadel
-             :disp0 'display
-             :lev1 'lavatube
-             :disp1 'display)
-        (new 'static
-             'continue-point
-             :name "citadel-warp"
-             :level 'citadel
-             :flags (continue-flags warp)
-             :trans
-             (new 'static 'vector :x 11454895.0 :y -161791.6 :z -18204690.0 :w 1.0)
-             :quat
-             (new 'static 'quaternion :y 0.7511 :w 0.6601)
-             :camera-trans
-             (new 'static 'vector :x 11406872.0 :y -141278.0 :z -18194638.0 :w 1.0)
-             :camera-rot
-             (new 'static 'array float 9 -0.1989 0.0 -0.98 0.1179 0.9927 -0.0239 0.9728 -0.1203 -0.1974)
-             :load-commands
-             '()
-             :vis-nick 'cit
-             :lev0 'citadel
-             :disp0 'display
-             :lev1 'lavatube
-             :disp1 'display)
         (new 'static
              'continue-point
              :name "citadel-launch-start"
