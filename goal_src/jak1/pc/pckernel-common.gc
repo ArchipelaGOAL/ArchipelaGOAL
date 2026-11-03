@@ -689,6 +689,7 @@
     ;; file contents
     (format file "  (deathlink? ~A)~%" (-> obj deathlink?))
     (format file "  (moverando? ~A)~%" (-> obj moverando?))
+    (format file "  (ecorando? ~A)~%" (-> obj ecorando?))
     (format file "  (orbsanity-option ~D)~%" (the-as int (-> obj orbsanity-option)))
     (format file "  (orbsanity-bundle ~D)~%" (the-as int (-> obj orbsanity-bundle)))
     (format file "  (fire-canyon-unlock ~F)~%" (the-as float (-> obj fire-canyon-unlock)))
@@ -736,6 +737,7 @@
             (case-str *pc-temp-string*
               (("deathlink?") (set! (-> obj deathlink?) (file-stream-read-symbol file)))
               (("moverando?") (set! (-> obj moverando?) (file-stream-read-symbol file)))
+              (("ecorando?") (set! (-> obj ecorando?) (file-stream-read-symbol file)))
               (("orbsanity-option") (set! (-> obj orbsanity-option) (the-as uint8 (file-stream-read-int file))))
               (("orbsanity-bundle") (set! (-> obj orbsanity-bundle) (the-as uint32 (file-stream-read-int file))))
               (("fire-canyon-unlock") (set! (-> obj fire-canyon-unlock) (the-as float (file-stream-read-float file))))

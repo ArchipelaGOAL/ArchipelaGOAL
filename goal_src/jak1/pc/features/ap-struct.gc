@@ -155,6 +155,9 @@
     ((= move-id 23348) (the-as uint 8)) ;; Punch
     ((= move-id 23349) (the-as uint 9)) ;; Punch Uppercut
     ((= move-id 23350) (the-as uint 10)) ;; Kick
+    ((= move-id 24038) (the-as uint 11)) ;; Blue Eco
+    ((= move-id 24039) (the-as uint 12)) ;; Red Eco
+    ((= move-id 24040) (the-as uint 13)) ;; Yellow Eco
     ))
 
 (defun ap-move-received! ((move-id uint))
@@ -361,9 +364,22 @@
   (set! (-> *ap-settings* oracle-orb-amount) (-> options oracle-orb-amount))
   (set! (-> *ap-settings* trap-duration) (-> options trap-duration))
   (set! (-> *ap-settings* completion-goal) (-> options completion-goal))
+  ;; Ecorando setting will be enabled by the AP client calling ap-setup-ecorando! below.
+  ;; Disabled by default so that old apworlds are not stuck without Eco.
+  (set! (-> *ap-settings* ecorando?) #f)
   ;; This is the current slot info, do not copy it to ap-settings yet.
   (charp<-string (-> *ap-info-jak1* slot-name) (-> options slot-name))
   (charp<-string (-> *ap-info-jak1* slot-seed) (-> options slot-seed))
+
+  ;; Static level rando, will be overridden by AP client.
+  (dotimes (i 16)
+    (set! (-> *ap-info-jak1* randomized-levels i) i)
+  )
+  #t)
+
+(defun ap-setup-ecorando! ((enabled? symbol))
+  "Enable/disable Ecorando. Called by the AP client to sync the in-game setting to the slot setting."
+  (set! (-> *ap-settings* ecorando?) enabled?)
   #t)
 
 (defun ap-set-connection-status! ((status connection-status))
@@ -378,6 +394,7 @@
   "A per frame update for settings related stuff"
   (set! (-> *ap-info-jak1* deathlink-enabled) (if (-> *ap-settings* deathlink?) 1 0))
   (set! (-> *ap-info-jak1* moverando-enabled) (if (-> *ap-settings* moverando?) 1 0))
+  (set! (-> *ap-info-jak1* ecorando-enabled) (if (-> *ap-settings* ecorando?) 1 0))
   (set! (-> *ap-info-jak1* orbsanity-option) (-> *ap-settings* orbsanity-option))
   (set! (-> *ap-info-jak1* orbsanity-bundle) (-> *ap-settings* orbsanity-bundle))
   (set! (-> *ap-info-jak1* fire-canyon-unlock) (-> *ap-settings* fire-canyon-unlock))
@@ -389,3 +406,175 @@
   (set! (-> *ap-info-jak1* completion-goal) (-> *ap-settings* completion-goal))
   ;; Do not copy any slot-info from ap-settings to ap-info-jak1.
   (none))
+
+
+
+;; Custom AP Level Randomizer code
+
+(defun ap-get-level-start-checkpoint ((id uint))
+"Returns the starting checkpoint for a given level id."
+  (case id
+    (((ap-level-id jungle))
+      "jungle-start")
+    (((ap-level-id beach))
+      "beach-start")
+    (((ap-level-id misty))
+      "misty-start")
+    (((ap-level-id rolling))
+      "rolling-start")
+    (((ap-level-id sunken))
+      "sunken-start")
+    (((ap-level-id swamp))
+      "swamp-start")
+    (((ap-level-id maincave))
+      "maincave-start")
+    (((ap-level-id snow))
+      "snow-start")
+    (((ap-level-id citadel))
+      "citadel-start")
+    (else
+      "village1-hut")
+  )
+)
+
+(defun ap-get-level-leave-checkpoint ((id int))
+"Returns the leaving checkpoint for a given level id, i.e. a checkpoint in the hub near the level."
+  (case id
+    (((ap-level-id jungle))
+      "village1-jungle")
+    (((ap-level-id beach))
+      "village1-beach")
+    (((ap-level-id misty))
+      "village1-misty")
+    (((ap-level-id rolling))
+      "village2-rolling")
+    (((ap-level-id sunken))
+      "village2-sunken")
+    (((ap-level-id swamp))
+      "village2-swamp")
+    (((ap-level-id maincave))
+      "village3-maincave")
+    (((ap-level-id snow))
+      "village3-snow")
+    (((ap-level-id citadel))
+      "lavatube-end")
+    (else
+      "village1-hut")
+  )
+)
+
+(defun ap-is-hub-level? ((level basic))
+"Returns #t if the level is a hub level (To determine whether Jak is currently entering/leaving a level)."
+  (case level
+    ;; Lavatube counts as a hub level here as Jak enters citadel from it.
+    (('village1 'village2 'village3 'lavatube)
+      #t)
+    (else
+      #f)
+  )
+)
+
+(defun ap-is-randomizable-level? ((level basic))
+"Returns #t if the level could be randomized (and is not a hub/connector level)."
+  (case level
+    (('jungle 'beach 'misty 'rolling 'sunken 'swamp 'maincave 'snow 'citadel)
+      #t)
+    (else
+      #f)
+  )
+)
+
+(defun ap-is-level-randomized? ((level-id int))
+"Returns true if the given level-id is mapped to a different level."
+  (!= (-> *ap-info-jak1* randomized-levels level-id) level-id)
+)
+
+(defun ap-get-level-id ((level basic))
+"Given a level name, returns the level id for the randomization."
+  (case level
+    (('jungle)
+      (ap-level-id jungle))
+    (('beach)
+      (ap-level-id beach))
+    (('misty)
+      (ap-level-id misty))
+    (('rolling)
+      (ap-level-id rolling))
+    (('sunken)
+      (ap-level-id sunken))
+    (('swamp)
+      (ap-level-id swamp))
+    (('maincave)
+      (ap-level-id maincave))
+    (('snow)
+      (ap-level-id snow))
+    (('citadel)
+      (ap-level-id citadel))
+    (else
+     (format 0 "!!! Invalid level for ap-get-level-id: ~A~%" level)
+      0)
+  )
+)
+
+(defun ap-get-original-level-id ((randomized-id int))
+"Given a randomized level id, returns the original level id (to figure out where the level exit is)."
+  (dotimes (i 16)
+    (when (= (-> *ap-info-jak1* randomized-levels i) randomized-id)
+      (return i)
+    )
+  )
+  0
+)
+
+(defun ap-continue-at-checkpoint ((checkpoint string))
+"Actually teleport Jak to a checkpoint from a randomized level.
+Re-applies current eco after teleportation, and gives yellow eco when leaving 'Spider Cave' to make the power cell accessible."
+  (when (string= checkpoint "village3-maincave")
+    ;; Always give Jak yellow eco to gather the "secret" power cell in RV
+    (pickup-collectable! (-> *target* fact) (pickup-type eco-yellow) 1.0 (the-as handle #f))
+  )
+  (process-spawn-function process
+  (lambda :behavior process ((eco-type pickup-type) (eco-timeout-remaining seconds))
+  (let ((current-level-name (-> *target* current-level name)))
+    (when (> eco-timeout-remaining 0)
+    ;; Wait until we're in the next level
+    (while (= (-> *target* current-level name) current-level-name)
+      (suspend)
+    )
+    ;; Pickup 1 eco orb so that everything is initialized correctly (like blue eco suck)
+    (pickup-collectable! (-> *target* fact) eco-type 1.0 (the-as handle #f))
+    ;; Set correct timeout based on the remaining time, plus 3 seconds
+    (set! (-> *target* fact eco-timeout) (+ eco-timeout-remaining (seconds 3)))
+  )))
+  (-> *target* fact eco-type)
+  (- (-> *target* fact eco-timeout) (- (-> *display* game-frame-counter) (-> *target* fact eco-pickup-time)))
+  )
+
+  (set-continue! *game-info* checkpoint)
+  (initialize! *game-info* 'die (the-as game-save #f) (the-as string #f))
+)
+
+(defun ap-rando-transition-level ((prev-level-name basic) (next-level-name basic))
+"This function teleports Jak to the randomized level checkpoint if applicable.
+Called whenever Jak moves to a potentially randomized new level (either via moving or in a cutscene).
+Returns #t if Jak is teleported. If #f is returned, this function did nothing."
+  (let ((is-entering-level (ap-is-hub-level? prev-level-name))
+        (is-leaving-level (ap-is-hub-level? next-level-name))
+        (prev-level-id (ap-get-level-id prev-level-name))
+        (next-level-id (ap-get-level-id next-level-name)))
+    ;; (format 0 "!!! Transition from: ~A~%" prev-level-name)
+    ;; (format 0 "!!! Transition to: ~A~%" next-level-name)
+    ;; Teleport to the randomized level checkpoint if leaving hub, entering a randomizable level, and the level is actually different.
+    (when (and is-entering-level (ap-is-randomizable-level? next-level-name) (ap-is-level-randomized? next-level-id))
+      (ap-continue-at-checkpoint (ap-get-level-start-checkpoint (-> *ap-info-jak1* randomized-levels next-level-id)))
+      (return #t)
+    )
+
+    ;; Teleport to hub "leave level" checkpoint.
+    (when (and is-leaving-level (ap-is-randomizable-level? prev-level-name) (ap-is-level-randomized? prev-level-id))
+      (ap-continue-at-checkpoint (ap-get-level-leave-checkpoint (ap-get-original-level-id prev-level-id)))
+      (return #t)
+    )
+  )
+  #f
+)
