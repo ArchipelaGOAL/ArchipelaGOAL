@@ -18,7 +18,11 @@
         ((and (= message 'query) (= (-> block param 0) 'mode)) 'racer)
         ((and (= message 'get-pickup) (= (-> block param 0) 3))
          (if (time-elapsed? (-> self racer boost-time) (seconds 1))
-           (send-event self 'boost (fmax 1.0 (fmin 2.0 (the-as float (-> block param 1)))))))
+           ;; Archipelago - Only send the boost event from blue eco if eco randomizer is disabled or blue eco has been collected.
+           (when (or (= (-> *ap-info-jak1* ecorando-enabled) 0) (ap-move-received? (the-as uint 24038)))
+             (send-event self 'boost (fmax 1.0 (fmin 2.0 (the-as float (-> block param 1)))))
+           )
+           ))
         (else
          (case message
            (('end-mode) (go target-racing-get-off (process->handle proc)))

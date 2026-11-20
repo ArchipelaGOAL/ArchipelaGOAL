@@ -881,6 +881,10 @@
   (show-item-messages #x2081)
   (trap-duration #x2082)
   (ap-ready-start #x2083)
+  (ecorando #x2100)
+  (ap-blue-eco #x2101)
+  (ap-red-eco #x2102)
+  (ap-yellow-eco #x2103)
 
   (save-and-load-game #x3000)
   ;; GAME-TEXT-ID ENUM ENDS
