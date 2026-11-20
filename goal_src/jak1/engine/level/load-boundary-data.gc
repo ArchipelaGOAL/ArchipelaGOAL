@@ -1454,10 +1454,12 @@
                                         :bot -304623.5000
                                         :points
                                         (11519060.0000 -18551140.0000 11449090.0000 -18346224.0000 11380415.0000 -18514333.0000)
+                                        ;; AP - replace this "set checkpoint" boundary with a "set level" boundary as it makes more sense for level rando.
+                                        ;; :fwd
+                                        ;; (checkpt "citadel-entrance" #f)
                                         :fwd
-                                        (checkpt "citadel-entrance" #f)
-                                        :bwd
-                                        (checkpt "citadel-entrance" #f))
+                                        (vis lav #f))
+                                        ;; (checkpt "citadel-entrance" #f))
                   (static-load-boundary :flags (player)
                                         :top 155912.2656
                                         :bot -524288.0000

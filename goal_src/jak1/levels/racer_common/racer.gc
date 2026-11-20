@@ -111,6 +111,8 @@
         ((6)
          (if (or (task-closed? (game-task village2-levitator) (task-status need-hint))
                  (and *cheat-mode* (cpad-hold? 0 l3))
+                 ;; Always spawn the Zoomer in PB
+                 #t
                  (and *target* (logtest? (-> *target* control root-prim prim-core action) (collide-action racer))))
            (goto cfg-77)))
         ((5)
@@ -289,8 +291,9 @@
   (set! (-> this cell) (the-as handle #f))
   (if (not *allow-zoomer-anywhere*) ;;mod-base-change
     (blocking-plane-spawn (the-as curve-control
-                                  (if (or (and *target* (logtest? (-> *target* control root-prim prim-core action) (collide-action racer)))
-                                          (= (-> this condition) 3))
+                                  (if (and (or (and *target* (logtest? (-> *target* control root-prim prim-core action) (collide-action racer)))
+                                               (= (-> this condition) 3))
+                                           (!= (-> *target* current-level name) 'citadel)) ;; AP - If Jak is in citadel, don't spawn the invisible wall.
                                     (-> this path-racer)
                                     (-> this path-target)))))
   (set! (-> this sound) (new 'process 'ambient-sound (static-sound-spec "zoom-teleport" :fo-max 30) (-> this root trans)))

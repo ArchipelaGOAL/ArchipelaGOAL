@@ -51,6 +51,8 @@
    (trap-duration        float)
    ;; Eco randomizer information.
    (ecorando-enabled     uint8) ;; this enables/disabled the setting.
+   ;; Level Rando information
+   (randomized-levels    uint8 16) ;; we don't use all 16, but they are there for future use.
    ;; End marker just to make things look nice in a memory view.
    (end-marker           uint8 4)))
 
@@ -149,3 +151,19 @@
 
 ;; Handles options changes.
 (define-extern ap-settings-update (function none))
+
+;; Arbitrary level IDs used by AP level rando.
+;; Must match the IDs defined in the apworld.
+(defenum ap-level-id
+  :type uint8
+  (jungle 0)
+  (beach 1)
+  (misty 2)
+  (rolling 3)
+  (sunken 4)
+  (swamp 5)
+  (maincave 6)
+  (snow 7)
+  (citadel 8))
+
+(define-extern ap-rando-transition-level (function basic basic symbol))
